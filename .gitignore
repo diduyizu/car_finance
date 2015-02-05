@@ -1,0 +1,7 @@
+node_modules
+tmp
+.idea/
+sftp-config.json
+*.bak.php
+test.php
+target/*

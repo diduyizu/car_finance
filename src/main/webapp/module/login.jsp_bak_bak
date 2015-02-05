@@ -1,0 +1,171 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<%@ page language="java" contentType="text/html; charset=UTF-8" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ include file="/resources/jstl_contexpath.jsp"%>
+<%
+request.setAttribute("kapaurl", System.currentTimeMillis());
+%>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta http-equiv="x-ua-compatible" content="ie=8" />
+		<title>登录</title>
+		<link rel="stylesheet" type="text/css" href="<c:url value="/resources/Css/reset.css" />" />
+		<link rel="stylesheet" type="text/css" href="<c:url value="/resources/Css/style.css" />" />
+		<link rel="stylesheet" type="text/css" href="<c:url value="/resources/Css/bootstrap.css" />" />
+	    <link rel="stylesheet" type="text/css" href="<c:url value="/resources/Css/bootstrap-responsive.css" />" />
+	    <link rel="stylesheet" type="text/css" href="<c:url value="/resources/Css/style.css" />" />
+	    <script type="text/javascript" src="<c:url value="/resources/Js/jquery.js" />"></script>
+	    <%--<script type="text/javascript" src="<c:url value="/resources/Js/jquery.sorted.js" />"></script>--%>
+	    <script type="text/javascript" src="<c:url value="/resources/Js/bootstrap.js" />"></script>
+	    <script type="text/javascript" src="<c:url value="/resources/Js/ckform.js" />"></script>
+	    <script type="text/javascript" src="<c:url value="/resources/Js/common.js" />"></script>
+		
+		<script type="text/javascript">
+			$(function() {
+				//var kaptcha = $('#kaptcha');
+				var loginName = $('#name');
+		        var loginPwd = $('#pwd');
+		        var loginForm = $('#loginForm');
+				function checkInput() {
+		            if (jQuery.trim(loginName.val()).length < 1) {
+		                alert("请输入登录名称!", "提示");
+		                return false;
+		            }
+		            if (jQuery.trim(loginPwd.val()).length < 1) {
+		                alert("请输入登录密码!", "提示");
+		                return false;
+		            }
+		            //if (!/\d{5}/.test(kaptcha.val())) {
+		            //    alert("请输入正确的验证码!", "提示");
+		            //    return false;
+		            //}
+		            return true;         
+		        }
+			
+			
+				$('#userlogin').click(function() {        
+		           if (checkInput()) {
+		               loginForm.attr("action", "${ctx }/module/login/index").submit();
+		           }
+		           return false;
+		        });
+		        
+		        $('#kaptchaImg').click(function() {
+		            $('#kaptchaImg').attr('src', '${ctx}/kaptcha.jpg?update=' + Math.random());
+		            return false
+		        });
+			})
+		</script>
+	</head>
+	<body>
+		<div class="header">
+			<div class="header_con clearfix">
+		    	<div class="header_con_left">
+		        	<span class="school_name_boder"></span>
+		            <span class="root_name">登录</span>
+		        </div>
+		        <!-- <div class="header_con_right"><a href="#" class="sign_out_a">注册</a></div> -->
+		    </div>
+		</div>
+		<div class="t_loginIndex clearfix">
+			<div class="t-login">
+				<form method="post" id="loginForm">
+					<div class="loginForm clearfix">
+						<!-- 
+						<div class="txt">
+							<select id="role" name="role">
+								<c:forEach var="role" items="${roleList}" varStatus="status">
+									<option  value="${role.roleId }">${role.roleName }</option>
+								</c:forEach>
+							</select>
+						</div>
+						 -->
+						<div class="txt">
+							<span class="usertxt"></span>
+							<input type="text" value="请输入用户名" class="inputFocus" name="name" id="name"  />
+	                 	</div>
+	                 	<div class="txt">
+	                   		<div tabindex="-1" class="pass-tip" style="display: none;">请输入密码</div>
+	                   		<span class="userpass"></span>
+	                   		<input type="password" value="" class="inputFocus password_txt" name="pwd" id="pwd" />
+	                 	</div>
+	                 	<!-- 
+	                 	<div class="txt">
+	                 		<img id="kaptchaImg" src="<c:url value='/kaptcha.jpg?update=${kapaurl}' />" style="vertical-align: middle;"/>
+	                 	</div>
+	                 	<div class="txt">
+	                 		<input name="kaptcha" id="kaptcha" type="text"/>
+	                 	</div>
+	                 	 -->
+	                 	
+	                 	<div class="forget">
+	                 		<!-- <a class="forgetPass" href="#">忘记密码了？</a> -->
+	                 		<!-- <span class="icon tf-checkbox">记住密码</span> -->
+	                 	</div>
+	                 	<div class="btn">
+	                 		<a class="sureBtn" id="userlogin">确定</a>
+	                 	</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		<%@ include file="/resources/foot.jsp" %>
+	</body>	
+</html>
+
+
+
+
+
+
+
+
+
+
+
+<!-- 
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta http-equiv="x-ua-compatible" content="ie=8" />
+		<title>登录</title>
+	</head>
+	<body>
+		<form action="${ctx }/module/login/index" method="post">
+			<table align="center" border="1">
+				<tr>
+					<td>选择角色：</td>
+					<td>
+						<select id="role" name="role">
+							<c:forEach var="role" items="${roleList}" varStatus="status">
+								<option  value="${role.roleId }">${role.roleName }</option>
+							</c:forEach>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>用户名：</td>
+					<td><input type="text" name="name"/> </td>
+				</tr>
+				<tr>
+					<td>密码：</td>
+					<td><input type="password" name="pwd"/> </td>
+				</tr>
+				<tr>
+					<td>验证码：<img id="kaptchaImg" src="<c:url value='/kaptcha.jpg?update=${kapaurl}' />" style="vertical-align: middle;"/></td>
+					<td>
+						<input name="kaptcha" id="kaptcha" type="text"/>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2"><button type="submit">登录</button> </td>
+				</tr>
+			</table>
+		</form>
+	</body>	
+</html>
+ -->

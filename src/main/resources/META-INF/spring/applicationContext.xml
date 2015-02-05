@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-4.0.xsd
+       http://www.springframework.org/schema/util
+       http://www.springframework.org/schema/util/spring-util-4.0.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <util:properties id="appProps" location="classpath:META-INF/app.properties"/>
+    <context:property-placeholder location="classpath*:META-INF/*.properties" />
+    <context:spring-configured/>
+    <context:component-scan base-package="com.carfinance">
+        <context:exclude-filter expression="org.springframework.stereotype.Controller" type="annotation"/>
+    </context:component-scan>
+    <!--MYSQL配置数据源 -->
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"
+          p:driverClassName="${jdbc.driverClassName}"
+          p:url="${jdbc.url}"
+          p:username="${jdbc.username}"
+          p:password="${jdbc.password}"
+          p:testOnBorrow="true"
+          p:testOnReturn="true"
+          p:testWhileIdle="true"
+          p:timeBetweenEvictionRunsMillis="1800000"
+          p:numTestsPerEvictionRun="3"
+          p:minEvictableIdleTimeMillis="1800000"
+          p:validationQuery="SELECT 1 FROM DUAL" />
+
+    <!-- 配置业务数据MEMCACHED缓存 -->
+    <bean id="memcachedClient" class="net.spy.memcached.spring.MemcachedClientFactoryBean">
+        <property name="servers" value="${cache.common.ip.port}"/>
+        <property name="protocol" value="TEXT"/>
+        <property name="transcoder">
+            <bean class="net.spy.memcached.transcoders.SerializingTranscoder">
+                <property name="compressionThreshold" value="1024"/>
+            </bean>
+        </property>
+        <property name="opTimeout" value="1000"/>
+        <property name="timeoutExceptionThreshold" value="1998"/>
+        <property name="hashAlg">
+            <value type="net.spy.memcached.DefaultHashAlgorithm">KETAMA_HASH</value>
+        </property>
+        <property name="locatorType" value="CONSISTENT"/>
+        <property name="failureMode" value="Redistribute"/>
+        <property name="useNagleAlgorithm" value="false"/>
+    </bean>
+
+    <!-- 配置JDBC模板 -->
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <!--&lt;!&ndash;  配置redis模板 &ndash;&gt;-->
+    <!--<context:property-placeholder location="classpath:META-INF/base.properties" />-->
+    <!--<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig"-->
+          <!--p:maxTotal="${redis.pool.maxActive}"-->
+          <!--p:maxIdle="${redis.pool.maxIdle}"-->
+          <!--p:maxWaitMillis="${redis.pool.maxWait}"-->
+          <!--p:testOnBorrow="${redis.pool.testOnBorrow}"-->
+        <!-->-->
+    <!--</bean>-->
+    <!--<bean id="shardedJedisPool" class="redis.clients.jedis.ShardedJedisPool">-->
+        <!--<constructor-arg index="0" ref="jedisPoolConfig" />-->
+        <!--<constructor-arg index="1">-->
+            <!--<list>-->
+                <!--<bean class="redis.clients.jedis.JedisShardInfo">-->
+                    <!--<constructor-arg index="0" value="${redis1.ip}" />-->
+                    <!--<constructor-arg index="1" value="${redis.port}" type="int" />-->
+                <!--</bean>-->
+                <!--<bean class="redis.clients.jedis.JedisShardInfo">-->
+                    <!--<constructor-arg index="0" value="${redis1.ip}" />-->
+                    <!--<constructor-arg index="1" value="${redis.port}" type="int" />-->
+                <!--</bean>-->
+            <!--</list>-->
+        <!--</constructor-arg>-->
+    <!--</bean>-->
+</beans>
