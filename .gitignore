@@ -5,3 +5,4 @@ sftp-config.json
 *.bak.php
 test.php
 target/*
+*.iml
