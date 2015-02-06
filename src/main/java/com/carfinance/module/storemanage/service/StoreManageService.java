@@ -11,6 +11,7 @@ import com.carfinance.module.login.domain.User;
 import com.carfinance.module.peoplemanage.dao.PeopleManageDao;
 import com.carfinance.module.peoplemanage.domain.OrgUserRole;
 import com.carfinance.module.storemanage.dao.StoreManageDao;
+import com.carfinance.module.storemanage.domain.Store;
 import com.carfinance.utils.DateUtil;
 import com.carfinance.utils.MD5Util;
 import org.slf4j.Logger;
@@ -40,5 +41,17 @@ public class StoreManageService {
     @Autowired
     private CommonDao commonDao;
 
+    public Map<String , Object> getStoreList(String store_name , int start , int size) {
+        long total = this.storeManageDao.getStoreCount(store_name);//门店总数
+        List<Store> store_list = this.storeManageDao.getStoreList(store_name , start , size);
+        Map<String , Object> map = new HashMap<String, Object>();
+        map.put("total" , total);
+        map.put("store_list" , store_list);
+        return map;
+    }
+
+    public int createStore(long province_id , long city_id , long country_id , long store_type , long pid ,  String store_name , String store_address) {
+        return this.storeManageDao.createStore(province_id , city_id , country_id , store_type , pid ,  store_name , store_address);
+    }
 
 }

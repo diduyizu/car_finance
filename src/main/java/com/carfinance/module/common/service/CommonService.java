@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.util.*;
 
 import com.carfinance.module.common.domain.*;
+import com.carfinance.module.common.domain.Enum;
 import com.carfinance.module.common.vo.MenuVo;
+import com.carfinance.module.init.service.InitService;
 import com.carfinance.module.login.domain.User;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
@@ -26,6 +28,8 @@ public class CommonService {
 	private ManageMemcacdedClient memcachedClient;
     @Autowired
     private Properties appProps;
+    @Autowired
+    private InitService initService;
 
     /**
      * 获取用户可操作的菜单列表
@@ -171,5 +175,25 @@ public class CommonService {
      */
     public List<Org> getUserOrgList(long user_id) {
         return this.commonDao.getUserOrgList(user_id);
+    }
+
+    /**
+     * 获取枚举表中某一类型的枚举值
+     * @param fiel_name
+     * @return
+     */
+    public List<Enum> getEnumFielList(String fiel_name) {
+        List<Enum> enum_list = this.initService.getEnum();
+        Map<String , List<Enum>> map = new HashMap<String, List<Enum>>();
+
+        for(Enum en : enum_list) {
+            List<Enum> tmp_list = new ArrayList<Enum>();
+            if(map.get(en.getFiel_name()) != null) {
+                tmp_list = map.get(en.getFiel_name());
+            }
+            tmp_list.add(en);
+            map.put(en.getFiel_name() , tmp_list);
+        }
+        return map.get(fiel_name);
     }
 }
