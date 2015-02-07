@@ -1,4 +1,4 @@
-package com.carfinance.module.custommanage.controller;
+package com.carfinance.module.financemanage.controller;
 
 import com.carfinance.module.common.service.CommonService;
 import com.carfinance.module.init.service.InitService;
@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.Properties;
 
 @Controller
-@RequestMapping("/custom")
-public class CustomManageController {
-	final Logger logger = LoggerFactory.getLogger(CustomManageController.class);
+@RequestMapping("/finance")
+public class FinanceManageController {
+	final Logger logger = LoggerFactory.getLogger(FinanceManageController.class);
 	
 	@Autowired
 	private CommonService commonService;

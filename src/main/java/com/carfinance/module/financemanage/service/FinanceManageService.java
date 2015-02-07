@@ -1,4 +1,4 @@
-package com.carfinance.module.finanacemanage.service;
+package com.carfinance.module.financemanage.service;
 
 import com.carfinance.module.common.dao.CommonDao;
 import com.carfinance.module.common.service.CommonService;

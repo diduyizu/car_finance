@@ -23,7 +23,14 @@ public class User implements Serializable {
 	private String address;
 	private String email;
     private List<UserRole> role_list;
-    
+
+    public List<UserRole> getRole_list() {
+        return role_list;
+    }
+
+    public void setRole_list(List<UserRole> role_list) {
+        this.role_list = role_list;
+    }
 
     public Logger getLogger() {
         return logger;

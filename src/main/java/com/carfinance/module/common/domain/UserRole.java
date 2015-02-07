@@ -8,7 +8,16 @@ public class UserRole implements Serializable{
 	private long user_id;
 	private long role_id;
 	private long org_id;
+    private String org_name;
 	private long status;
+
+    public String getOrg_name() {
+        return org_name;
+    }
+
+    public void setOrg_name(String org_name) {
+        this.org_name = org_name;
+    }
 
     public static long getSerialVersionUID() {
         return serialVersionUID;

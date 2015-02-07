@@ -60,7 +60,7 @@ public class CommonDao extends BaseJdbcDaoImpl{
      * @return
      */
     public List<UserRole> getUserRoleList(long user_id) {
-        String sql="select * from user_role where user_id = ? order by role_id";
+        String sql="select a.* , b.org_name from user_role a , sys_org b where a.org_id = b.org_id and a.user_id = ? order by a.role_id";
         Object[] o = new Object[] { user_id };
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().query(sql , o  , new UserRoleRowMapper());

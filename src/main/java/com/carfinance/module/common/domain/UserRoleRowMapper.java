@@ -13,6 +13,8 @@ public class UserRoleRowMapper implements RowMapper<UserRole>{
         role.setRole_id(rs.getLong("role_id"));
         role.setOrg_id(rs.getLong("org_id"));
         role.setStatus(rs.getLong("status"));
+        role.setOrg_name(rs.getString("org_name"));
+
 		return role;
 	}
 }

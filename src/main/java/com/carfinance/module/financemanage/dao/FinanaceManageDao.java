@@ -1,4 +1,4 @@
-package com.carfinance.module.finanacemanage.dao;
+package com.carfinance.module.financemanage.dao;
 
 import com.carfinance.core.dao.BaseJdbcDaoImpl;
 import com.carfinance.module.common.dao.CommonDao;
