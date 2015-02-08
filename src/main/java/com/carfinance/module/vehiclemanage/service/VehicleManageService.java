@@ -8,6 +8,7 @@ import com.carfinance.module.storemanage.dao.StoreManageDao;
 import com.carfinance.module.storemanage.domain.Store;
 import com.carfinance.module.vehiclemanage.dao.VehicleManageDao;
 import com.carfinance.module.vehiclemanage.domain.VehicleInfo;
+import com.carfinance.module.vehiclemanage.domain.VehicleInsurance;
 import com.carfinance.utils.DateUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,21 +65,31 @@ public class VehicleManageService {
             Date limited_at_date = DateUtil.string2Date(limited_at);
             Date strong_insurance_expire_at_date = DateUtil.string2Date(strong_insurance_expire_at);
             Date business_insurance_expire_at_date = DateUtil.string2Date(business_insurance_expire_at);
-            return this.vehicleManageDao.addVehicle(archive_no , inventory_no , brand , model , color , carframe_no , engine_no ,
+            int result = this.vehicleManageDao.addVehicle(archive_no , inventory_no , brand , model , color , carframe_no , engine_no ,
                     registry_certificate , certificate_direction , loan_bank , consistency_cer , check_list ,
                     duty_paid_proof , record , buy_at_date , supplier , license_plate , card_at_date ,
                     limited_at_date , guide_price , vehicle_price , vehicle_tax , insurance_company ,
                     strong_insurance , vehicle_vessel_tax , strong_insurance_expire_at_date , business_insurance ,
                     business_insurance_expire_at_date , remark , create_by , original_org);
+            if(result > 0) {
+                this.vehicleManageDao.addVehicleInsurance(carframe_no , engine_no , license_plate , insurance_company , strong_insurance ,
+                        vehicle_vessel_tax , strong_insurance_expire_at_date , business_insurance , business_insurance_expire_at_date , remark , create_by);
+            }
+            return result;
         } catch (Exception e) {
             logger.info(e.getMessage() , e);
             return 0;
         }
 
+    }
 
-
-
-
+    public Map<String , Object> getVehicleInsuranceList(String carframe_no , int start , int size) {
+        long total = this.vehicleManageDao.getVehicleInsuranceCount(carframe_no);
+        List<VehicleInsurance> vehicleInsurance_list = this.vehicleManageDao.getVehicleInsuranceList(carframe_no, start, size);
+        Map<String , Object> map = new HashMap<String, Object>();
+        map.put("total" , total);
+        map.put("vehicleInsurance_list" , vehicleInsurance_list);
+        return map;
     }
 
 }

@@ -6,6 +6,8 @@ import com.carfinance.module.storemanage.domain.Store;
 import com.carfinance.module.storemanage.domain.StoreRowMapper;
 import com.carfinance.module.vehiclemanage.domain.VehicleInfo;
 import com.carfinance.module.vehiclemanage.domain.VehicleInfoRowMapper;
+import com.carfinance.module.vehiclemanage.domain.VehicleInsurance;
+import com.carfinance.module.vehiclemanage.domain.VehicleInsuranceRowMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -127,6 +129,38 @@ public class VehicleManageDao extends BaseJdbcDaoImpl {
                 certificate_direction , loan_bank , consistency_cer , check_list , duty_paid_proof , record , buy_at , supplier ,
                 license_plate , card_at , limited_at , guide_price , vehicle_price , vehicle_tax , insurance_company , strong_insurance ,
                 vehicle_vessel_tax , strong_insurance_expire_at , business_insurance , business_insurance_expire_at , remark , create_by , original_org };
+        return this.getJdbcTemplate().update(sql , o);
+    }
+
+    public long getVehicleInsuranceCount(String carframe_no) {
+        String sql = "select count(1) from vehicle_insurance where carframe_no = ?";
+        Object[] o = new Object[] { carframe_no };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().queryForLong(sql, o);
+    }
+
+    /**
+     * 获取车辆保险详细
+     * @param carframe_no
+     * @param start
+     * @param size
+     * @return
+     */
+    public List<VehicleInsurance> getVehicleInsuranceList(String carframe_no , int start , int size) {
+        String sql = "select * from vehicle_insurance where carframe_no = ? order by id desc limit ?,?";
+        Object[] o = new Object[] {carframe_no , start , size};
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().query(sql, o, new VehicleInsuranceRowMapper());
+    }
+
+    public int addVehicleInsurance(String carframe_no , String engine_no , String license_plate , String insurance_company ,
+                                   double strong_insurance , double vehicle_vessel_tax , Date strong_insurance_expire_at ,
+                                   double business_insurance , Date business_insurance_expire_at , String remark , long create_by) {
+        String sql = "insert into vehicle_insurance(carframe_no , engine_no , license_plate , insurance_company , strong_insurance , " +
+                "vehicle_vessel_tax , strong_insurance_expire_at , business_insurance , business_insurance_expire_at , remark , create_by) " +
+                "values (?,?,?,?,?,?,?,?,?,?,?)";
+        Object[] o = new Object[] { carframe_no , engine_no , license_plate , insurance_company , strong_insurance ,
+                vehicle_vessel_tax , strong_insurance_expire_at , business_insurance , business_insurance_expire_at , remark , create_by };
         return this.getJdbcTemplate().update(sql , o);
     }
 
