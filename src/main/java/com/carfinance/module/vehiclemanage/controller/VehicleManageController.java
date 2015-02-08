@@ -104,20 +104,71 @@ public class VehicleManageController {
 
     /**
      * 车辆管理－车辆入库登记
-     * 点“新增”
+     * 点“新增”，跳转新增页面
      * @param model
      * @param request
      * @param response
      * @return
      */
     @RequestMapping(value = "/register/add" , method = RequestMethod.GET)
-    public String registerAddIndex(Model model , HttpServletRequest request , HttpServletResponse response) {
+    public String registerAdd(Model model , HttpServletRequest request , HttpServletResponse response) {
         User user = (User)request.getSession().getAttribute("user");
 
         //获取用户角色列表
         List<UserRole> user_role_list = this.commonService.getUserRoleList(user.getUser_id());
         model.addAttribute("user_role_list" , user_role_list);
         return "/module/vehiclemanage/register/add";
+    }
+
+    /**
+     * 新增页面，执行新增操作
+     * @param model1
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/register/doadd" , method = RequestMethod.POST)
+    @ResponseBody
+    public int registerDoAdd(Model model1 , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        String archive_no = request.getParameter("archive_no");
+        String inventory_no = request.getParameter("inventory_no");
+        String brand = request.getParameter("brand");
+        String model = request.getParameter("model");
+        String color = request.getParameter("color");
+        String carframe_no = request.getParameter("carframe_no");
+        String engine_no = request.getParameter("engine_no");
+        String registry_certificate = request.getParameter("registry_certificate");
+        String certificate_direction = request.getParameter("certificate_direction");
+        String loan_bank = request.getParameter("loan_bank");
+        String consistency_cer = request.getParameter("consistency_cer");
+        String check_list  = request.getParameter("check_list");
+        String duty_paid_proof = request.getParameter("duty_paid_proof");
+        String record = request.getParameter("record");
+        String buy_at = request.getParameter("buy_at");
+        String supplier= request.getParameter("supplier");
+        String license_plate = request.getParameter("license_plate");
+        String card_at = request.getParameter("card_at");
+        String limited_at = request.getParameter("limited_at");
+        double guide_price = Double.valueOf(request.getParameter("guide_price"));
+        double vehicle_price = Double.valueOf(request.getParameter("vehicle_price"));
+        double vehicle_tax = Double.valueOf(request.getParameter("vehicle_tax"));
+        String insurance_company= request.getParameter("insurance_company");
+        double strong_insurance = Double.valueOf(request.getParameter("strong_insurance"));
+        double vehicle_vessel_tax = Double.valueOf(request.getParameter("vehicle_vessel_tax"));
+        String strong_insurance_expire_at= request.getParameter("strong_insurance_expire_at");
+        double business_insurance = Double.valueOf(request.getParameter("business_insurance"));
+        String business_insurance_expire_at  = request.getParameter("business_insurance_expire_at");
+        String remark = request.getParameter("remark");
+        long original_org = Long.valueOf(request.getParameter("original_org"));
+
+        return this.vehicleManageService.addVehicle(archive_no , inventory_no , brand , model , color , carframe_no , engine_no ,
+                registry_certificate , certificate_direction , loan_bank , consistency_cer , check_list ,
+                duty_paid_proof , record , buy_at , supplier , license_plate , card_at ,
+                limited_at , guide_price , vehicle_price , vehicle_tax , insurance_company ,
+                strong_insurance , vehicle_vessel_tax , strong_insurance_expire_at , business_insurance ,
+                business_insurance_expire_at , remark , user.getUser_id() , original_org);
     }
 
 

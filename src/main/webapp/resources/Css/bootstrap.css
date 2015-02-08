@@ -1106,7 +1106,7 @@ input[type="color"],
 input,
 textarea,
 .uneditable-input {
-  width: 206px;
+  width: 150px;
 }
 
 textarea {
@@ -1196,7 +1196,7 @@ input[type="file"] {
 }
 
 select {
-  width: 220px;
+  width: 130px;
   background-color: #ffffff;
   border: 1px solid #cccccc;
 }
@@ -1714,7 +1714,7 @@ select:focus:invalid:focus {
 .input-prepend .add-on {
   display: inline-block;
   width: auto;
-  height: 20px;
+  height: 10px;
   min-width: 16px;
   padding: 4px 5px;
   font-size: 14px;
@@ -2278,7 +2278,7 @@ table th[class*="span"],
   display: inline-block;
   width: 14px;
   height: 14px;
-  margin-top: 1px;
+  margin-top: -2px;
   *margin-right: .3em;
   line-height: 14px;
   vertical-align: text-top;
