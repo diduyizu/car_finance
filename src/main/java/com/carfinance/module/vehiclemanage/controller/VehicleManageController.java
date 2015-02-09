@@ -10,6 +10,7 @@ import com.carfinance.module.login.domain.User;
 import com.carfinance.module.storemanage.domain.Store;
 import com.carfinance.module.storemanage.service.StoreManageService;
 import com.carfinance.module.vehiclemanage.domain.VehicleInfo;
+import com.carfinance.module.vehiclemanage.domain.VehicleInsurance;
 import com.carfinance.module.vehiclemanage.service.VehicleManageService;
 import net.sf.json.JSONArray;
 import org.apache.commons.lang3.StringUtils;
@@ -251,7 +252,7 @@ public class VehicleManageController {
         Map<String , Object> map = this.vehicleManageService.getVehicleInsuranceList(carframe_no , start , size);
 
         long total = (Long)map.get("total");;
-        List<VehicleInfo> vehicleInsurance_list = (List<VehicleInfo>)map.get("vehicleInsurance_list");
+        List<VehicleInsurance> vehicleInsurance_list = (List<VehicleInsurance>)map.get("vehicleInsurance_list");
 
         long temp = (total - 1) <= 0 ? 0 : (total - 1);
         int pages = Integer.parseInt(Long.toString(temp / size)) + 1;

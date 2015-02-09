@@ -163,5 +163,4 @@ public class VehicleManageDao extends BaseJdbcDaoImpl {
                 vehicle_vessel_tax , strong_insurance_expire_at , business_insurance , business_insurance_expire_at , remark , create_by };
         return this.getJdbcTemplate().update(sql , o);
     }
-
 }

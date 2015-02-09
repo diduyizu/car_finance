@@ -92,7 +92,6 @@
             <td>${vehicle.remark}</td>
         </tr>
     </c:forEach>
-    </tr>
 </table>
 <%@ include file="/resources/page.jsp"%>
 </body>

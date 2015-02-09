@@ -42,8 +42,6 @@
         <tr>
             <th>车架号</th>
             <th>发动机号</th>
-            <th>购买日期</th>
-            <th>供应商名称</th>
             <th>车牌号</th>
             <th>保险公司</th>
             <th>交强险</th>
@@ -58,23 +56,20 @@
     </thead>
     <c:forEach var="vehicleInsurance" items="${vehicleInsurance_list}" varStatus="status">
         <tr>
-            <td>${vehicle.carframe_no}</td>
-            <td>${vehicle.engine_no}</td>
-            <td>${vehicle.buy_at}</td>
-            <td>${vehicle.supplier}</td>
-            <td>${vehicle.license_plate}</td>
-            <td>${vehicle.insurance_company}</td>
-            <td>${vehicle.strong_insurance}</td>
-            <td>${vehicle.vehicle_vessel_tax}</td>
-            <td>${vehicle.strong_insurance_expire_at}</td>
-            <td>${vehicle.business_insurance}</td>
-            <td>${vehicle.business_insurance_expire_at}</td>
-            <td>${vehicle.remark}</td>
-            <td>${vehicle.create_by}</td>
-            <td>${vehicle.create_at}</td>
+            <td>${vehicleInsurance.carframe_no}</td>
+            <td>${vehicleInsurance.engine_no}</td>
+            <td>${vehicleInsurance.license_plate}</td>
+            <td>${vehicleInsurance.insurance_company}</td>
+            <td>${vehicleInsurance.strong_insurance}</td>
+            <td>${vehicleInsurance.vehicle_vessel_tax}</td>
+            <td>${vehicleInsurance.strong_insurance_expire_at}</td>
+            <td>${vehicleInsurance.business_insurance}</td>
+            <td>${vehicleInsurance.business_insurance_expire_at}</td>
+            <td>${vehicleInsurance.remark}</td>
+            <td>${vehicleInsurance.create_by}</td>
+            <td>${vehicleInsurance.create_at}</td>
         </tr>
     </c:forEach>
-    </tr>
 </table>
 <%@ include file="/resources/page.jsp"%>
 </body>

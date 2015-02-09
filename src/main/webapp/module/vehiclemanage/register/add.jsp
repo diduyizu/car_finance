@@ -38,7 +38,7 @@
     </style>
 </head>
 <body>
-    <form class="definewidth m20" method="post" action="${ctx}/vehicle/register/doadd">
+    <form class="definewidth m20">
         <table class="table table-bordered table-hover definewidth m10">
             <tr>
                 <td width="10%" class="tableleft">门店</td>
@@ -64,7 +64,7 @@
             </tr>
             <tr>
                 <td class="tableleft">车型</td>
-                <td><input type="text" name="model" id="model"/></td>
+                <td><input type="text" name="model" id="model" required="true"/></td>
             </tr>
             <tr>
                 <td class="tableleft">颜色</td>
@@ -72,7 +72,7 @@
             </tr>
             <tr>
                 <td class="tableleft">车架号</td>
-                <td><input type="text" name="carframe_no" id="carframe_no"/></td>
+                <td><input type="text" name="carframe_no" id="carframe_no" required="true"/></td>
             </tr>
             <tr>
                 <td width="10%" class="tableleft">发动机号</td>
@@ -88,7 +88,7 @@
             </tr>
             <tr>
                 <td class="tableleft">贷款银行</td>
-                <td><input type="text" name="loan_bank" id="loan_bank"/></td>
+                <td><input type="text" name="loan_bank" id="loan_bank" required="true"/></td>
             </tr>
             <tr>
                 <td class="tableleft">关单/合格/一致性证书</td>
@@ -96,7 +96,7 @@
             </tr>
             <tr>
                 <td class="tableleft">检验单</td>
-                <td><input type="text" name="check_list" id="check_list"/></td>
+                <td><input type="text" name="check_list" id="check_list" required="true"/></td>
             </tr>
 
             <tr>
@@ -111,14 +111,14 @@
                 <td class="tableleft">购买日期</td>
                 <td>
                     <div class="input-append date" id="buy_at" data-date-format="yyyy-mm-dd">
-                        <input class="span2" size="16" type="text" name="buy_at" value="" disabled="disabled">
+                        <input class="span2" size="16" type="text" id="buy_at_date" name="buy_at" required="true" readonly>
                         <span class="add-on"><i class="icon-th"></i></span>
                     </div>
                 </td>
             </tr>
             <tr>
                 <td class="tableleft">供应商名称</td>
-                <td><input type="text" name="supplier" id="supplier"/></td>
+                <td><input type="text" name="supplier" id="supplier" required="true"/></td>
             </tr>
             <tr>
                 <td class="tableleft">车牌号</td>
@@ -128,17 +128,16 @@
                 <td class="tableleft">上牌登记日期</td>
                 <td>
                     <div class="input-append date" id="card_at" data-date-format="yyyy-mm-dd">
-                        <input class="span2" size="16" type="text" name="card_at" value="" disabled="disabled">
+                        <input class="span2" size="16" type="text" id="card_at_date" name="card_at" required="true" readonly>
                         <span class="add-on"><i class="icon-th"></i></span>
                     </div>
                 </td>
             </tr>
-
             <tr>
                 <td width="10%" class="tableleft">年审日期</td>
                 <td>
                     <div class="input-append date" id="limited_at" data-date-format="yyyy-mm-dd">
-                        <input class="span2" size="16" type="text" name="limited_at" value="" disabled="disabled">
+                        <input class="span2" size="16" type="text" id="limited_at_date" name="limited_at" required="true" readonly>
                         <span class="add-on"><i class="icon-th"></i></span>
                     </div>
                 </td>
@@ -153,7 +152,7 @@
             </tr>
             <tr>
                 <td class="tableleft">车购税</td>
-                <td><input type="text" name="vehicle_tax" id="vehicle_tax"/></td>
+                <td><input type="text" name="vehicle_tax" id="vehicle_tax" required="true"/></td>
             </tr>
             <tr>
                 <td class="tableleft">保险公司</td>
@@ -161,32 +160,32 @@
             </tr>
             <tr>
                 <td class="tableleft">交强险</td>
-                <td><input type="text" name="strong_insurance" id="strong_insurance"/></td>
+                <td><input type="text" name="strong_insurance" id="strong_insurance" required="true"/></td>
             </tr>
 
             <tr>
                 <td class="tableleft">车船税</td>
-                <td><input type="text" name="vehicle_vessel_tax" id="vehicle_vessel_tax"/></td>
+                <td><input type="text" name="vehicle_vessel_tax" id="vehicle_vessel_tax" required="true"/></td>
             </tr>
             <tr>
                 <td class="tableleft">交强险到期日期</td>
                 <td>
                     <div class="input-append date" id="strong_insurance_expire_at" data-date-format="yyyy-mm-dd">
-                        <input class="span2" size="16" type="text" name="strong_insurance_expire_at" value="" disabled="disabled">
+                        <input class="span2" size="16" type="text" id="strong_insurance_expire_at_date" name="strong_insurance_expire_at" required="true" readonly>
                         <span class="add-on"><i class="icon-th"></i></span>
                     </div>
                 </td>
             </tr>
             <tr>
                 <td class="tableleft">商业险</td>
-                <td><input type="text" name="business_insurance" id="business_insurance"/></td>
+                <td><input type="text" name="business_insurance" id="business_insurance" required="true"/></td>
             </tr>
 
             <tr>
                 <td class="tableleft">商业险到期日期</td>
                 <td>
                     <div class="input-append date" id="business_insurance_expire_at" data-date-format="yyyy-mm-dd">
-                        <input class="span2" size="16" type="text" name="business_insurance_expire_at" value="" disabled="disabled">
+                        <input class="span2" size="16" type="text" id="business_insurance_expire_at_date" name="business_insurance_expire_at" required="true" readonly>
                         <span class="add-on"><i class="icon-th"></i></span>
                     </div>
                 </td>
@@ -198,7 +197,7 @@
             <tr>
                 <td class="tableleft"></td>
                 <td>
-                    <button type="submit" class="btn btn-primary" id="save">保存</button> &nbsp;&nbsp;
+                    <button type="button" class="btn btn-primary" id="save">保存</button> &nbsp;&nbsp;
                     <button type="button" class="btn btn-success" id="backid">返回列表</button>
                 </td>
             </tr>
@@ -209,82 +208,68 @@
 <script>
     $(function () {
         window.prettyPrint && prettyPrint();
-//        $('#dp1').datepicker({
-//            format: 'yyyy-mm-dd'
-//        });
-//        $('#dp2').datepicker();
-//        $('#dp3').datepicker();
-//        var startDate = new Date(2012,1,20);
-//        var endDate = new Date(2012,1,25);
-//        $('#dp4').datepicker()
-//                .on('changeDate', function(ev){
-//                    if (ev.date.valueOf() > endDate.valueOf()){
-//                        $('#alert').show().find('strong').text('The start date can not be greater then the end date');
-//                    } else {
-//                        $('#alert').hide();
-//                        startDate = new Date(ev.date);
-//                        $('#startDate').text($('#dp4').data('date'));
-//                    }
-//                    $('#dp4').datepicker('hide');
-//                });
-//        $('#dp5').datepicker()
-//                .on('changeDate', function(ev){
-//                    if (ev.date.valueOf() < startDate.valueOf()){
-//                        $('#alert').show().find('strong').text('The end date can not be less then the start date');
-//                    } else {
-//                        $('#alert').hide();
-//                        endDate = new Date(ev.date);
-//                        $('#endDate').text($('#dp5').data('date'));
-//                    }
-//                    $('#dp5').datepicker('hide');
-//                });
-
         $('#buy_at').datepicker();
         $('#card_at').datepicker();
         $('#limited_at').datepicker();
         $('#strong_insurance_expire_at').datepicker();
         $('#business_insurance_expire_at').datepicker();
 
-
 		$('#backid').click(function(){
             window.location.href="${ctx}/vehicle/register/index";
 		});
 
-        <%--$('#save').click(function(){--%>
-            <%--var login_name = $.trim($('#login_name').val());--%>
-            <%--var login_pwd = $.trim($('#login_pwd').val());--%>
-            <%--var user_name = $.trim($('#user_name').val());--%>
-            <%--var nice_name = $.trim($('#nice_name').val());--%>
-            <%--var org_id = $('#org_id').val();--%>
-            <%--var role_id = $('#role_id').val();--%>
+        $('#save').click(function(){
+            var archive_no=$.trim($('#archive_no').val());
+            var inventory_no=$.trim($('#inventory_no').val());
+            var brand=$.trim($('#brand').val());
+            var model=$.trim($('#model').val());
+            var color=$.trim($('#color').val());
+            var carframe_no=$.trim($('#carframe_no').val());
+            var engine_no=$.trim($('#engine_no').val());
+            var registry_certificate=$.trim($('#registry_certificate').val());
+            var certificate_direction=$.trim($('#certificate_direction').val());
+            var loan_bank=$.trim($('#loan_bank').val());
+            var consistency_cer=$.trim($('#consistency_cer').val());
+            var check_list=$.trim($('#check_list').val());
+            var duty_paid_proof=$.trim($('#duty_paid_proof').val());
+            var record=$.trim($('#record').val());
+            var buy_at=$.trim($('#buy_at_date').val());
+            var supplier=$.trim($('#supplier').val());
+            var license_plate=$.trim($('#license_plate').val());
+            var card_at=$.trim($('#card_at_date').val());
+            var limited_at=$.trim($('#limited_at_date').val());
+            var guide_price=$.trim($('#guide_price').val());
+            var vehicle_price=$.trim($('#vehicle_price').val());
+            var vehicle_tax=$.trim($('#vehicle_tax').val());
+            var insurance_company=$.trim($('#insurance_company').val());
+            var strong_insurance=$.trim($('#strong_insurance').val());
+            var vehicle_vessel_tax=$.trim($('#vehicle_vessel_tax').val());
+            var strong_insurance_expire_at=$.trim($('#strong_insurance_expire_at_date').val());
+            var business_insurance=$.trim($('#business_insurance').val());
+            var business_insurance_expire_at=$.trim($('#business_insurance_expire_at_date').val());
+            var remark=$.trim($('#remark').val());
+            var original_org=$('#original_org').val();
 
-            <%--if(login_name == '') {--%>
-                <%--alert("请输入登录名");--%>
-                <%--return false;--%>
-            <%--}--%>
-            <%--if(login_pwd == '') {--%>
-                <%--alert("请输入密码");--%>
-                <%--return false;--%>
-            <%--}--%>
-            <%--if(user_name == '') {--%>
-                <%--alert("请输入真实姓名");--%>
-                <%--return false;--%>
-            <%--}--%>
-
-            <%--$.ajax({--%>
-                <%--url:"${ctx}/people/people/doadd",--%>
-                <%--type: "post",--%>
-                <%--data:{login_name:login_name,login_pwd:login_pwd,user_name:user_name,nick_name:nice_name,org_id:org_id,role_id:role_id},--%>
-<%--//                dataType:"json",--%>
-                <%--success:function(data){--%>
-                    <%--if(data == 1){--%>
-                        <%--alert("成功");--%>
-                        <%--location.reload();--%>
-                    <%--} else {--%>
-                        <%--alert("失败");--%>
-                    <%--}--%>
-                <%--}--%>
-            <%--})--%>
-        <%--})--%>
+            $.ajax({
+                url:"${ctx}/vehicle/register/doadd",
+                type: "post",
+                data:{archive_no:archive_no,inventory_no:inventory_no,brand:brand,model:model,color:color,carframe_no:carframe_no,
+                    engine_no:engine_no,registry_certificate:registry_certificate,certificate_direction:certificate_direction,
+                    loan_bank:loan_bank,consistency_cer:consistency_cer,check_list:check_list,duty_paid_proof:duty_paid_proof,
+                    record:record,buy_at:buy_at,supplier:supplier,license_plate:license_plate,card_at:card_at,limited_at:limited_at,
+                    guide_price:guide_price,vehicle_price:vehicle_price,vehicle_tax:vehicle_tax,insurance_company:insurance_company,
+                    strong_insurance:strong_insurance,vehicle_vessel_tax:vehicle_vessel_tax,strong_insurance_expire_at:strong_insurance_expire_at,
+                    business_insurance:business_insurance,business_insurance_expire_at:business_insurance_expire_at,remark:remark,original_org:original_org},
+                success:function(data){
+                    if(data == 1){
+                        alert("成功");
+                        location.reload();
+                    } else {
+                        alert("失败");
+                        return false;
+                    }
+                }
+            })
+        })
     });
 </script>
