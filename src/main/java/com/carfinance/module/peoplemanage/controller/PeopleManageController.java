@@ -181,7 +181,7 @@ public class PeopleManageController {
         User user = (User)request.getSession().getAttribute("user");
 
         String edited_user_id = request.getParameter("edited_user_id");//被编辑的用户id
-        String real_name = request.getParameter("real_name");//被编辑的用户真实姓名
+        String real_name = request.getParameter("user_name");//被编辑的用户真实姓名
 
         return this.peopleManageService.peopleDoEdit(Long.valueOf(edited_user_id), real_name, user.getUser_id());
     }

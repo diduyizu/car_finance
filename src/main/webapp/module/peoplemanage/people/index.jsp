@@ -66,7 +66,7 @@
             <td>${user.nick_name}</td>
             <td>${user.user_name}</td>
             <td>
-                <a href="${ctx}/people/people/edit?edit_user_id=${user.user_id}">编辑</a>
+                <a href="${ctx}/people/people/edit?edited_user_id=${user.user_id}">编辑</a>
             </td>
         </tr>
     </c:forEach>

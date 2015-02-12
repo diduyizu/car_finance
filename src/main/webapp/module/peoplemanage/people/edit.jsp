@@ -67,10 +67,6 @@
         $('#save').click(function(){
             var edited_user_id = $('#edited_user_id').val();
             var user_name = $('#user_name').val();
-            alert(edited_user_id);
-            alert(user_name);
-
-
             $.ajax({
                 type:'POST',
                 url:'${ctx}/people/people/doedit',
