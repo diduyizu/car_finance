@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.1.6
+-- version 4.1.4
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: 2015-02-09 04:00:28
--- 服务器版本： 5.6.16
--- PHP Version: 5.5.9
+-- Generation Time: 2015-02-12 05:17:33
+-- 服务器版本： 5.6.11
+-- PHP Version: 5.5.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -230,7 +230,10 @@ CREATE TABLE IF NOT EXISTS `sys_org` (
 --
 
 INSERT INTO `sys_org` (`org_id`, `org_name`, `pid`, `org_type`, `org_province`, `org_city`, `org_country`, `org_address`) VALUES
-(1, '总公司', 0, 10, 100025, 25, 25001, '雄狮对面');
+(1, '全国总公司', 0, 10, 100025, 25, 25001, '雄狮对面'),
+(10, '华东区公司', 1, 11, 100025, 25, 25001, '雄狮旁边'),
+(20, '江苏省公司', 10, 12, 100025, 25, 25001, '雄狮右边'),
+(50, '南京市公司', 20, 13, 100025, 25, 25001, '雄狮左边');
 
 -- --------------------------------------------------------
 
@@ -411,7 +414,7 @@ CREATE TABLE IF NOT EXISTS `vehicle_info` (
   `create_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `original_org` int(11) NOT NULL COMMENT '归属门店',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='车辆信息表' AUTO_INCREMENT=113 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='车辆信息表' AUTO_INCREMENT=115 ;
 
 --
 -- 转存表中的数据 `vehicle_info`
@@ -419,7 +422,9 @@ CREATE TABLE IF NOT EXISTS `vehicle_info` (
 
 INSERT INTO `vehicle_info` (`id`, `archive_no`, `inventory_no`, `brand`, `model`, `color`, `carframe_no`, `engine_no`, `registry_certificate`, `certificate_direction`, `loan_bank`, `consistency_cer`, `check_list`, `duty_paid_proof`, `record`, `buy_at`, `supplier`, `license_plate`, `card_at`, `limited_at`, `guide_price`, `vehicle_price`, `vehicle_tax`, `insurance_company`, `strong_insurance`, `vehicle_vessel_tax`, `strong_insurance_expire_at`, `business_insurance`, `business_insurance_expire_at`, `remark`, `create_by`, `create_at`, `original_org`) VALUES
 (111, 'C-0005', '020007', '奔驰', '奔驰GLK300  2.996L', '灰色', 'WDDRJ7HA0BA001002', '15998060001027', '复（无第二页）', '在银行', '交行(周本浩)', '关单复印件', '2张原件', '无', '复印件', '2011-11-30 16:00:00', '南京宁星', '苏A8GK20', '2014-11-04 16:00:00', '2015-02-17 16:00:00', 1000000, 428782, 40160.15, '紫金原件', 900, 1200, '2015-02-03 16:00:00', 200, '2015-02-02 16:00:00', '登记证书原件在银行', 100000, '2015-02-07 12:43:00', 1),
-(112, '1212', '1212', '121', '12', '12', '12', '12', '12', '12', '12', '12', '12', '12', '12', '2015-01-31 16:00:00', '12', '12', '2015-02-10 16:00:00', '2015-02-18 16:00:00', 12, 12, 121, '12', 12, 12, '2015-02-01 16:00:00', 12, '2015-02-03 16:00:00', '12', 100000, '2015-02-08 01:31:44', 1);
+(112, '1212', '1212', '121', '12', '12', '12', '12', '12', '12', '12', '12', '12', '12', '12', '2015-01-31 16:00:00', '12', '12', '2015-02-10 16:00:00', '2015-02-18 16:00:00', 12, 12, 121, '12', 12, 12, '2015-02-01 16:00:00', 12, '2015-02-03 16:00:00', '12', 100000, '2015-02-08 01:31:44', 1),
+(113, '111', '111', '111', '111', '111', '111', '111', '111', '111', '111', '111', '111', '111', '111', '2015-02-01 16:00:00', '111', '111', '2015-02-17 16:00:00', '2015-02-16 16:00:00', 111, 111, 111, '111', 111, 111, '2015-02-10 16:00:00', 111, '2015-02-11 16:00:00', '111', 100000, '2015-02-09 05:38:25', 1),
+(114, '12', '12', '12', '12', '12', '12', '12', '12', '12', '12', '12', '12', '12', '12', '2015-02-08 16:00:00', '12', '121', '2015-02-15 16:00:00', '2015-02-16 16:00:00', 12, 12, 12, '12', 12, 12, '2015-02-10 16:00:00', 12, '2015-02-10 16:00:00', '12', 100000, '2015-02-09 06:10:10', 1);
 
 -- --------------------------------------------------------
 
@@ -432,7 +437,7 @@ CREATE TABLE IF NOT EXISTS `vehicle_insurance` (
   `carframe_no` varchar(128) NOT NULL COMMENT '车架号',
   `engine_no` varchar(128) NOT NULL COMMENT '发动机号',
   `license_plate` varchar(64) NOT NULL COMMENT '车牌号',
-  `insurance_compary` varchar(64) NOT NULL COMMENT '保险公司名称',
+  `insurance_company` varchar(64) NOT NULL COMMENT '保险公司名称',
   `strong_insurance` double NOT NULL COMMENT '交强险',
   `vehicle_vessel_tax` double NOT NULL COMMENT '车船税',
   `strong_insurance_expire_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '交强险到期时间',
@@ -444,7 +449,14 @@ CREATE TABLE IF NOT EXISTS `vehicle_insurance` (
   PRIMARY KEY (`id`),
   KEY `carframe_no` (`carframe_no`,`engine_no`),
   KEY `license_plate` (`license_plate`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='车辆保险' AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='车辆保险' AUTO_INCREMENT=2 ;
+
+--
+-- 转存表中的数据 `vehicle_insurance`
+--
+
+INSERT INTO `vehicle_insurance` (`id`, `carframe_no`, `engine_no`, `license_plate`, `insurance_company`, `strong_insurance`, `vehicle_vessel_tax`, `strong_insurance_expire_at`, `business_insurance`, `business_insurance_expire_at`, `remark`, `create_by`, `create_at`) VALUES
+(1, '12', '12', '121', '12', 12, 12, '2015-02-10 16:00:00', 12, '2015-02-10 16:00:00', '12', 100000, '2015-02-09 06:10:10');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
