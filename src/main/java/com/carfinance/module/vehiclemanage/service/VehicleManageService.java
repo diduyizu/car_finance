@@ -4,11 +4,10 @@ import com.carfinance.module.common.dao.CommonDao;
 import com.carfinance.module.common.service.CommonService;
 import com.carfinance.module.common.service.ManageMemcacdedClient;
 import com.carfinance.module.init.service.InitService;
-import com.carfinance.module.storemanage.dao.StoreManageDao;
-import com.carfinance.module.storemanage.domain.Store;
 import com.carfinance.module.vehiclemanage.dao.VehicleManageDao;
 import com.carfinance.module.vehiclemanage.domain.VehicleInfo;
 import com.carfinance.module.vehiclemanage.domain.VehicleInsurance;
+import com.carfinance.module.vehiclemanage.domain.VehiclePeccancy;
 import com.carfinance.utils.DateUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,6 +39,17 @@ public class VehicleManageService {
     @Autowired
     private CommonDao commonDao;
 
+    /**
+     * 获取某组织下车辆列表
+     * @param original_org
+     * @param brand
+     * @param carframe_no
+     * @param engine_no
+     * @param license_plate
+     * @param start
+     * @param size
+     * @return
+     */
     public Map<String , Object> getVehicleList(long original_org , String brand , String carframe_no , String engine_no , String license_plate ,  int start , int size) {
         long total = 1;
         if(brand == null || "".equals(brand) || carframe_no == null || "".equals(carframe_no) || engine_no == null || "".equals(engine_no) || license_plate == null || "".equals(license_plate)) {
@@ -83,12 +93,35 @@ public class VehicleManageService {
 
     }
 
+    /**
+     * 获取某车辆保险纪录
+     * @param carframe_no
+     * @param start
+     * @param size
+     * @return
+     */
     public Map<String , Object> getVehicleInsuranceList(String carframe_no , int start , int size) {
         long total = this.vehicleManageDao.getVehicleInsuranceCount(carframe_no);
         List<VehicleInsurance> vehicleInsurance_list = this.vehicleManageDao.getVehicleInsuranceList(carframe_no, start, size);
         Map<String , Object> map = new HashMap<String, Object>();
         map.put("total" , total);
         map.put("vehicleInsurance_list" , vehicleInsurance_list);
+        return map;
+    }
+
+    /**
+     * 获取某车辆违章记录
+     * @param carframe_no
+     * @param start
+     * @param size
+     * @return
+     */
+    public Map<String , Object> getVehiclePeccancyList(String carframe_no , int start , int size) {
+        long total = this.vehicleManageDao.getVehiclePeccancyCount(carframe_no);
+        List<VehiclePeccancy> vehiclePeccancy_list = this.vehicleManageDao.getVehiclePeccancyList(carframe_no, start, size);
+        Map<String , Object> map = new HashMap<String, Object>();
+        map.put("total" , total);
+        map.put("vehiclePeccancy_list" , vehiclePeccancy_list);
         return map;
     }
 

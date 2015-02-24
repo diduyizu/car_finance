@@ -2,12 +2,12 @@ package com.carfinance.module.vehiclemanage.dao;
 
 import com.carfinance.core.dao.BaseJdbcDaoImpl;
 import com.carfinance.module.common.dao.CommonDao;
-import com.carfinance.module.storemanage.domain.Store;
-import com.carfinance.module.storemanage.domain.StoreRowMapper;
 import com.carfinance.module.vehiclemanage.domain.VehicleInfo;
 import com.carfinance.module.vehiclemanage.domain.VehicleInfoRowMapper;
 import com.carfinance.module.vehiclemanage.domain.VehicleInsurance;
 import com.carfinance.module.vehiclemanage.domain.VehicleInsuranceRowMapper;
+import com.carfinance.module.vehiclemanage.domain.VehiclePeccancy;
+import com.carfinance.module.vehiclemanage.domain.VehiclePeccancyRowMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -162,5 +162,31 @@ public class VehicleManageDao extends BaseJdbcDaoImpl {
         Object[] o = new Object[] { carframe_no , engine_no , license_plate , insurance_company , strong_insurance ,
                 vehicle_vessel_tax , strong_insurance_expire_at , business_insurance , business_insurance_expire_at , remark , create_by };
         return this.getJdbcTemplate().update(sql , o);
+    }
+
+    /**
+     * 获取车辆违章记录总数
+     * @param carframe_no
+     * @return
+     */
+    public long getVehiclePeccancyCount(String carframe_no) {
+        String sql = "select count(1) from vehicle_peccancy where carframe_no = ?";
+        Object[] o = new Object[] { carframe_no };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().queryForLong(sql, o);
+    }
+
+    /**
+     * 获取车辆违章详细
+     * @param carframe_no
+     * @param start
+     * @param size
+     * @return
+     */
+    public List<VehiclePeccancy> getVehiclePeccancyList(String carframe_no , int start , int size) {
+        String sql = "select * from vehicle_peccancy where carframe_no = ? order by id desc limit ?,?";
+        Object[] o = new Object[] {carframe_no , start , size};
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().query(sql, o, new VehiclePeccancyRowMapper());
     }
 }
