@@ -14,10 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 
@@ -38,6 +35,8 @@ public class VehicleManageService {
     private InitService initService;
     @Autowired
     private CommonDao commonDao;
+    @Autowired
+    private Properties appProps;
 
     /**
      * 获取某组织下车辆列表
@@ -52,8 +51,10 @@ public class VehicleManageService {
      */
     public Map<String , Object> getVehicleList(long original_org , String brand , String carframe_no , String engine_no , String license_plate ,  int start , int size) {
         long total = 1;
-        if(brand == null || "".equals(brand) || carframe_no == null || "".equals(carframe_no) || engine_no == null || "".equals(engine_no) || license_plate == null || "".equals(license_plate)) {
-            total = this.vehicleManageDao.getSehicleCount(original_org);//门店车辆总数
+        if(brand == null || "".equals(brand)) {
+            total = this.vehicleManageDao.getVehicleCount(original_org , brand);//门店品牌车辆总数
+        } else if((carframe_no == null || !"".equals(carframe_no)) && (engine_no == null || !"".equals(engine_no)) && (license_plate == null || !"".equals(license_plate))){
+            total = this.vehicleManageDao.getVehicleCount(original_org , null);//门店车辆总数
         }
         List<VehicleInfo> vehicle_list = this.vehicleManageDao.getVehicleList(original_org , brand , carframe_no , engine_no , license_plate , start , size);
         Map<String , Object> map = new HashMap<String, Object>();
@@ -122,6 +123,79 @@ public class VehicleManageService {
         Map<String , Object> map = new HashMap<String, Object>();
         map.put("total" , total);
         map.put("vehiclePeccancy_list" , vehiclePeccancy_list);
+        return map;
+    }
+
+    /**
+     * 录入车辆保险
+     * @param carframe_no
+     * @param engine_no
+     * @param license_plate
+     * @param insurance_company
+     * @param strong_insurance
+     * @param vehicle_vessel_tax
+     * @param strong_insurance_expire_at
+     * @param business_insurance
+     * @param business_insurance_expire_at
+     * @param remark
+     * @param create_by
+     * @return
+     */
+    public int addInsurance(String carframe_no , String engine_no , String license_plate , String insurance_company ,
+                            double strong_insurance , double vehicle_vessel_tax , String strong_insurance_expire_at , double business_insurance ,
+                            String business_insurance_expire_at , String remark , long create_by) {
+
+        try{
+            Date strong_insurance_expire_at_date = DateUtil.string2Date(strong_insurance_expire_at);
+            Date business_insurance_expire_at_date = DateUtil.string2Date(business_insurance_expire_at);
+
+            int i = this.vehicleManageDao.addVehicleInsurance(carframe_no , engine_no , license_plate , insurance_company , strong_insurance ,
+                        vehicle_vessel_tax , strong_insurance_expire_at_date , business_insurance , business_insurance_expire_at_date , remark , create_by);
+
+            //更新汽车主表，关于保险公司、交强险、车船税、交强险到期日期、商业险、商业险到期日期等信息
+            if(i > 0) {//插入汽车保险纪录表成功，再更新汽车主表
+                return this.vehicleManageDao.updateVehicleInsurance(carframe_no , engine_no , license_plate , insurance_company , strong_insurance ,
+                        vehicle_vessel_tax , strong_insurance_expire_at_date , business_insurance , business_insurance_expire_at_date);
+            }
+        } catch (Exception e) {
+            logger.info(e.getMessage() , e);
+        }
+        return 0;
+    }
+
+    public int addVehiclePeccancy(String carframe_no , String engine_no , String license_plate , String peccancy_at ,
+                           String peccancy_place , String peccancy_reason , long score , int status , long create_by) {
+
+        try{
+            Date peccancy_at_date = DateUtil.string2Date(peccancy_at);
+            return this.vehicleManageDao.addVehiclePeccancy(carframe_no , engine_no , license_plate , peccancy_at_date ,
+                    peccancy_place , peccancy_reason , score , status , create_by);
+        } catch (Exception e) {
+            logger.info(e.getMessage() , e);
+            return 0;
+        }
+    }
+
+    /**
+     * 获取车辆保险到期提醒
+     * @param original_org
+     * @param carframe_no
+     * @param engine_no
+     * @param license_plate
+     * @param start
+     * @param size
+     * @return
+     */
+    public Map<String , Object> getVehicleInsuranceRemindList(long original_org , String carframe_no , String engine_no , String license_plate , int start , int size) {
+        long total = 1;
+        int remind_day = Integer.valueOf(appProps.get("vehicle.insurance.remind.day").toString());//还有多少天需要提醒
+        if((carframe_no == null || "".equals(carframe_no)) && (engine_no == null || "".equals(engine_no)) && (license_plate == null || "".equals(license_plate))) {
+            total = this.vehicleManageDao.getInsuranceRemindCount(original_org , remind_day);//需要提醒保险到期车辆总数
+        }
+        List<VehicleInfo> vehicle_insurance_remind_list = this.vehicleManageDao.getVehicleInsuranceList(original_org  , carframe_no , engine_no , license_plate , remind_day , start , size);
+        Map<String , Object> map = new HashMap<String, Object>();
+        map.put("total" , total);
+        map.put("vehicle_insurance_remind_list" , vehicle_insurance_remind_list);
         return map;
     }
 

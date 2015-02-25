@@ -261,6 +261,47 @@ public class VehicleManageController {
         return "/module/vehiclemanage/insurance/detail";
     }
 
+    /**
+     * 车辆保险录入，进入录入页面
+     * @param model
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/insurance/add" , method = RequestMethod.GET)
+    public String insuranceAdd(Model model , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+        return "/module/vehiclemanage/insurance/add";
+    }
+
+    /**
+     * 新增车辆保险
+     * @param model1
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/insurance/doadd" , method = RequestMethod.POST)
+    @ResponseBody
+    public int insuranceDoAdd(Model model1 , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        String carframe_no = request.getParameter("carframe_no");
+        String engine_no = request.getParameter("engine_no");
+        String license_plate = request.getParameter("license_plate");
+        String insurance_company= request.getParameter("insurance_company");
+        double strong_insurance = Double.valueOf(request.getParameter("strong_insurance"));
+        double vehicle_vessel_tax = Double.valueOf(request.getParameter("vehicle_vessel_tax"));
+        String strong_insurance_expire_at= request.getParameter("strong_insurance_expire_at");
+        double business_insurance = Double.valueOf(request.getParameter("business_insurance"));
+        String business_insurance_expire_at  = request.getParameter("business_insurance_expire_at");
+        String remark = request.getParameter("remark");
+
+        return this.vehicleManageService.addInsurance(carframe_no , engine_no , license_plate , insurance_company ,
+                strong_insurance , vehicle_vessel_tax , strong_insurance_expire_at , business_insurance ,
+                business_insurance_expire_at , remark , user.getUser_id());
+    }
+
 
     /**
      * 车辆违章录入
@@ -338,7 +379,7 @@ public class VehicleManageController {
 
         String carframe_no = request.getParameter("carframe_no");//车架号
 
-        Map<String , Object> map = this.vehicleManageService.getVehiclePeccancyList(carframe_no , start , size);
+        Map<String , Object> map = this.vehicleManageService.getVehiclePeccancyList(carframe_no, start, size);
 
         long total = (Long)map.get("total");;
         List<VehiclePeccancy> vehiclePeccancy_list = (List<VehiclePeccancy>)map.get("vehiclePeccancy_list");
@@ -357,4 +398,98 @@ public class VehicleManageController {
         model.addAttribute("vehiclePeccancy_list" , vehiclePeccancy_list);
         return "/module/vehiclemanage/peccancy/detail";
     }
+
+    /**
+     * 新增车辆违章记录页面
+     * @param model
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/peccancy/add" , method = RequestMethod.GET)
+    public String peccancyAdd(Model model , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+        return "/module/vehiclemanage/peccancy/add";
+    }
+
+    /**
+     * 新增车辆违章
+     * @param model1
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/peccancy/doadd" , method = RequestMethod.POST)
+    @ResponseBody
+    public int peccancyDoAdd(Model model1 , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        String carframe_no = request.getParameter("carframe_no");
+        String engine_no = request.getParameter("engine_no");
+        String license_plate = request.getParameter("license_plate");
+        String peccancy_at = request.getParameter("peccancy_at_date");
+        String peccancy_place  = request.getParameter("peccancy_place");
+        String peccancy_reason = request.getParameter("peccancy_reason");
+        long score = Long.valueOf(request.getParameter("score"));
+        int status = Integer.valueOf(request.getParameter("status"));
+
+        return this.vehicleManageService.addVehiclePeccancy(carframe_no , engine_no , license_plate , peccancy_at ,
+                peccancy_place , peccancy_reason , score , status , user.getUser_id());
+    }
+
+    /**
+     * 车辆保险到期提醒
+     * @param model
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/insuranceremind/index" , method = {RequestMethod.GET , RequestMethod.POST})
+     public String InsuranceRemind(Model model , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        String pageindexStr = request.getParameter("page_index");//第几页
+        int page_index = Integer.parseInt(StringUtils.isBlank(pageindexStr) || "0".equals(pageindexStr) ? "1" : pageindexStr);
+        int size = Integer.valueOf(appProps.get("vehicle.insurance.remind.size").toString());//每页显示条数
+        int start = (page_index - 1) * size;
+
+        String original_org_str = request.getParameter("original_org");
+        String carframe_no = request.getParameter("carframe_no");
+        String engine_no = request.getParameter("engine_no");
+        String license_plate = request.getParameter("license_plate");
+
+        //获取用户角色列表
+        List<UserRole> user_role_list = this.commonService.getUserRoleList(user.getUser_id());
+        long original_org;
+        if(original_org_str == null || "".equals(original_org_str)) {
+            original_org = user_role_list.get(0).getOrg_id();
+        } else {
+            original_org = Long.valueOf(original_org_str);
+        }
+
+        Map<String , Object> map = this.vehicleManageService.getVehicleInsuranceRemindList(original_org , carframe_no , engine_no , license_plate , start , size);
+
+        long total = (Long)map.get("total");
+        List<VehicleInfo> vehicle_insurance_remind_list = (List<VehicleInfo>)map.get("vehicle_insurance_remind_list");
+
+        long temp = (total - 1) <= 0 ? 0 : (total - 1);
+        int pages = Integer.parseInt(Long.toString(temp / size)) + 1;
+        int prepages = (page_index - 1) <= 0 ? 1 : (page_index - 1);
+        int nextpages = (page_index + 1) >= pages ? pages : (page_index + 1);
+
+        model.addAttribute("current_page" , page_index);
+        model.addAttribute("pages" , pages);
+        model.addAttribute("prepage" , prepages);
+        model.addAttribute("nextpage" , nextpages);
+
+        model.addAttribute("original_org" , original_org);
+        model.addAttribute("carframe_no" , carframe_no);
+        model.addAttribute("engine_no" , engine_no);
+        model.addAttribute("license_plate" , license_plate);
+
+        model.addAttribute("user_role_list" , user_role_list);
+        model.addAttribute("vehicle_insurance_remind_list" , vehicle_insurance_remind_list);
+        return "/module/vehiclemanage/insuranceremind/index";
+    }
+
 }

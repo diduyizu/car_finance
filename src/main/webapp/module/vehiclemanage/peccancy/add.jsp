@@ -38,38 +38,8 @@
     </style>
 </head>
 <body>
-    <form class="definewidth m20" method="post" action="${ctx}/vehicle/register/doadd">
+    <form class="definewidth m20">
         <table class="table table-bordered table-hover definewidth m10">
-            <tr>
-                <td width="10%" class="tableleft">门店</td>
-                <td>
-                    <select id="original_org" name="original_org">
-                        <c:forEach var="user_role" items="${user_role_list}" varStatus="status">
-                            <option value="${user_role.org_id}">${user_role.org_name}</option>
-                        </c:forEach>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td width="10%" class="tableleft">档案编号</td>
-                <td><input type="text" name="archive_no" id="archive_no" required="true"/></td>
-            </tr>
-            <tr>
-                <td class="tableleft">存货编码</td>
-                <td><input type="text" name="inventory_no" id="inventory_no" required="true"/></td>
-            </tr>
-            <tr>
-                <td class="tableleft">品牌</td>
-                <td><input type="text" name="brand" id="brand" required="true"/></td>
-            </tr>
-            <tr>
-                <td class="tableleft">车型</td>
-                <td><input type="text" name="model" id="model"/></td>
-            </tr>
-            <tr>
-                <td class="tableleft">颜色</td>
-                <td><input type="text" name="color" id="color" required="true"/></td>
-            </tr>
             <tr>
                 <td class="tableleft">车架号</td>
                 <td><input type="text" name="carframe_no" id="carframe_no"/></td>
@@ -79,126 +49,42 @@
                 <td><input type="text" name="engine_no" id="engine_no" required="true"/></td>
             </tr>
             <tr>
-                <td class="tableleft">登记证书</td>
-                <td><input type="text" name="registry_certificate" id="registry_certificate" required="true"/></td>
-            </tr>
-            <tr>
-                <td class="tableleft">登记证书去向</td>
-                <td><input type="text" name="certificate_direction" id="certificate_direction" required="true"/></td>
-            </tr>
-            <tr>
-                <td class="tableleft">贷款银行</td>
-                <td><input type="text" name="loan_bank" id="loan_bank"/></td>
-            </tr>
-            <tr>
-                <td class="tableleft">关单/合格/一致性证书</td>
-                <td><input type="text" name="consistency_cer" id="consistency_cer" required="true"/></td>
-            </tr>
-            <tr>
-                <td class="tableleft">检验单</td>
-                <td><input type="text" name="check_list" id="check_list"/></td>
-            </tr>
-
-            <tr>
-                <td width="10%" class="tableleft">完税证明/小本</td>
-                <td><input type="text" name="duty_paid_proof" id="duty_paid_proof" required="true"/></td>
-            </tr>
-            <tr>
-                <td class="tableleft">记录</td>
-                <td><input type="text" name="record" id="record" required="true"/></td>
-            </tr>
-            <tr>
-                <td class="tableleft">购买日期</td>
-                <td>
-                    <div class="input-append date" id="buy_at" data-date-format="yyyy-mm-dd">
-                        <input class="span2" size="16" type="text" name="buy_at" value="" disabled="disabled">
-                        <span class="add-on"><i class="icon-th"></i></span>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td class="tableleft">供应商名称</td>
-                <td><input type="text" name="supplier" id="supplier"/></td>
-            </tr>
-            <tr>
                 <td class="tableleft">车牌号</td>
                 <td><input type="text" name="license_plate" id="license_plate" required="true"/></td>
             </tr>
             <tr>
-                <td class="tableleft">上牌登记日期</td>
+                <td class="tableleft">违章时间</td>
                 <td>
-                    <div class="input-append date" id="card_at" data-date-format="yyyy-mm-dd">
-                        <input class="span2" size="16" type="text" name="card_at" value="" disabled="disabled">
+                    <div class="input-append date" id="peccancy_at" data-date-format="yyyy-mm-dd">
+                        <input class="span2" size="16" type="text" id="peccancy_at_date" name="peccancy_at_date" required="true" readonly>
                         <span class="add-on"><i class="icon-th"></i></span>
                     </div>
                 </td>
+            </tr>
+            <tr>
+                <td class="tableleft">违章地点</td>
+                <td><input type="text" name="peccancy_place" id="peccancy_place"/></td>
             </tr>
 
             <tr>
-                <td width="10%" class="tableleft">年审日期</td>
+                <td class="tableleft">违章原因</td>
+                <td><input type="text" name="peccancy_reason" id="peccancy_reason"/></td>
+            </tr>
+            <tr>
+                <td class="tableleft">扣分数</td>
+                <td><input type="text" name="score" id="score"/></td>
+            </tr>
+            <tr>
+                <td class="tableleft">是否已处理</td>
                 <td>
-                    <div class="input-append date" id="limited_at" data-date-format="yyyy-mm-dd">
-                        <input class="span2" size="16" type="text" name="limited_at" value="" disabled="disabled">
-                        <span class="add-on"><i class="icon-th"></i></span>
-                    </div>
+                    <input type="radio" name="status" value="0" checked>未处理
+                    <input type="radio" name="status" value="1">已处理
                 </td>
-            </tr>
-            <tr>
-                <td class="tableleft">市场指导价</td>
-                <td><input type="text" name="guide_price" id="guide_price" required="true"/></td>
-            </tr>
-            <tr>
-                <td class="tableleft">车购价</td>
-                <td><input type="text" name="vehicle_price" id="vehicle_price" required="true"/></td>
-            </tr>
-            <tr>
-                <td class="tableleft">车购税</td>
-                <td><input type="text" name="vehicle_tax" id="vehicle_tax"/></td>
-            </tr>
-            <tr>
-                <td class="tableleft">保险公司</td>
-                <td><input type="text" name="insurance_company" id="insurance_company" required="true"/></td>
-            </tr>
-            <tr>
-                <td class="tableleft">交强险</td>
-                <td><input type="text" name="strong_insurance" id="strong_insurance"/></td>
-            </tr>
-
-            <tr>
-                <td class="tableleft">车船税</td>
-                <td><input type="text" name="vehicle_vessel_tax" id="vehicle_vessel_tax"/></td>
-            </tr>
-            <tr>
-                <td class="tableleft">交强险到期日期</td>
-                <td>
-                    <div class="input-append date" id="strong_insurance_expire_at" data-date-format="yyyy-mm-dd">
-                        <input class="span2" size="16" type="text" name="strong_insurance_expire_at" value="" disabled="disabled">
-                        <span class="add-on"><i class="icon-th"></i></span>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td class="tableleft">商业险</td>
-                <td><input type="text" name="business_insurance" id="business_insurance"/></td>
-            </tr>
-
-            <tr>
-                <td class="tableleft">商业险到期日期</td>
-                <td>
-                    <div class="input-append date" id="business_insurance_expire_at" data-date-format="yyyy-mm-dd">
-                        <input class="span2" size="16" type="text" name="business_insurance_expire_at" value="" disabled="disabled">
-                        <span class="add-on"><i class="icon-th"></i></span>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td class="tableleft">备注</td>
-                <td><input type="text" name="remark" id="remark"/></td>
             </tr>
             <tr>
                 <td class="tableleft"></td>
                 <td>
-                    <button type="submit" class="btn btn-primary" id="save">保存</button> &nbsp;&nbsp;
+                    <button type="button" class="btn btn-primary" id="save">保存</button> &nbsp;&nbsp;
                     <button type="button" class="btn btn-success" id="backid">返回列表</button>
                 </td>
             </tr>
@@ -239,52 +125,37 @@
 //                    $('#dp5').datepicker('hide');
 //                });
 
-        $('#buy_at').datepicker();
-        $('#card_at').datepicker();
-        $('#limited_at').datepicker();
-        $('#strong_insurance_expire_at').datepicker();
-        $('#business_insurance_expire_at').datepicker();
-
+        $('#peccancy_at').datepicker();
 
 		$('#backid').click(function(){
-            window.location.href="${ctx}/vehicle/register/index";
+            window.location.href="${ctx}/vehicle/peccancy/index";
 		});
 
-        <%--$('#save').click(function(){--%>
-            <%--var login_name = $.trim($('#login_name').val());--%>
-            <%--var login_pwd = $.trim($('#login_pwd').val());--%>
-            <%--var user_name = $.trim($('#user_name').val());--%>
-            <%--var nice_name = $.trim($('#nice_name').val());--%>
-            <%--var org_id = $('#org_id').val();--%>
-            <%--var role_id = $('#role_id').val();--%>
+        $('#save').click(function(){
+            var carframe_no=$.trim($('#carframe_no').val());
+            var engine_no=$.trim($('#engine_no').val());
+            var license_plate=$.trim($('#license_plate').val());
+            var peccancy_at_date=$.trim($('#peccancy_at_date').val());
+            var peccancy_place=$.trim($('#peccancy_place').val());
+            var peccancy_reason=$.trim($('#peccancy_reason').val());
+            var score=$.trim($('#score').val());
+            var status=$('input:radio:checked').val();
 
-            <%--if(login_name == '') {--%>
-                <%--alert("请输入登录名");--%>
-                <%--return false;--%>
-            <%--}--%>
-            <%--if(login_pwd == '') {--%>
-                <%--alert("请输入密码");--%>
-                <%--return false;--%>
-            <%--}--%>
-            <%--if(user_name == '') {--%>
-                <%--alert("请输入真实姓名");--%>
-                <%--return false;--%>
-            <%--}--%>
-
-            <%--$.ajax({--%>
-                <%--url:"${ctx}/people/people/doadd",--%>
-                <%--type: "post",--%>
-                <%--data:{login_name:login_name,login_pwd:login_pwd,user_name:user_name,nick_name:nice_name,org_id:org_id,role_id:role_id},--%>
-<%--//                dataType:"json",--%>
-                <%--success:function(data){--%>
-                    <%--if(data == 1){--%>
-                        <%--alert("成功");--%>
-                        <%--location.reload();--%>
-                    <%--} else {--%>
-                        <%--alert("失败");--%>
-                    <%--}--%>
-                <%--}--%>
-            <%--})--%>
-        <%--})--%>
+            $.ajax({
+                url:"${ctx}/vehicle/peccancy/doadd",
+                type: "post",
+                data:{carframe_no:carframe_no,engine_no:engine_no,license_plate:license_plate,peccancy_at_date:peccancy_at_date,
+                    peccancy_place:peccancy_place,peccancy_reason:peccancy_reason,score:score,status:status},
+                success:function(data){
+                    if(data == 1){
+                        alert("成功");
+                        location.reload();
+                    } else {
+                        alert("失败");
+                        return false;
+                    }
+                }
+            })
+        })
     });
 </script>

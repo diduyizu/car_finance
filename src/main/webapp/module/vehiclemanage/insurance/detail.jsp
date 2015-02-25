@@ -34,9 +34,9 @@
     </style>
 </head>
 <body>
-<form class="form-inline definewidth m20" action="${ctx}/vehicle/insurance/index" method="post">
-    <button type="button" class="btn btn-success" id="addnew">新增车辆保险</button>
-</form>
+<%--<form class="form-inline definewidth m20" action="${ctx}/vehicle/insurance/index" method="post">--%>
+    <%--<button type="button" class="btn btn-success" id="addnew">新增车辆保险</button>--%>
+<%--</form>--%>
 <table class="table table-bordered table-hover definewidth m10">
     <thead>
         <tr>
@@ -75,7 +75,4 @@
 </body>
 </html>
 <script>
-    $('#addnew').click(function(){
-        window.location.href="${ctx}/vehicle/insurance/add";
-    });
 </script>
