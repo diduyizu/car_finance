@@ -39,6 +39,7 @@
     <input type="text" name="identity_id" id="identity_id"class="abc input-default" placeholder="" value="${identity_id}">&nbsp;&nbsp;
     <button type="submit" class="btn btn-primary">查询</button>&nbsp;&nbsp;
     <button type="button" class="btn btn-success" id="addnew">新增客户</button>
+    ${ctx}${page_url}?page=${prepages}
 </form>
 <table class="table table-bordered table-hover definewidth m10">
     <thead>
@@ -56,7 +57,7 @@
             <td>${customer.customer_name}</td>
             <td>${customer.customer_dn}</td>
             <td>${customer.customer_email}</td>
-            <td><a href="${ctx}/customer/modify/index">修改</a></td>
+            <td><a href="${ctx}/customer/info/modify?id=${customer.id}">修改</a></td>
         </tr>
     </c:forEach>
 </table>

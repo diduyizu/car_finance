@@ -83,6 +83,7 @@ public class VehicleManageController {
         model.addAttribute("pages" , pages);
         model.addAttribute("prepage" , prepages);
         model.addAttribute("nextpage" , nextpages);
+        model.addAttribute("page_url" , request.getRequestURI());
 
         model.addAttribute("original_org" , original_org);
         model.addAttribute("brand" , brand);
@@ -210,6 +211,7 @@ public class VehicleManageController {
         model.addAttribute("pages" , pages);
         model.addAttribute("prepage" , prepages);
         model.addAttribute("nextpage" , nextpages);
+        model.addAttribute("page_url" , request.getRequestURI());
 
         model.addAttribute("original_org" , original_org);
         model.addAttribute("brand" , brand);
@@ -255,6 +257,7 @@ public class VehicleManageController {
         model.addAttribute("pages" , pages);
         model.addAttribute("prepage" , prepages);
         model.addAttribute("nextpage" , nextpages);
+        model.addAttribute("page_url" , request.getRequestURI());
 
         model.addAttribute("carframe_no" , carframe_no);
         model.addAttribute("vehicleInsurance_list" , vehicleInsurance_list);
@@ -348,6 +351,7 @@ public class VehicleManageController {
         model.addAttribute("pages" , pages);
         model.addAttribute("prepage" , prepages);
         model.addAttribute("nextpage" , nextpages);
+        model.addAttribute("page_url" , request.getRequestURI());
 
         model.addAttribute("original_org" , original_org);
         model.addAttribute("brand" , brand);
@@ -393,6 +397,7 @@ public class VehicleManageController {
         model.addAttribute("pages" , pages);
         model.addAttribute("prepage" , prepages);
         model.addAttribute("nextpage" , nextpages);
+        model.addAttribute("page_url" , request.getRequestURI());
 
         model.addAttribute("carframe_no" , carframe_no);
         model.addAttribute("vehiclePeccancy_list" , vehiclePeccancy_list);
@@ -481,6 +486,7 @@ public class VehicleManageController {
         model.addAttribute("pages" , pages);
         model.addAttribute("prepage" , prepages);
         model.addAttribute("nextpage" , nextpages);
+        model.addAttribute("page_url" , request.getRequestURI());
 
         model.addAttribute("original_org" , original_org);
         model.addAttribute("carframe_no" , carframe_no);

@@ -96,6 +96,7 @@ public class PeopleManageController {
         model.addAttribute("pages" , pages);
         model.addAttribute("prepage" , prepages);
         model.addAttribute("nextpage" , nextpages);
+        model.addAttribute("page_url" , request.getRequestURI());
 
         model.addAttribute("choose_org_id" , org_id);
         model.addAttribute("user_org_list" , user_org_list);
@@ -234,6 +235,8 @@ public class PeopleManageController {
         model.addAttribute("pages" , pages);
         model.addAttribute("prepage" , prepages);
         model.addAttribute("nextpage" , nextpages);
+        model.addAttribute("page_url" , request.getRequestURI());
+
         model.addAttribute("choose_org_id" , org_id);
         model.addAttribute("user_org_list" , user_org_list);
         model.addAttribute("org_user_role_list" , org_user_role_list);

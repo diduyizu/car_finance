@@ -9,6 +9,7 @@ import com.carfinance.module.vehiclemanage.domain.VehicleInfoRowMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -65,6 +66,22 @@ public class CustomerManageDao extends BaseJdbcDaoImpl {
     public int addCustomerInfo(String identity_id , String customer_name , String customer_dn , String customer_email , long create_by) {
         String sql = "insert into customer_info(identity_id , customer_name , customer_dn , customer_email , create_by) values (?,?,?,?,?)";
         Object[] o = new Object[] { identity_id , customer_name , customer_dn , customer_email , create_by };
+        return this.getJdbcTemplate().update(sql , o);
+    }
+
+    public CustomerInfo getCustomrInfobyId(long id) {
+        try{
+            String sql = "select * from customer_info where id = ?";
+            Object[] o = new Object[] { id };
+            return this.getJdbcTemplate().queryForObject(sql , o , new CustomerInfoRowMapper());
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
+    }
+
+    public int modifyCustomerInfo(long id , String identity_id , String customer_name , String customer_dn , String customer_email , long update_by) {
+        String sql = "update customer_info t set t.identity_id = ? , t.customer_name = ? , t.customer_dn = ? , t.customer_email = ? , t.update_by = ? where t.id = ?";
+        Object[] o = new Object[] { identity_id , customer_name , customer_dn , customer_email , update_by , id };
         return this.getJdbcTemplate().update(sql , o);
     }
 

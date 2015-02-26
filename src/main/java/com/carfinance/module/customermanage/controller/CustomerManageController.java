@@ -69,6 +69,7 @@ public class CustomerManageController {
         model.addAttribute("pages" , pages);
         model.addAttribute("prepage" , prepages);
         model.addAttribute("nextpage" , nextpages);
+        model.addAttribute("page_url" , request.getRequestURI());
 
         model.addAttribute("identity_id" , identity_id);
         model.addAttribute("customer_list" , customer_list);
@@ -92,5 +93,30 @@ public class CustomerManageController {
         String customer_email= request.getParameter("customer_email");
 
         return this.customerManageService.addCustomerInfo(identity_id , customer_name , customer_dn , customer_email , user.getUser_id());
+    }
+
+    @RequestMapping(value = "/info/modify" , method = RequestMethod.GET)
+    public String customerInfoModify(Model model , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        long id = Long.valueOf(request.getParameter("id"));
+        CustomerInfo customerInfo = this.customerManageService.getCustomrInfobyId(id);
+
+        model.addAttribute("customer_info" , customerInfo);
+        return "/module/customermanage/modify";
+    }
+
+    @RequestMapping(value = "/info/domodify" , method = RequestMethod.POST)
+    @ResponseBody
+    public int customerInfoDoModify(Model model1 , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        long id = Long.valueOf(request.getParameter("id"));
+        String identity_id = request.getParameter("identity_id");
+        String customer_name = request.getParameter("customer_name");
+        String customer_dn = request.getParameter("customer_dn");
+        String customer_email= request.getParameter("customer_email");
+
+        return this.customerManageService.modifyCustomerInfo(id , identity_id , customer_name , customer_dn , customer_email , user.getUser_id());
     }
 }

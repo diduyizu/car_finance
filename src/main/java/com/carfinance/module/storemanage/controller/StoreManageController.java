@@ -75,6 +75,7 @@ public class StoreManageController {
         model.addAttribute("pages" , pages);
         model.addAttribute("prepage" , prepages);
         model.addAttribute("nextpage" , nextpages);
+        model.addAttribute("page_url" , request.getRequestURI());
 
         model.addAttribute("store_name" , store_name);
         model.addAttribute("store_List" , store_List);
