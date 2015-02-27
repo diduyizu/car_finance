@@ -49,7 +49,6 @@
             <th>交强险到期日期</th>
             <th>商业险</th>
             <th>商业险到期日期</th>
-            <th>备注</th>
             <th>录入人</th>
             <th>录入时间</th>
         </tr>
@@ -65,7 +64,6 @@
             <td>${vehicleInsurance.strong_insurance_expire_at}</td>
             <td>${vehicleInsurance.business_insurance}</td>
             <td>${vehicleInsurance.business_insurance_expire_at}</td>
-            <td>${vehicleInsurance.remark}</td>
             <td>${vehicleInsurance.create_by}</td>
             <td>${vehicleInsurance.create_at}</td>
         </tr>
