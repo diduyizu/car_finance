@@ -12,13 +12,31 @@ public class VehicleInsurance implements Serializable{
     private String license_plate;
     private String insurance_company;
     private Double strong_insurance;
-    private Double vehicle_vessel_tax;
     private Date strong_insurance_expire_at;
+    private Double vehicle_vessel_tax;
     private Double business_insurance;
     private Date business_insurance_expire_at;
     private String remark;
     private long create_by;
     private Date create_at;
+    private long update_by;
+    private Date update_at;
+
+    public long getUpdate_by() {
+        return update_by;
+    }
+
+    public void setUpdate_by(long update_by) {
+        this.update_by = update_by;
+    }
+
+    public Date getUpdate_at() {
+        return update_at;
+    }
+
+    public void setUpdate_at(Date update_at) {
+        this.update_at = update_at;
+    }
 
     public static long getSerialVersionUID() {
         return serialVersionUID;

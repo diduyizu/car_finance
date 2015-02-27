@@ -13,10 +13,37 @@ public class VehiclePeccancy implements Serializable{
     private Date peccancy_at;
     private String peccancy_place;
     private String peccancy_reason;
+    private double peccancy_price;
     private int score;
     private int status;
     private long create_by;
     private Date create_at;
+    private long update_by;
+    private Date update_at;
+
+    public double getPeccancy_price() {
+        return peccancy_price;
+    }
+
+    public void setPeccancy_price(double peccancy_price) {
+        this.peccancy_price = peccancy_price;
+    }
+
+    public long getUpdate_by() {
+        return update_by;
+    }
+
+    public void setUpdate_by(long update_by) {
+        this.update_by = update_by;
+    }
+
+    public Date getUpdate_at() {
+        return update_at;
+    }
+
+    public void setUpdate_at(Date update_at) {
+        this.update_at = update_at;
+    }
 
     public static long getSerialVersionUID() {
         return serialVersionUID;

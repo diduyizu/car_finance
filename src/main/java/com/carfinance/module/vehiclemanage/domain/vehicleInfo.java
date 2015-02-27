@@ -7,20 +7,11 @@ public class VehicleInfo implements Serializable{
 	private static final long serialVersionUID = -1450900287435164266L;
 	
 	private long id;
-	private String archive_no;
-	private String inventory_no;
     private String brand;
     private String model;
     private String color;
     private String carframe_no;
     private String engine_no;
-    private String registry_certificate;
-    private String certificate_direction;
-    private String loan_bank;
-    private String consistency_cer;
-    private String check_list;
-    private String duty_paid_proof;
-    private String record;
     private Date buy_at;
     private String supplier;
     private String license_plate;
@@ -31,14 +22,104 @@ public class VehicleInfo implements Serializable{
     private Double vehicle_tax;
     private String insurance_company;
     private Double strong_insurance;
-    private Double vehicle_vessel_tax;
     private Date strong_insurance_expire_at;
+    private Double vehicle_vessel_tax;
     private Double business_insurance;
     private Date business_insurance_expire_at;
+    private long km;
+    private long maintian_on_km;
+    private String gps;
+    private long current_city;
+    private long current_shop;
+    private String lease_status;
+    private String peccancy_status;
+	private String archive_no;
+	private String inventory_no;
+    private String registry_certificate;
+    private String certificate_direction;
+    private String loan_bank;
+    private String consistency_cer;
+    private String check_list;
+    private String duty_paid_proof;
+    private String record;
     private String remark;
     private long create_by;
     private Date create_at;
+    private long update_by;
+    private Date update_at;
     private long original_org;
+
+    public long getKm() {
+        return km;
+    }
+
+    public void setKm(long km) {
+        this.km = km;
+    }
+
+    public long getMaintian_on_km() {
+        return maintian_on_km;
+    }
+
+    public void setMaintian_on_km(long maintian_on_km) {
+        this.maintian_on_km = maintian_on_km;
+    }
+
+    public String getGps() {
+        return gps;
+    }
+
+    public void setGps(String gps) {
+        this.gps = gps;
+    }
+
+    public long getCurrent_city() {
+        return current_city;
+    }
+
+    public void setCurrent_city(long current_city) {
+        this.current_city = current_city;
+    }
+
+    public long getCurrent_shop() {
+        return current_shop;
+    }
+
+    public void setCurrent_shop(long current_shop) {
+        this.current_shop = current_shop;
+    }
+
+    public String getLease_status() {
+        return lease_status;
+    }
+
+    public void setLease_status(String lease_status) {
+        this.lease_status = lease_status;
+    }
+
+    public String getPeccancy_status() {
+        return peccancy_status;
+    }
+
+    public void setPeccancy_status(String peccancy_status) {
+        this.peccancy_status = peccancy_status;
+    }
+
+    public long getUpdate_by() {
+        return update_by;
+    }
+
+    public void setUpdate_by(long update_by) {
+        this.update_by = update_by;
+    }
+
+    public Date getUpdate_at() {
+        return update_at;
+    }
+
+    public void setUpdate_at(Date update_at) {
+        this.update_at = update_at;
+    }
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
