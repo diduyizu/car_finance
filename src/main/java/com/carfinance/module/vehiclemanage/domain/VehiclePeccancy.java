@@ -16,10 +16,19 @@ public class VehiclePeccancy implements Serializable{
     private double peccancy_price;
     private int score;
     private int status;
+    private String arbitration;
     private long create_by;
     private Date create_at;
     private long update_by;
     private Date update_at;
+
+    public String getArbitration() {
+        return arbitration;
+    }
+
+    public void setArbitration(String arbitration) {
+        this.arbitration = arbitration;
+    }
 
     public double getPeccancy_price() {
         return peccancy_price;

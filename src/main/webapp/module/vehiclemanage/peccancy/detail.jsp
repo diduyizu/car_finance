@@ -46,8 +46,10 @@
             <th>违章时间</th>
             <th>违章地点</th>
             <th>违章原因</th>
+            <th>罚款金额</th>
             <th>扣分数</th>
-            <th>状态</th>
+            <th>处理状态</th>
+            <th>处理仲裁</th>
             <th>操作</th>
         </tr>
     </thead>
@@ -59,8 +61,10 @@
             <td>${vehiclePeccancy.peccancy_at}</td>
             <td>${vehiclePeccancy.peccancy_place}</td>
             <td>${vehiclePeccancy.peccancy_reason}</td>
+            <td>${vehiclePeccancy.peccancy_price}</td>
             <td>${vehiclePeccancy.score}</td>
             <td>${vehiclePeccancy.status}</td>
+            <td>${vehiclePeccancy.arbitration}</td>
             <td>
                 <c:if test="${vehiclePeccancy.status == 0}">
                     <a href="javascript:;" id="execute">处理</a>

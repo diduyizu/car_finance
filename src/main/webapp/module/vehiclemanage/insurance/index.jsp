@@ -62,8 +62,6 @@
         <tr>
             <th>车架号</th>
             <th>发动机号</th>
-            <th>购买日期</th>
-            <th>供应商名称</th>
             <th>车牌号</th>
             <th>保险公司</th>
             <th>交强险</th>
@@ -71,7 +69,6 @@
             <th>交强险到期日期</th>
             <th>商业险</th>
             <th>商业险到期日期</th>
-            <th>备注</th>
         </tr>
     </thead>
     <c:forEach var="vehicle" items="${vehicle_list}" varStatus="status">
@@ -80,8 +77,6 @@
                 <a href="${ctx}/vehicle/insurance/detail?carframe_no=${vehicle.carframe_no}">${vehicle.carframe_no}</a>
             </td>
             <td>${vehicle.engine_no}</td>
-            <td>${vehicle.buy_at}</td>
-            <td>${vehicle.supplier}</td>
             <td>${vehicle.license_plate}</td>
             <td>${vehicle.insurance_company}</td>
             <td>${vehicle.strong_insurance}</td>
@@ -89,7 +84,6 @@
             <td>${vehicle.strong_insurance_expire_at}</td>
             <td>${vehicle.business_insurance}</td>
             <td>${vehicle.business_insurance_expire_at}</td>
-            <td>${vehicle.remark}</td>
         </tr>
     </c:forEach>
 </table>
