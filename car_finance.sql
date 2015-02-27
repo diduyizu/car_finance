@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.1.6
+-- version 4.1.4
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: 2015-02-26 14:39:36
--- 服务器版本： 5.6.16
--- PHP Version: 5.5.9
+-- Generation Time: 2015-02-27 08:17:36
+-- 服务器版本： 5.6.11
+-- PHP Version: 5.5.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -409,13 +409,34 @@ INSERT INTO `user_role` (`user_id`, `role_id`, `org_id`, `status`) VALUES
 
 CREATE TABLE IF NOT EXISTS `vehicle_info` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `archive_no` varchar(64) NOT NULL COMMENT '档案编号',
-  `inventory_no` varchar(64) NOT NULL COMMENT '存货编码',
   `brand` varchar(32) NOT NULL COMMENT '品牌',
   `model` varchar(128) NOT NULL COMMENT '车型',
   `color` varchar(32) NOT NULL COMMENT '颜色',
   `carframe_no` varchar(64) NOT NULL COMMENT '车架号',
   `engine_no` varchar(64) NOT NULL COMMENT '发动机号',
+  `buy_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '购买日期',
+  `supplier` varchar(128) NOT NULL COMMENT '供应商名称',
+  `license_plate` varchar(32) NOT NULL COMMENT '车牌号',
+  `card_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '上牌登记日期',
+  `limited_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '年审日期',
+  `guide_price` decimal(10,2) NOT NULL COMMENT '市场指导价',
+  `vehicle_price` decimal(10,2) NOT NULL COMMENT '车购价',
+  `vehicle_tax` decimal(10,2) NOT NULL COMMENT '车购税',
+  `insurance_company` varchar(128) NOT NULL COMMENT '保险公司',
+  `strong_insurance` decimal(10,2) NOT NULL COMMENT '交强险',
+  `strong_insurance_expire_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '交强险到期日期',
+  `vehicle_vessel_tax` decimal(10,2) NOT NULL COMMENT '车船税',
+  `business_insurance` decimal(10,2) NOT NULL COMMENT '商业险',
+  `business_insurance_expire_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '商业险到期日期',
+  `km` bigint(20) NOT NULL COMMENT '公里数',
+  `maintian_on_km` bigint(20) NOT NULL COMMENT '保养剩余公里数',
+  `gps` varchar(32) NOT NULL COMMENT 'GPS状态:正常、 异常、 未安装',
+  `current_city` int(11) NOT NULL COMMENT '当前所在城市',
+  `current_shop` int(11) NOT NULL COMMENT '当前所在门店',
+  `lease_status` varchar(16) NOT NULL COMMENT '车辆租赁状态:在库、零租、产权租、售出',
+  `peccancy_status` int(11) NOT NULL DEFAULT '0' COMMENT '是否有违章待处理:0 无 1 有',
+  `archive_no` varchar(64) NOT NULL COMMENT '档案编号',
+  `inventory_no` varchar(64) NOT NULL COMMENT '存货编码',
   `registry_certificate` varchar(256) NOT NULL COMMENT '登记证书',
   `certificate_direction` varchar(64) NOT NULL COMMENT '登记证书去向',
   `loan_bank` varchar(64) NOT NULL COMMENT '贷款银行',
@@ -423,21 +444,9 @@ CREATE TABLE IF NOT EXISTS `vehicle_info` (
   `check_list` varchar(256) NOT NULL COMMENT '检验单',
   `duty_paid_proof` varchar(128) NOT NULL COMMENT '完税证明/小本',
   `record` varchar(128) NOT NULL COMMENT '记录',
-  `buy_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '购买日期',
-  `supplier` varchar(128) NOT NULL COMMENT '供应商名称',
-  `license_plate` varchar(32) NOT NULL COMMENT '车牌号',
-  `card_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '上牌登记日期',
-  `limited_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '年审日期',
-  `guide_price` double NOT NULL COMMENT '市场指导价',
-  `vehicle_price` double NOT NULL COMMENT '车购价',
-  `vehicle_tax` double NOT NULL COMMENT '车购税',
-  `insurance_company` varchar(128) NOT NULL COMMENT '保险公司',
-  `strong_insurance` double NOT NULL COMMENT '交强险',
-  `vehicle_vessel_tax` double NOT NULL COMMENT '车船税',
-  `strong_insurance_expire_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '交强险到期日期',
-  `business_insurance` double NOT NULL COMMENT '商业险',
-  `business_insurance_expire_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '商业险到期日期',
   `remark` varchar(128) NOT NULL COMMENT '备注',
+  `update_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+  `update_by` int(11) NOT NULL COMMENT '更新人员id',
   `create_by` int(11) NOT NULL COMMENT '创建人id',
   `create_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `original_org` int(11) NOT NULL COMMENT '归属门店',
@@ -448,11 +457,11 @@ CREATE TABLE IF NOT EXISTS `vehicle_info` (
 -- 转存表中的数据 `vehicle_info`
 --
 
-INSERT INTO `vehicle_info` (`id`, `archive_no`, `inventory_no`, `brand`, `model`, `color`, `carframe_no`, `engine_no`, `registry_certificate`, `certificate_direction`, `loan_bank`, `consistency_cer`, `check_list`, `duty_paid_proof`, `record`, `buy_at`, `supplier`, `license_plate`, `card_at`, `limited_at`, `guide_price`, `vehicle_price`, `vehicle_tax`, `insurance_company`, `strong_insurance`, `vehicle_vessel_tax`, `strong_insurance_expire_at`, `business_insurance`, `business_insurance_expire_at`, `remark`, `create_by`, `create_at`, `original_org`) VALUES
-(111, 'C-0005', '020007', '奔驰', '奔驰GLK300  2.996L', '灰色', 'WDDRJ7HA0BA001002', '15998060001027', '复（无第二页）', '在银行', '交行(周本浩)', '关单复印件', '2张原件', '无', '复印件', '2011-11-30 16:00:00', '南京宁星', '苏A8GK20', '2014-11-04 16:00:00', '2015-02-17 16:00:00', 1000000, 428782, 40160.15, '紫金原件', 900, 1200, '2015-02-03 16:00:00', 200, '2015-02-02 16:00:00', '登记证书原件在银行', 100000, '2015-02-07 12:43:00', 1),
-(112, '1212', '1212', '121', '12', '12', '12', '12', '12', '12', '12', '12', '12', '12', '12', '2015-02-25 01:33:58', '12', '12', '2015-02-10 16:00:00', '2015-02-18 16:00:00', 12, 12, 121, '12', 12, 12, '2015-02-21 16:00:00', 12, '2015-02-03 16:00:00', '12', 100000, '2015-02-08 01:31:44', 1),
-(113, '111', '111', '111', '111', '111', '111', '111', '111', '111', '111', '111', '111', '111', '111', '2015-02-25 01:33:51', '111', '111', '2015-02-17 16:00:00', '2015-02-16 16:00:00', 111, 111, 111, '111', 111, 111, '2015-02-22 16:00:00', 111, '2015-02-11 16:00:00', '111', 100000, '2015-02-09 05:38:25', 1),
-(114, '12', '12', '12', '12', '12', '12', '12', '12', '12', '12', '12', '12', '12', '12', '2015-02-25 01:34:02', '12', '121', '2015-02-15 16:00:00', '2015-02-16 16:00:00', 12, 12, 12, '12', 12, 12, '2015-02-23 16:00:00', 12, '2015-02-10 16:00:00', '12', 100000, '2015-02-09 06:10:10', 1);
+INSERT INTO `vehicle_info` (`id`, `brand`, `model`, `color`, `carframe_no`, `engine_no`, `buy_at`, `supplier`, `license_plate`, `card_at`, `limited_at`, `guide_price`, `vehicle_price`, `vehicle_tax`, `insurance_company`, `strong_insurance`, `strong_insurance_expire_at`, `vehicle_vessel_tax`, `business_insurance`, `business_insurance_expire_at`, `km`, `maintian_on_km`, `gps`, `current_city`, `current_shop`, `lease_status`, `peccancy_status`, `archive_no`, `inventory_no`, `registry_certificate`, `certificate_direction`, `loan_bank`, `consistency_cer`, `check_list`, `duty_paid_proof`, `record`, `remark`, `update_at`, `update_by`, `create_by`, `create_at`, `original_org`) VALUES
+(111, '奔驰', '奔驰GLK300  2.996L', '灰色', 'WDDRJ7HA0BA001002', '15998060001027', '2011-11-30 16:00:00', '南京宁星', '苏A8GK20', '2014-11-04 16:00:00', '2015-02-17 16:00:00', '1000000.00', '428782.00', '40160.15', '紫金原件', '900.00', '2015-02-03 16:00:00', '1200.00', '200.00', '2015-02-02 16:00:00', 0, 0, '', 0, 0, '', 0, 'C-0005', '020007', '复（无第二页）', '在银行', '交行(周本浩)', '关单复印件', '2张原件', '无', '复印件', '登记证书原件在银行', '2015-02-27 07:04:50', 0, 100000, '2015-02-07 12:43:00', 1),
+(112, '121', '12', '12', '12', '12', '2015-02-25 01:33:58', '12', '12', '2015-02-10 16:00:00', '2015-02-18 16:00:00', '12.00', '12.00', '121.00', '12', '12.00', '2015-02-21 16:00:00', '12.00', '12.00', '2015-02-03 16:00:00', 0, 0, '', 0, 0, '', 0, '1212', '1212', '12', '12', '12', '12', '12', '12', '12', '12', '2015-02-27 07:04:50', 0, 100000, '2015-02-08 01:31:44', 1),
+(113, '111', '111', '111', '111', '111', '2015-02-25 01:33:51', '111', '111', '2015-02-17 16:00:00', '2015-02-16 16:00:00', '111.00', '111.00', '111.00', '111', '111.00', '2015-02-22 16:00:00', '111.00', '111.00', '2015-02-11 16:00:00', 0, 0, '', 0, 0, '', 0, '111', '111', '111', '111', '111', '111', '111', '111', '111', '111', '2015-02-27 07:04:50', 0, 100000, '2015-02-09 05:38:25', 1),
+(114, '12', '12', '12', '12', '12', '2015-02-25 01:34:02', '12', '121', '2015-02-15 16:00:00', '2015-02-16 16:00:00', '12.00', '12.00', '12.00', '12', '12.00', '2015-02-23 16:00:00', '12.00', '12.00', '2015-02-10 16:00:00', 0, 0, '', 0, 0, '', 0, '12', '12', '12', '12', '12', '12', '12', '12', '12', '12', '2015-02-27 07:04:50', 0, 100000, '2015-02-09 06:10:10', 1);
 
 -- --------------------------------------------------------
 
@@ -462,13 +471,15 @@ INSERT INTO `vehicle_info` (`id`, `archive_no`, `inventory_no`, `brand`, `model`
 
 CREATE TABLE IF NOT EXISTS `vehicle_insurance` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `update_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+  `update_by` int(11) NOT NULL COMMENT '更新人员',
   `carframe_no` varchar(128) NOT NULL COMMENT '车架号',
   `engine_no` varchar(128) NOT NULL COMMENT '发动机号',
   `license_plate` varchar(64) NOT NULL COMMENT '车牌号',
   `insurance_company` varchar(64) NOT NULL COMMENT '保险公司名称',
   `strong_insurance` double NOT NULL COMMENT '交强险',
-  `vehicle_vessel_tax` double NOT NULL COMMENT '车船税',
   `strong_insurance_expire_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '交强险到期时间',
+  `vehicle_vessel_tax` double NOT NULL COMMENT '车船税',
   `business_insurance` double NOT NULL COMMENT '商业险',
   `business_insurance_expire_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '商业险到期时间',
   `remark` varchar(128) NOT NULL COMMENT '备注',
@@ -483,10 +494,10 @@ CREATE TABLE IF NOT EXISTS `vehicle_insurance` (
 -- 转存表中的数据 `vehicle_insurance`
 --
 
-INSERT INTO `vehicle_insurance` (`id`, `carframe_no`, `engine_no`, `license_plate`, `insurance_company`, `strong_insurance`, `vehicle_vessel_tax`, `strong_insurance_expire_at`, `business_insurance`, `business_insurance_expire_at`, `remark`, `create_by`, `create_at`) VALUES
-(1, '12', '12', '121', '12', 12, 12, '2015-02-10 16:00:00', 12, '2015-02-10 16:00:00', '12', 100000, '2015-02-09 06:10:10'),
-(2, 'WDDRJ7HA0BA001002', '15998060001027', '苏A8GK20', '江阴', 12.12, 12.11, '2015-02-23 16:00:00', 13.13, '2015-02-26 16:00:00', '你好', 100000, '2015-02-24 12:00:47'),
-(3, '12', '12', '121', '1212', 12, 12, '2015-02-08 16:00:00', 12, '2015-02-09 16:00:00', '12', 100000, '2015-02-24 12:01:17');
+INSERT INTO `vehicle_insurance` (`id`, `update_at`, `update_by`, `carframe_no`, `engine_no`, `license_plate`, `insurance_company`, `strong_insurance`, `strong_insurance_expire_at`, `vehicle_vessel_tax`, `business_insurance`, `business_insurance_expire_at`, `remark`, `create_by`, `create_at`) VALUES
+(1, '2015-02-27 07:08:23', 0, '12', '12', '121', '12', 12, '2015-02-10 16:00:00', 12, 12, '2015-02-10 16:00:00', '12', 100000, '2015-02-09 06:10:10'),
+(2, '2015-02-27 07:08:23', 0, 'WDDRJ7HA0BA001002', '15998060001027', '苏A8GK20', '江阴', 12.12, '2015-02-23 16:00:00', 12.11, 13.13, '2015-02-26 16:00:00', '你好', 100000, '2015-02-24 12:00:47'),
+(3, '2015-02-27 07:08:23', 0, '12', '12', '121', '1212', 12, '2015-02-08 16:00:00', 12, 12, '2015-02-09 16:00:00', '12', 100000, '2015-02-24 12:01:17');
 
 -- --------------------------------------------------------
 
@@ -502,10 +513,14 @@ CREATE TABLE IF NOT EXISTS `vehicle_peccancy` (
   `peccancy_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '违章时间',
   `peccancy_place` varchar(128) NOT NULL COMMENT '违章地点',
   `peccancy_reason` varchar(128) NOT NULL COMMENT '违章原因',
+  `peccancy_price` decimal(10,2) NOT NULL COMMENT '违章金额',
   `score` int(11) NOT NULL DEFAULT '0' COMMENT '违章扣分数',
   `status` int(11) NOT NULL DEFAULT '0' COMMENT '是否处理：0-未处理；1-已处理',
+  `arbitration` varchar(16) NOT NULL COMMENT '处理仲裁:公司交、客户交',
   `create_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '录入时间',
   `create_by` int(11) NOT NULL COMMENT '录入人员',
+  `update_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '更新时间',
+  `update_by` int(11) NOT NULL COMMENT '更新人员',
   PRIMARY KEY (`id`),
   KEY `carframe_no` (`carframe_no`,`engine_no`,`license_plate`,`status`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='车辆违章表' AUTO_INCREMENT=4 ;
@@ -514,10 +529,10 @@ CREATE TABLE IF NOT EXISTS `vehicle_peccancy` (
 -- 转存表中的数据 `vehicle_peccancy`
 --
 
-INSERT INTO `vehicle_peccancy` (`id`, `carframe_no`, `engine_no`, `license_plate`, `peccancy_at`, `peccancy_place`, `peccancy_reason`, `score`, `status`, `create_at`, `create_by`) VALUES
-(1, '1', '1', '1', '2015-02-24 14:09:40', '1', '1', 0, 0, '2015-02-24 14:09:40', 1),
-(2, 'WDDRJ7HA0BA001002', '15998060001027', '苏A8GK20', '2015-02-16 16:00:00', '南京', '红灯', 3, 1, '2015-02-24 14:37:16', 100000),
-(3, 'WDDRJ7HA0BA001002', '15998060001027', '12', '2015-02-17 16:00:00', 'q w', '请问', 3, 0, '2015-02-24 14:38:03', 100000);
+INSERT INTO `vehicle_peccancy` (`id`, `carframe_no`, `engine_no`, `license_plate`, `peccancy_at`, `peccancy_place`, `peccancy_reason`, `peccancy_price`, `score`, `status`, `arbitration`, `create_at`, `create_by`, `update_at`, `update_by`) VALUES
+(1, '1', '1', '1', '2015-02-24 14:09:40', '1', '1', '0.00', 0, 0, '', '2015-02-24 14:09:40', 1, '0000-00-00 00:00:00', 0),
+(2, 'WDDRJ7HA0BA001002', '15998060001027', '苏A8GK20', '2015-02-16 16:00:00', '南京', '红灯', '0.00', 3, 1, '', '2015-02-24 14:37:16', 100000, '0000-00-00 00:00:00', 0),
+(3, 'WDDRJ7HA0BA001002', '15998060001027', '12', '2015-02-17 16:00:00', 'q w', '请问', '0.00', 3, 0, '', '2015-02-24 14:38:03', 100000, '0000-00-00 00:00:00', 0);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
