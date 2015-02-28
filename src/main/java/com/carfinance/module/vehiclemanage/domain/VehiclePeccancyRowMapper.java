@@ -16,11 +16,14 @@ public class VehiclePeccancyRowMapper implements RowMapper<VehiclePeccancy>{
         vehiclePeccancy.setPeccancy_at(rs.getDate("peccancy_at"));
         vehiclePeccancy.setPeccancy_place(rs.getString("peccancy_place"));
         vehiclePeccancy.setPeccancy_reason(rs.getString("peccancy_reason"));
+        vehiclePeccancy.setPeccancy_price(rs.getDouble("peccancy_price"));
         vehiclePeccancy.setScore(rs.getInt("score"));
         vehiclePeccancy.setStatus(rs.getInt("status"));
+        vehiclePeccancy.setArbitration(rs.getString("arbitration"));
         vehiclePeccancy.setCreate_at(rs.getDate("create_at"));
         vehiclePeccancy.setCreate_by(rs.getLong("create_by"));
-
+        vehiclePeccancy.setCreate_at(rs.getDate("update_at"));
+        vehiclePeccancy.setCreate_by(rs.getLong("update_by"));
 
         return vehiclePeccancy;
 	}

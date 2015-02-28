@@ -15,13 +15,15 @@ public class VehicleInsuranceRowMapper implements RowMapper<VehicleInsurance>{
         vehicleInfo.setLicense_plate(rs.getString("license_plate"));
         vehicleInfo.setInsurance_company(rs.getString("insurance_company"));
         vehicleInfo.setStrong_insurance(rs.getDouble("strong_insurance"));
-        vehicleInfo.setVehicle_vessel_tax(rs.getDouble("vehicle_vessel_tax"));
         vehicleInfo.setStrong_insurance_expire_at(rs.getDate("strong_insurance_expire_at"));
+        vehicleInfo.setVehicle_vessel_tax(rs.getDouble("vehicle_vessel_tax"));
         vehicleInfo.setBusiness_insurance(rs.getDouble("business_insurance"));
         vehicleInfo.setBusiness_insurance_expire_at(rs.getDate("business_insurance_expire_at"));
         vehicleInfo.setRemark(rs.getString("remark"));
         vehicleInfo.setCreate_by(rs.getLong("create_by"));
         vehicleInfo.setCreate_at(rs.getDate("create_at"));
+        vehicleInfo.setCreate_by(rs.getLong("update_by"));
+        vehicleInfo.setCreate_at(rs.getDate("update_at"));
 
         return vehicleInfo;
 	}
