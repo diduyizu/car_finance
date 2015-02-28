@@ -41,7 +41,7 @@
     <form class="definewidth m20">
         <table class="table table-bordered table-hover definewidth m10">
             <tr>
-                <td width="10%" class="tableleft">门店</td>
+                <td width="10%" class="tableleft">所属门店</td>
                 <td>
                     <select id="original_org" name="original_org">
                         <c:forEach var="user_role" items="${user_role_list}" varStatus="status">
@@ -49,14 +49,6 @@
                         </c:forEach>
                     </select>
                 </td>
-            </tr>
-            <tr>
-                <td width="10%" class="tableleft">档案编号</td>
-                <td><input type="text" name="archive_no" id="archive_no" required="true"/></td>
-            </tr>
-            <tr>
-                <td class="tableleft">存货编码</td>
-                <td><input type="text" name="inventory_no" id="inventory_no" required="true"/></td>
             </tr>
             <tr>
                 <td class="tableleft">品牌</td>
@@ -77,35 +69,6 @@
             <tr>
                 <td width="10%" class="tableleft">发动机号</td>
                 <td><input type="text" name="engine_no" id="engine_no" required="true"/></td>
-            </tr>
-            <tr>
-                <td class="tableleft">登记证书</td>
-                <td><input type="text" name="registry_certificate" id="registry_certificate" required="true"/></td>
-            </tr>
-            <tr>
-                <td class="tableleft">登记证书去向</td>
-                <td><input type="text" name="certificate_direction" id="certificate_direction" required="true"/></td>
-            </tr>
-            <tr>
-                <td class="tableleft">贷款银行</td>
-                <td><input type="text" name="loan_bank" id="loan_bank" required="true"/></td>
-            </tr>
-            <tr>
-                <td class="tableleft">关单/合格/一致性证书</td>
-                <td><input type="text" name="consistency_cer" id="consistency_cer" required="true"/></td>
-            </tr>
-            <tr>
-                <td class="tableleft">检验单</td>
-                <td><input type="text" name="check_list" id="check_list" required="true"/></td>
-            </tr>
-
-            <tr>
-                <td width="10%" class="tableleft">完税证明/小本</td>
-                <td><input type="text" name="duty_paid_proof" id="duty_paid_proof" required="true"/></td>
-            </tr>
-            <tr>
-                <td class="tableleft">记录</td>
-                <td><input type="text" name="record" id="record" required="true"/></td>
             </tr>
             <tr>
                 <td class="tableleft">购买日期</td>
@@ -162,11 +125,6 @@
                 <td class="tableleft">交强险</td>
                 <td><input type="text" name="strong_insurance" id="strong_insurance" required="true"/></td>
             </tr>
-
-            <tr>
-                <td class="tableleft">车船税</td>
-                <td><input type="text" name="vehicle_vessel_tax" id="vehicle_vessel_tax" required="true"/></td>
-            </tr>
             <tr>
                 <td class="tableleft">交强险到期日期</td>
                 <td>
@@ -177,10 +135,13 @@
                 </td>
             </tr>
             <tr>
+                <td class="tableleft">车船税</td>
+                <td><input type="text" name="vehicle_vessel_tax" id="vehicle_vessel_tax" required="true"/></td>
+            </tr>
+            <tr>
                 <td class="tableleft">商业险</td>
                 <td><input type="text" name="business_insurance" id="business_insurance" required="true"/></td>
             </tr>
-
             <tr>
                 <td class="tableleft">商业险到期日期</td>
                 <td>
@@ -189,6 +150,108 @@
                         <span class="add-on"><i class="icon-th"></i></span>
                     </div>
                 </td>
+            </tr>
+            <%--需要新增的--%>
+            <tr>
+                <td width="10%" class="tableleft">公里数</td>
+                <td><input type="text" name="km" id="km" required="true"/></td>
+            </tr>
+            <tr>
+                <td class="tableleft">保养剩余公里数</td>
+                <td><input type="text" name="maintian_on_km" id="maintian_on_km" required="true"/></td>
+            </tr>
+            <tr>
+                <td class="tableleft">GPS状态</td>
+                <td>
+                    <select id="gps" name="gps">
+                        <option value="正常">正常</option>
+                        <option value="异常">异常</option>
+                        <option value="未安装">未安装</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td width="10%" class="tableleft">当前所在城市</td>
+                <td>
+                    <select id="province">
+                        <option value="0">---请选择省份---</option>
+                        <c:forEach var="province" items="${province_list}" varStatus="status">
+                            <option value="${province.enum_value}">${province.enum_desc}</option>
+                        </c:forEach>
+                    </select>
+                    <select id="current_city" name="current_city">
+                        <option value="0">---请选择地市---</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="tableleft">当前所在门店</td>
+                <td>
+                    <select id="current_shop" name="current_shop">
+                        <c:forEach var="user_role" items="${user_role_list}" varStatus="status">
+                            <option value="${user_role.org_id}">${user_role.org_name}</option>
+                        </c:forEach>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="tableleft">车辆租赁状态</td>
+                <td>
+                    <select id="lease_status" name="lease_status">
+                        <option value="在库">在库</option>
+                        <option value="零租">零租</option>
+                        <option value="产权租">产权租</option>
+                        <option value="售出">售出</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="tableleft">是否有违章待处理</td>
+                <td>
+                    <select id="peccancy_status" name="peccancy_status">
+                        <option value="0">无</option>
+                        <option value="1">有</option>
+                    </select>
+                </td>
+            </tr>
+            <%--需要新增的--%>
+            <tr>
+                <td width="10%" class="tableleft">档案编号</td>
+                <td><input type="text" name="archive_no" id="archive_no" required="true"/></td>
+            </tr>
+            <tr>
+                <td class="tableleft">存货编码</td>
+                <td><input type="text" name="inventory_no" id="inventory_no" required="true"/></td>
+            </tr>
+
+            <tr>
+                <td class="tableleft">登记证书</td>
+                <td><input type="text" name="registry_certificate" id="registry_certificate" required="true"/></td>
+            </tr>
+            <tr>
+                <td class="tableleft">登记证书去向</td>
+                <td><input type="text" name="certificate_direction" id="certificate_direction" required="true"/></td>
+            </tr>
+            <tr>
+                <td class="tableleft">贷款银行</td>
+                <td><input type="text" name="loan_bank" id="loan_bank" required="true"/></td>
+            </tr>
+            <tr>
+                <td class="tableleft">关单/合格/一致性证书</td>
+                <td><input type="text" name="consistency_cer" id="consistency_cer" required="true"/></td>
+            </tr>
+            <tr>
+                <td class="tableleft">检验单</td>
+                <td><input type="text" name="check_list" id="check_list" required="true"/></td>
+            </tr>
+
+            <tr>
+                <td width="10%" class="tableleft">完税证明/小本</td>
+                <td><input type="text" name="duty_paid_proof" id="duty_paid_proof" required="true"/></td>
+            </tr>
+            <tr>
+                <td class="tableleft">记录</td>
+                <td><input type="text" name="record" id="record" required="true"/></td>
             </tr>
             <tr>
                 <td class="tableleft">备注</td>
@@ -218,21 +281,31 @@
             window.location.href="${ctx}/vehicle/register/index";
 		});
 
+        $('#province').change(function(){
+            var province_id = $(this).children('option:selected').val();
+            $.ajax({
+                url:"${ctx}/store/add/provincecitylist",
+                type: "get",
+                data:{province_id:province_id},
+                dataType:"json",
+                success:function(data){
+                    var d=eval(data);//解析
+//                    $("#city").append($('<option value="0">---请选择---</option>'));
+                    $(d).each(function(index,entity){
+                        $("#current_city").append($('<option value="'+entity['city_id']+'">'+entity['city_name']+'</option>'));//后台数据加到下拉框
+                    });
+                }
+            })
+        });
+
         $('#save').click(function(){
-            var archive_no=$.trim($('#archive_no').val());
-            var inventory_no=$.trim($('#inventory_no').val());
+
+
             var brand=$.trim($('#brand').val());
             var model=$.trim($('#model').val());
             var color=$.trim($('#color').val());
             var carframe_no=$.trim($('#carframe_no').val());
             var engine_no=$.trim($('#engine_no').val());
-            var registry_certificate=$.trim($('#registry_certificate').val());
-            var certificate_direction=$.trim($('#certificate_direction').val());
-            var loan_bank=$.trim($('#loan_bank').val());
-            var consistency_cer=$.trim($('#consistency_cer').val());
-            var check_list=$.trim($('#check_list').val());
-            var duty_paid_proof=$.trim($('#duty_paid_proof').val());
-            var record=$.trim($('#record').val());
             var buy_at=$.trim($('#buy_at_date').val());
             var supplier=$.trim($('#supplier').val());
             var license_plate=$.trim($('#license_plate').val());
@@ -243,10 +316,26 @@
             var vehicle_tax=$.trim($('#vehicle_tax').val());
             var insurance_company=$.trim($('#insurance_company').val());
             var strong_insurance=$.trim($('#strong_insurance').val());
-            var vehicle_vessel_tax=$.trim($('#vehicle_vessel_tax').val());
             var strong_insurance_expire_at=$.trim($('#strong_insurance_expire_at_date').val());
+            var vehicle_vessel_tax=$.trim($('#vehicle_vessel_tax').val());
             var business_insurance=$.trim($('#business_insurance').val());
             var business_insurance_expire_at=$.trim($('#business_insurance_expire_at_date').val());
+            var km=$.trim($('#km').val());
+            var maintian_on_km=$.trim($('#maintian_on_km').val());
+            var gps=$.trim($('#gps').val());
+            var current_city=$.trim($('#current_city').val());
+            var current_shop=$.trim($('#current_shop').val());
+            var lease_status=$.trim($('#lease_status').val());
+            var peccancy_status=$.trim($('#peccancy_status').val());
+            var archive_no=$.trim($('#archive_no').val());
+            var inventory_no=$.trim($('#inventory_no').val());
+            var registry_certificate=$.trim($('#registry_certificate').val());
+            var certificate_direction=$.trim($('#certificate_direction').val());
+            var loan_bank=$.trim($('#loan_bank').val());
+            var consistency_cer=$.trim($('#consistency_cer').val());
+            var check_list=$.trim($('#check_list').val());
+            var duty_paid_proof=$.trim($('#duty_paid_proof').val());
+            var record=$.trim($('#record').val());
             var remark=$.trim($('#remark').val());
             var original_org=$('#original_org').val();
 
@@ -259,7 +348,8 @@
                     record:record,buy_at:buy_at,supplier:supplier,license_plate:license_plate,card_at:card_at,limited_at:limited_at,
                     guide_price:guide_price,vehicle_price:vehicle_price,vehicle_tax:vehicle_tax,insurance_company:insurance_company,
                     strong_insurance:strong_insurance,vehicle_vessel_tax:vehicle_vessel_tax,strong_insurance_expire_at:strong_insurance_expire_at,
-                    business_insurance:business_insurance,business_insurance_expire_at:business_insurance_expire_at,remark:remark,original_org:original_org},
+                    business_insurance:business_insurance,business_insurance_expire_at:business_insurance_expire_at,remark:remark,original_org:original_org,
+                    km:km , maintian_on_km:maintian_on_km , gps:gps , current_city:current_city , current_shop:current_shop , lease_status:lease_status , peccancy_status:peccancy_status},
                 success:function(data){
                     if(data == 1){
                         alert("成功");

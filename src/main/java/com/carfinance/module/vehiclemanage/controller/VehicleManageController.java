@@ -1,6 +1,6 @@
 package com.carfinance.module.vehiclemanage.controller;
 
-import com.carfinance.module.common.domain.UserRole;
+import com.carfinance.module.common.domain.*;
 import com.carfinance.module.common.service.CommonService;
 import com.carfinance.module.init.service.InitService;
 import com.carfinance.module.login.domain.User;
@@ -8,6 +8,7 @@ import com.carfinance.module.vehiclemanage.domain.VehicleInfo;
 import com.carfinance.module.vehiclemanage.domain.VehicleInsurance;
 import com.carfinance.module.vehiclemanage.service.VehicleManageService;
 import com.carfinance.module.vehiclemanage.domain.VehiclePeccancy;
+import com.carfinance.module.common.domain.Enum;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -110,6 +111,9 @@ public class VehicleManageController {
 
         //获取用户角色列表
         List<UserRole> user_role_list = this.commonService.getUserRoleList(user.getUser_id());
+        List<Enum> province_list = this.commonService.getEnumFielList("SYS_PROVINCE");
+
+        model.addAttribute("province_list" , province_list);
         model.addAttribute("user_role_list" , user_role_list);
         return "/module/vehiclemanage/register/add";
     }
@@ -126,20 +130,11 @@ public class VehicleManageController {
     public int registerDoAdd(Model model1 , HttpServletRequest request , HttpServletResponse response) {
         User user = (User)request.getSession().getAttribute("user");
 
-        String archive_no = request.getParameter("archive_no");
-        String inventory_no = request.getParameter("inventory_no");
         String brand = request.getParameter("brand");
         String model = request.getParameter("model");
         String color = request.getParameter("color");
         String carframe_no = request.getParameter("carframe_no");
         String engine_no = request.getParameter("engine_no");
-        String registry_certificate = request.getParameter("registry_certificate");
-        String certificate_direction = request.getParameter("certificate_direction");
-        String loan_bank = request.getParameter("loan_bank");
-        String consistency_cer = request.getParameter("consistency_cer");
-        String check_list  = request.getParameter("check_list");
-        String duty_paid_proof = request.getParameter("duty_paid_proof");
-        String record = request.getParameter("record");
         String buy_at = request.getParameter("buy_at");
         String supplier= request.getParameter("supplier");
         String license_plate = request.getParameter("license_plate");
@@ -150,10 +145,27 @@ public class VehicleManageController {
         double vehicle_tax = Double.valueOf(request.getParameter("vehicle_tax"));
         String insurance_company= request.getParameter("insurance_company");
         double strong_insurance = Double.valueOf(request.getParameter("strong_insurance"));
-        double vehicle_vessel_tax = Double.valueOf(request.getParameter("vehicle_vessel_tax"));
         String strong_insurance_expire_at= request.getParameter("strong_insurance_expire_at");
+        double vehicle_vessel_tax = Double.valueOf(request.getParameter("vehicle_vessel_tax"));
         double business_insurance = Double.valueOf(request.getParameter("business_insurance"));
         String business_insurance_expire_at  = request.getParameter("business_insurance_expire_at");
+
+        long km = Long.valueOf(request.getParameter("km"));
+        long maintian_on_km = Long.valueOf(request.getParameter("maintian_on_km"));
+        String gps = request.getParameter("gps");
+        long current_city = Long.valueOf(request.getParameter("current_city"));
+        long current_shop  = Long.valueOf(request.getParameter("current_shop"));
+        String lease_status = request.getParameter("lease_status");
+        String peccancy_status = request.getParameter("peccancy_status");
+        String archive_no = request.getParameter("archive_no");
+        String inventory_no = request.getParameter("inventory_no");
+        String registry_certificate = request.getParameter("registry_certificate");
+        String certificate_direction = request.getParameter("certificate_direction");
+        String loan_bank = request.getParameter("loan_bank");
+        String consistency_cer = request.getParameter("consistency_cer");
+        String check_list  = request.getParameter("check_list");
+        String duty_paid_proof = request.getParameter("duty_paid_proof");
+        String record = request.getParameter("record");
         String remark = request.getParameter("remark");
         long original_org = Long.valueOf(request.getParameter("original_org"));
 
@@ -162,7 +174,8 @@ public class VehicleManageController {
                 duty_paid_proof , record , buy_at , supplier , license_plate , card_at ,
                 limited_at , guide_price , vehicle_price , vehicle_tax , insurance_company ,
                 strong_insurance , vehicle_vessel_tax , strong_insurance_expire_at , business_insurance ,
-                business_insurance_expire_at , remark , user.getUser_id() , original_org);
+                business_insurance_expire_at , remark , user.getUser_id() , original_org ,
+                km , maintian_on_km , gps , current_city , current_shop , lease_status , peccancy_status);
     }
 
 
