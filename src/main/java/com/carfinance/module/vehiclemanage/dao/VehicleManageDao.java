@@ -261,13 +261,13 @@ public class VehicleManageDao extends BaseJdbcDaoImpl {
      * @param create_by
      * @return
      */
-    public int addVehiclePeccancy(String carframe_no , String engine_no , String license_plate , Date peccancy_at ,
-                                  String peccancy_place , String peccancy_reason , long score , int status , long create_by) {
+    public int addVehiclePeccancy(String carframe_no , String engine_no , String license_plate , Date peccancy_at , String peccancy_place ,
+                                  String peccancy_reason , long score , int status , long create_by , double peccancy_price , String arbitration) {
         String sql = "insert into vehicle_peccancy(carframe_no , engine_no , license_plate , peccancy_at , " +
-                "peccancy_place , peccancy_reason , score , status , create_by) " +
-                "values (?,?,?,?,?,?,?,?,?)";
+                "peccancy_place , peccancy_reason , score , status , create_by , peccancy_price , arbitration) " +
+                "values (?,?,?,?,?,?,?,?,?,?,?)";
         Object[] o = new Object[] { carframe_no , engine_no , license_plate , peccancy_at , peccancy_place ,
-                peccancy_reason , score , status , create_by };
+                peccancy_reason , score , status , create_by , peccancy_price , arbitration };
         return this.getJdbcTemplate().update(sql , o);
     }
 

@@ -165,13 +165,13 @@ public class VehicleManageService {
         return 0;
     }
 
-    public int addVehiclePeccancy(String carframe_no , String engine_no , String license_plate , String peccancy_at ,
-                           String peccancy_place , String peccancy_reason , long score , int status , long create_by) {
+    public int addVehiclePeccancy(String carframe_no , String engine_no , String license_plate , String peccancy_at , String peccancy_place ,
+                                  String peccancy_reason , long score , int status , long create_by , double peccancy_price , String arbitration) {
 
         try{
             Date peccancy_at_date = DateUtil.string2Date(peccancy_at);
             return this.vehicleManageDao.addVehiclePeccancy(carframe_no , engine_no , license_plate , peccancy_at_date ,
-                    peccancy_place , peccancy_reason , score , status , create_by);
+                    peccancy_place , peccancy_reason , score , status , create_by , peccancy_price , arbitration);
         } catch (Exception e) {
             logger.info(e.getMessage() , e);
             return 0;

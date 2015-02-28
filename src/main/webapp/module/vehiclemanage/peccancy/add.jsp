@@ -71,6 +71,10 @@
                 <td><input type="text" name="peccancy_reason" id="peccancy_reason"/></td>
             </tr>
             <tr>
+                <td class="tableleft">罚款金额</td>
+                <td><input type="text" name="peccancy_price" id="peccancy_price"/></td>
+            </tr>
+            <tr>
                 <td class="tableleft">扣分数</td>
                 <td><input type="text" name="score" id="score"/></td>
             </tr>
@@ -80,6 +84,10 @@
                     <input type="radio" name="status" value="0" checked>未处理
                     <input type="radio" name="status" value="1">已处理
                 </td>
+            </tr>
+            <tr>
+                <td class="tableleft">仲裁结果</td>
+                <td><input type="text" name="arbitration" id="arbitration"/></td>
             </tr>
             <tr>
                 <td class="tableleft"></td>
@@ -141,11 +149,15 @@
             var score=$.trim($('#score').val());
             var status=$('input:radio:checked').val();
 
+            var peccancy_price=$.trim($('#peccancy_price').val());
+            var arbitration=$.trim($('#arbitration').val());
+
             $.ajax({
                 url:"${ctx}/vehicle/peccancy/doadd",
                 type: "post",
-                data:{carframe_no:carframe_no,engine_no:engine_no,license_plate:license_plate,peccancy_at_date:peccancy_at_date,
-                    peccancy_place:peccancy_place,peccancy_reason:peccancy_reason,score:score,status:status},
+                data:{carframe_no:carframe_no,engine_no:engine_no,license_plate:license_plate,
+                    peccancy_at_date:peccancy_at_date,peccancy_place:peccancy_place,peccancy_reason:peccancy_reason,
+                    score:score,status:status,peccancy_price:peccancy_price,arbitration:arbitration},
                 success:function(data){
                     if(data == 1){
                         alert("成功");

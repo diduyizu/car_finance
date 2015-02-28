@@ -451,8 +451,11 @@ public class VehicleManageController {
         long score = Long.valueOf(request.getParameter("score"));
         int status = Integer.valueOf(request.getParameter("status"));
 
+        double peccancy_price = Double.valueOf(request.getParameter("peccancy_price"));
+        String arbitration = request.getParameter("arbitration");
+
         return this.vehicleManageService.addVehiclePeccancy(carframe_no , engine_no , license_plate , peccancy_at ,
-                peccancy_place , peccancy_reason , score , status , user.getUser_id());
+                peccancy_place , peccancy_reason , score , status , user.getUser_id() , peccancy_price , arbitration);
     }
 
     /**
