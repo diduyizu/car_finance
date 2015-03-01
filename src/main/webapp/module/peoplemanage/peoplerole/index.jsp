@@ -63,7 +63,7 @@
             <td>${user.user_name}</td>
             <td>${user.org_name}</td>
             <td>${user.role_name}</td>
-            <td><a href="${ctx}/people/people/edit?edited_user_id=${user.user_id}&org_id=${user.org_id}&role_id=${role_id}">修改</a></td>
+            <td><a href="${ctx}/people/peoplerole/edit?edited_user_id=${user.user_id}&org_id=${user.org_id}">修改</a></td>
         </tr>
     </c:forEach>
     </tr>

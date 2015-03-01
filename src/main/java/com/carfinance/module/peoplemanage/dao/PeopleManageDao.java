@@ -2,10 +2,7 @@ package com.carfinance.module.peoplemanage.dao;
 
 import com.carfinance.core.dao.BaseJdbcDaoImpl;
 import com.carfinance.module.common.dao.CommonDao;
-import com.carfinance.module.common.domain.Org;
-import com.carfinance.module.common.domain.OrgRowMapper;
-import com.carfinance.module.common.domain.Role;
-import com.carfinance.module.common.domain.RoleRowMapper;
+import com.carfinance.module.common.domain.*;
 import com.carfinance.module.common.service.CommonService;
 import com.carfinance.module.login.domain.User;
 import com.carfinance.module.login.domain.UserRowMapper;
@@ -161,6 +158,15 @@ public class PeopleManageDao extends BaseJdbcDaoImpl {
         return this.getJdbcTemplate().query(sql, o, new OrgUserRoleRowMapper());
     }
 
+    public List<OrgUserRole> getUserOrgRoleList(long org_id , long user_id) {
+        String sql = "select a.user_id , a.role_id , a.org_id , b.user_name , c.role_name , d.org_name " +
+                "from user_role a , users b , sys_roles c , sys_org d " +
+                "where a.user_id = b.user_id and a.role_id = c.role_id and a.org_id = d.org_id and a.org_id = ? and a.user_id = ? and a.status = 1 order by a.role_id ";
+        Object[] o = new Object[] { org_id , user_id };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().query(sql , o  , new OrgUserRoleRowMapper());
+    }
+
     public Org getOrgByOrgId(long org_id) {
         try{
             String sql = "select * from sys_org where org_id = ?";
@@ -201,6 +207,32 @@ public class PeopleManageDao extends BaseJdbcDaoImpl {
                 }
                 public int getBatchSize() {
                     return all_menu_ids.length;//这个方法设定更新记录数，里面存放的都是我们要更新的，所以返回labels.length
+                }
+            });
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+        }
+    }
+
+    public void deleteUserOrgRole(long org_id , long user_id) {
+        String sql = "delete from user_role where user_id = ? and org_id = ?";
+        Object[] o = new Object[] { user_id , org_id };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        this.getJdbcTemplate().update(sql, o);
+    }
+
+    public void peopleroleDoEdit(final long edited_user_id , final long org_id , final String[] role_id) {
+        this.deleteUserOrgRole(org_id , edited_user_id);
+        String sql = "insert into user_role (user_id , role_id , org_id) values (?,?,?)";
+        try {
+            this.getJdbcTemplate().batchUpdate(sql, new BatchPreparedStatementSetter() {
+                public void setValues(PreparedStatement ps, int i) throws SQLException {
+                    ps.setLong(1, edited_user_id);
+                    ps.setLong(2, Long.valueOf(role_id[i]));
+                    ps.setLong(3, org_id);
+                }
+                public int getBatchSize() {
+                    return role_id.length;//这个方法设定更新记录数，里面存放的都是我们要更新的，所以返回labels.length
                 }
             });
         } catch (Exception e) {

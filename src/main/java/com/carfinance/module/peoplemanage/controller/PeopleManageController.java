@@ -3,6 +3,7 @@ package com.carfinance.module.peoplemanage.controller;
 import com.carfinance.module.common.domain.Menu;
 import com.carfinance.module.common.domain.Org;
 import com.carfinance.module.common.domain.Role;
+import com.carfinance.module.common.domain.UserRole;
 import com.carfinance.module.common.service.CommonService;
 import com.carfinance.module.init.service.InitService;
 import com.carfinance.module.login.domain.User;
@@ -245,16 +246,25 @@ public class PeopleManageController {
 
     /**
      * 人员管理-人员角色管理
-     * 执行“新增”
+     * 点击修改，进入修改页面
      * @param model
      * @param request
      * @param response
      * @return
      */
-    @RequestMapping(value = "/peoplerole/doadd" , method = RequestMethod.POST)
-    @ResponseBody
+    @RequestMapping(value = "/peoplerole/edit" , method = RequestMethod.GET)
     public String peopleroleDoAdd(Model model , HttpServletRequest request , HttpServletResponse response) {
         User user = (User)request.getSession().getAttribute("user");
+
+        long edited_user_id = Long.valueOf(request.getParameter("edited_user_id"));//被编辑的用户id
+        long org_id = Long.valueOf(request.getParameter("org_id"));//当前所在组织
+        List<OrgUserRole> user_org_role_list = this.peopleManageService.getUserOrgRoleList(org_id , edited_user_id);
+
+        model.addAttribute("edited_user_name" , user_org_role_list.get(0).getUser_name());
+        model.addAttribute("org_name" , user_org_role_list.get(0).getOrg_name());
+        model.addAttribute("edited_user_id" , edited_user_id);
+        model.addAttribute("org_id" , org_id);
+        model.addAttribute("user_org_role_list" , user_org_role_list);
         return "/module/peoplemanage/peoplerole/edit";
     }
 
@@ -266,14 +276,15 @@ public class PeopleManageController {
      * @param response
      * @return
      */
-    @RequestMapping(value = "/peoplerole/doedit" , method = RequestMethod.GET)
+    @RequestMapping(value = "/peoplerole/doedit" , method = RequestMethod.POST)
     @ResponseBody
-    public String peopleroleDodelete(Model model , HttpServletRequest request , HttpServletResponse response) {
+    public int peopleroleDoEdit(Model model , HttpServletRequest request , HttpServletResponse response) {
         User user = (User)request.getSession().getAttribute("user");
-        String delete_user_id = request.getParameter("delete_user_id");//被删除的用户id
-        String role_id = request.getParameter("role_id");//被删除的用户的角色
+        long edited_user_id = Long.valueOf(request.getParameter("edited_user_id"));
+        long org_id = Long.valueOf(request.getParameter("org_id"));
+        String role_ids = request.getParameter("role_id");//角色id，xxx,xxx,xxx格式
 
-        return "/module/peoplemanage/peoplerole/edit";
+        return this.peopleManageService.peopleroleDoEdit(edited_user_id , org_id , role_ids);
     }
 
     /**

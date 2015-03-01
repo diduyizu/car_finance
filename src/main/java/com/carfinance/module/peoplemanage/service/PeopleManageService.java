@@ -5,6 +5,7 @@ import com.carfinance.module.common.dao.CommonDao;
 import com.carfinance.module.common.domain.Menu;
 import com.carfinance.module.common.domain.Org;
 import com.carfinance.module.common.domain.Role;
+import com.carfinance.module.common.domain.UserRole;
 import com.carfinance.module.common.service.CommonService;
 import com.carfinance.module.common.service.ManageMemcacdedClient;
 import com.carfinance.module.common.vo.MenuVo;
@@ -148,6 +149,30 @@ public class PeopleManageService {
     }
 
     /**
+     * 获取某用户在某组织下所有角色
+     * @param org_id
+     * @param user_id
+     * @return
+     */
+    public List<OrgUserRole> getUserOrgRoleList(long org_id , long user_id) {
+        List<Role> role_list = this.initService.getRole();
+        List<OrgUserRole> user_role_list = this.peopleManageDao.getUserOrgRoleList(org_id, user_id);
+        List<OrgUserRole> org_user_role_list = new ArrayList<OrgUserRole>();
+        for(Role role : role_list) {
+            int user_role_status = 0;
+            for(OrgUserRole user_role : user_role_list) {
+                if(user_role.getRole_id() == role.getRole_id()) {
+                    user_role_status = 1;
+                    break;
+                }
+            }
+            OrgUserRole org_user_role = new OrgUserRole(user_id , role.getRole_id() , org_id , user_role_list.get(0).getUser_name()  , role.getRole_name() , user_role_list.get(0).getOrg_name() , user_role_status);
+            org_user_role_list.add(org_user_role);
+        }
+        return org_user_role_list;
+    }
+
+    /**
      * 根据org_id获取org信息
      * @param org_id
      * @return
@@ -180,6 +205,12 @@ public class PeopleManageService {
         }
 
         this.peopleManageDao.roleMenuDoConfig(all_menu_id.split(",") , role_id);
+        return 1;
+    }
+
+    public int peopleroleDoEdit(long edited_user_id , long org_id , String role_ids) {
+        role_ids = role_ids.substring(0 , role_ids.length()-1);
+        this.peopleManageDao.peopleroleDoEdit(edited_user_id , org_id , role_ids.split(","));
         return 1;
     }
 }
