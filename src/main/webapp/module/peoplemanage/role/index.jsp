@@ -41,16 +41,14 @@
             <tr>
                 <th>角色id</th>
                 <th>角色名称</th>
-                <th>状态</th>
+                <%--<th>状态</th>--%>
             </tr>
         </thead>
         <c:forEach var="role" items="${roleList}" varStatus="status">
             <tr>
                 <td>${role.role_id}</td>
                 <td>${role.role_name}</td>
-                <td>
-                    ${role.status}
-                </td>
+                <%--<td>${role.status}</td>--%>
             </tr>
         </c:forEach>
     </table>
