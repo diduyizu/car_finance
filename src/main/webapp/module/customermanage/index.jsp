@@ -39,7 +39,6 @@
     <input type="text" name="identity_id" id="identity_id"class="abc input-default" placeholder="" value="${identity_id}">&nbsp;&nbsp;
     <button type="submit" class="btn btn-primary">查询</button>&nbsp;&nbsp;
     <button type="button" class="btn btn-success" id="addnew">新增客户</button>
-    ${ctx}${page_url}?page=${prepages}
 </form>
 <table class="table table-bordered table-hover definewidth m10">
     <thead>
