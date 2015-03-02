@@ -45,7 +45,7 @@
             </c:if>
         </c:forEach>
     </select>
-    真是姓名：
+    真实姓名：
     <input type="text" name="username" id="username"class="abc input-default" placeholder="" value="${user_name}">&nbsp;&nbsp;
     <input type="hidden" id="choose_org_id" name="choose_org_id" value="${choose_org_id}">
     <button type="submit" class="btn btn-primary">查询</button>

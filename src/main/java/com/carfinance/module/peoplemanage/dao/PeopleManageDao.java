@@ -155,12 +155,23 @@ public class PeopleManageDao extends BaseJdbcDaoImpl {
      * @param org_id
      * @return
      */
-    public List<OrgUserRole> getOrgUserRolelist(long org_id , int start ,  int size) {
-        String sql = "select a.user_id , a.role_id , a.org_id , b.user_name , c.role_name , d.org_name " +
-                "from user_role a , users b , sys_roles c , sys_org d " +
-                "where a.user_id = b.user_id and a.role_id = c.role_id and a.org_id = d.org_id and a.org_id = ? and a.status = 1 " +
-                "order by a.user_id limit ?,?";
-        Object[] o = new Object[] { org_id , start , size };
+    public List<OrgUserRole> getOrgUserRolelist(long org_id , String user_name , int start ,  int size) {
+        String sql;
+        Object[] o;
+        if(user_name == null || "".equals(user_name)) {
+            sql = "select a.user_id , a.role_id , a.org_id , b.user_name , c.role_name , d.org_name " +
+                    "from user_role a , users b , sys_roles c , sys_org d " +
+                    "where a.user_id = b.user_id and a.role_id = c.role_id and a.org_id = d.org_id and a.org_id = ? and a.status = 1 " +
+                    "order by a.user_id limit ?,?";
+            o = new Object[] { org_id , start , size };
+        } else {
+            sql = "select a.user_id , a.role_id , a.org_id , b.user_name , c.role_name , d.org_name " +
+                    "from user_role a , users b , sys_roles c , sys_org d " +
+                    "where a.user_id = b.user_id and a.role_id = c.role_id and a.org_id = d.org_id and a.org_id = ? and b.user_name = ? and a.status = 1 " +
+                    "order by a.user_id limit ?,?";
+            o = new Object[] { org_id , user_name , start , size };
+        }
+
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().query(sql, o, new OrgUserRoleRowMapper());
     }

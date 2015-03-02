@@ -142,9 +142,12 @@ public class PeopleManageService {
         return map;
     }
 
-    public Map<String , Object> getOrgUserRolelist(long org_id , int start ,  int size) {
-        long total = peopleManageDao.getOrgUserRolelist(org_id);//某组织下用户角色总数
-        List<OrgUserRole> org_user_list = peopleManageDao.getOrgUserRolelist(org_id, start, size);
+    public Map<String , Object> getOrgUserRolelist(long org_id , String user_name , int start ,  int size) {
+        long total = 1;
+        if(user_name == null) {
+            total = peopleManageDao.getOrgUserRolelist(org_id);//某组织下用户角色总数
+        }
+        List<OrgUserRole> org_user_list = peopleManageDao.getOrgUserRolelist(org_id, user_name , start, size);
         Map<String , Object> map = new HashMap<String, Object>();
         map.put("total" , total);
         map.put("org_user_role_list" , org_user_list);

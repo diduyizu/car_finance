@@ -226,7 +226,7 @@ public class PeopleManageController {
         String user_name = request.getParameter("username");
         List<Org> user_org_list = this.commonService.getUserOrgList(user.getUser_id());
         long org_id = (org_id_str == null || "".equals(org_id_str.trim())) ? user_org_list.get(0).getOrg_id() : Long.valueOf(org_id_str);
-        Map<String , Object> map = this.peopleManageService.getOrgUserRolelist(org_id, start, size);
+        Map<String , Object> map = this.peopleManageService.getOrgUserRolelist(org_id, user_name , start, size);
         long total = (Long)map.get("total");;
         List<OrgUserRole> org_user_role_list = (List<OrgUserRole>)map.get("org_user_role_list");
 
@@ -244,6 +244,7 @@ public class PeopleManageController {
         model.addAttribute("choose_org_id" , org_id);
         model.addAttribute("user_org_list" , user_org_list);
         model.addAttribute("org_user_role_list" , org_user_role_list);
+        model.addAttribute("user_name" , user_name);
         return "/module/peoplemanage/peoplerole/index";
 	}
 
