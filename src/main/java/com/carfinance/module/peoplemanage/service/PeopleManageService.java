@@ -205,12 +205,15 @@ public class PeopleManageService {
         }
 
         this.peopleManageDao.roleMenuDoConfig(all_menu_id.split(",") , role_id);
+        String key = CacheKey.getRoleMenuListKey(role_id);
+        memcachedClient.delete(key);
+
         return 1;
     }
 
     public int peopleroleDoEdit(long edited_user_id , long org_id , String role_ids) {
         role_ids = role_ids.substring(0 , role_ids.length()-1);
-        this.peopleManageDao.peopleroleDoEdit(edited_user_id , org_id , role_ids.split(","));
+        this.peopleManageDao.peopleroleDoEdit(edited_user_id, org_id, role_ids.split(","));
         return 1;
     }
 }
