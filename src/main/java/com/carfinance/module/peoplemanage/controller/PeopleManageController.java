@@ -72,7 +72,7 @@ public class PeopleManageController {
      * @param response
      * @return
      */
-	@RequestMapping(value = "/people/index" , method = RequestMethod.GET)
+	@RequestMapping(value = "/people/index" , method = {RequestMethod.GET , RequestMethod.POST})
 	public String peopleIndex(Model model , HttpServletRequest request , HttpServletResponse response) {
 		User user = (User)request.getSession().getAttribute("user");
 
@@ -81,10 +81,11 @@ public class PeopleManageController {
         int size = Integer.valueOf(appProps.get("people.people.size").toString());//每页显示条数
         int start = (page_index - 1) * size;
 
-        String org_id_str = request.getParameter("org_id_str");
+        String org_id_str = request.getParameter("choose_org_id");
+            String user_name = request.getParameter("username");
         List<Org> user_org_list = this.commonService.getUserOrgList(user.getUser_id());//获取用户所在组织
         long org_id = (org_id_str == null || "".equals(org_id_str.trim())) ? user_org_list.get(0).getOrg_id() : Long.valueOf(org_id_str);
-        Map<String , Object> map = this.peopleManageService.getOrgUserlist(org_id , start , size);//获取某一组织用户列表以及用户总数
+        Map<String , Object> map = this.peopleManageService.getOrgUserlist(org_id , user_name , start , size);//获取某一组织用户列表以及用户总数
         long total = (Long)map.get("total");;
         List<User> user_list = (List<User>)map.get("org_user_list");
 
@@ -100,6 +101,7 @@ public class PeopleManageController {
         model.addAttribute("page_url" , request.getRequestURI());
 
         model.addAttribute("choose_org_id" , org_id);
+        model.addAttribute("user_name" , user_name);
         model.addAttribute("user_org_list" , user_org_list);
         model.addAttribute("user_list" , user_list);
         return "/module/peoplemanage/people/index";
@@ -211,7 +213,7 @@ public class PeopleManageController {
      * @param response
      * @return
      */
-	@RequestMapping(value = "/peoplerole/index" , method = RequestMethod.GET)
+	@RequestMapping(value = "/peoplerole/index" , method = {RequestMethod.GET , RequestMethod.POST})
 	public String peopleroleIndex(Model model , HttpServletRequest request , HttpServletResponse response) {
 		User user = (User)request.getSession().getAttribute("user");
 
@@ -220,7 +222,8 @@ public class PeopleManageController {
         int size = Integer.valueOf(appProps.get("people.people.size").toString());//每页显示条数
         int start = (page_index - 1) * size;
 
-        String org_id_str = request.getParameter("org_id_str");
+        String org_id_str = request.getParameter("choose_org_id");
+        String user_name = request.getParameter("username");
         List<Org> user_org_list = this.commonService.getUserOrgList(user.getUser_id());
         long org_id = (org_id_str == null || "".equals(org_id_str.trim())) ? user_org_list.get(0).getOrg_id() : Long.valueOf(org_id_str);
         Map<String , Object> map = this.peopleManageService.getOrgUserRolelist(org_id, start, size);

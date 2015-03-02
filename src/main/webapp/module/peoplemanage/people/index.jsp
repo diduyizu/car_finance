@@ -34,8 +34,8 @@
     </style>
 </head>
 <body>
-<form class="form-inline definewidth m20">
-    <select onchange="">
+<form class="form-inline definewidth m20" action="${ctx}/people/people/index" method="post">
+    <select id="org_select">
         <c:forEach var="org" items="${user_org_list}" varStatus="status">
             <c:if test="${org.org_id == choose_org_id}">
                 <option value="${org.org_id}" selected="selected">${org.org_name}</option>
@@ -45,11 +45,11 @@
             </c:if>
         </c:forEach>
     </select>
-    用户名称：
+    真实姓名：
     <input type="text" name="username" id="username"class="abc input-default" placeholder="" value="${user_name}">&nbsp;&nbsp;
     <button type="submit" class="btn btn-primary">查询</button>&nbsp;&nbsp;
     <button type="button" class="btn btn-success" id="addnew">新增用户</button>
-    <input type="hidden" id="choose_org_id" value="${choose_org_id}">
+    <input type="hidden" id="choose_org_id" name="choose_org_id" value="${choose_org_id}">
 </form>
 <table class="table table-bordered table-hover definewidth m10">
     <thead>
@@ -79,6 +79,10 @@
     $('#addnew').click(function(){
         var choose_org_id = $('#choose_org_id').val();
         window.location.href="${ctx}/people/people/add?org_id="+choose_org_id;
+    });
+
+    $('#org_select').change(function(){
+        window.location.href="${ctx}/people/people/index?choose_org_id="+choose_org_id;
     });
 
 </script>

@@ -53,9 +53,12 @@ public class PeopleManageService {
      * 应该获取当前用户所在部门的所有用户列表
      * @return
      */
-    public Map<String , Object> getOrgUserlist(long org_id , int start ,  int size) {
-        long total = peopleManageDao.getOrgUserCount(org_id);//某组织下用户总数
-        List<User> org_user_list = peopleManageDao.getOrgUserlist(org_id , start , size);
+    public Map<String , Object> getOrgUserlist(long org_id , String user_name , int start ,  int size) {
+        long total = 1;
+        if(user_name == null) {
+            total = peopleManageDao.getOrgUserCount(org_id);//某组织下用户总数
+        }
+        List<User> org_user_list = peopleManageDao.getOrgUserlist(org_id , user_name , start , size);
         Map<String , Object> map = new HashMap<String, Object>();
         map.put("total" , total);
         map.put("org_user_list" , org_user_list);

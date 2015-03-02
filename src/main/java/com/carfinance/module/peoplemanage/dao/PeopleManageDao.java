@@ -53,9 +53,16 @@ public class PeopleManageDao extends BaseJdbcDaoImpl {
      * @param org_id
      * @return
      */
-    public List<User> getOrgUserlist(long org_id , int start ,  int size) {
-        String sql = "select c.* from user_role a , sys_org b , users c where a.org_id = b.org_id and a.user_id = c.user_id and a.org_id = ? order by c.user_id limit ?,?";
-        Object[] o = new Object[] { org_id , start , size };
+    public List<User> getOrgUserlist(long org_id , String user_name , int start ,  int size) {
+        String sql;
+        Object[] o;
+        if(user_name == null || "".equals(user_name.trim())) {
+            sql = "select c.* from user_role a , sys_org b , users c where a.org_id = b.org_id and a.user_id = c.user_id and a.org_id = ? order by c.user_id limit ?,?";
+            o = new Object[] { org_id , start , size };
+        } else {
+            sql = "select c.* from user_role a , sys_org b , users c where a.org_id = b.org_id and a.user_id = c.user_id and a.org_id = ? and c.user_name = ? order by c.user_id limit ?,?";
+            o = new Object[] { org_id , user_name , start , size };
+        }
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().query(sql, o, new UserRowMapper());
     }
