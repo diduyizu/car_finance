@@ -49,10 +49,10 @@ public class StoreManageDao extends BaseJdbcDaoImpl {
         String sql;
         Object[] o;
         if(store_name != null && !"".equals(store_name.trim())) {
-            sql = "select * from sys_org where org_name = ? order by pid , org_id limit ?,?";
+            sql = "select * from sys_org where org_name = ? order by org_type , org_id limit ?,?";
             o = new Object[] { store_name , start , size };
         } else {
-            sql = "select * from sys_org order by pid , org_id limit ?,?";
+            sql = "select * from sys_org order by org_type , org_id limit ?,?";
             o = new Object[] { start , size };
         }
 
@@ -61,10 +61,10 @@ public class StoreManageDao extends BaseJdbcDaoImpl {
     }
 
 
-    public int createStore(long province_id , long city_id , long country_id , long store_type , long pid ,  String store_name , String store_address) {
+    public int createStore(long province_id , long city_id , long country_id , long store_type , long pid ,  String store_name , String store_address , String  org_type_name , String org_province_name , String org_city_name , String org_country_name) {
         long store_id = this.commonDao.getNextVal("StoreSeq");
-        String sql = "insert into sys_org(org_id , org_name , pid , org_type , org_province , org_city , org_country , org_address) values (?,?,?,?,?,?,?,?)";
-        Object[] o = new Object[] { store_id , store_name , pid , store_type ,  province_id , city_id , country_id , store_address };
+        String sql = "insert into sys_org(org_id , org_name , pid , org_type , org_province , org_city , org_country , org_address , org_type_name , org_province_name , org_city_name , org_country_name) values (?,?,?,?,?,?,?,?,?,?,?,?)";
+        Object[] o = new Object[] { store_id , store_name , pid , store_type ,  province_id , city_id , country_id , store_address , org_type_name , org_province_name , org_city_name , org_country_name };
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().update(sql , o);
     }

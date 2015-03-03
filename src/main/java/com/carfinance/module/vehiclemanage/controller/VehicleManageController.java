@@ -64,10 +64,17 @@ public class VehicleManageController {
         //获取用户角色列表
         List<UserRole> user_role_list = this.commonService.getUserRoleList(user.getUser_id());
         long original_org;
+        String original_org_name = "";
         if(original_org_str == null || "".equals(original_org_str)) {
             original_org = user_role_list.get(0).getOrg_id();
         } else {
             original_org = Long.valueOf(original_org_str);
+        }
+        for(UserRole userRole : user_role_list) {
+            if(userRole.getRole_id() == original_org) {
+                original_org_name = userRole.getOrg_name();
+                break;
+            }
         }
 
         Map<String , Object> map = this.vehicleManageService.getVehicleList(original_org , brand , carframe_no , engine_no , license_plate , start , size);
@@ -87,6 +94,7 @@ public class VehicleManageController {
         model.addAttribute("page_url" , request.getRequestURI());
 
         model.addAttribute("original_org" , original_org);
+        model.addAttribute("original_org_name" , original_org_name);
         model.addAttribute("brand" , brand);
         model.addAttribute("carframe_no" , carframe_no);
         model.addAttribute("engine_no" , engine_no);

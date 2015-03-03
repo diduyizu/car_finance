@@ -63,7 +63,10 @@
             <td>${vehiclePeccancy.peccancy_reason}</td>
             <td>${vehiclePeccancy.peccancy_price}</td>
             <td>${vehiclePeccancy.score}</td>
-            <td>${vehiclePeccancy.status}</td>
+            <td>
+                <c:if test="${vehiclePeccancy.status == 0}">未处理</c:if>
+                <c:if test="${vehiclePeccancy.status != 0}">已处理</c:if>
+            </td>
             <td>${vehiclePeccancy.arbitration}</td>
             <td>
                 <c:if test="${vehiclePeccancy.status == 0}">

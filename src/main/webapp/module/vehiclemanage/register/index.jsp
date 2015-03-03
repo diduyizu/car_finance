@@ -75,7 +75,7 @@
     <c:forEach var="vehicle" items="${vehicle_list}" varStatus="status">
         <tr>
             <td>${vehicle.id}</td>
-            <td>${vehicle.original_org}</td>
+            <td>${original_org_name}</td>
             <td>${vehicle.brand}</td>
             <td>${vehicle.model}</td>
             <td>${vehicle.carframe_no}</td>

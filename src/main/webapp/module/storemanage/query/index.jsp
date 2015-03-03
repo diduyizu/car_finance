@@ -53,10 +53,10 @@
     <c:forEach var="store" items="${store_List}" varStatus="status">
         <tr>
             <td>${store.org_name}</td>
-            <td>${store.org_type}</td>
-            <td>${store.org_province}</td>
-            <td>${store.org_city}</td>
-            <td>${store.org_country}</td>
+            <td>${store.org_type_name}</td>
+            <td>${store.org_province_name}</td>
+            <td>${store.org_city_name}</td>
+            <td>${store.org_country_name}</td>
             <td>${store.org_address}</td>
         </tr>
     </c:forEach>

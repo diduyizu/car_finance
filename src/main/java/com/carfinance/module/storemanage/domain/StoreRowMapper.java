@@ -18,6 +18,23 @@ public class StoreRowMapper implements RowMapper<Store>{
         store.setOrg_city(rs.getLong("org_city"));
         store.setOrg_country(rs.getLong("org_country"));
         store.setOrg_address(rs.getString("org_address"));
+
+        try {
+            store.setOrg_type_name(rs.getString("org_type_name"));
+        } catch(Exception e) {
+        }
+        try {
+            store.setOrg_province_name(rs.getString("org_province_name"));
+        } catch(Exception e) {
+        }
+        try {
+            store.setOrg_city_name(rs.getString("org_city_name"));
+        } catch(Exception e) {
+        }
+        try {
+            store.setOrg_country_name(rs.getString("org_country_name"));
+        } catch(Exception e) {
+        }
 		return store;
 	}
 }
