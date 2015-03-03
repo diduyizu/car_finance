@@ -36,7 +36,7 @@
 <body>
 <form class="form-inline definewidth m20" action="${ctx}/vehicle/register/index" method="post">
     门店：
-    <select id="original_org">
+    <select id="original_org" name="original_org">
         <c:forEach var="user_role" items="${user_role_list}" varStatus="status">
             <c:if test="${user_role.org_id == original_org}">
                 <option value="${user_role.org_id}" selected="selected">${user_role.org_name}</option>
@@ -48,12 +48,20 @@
     </select>
     品牌：
     <input type="text" name="brand" id="brand"class="abc input-default" placeholder="" value="${brand}">&nbsp;&nbsp;
-    车架号：
-    <input type="text" name="carframe_no" id="carframe_no"class="abc input-default" placeholder="" value="${carframe_no}">&nbsp;&nbsp;
-    发动机号：
-    <input type="text" name="engine_no" id="engine_no"class="abc input-default" placeholder="" value="${engine_no}">&nbsp;&nbsp;
+    车辆型号：
+    <input type="text" name="model" id="model"class="abc input-default" placeholder="" value="${model}">&nbsp;&nbsp;
     车牌号：
     <input type="text" name="license_plate" id="license_plate"class="abc input-default" placeholder="" value="${license_plate}">&nbsp;&nbsp;
+    GPS状态：
+    <select id="gps" name="gps">
+        <option value="">全部</option>
+        <option value="正常">正常</option>
+        <option value="异常">异常</option>
+        <option value="未安装">未安装</option>
+    </select>
+    公里数：
+    <input type="text" name="km_begin" id="km_begin"class="abc input-default" placeholder="" value="${km_begin}">到
+    <input type="text" name="km_end" id="km_end"class="abc input-default" placeholder="" value="${km_end}">
     <button type="submit" class="btn btn-primary">查询</button>&nbsp;&nbsp;
     <button type="button" class="btn btn-success" id="addnew">新增车辆</button>
 </form>

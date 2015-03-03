@@ -57,9 +57,11 @@ public class VehicleManageController {
 
         String original_org_str = request.getParameter("original_org");
         String brand = request.getParameter("brand");
-        String carframe_no = request.getParameter("carframe_no");
-        String engine_no = request.getParameter("engine_no");
+        String vehicle_model = request.getParameter("model");
         String license_plate = request.getParameter("license_plate");
+        String gps = request.getParameter("gps");
+        String km_begin = request.getParameter("km_begin");
+        String km_end = request.getParameter("km_end");
 
         //获取用户角色列表
         List<UserRole> user_role_list = this.commonService.getUserRoleList(user.getUser_id());
@@ -71,13 +73,13 @@ public class VehicleManageController {
             original_org = Long.valueOf(original_org_str);
         }
         for(UserRole userRole : user_role_list) {
-            if(userRole.getRole_id() == original_org) {
+            if(userRole.getOrg_id() == original_org) {
                 original_org_name = userRole.getOrg_name();
                 break;
             }
         }
 
-        Map<String , Object> map = this.vehicleManageService.getVehicleList(original_org , brand , carframe_no , engine_no , license_plate , start , size);
+        Map<String , Object> map = this.vehicleManageService.getVehicleList(original_org , brand , vehicle_model , license_plate , gps , km_begin , km_end , start , size);
 
         long total = (Long)map.get("total");;
         List<VehicleInfo> vehicle_list = (List<VehicleInfo>)map.get("vehicle_list");
@@ -96,9 +98,11 @@ public class VehicleManageController {
         model.addAttribute("original_org" , original_org);
         model.addAttribute("original_org_name" , original_org_name);
         model.addAttribute("brand" , brand);
-        model.addAttribute("carframe_no" , carframe_no);
-        model.addAttribute("engine_no" , engine_no);
+        model.addAttribute("model" , vehicle_model);
         model.addAttribute("license_plate" , license_plate);
+        model.addAttribute("gps" , gps);
+        model.addAttribute("km_begin" , km_begin);
+        model.addAttribute("km_end" , km_end);
 
         model.addAttribute("user_role_list" , user_role_list);
         model.addAttribute("vehicle_list" , vehicle_list);
@@ -205,8 +209,6 @@ public class VehicleManageController {
 
         String original_org_str = request.getParameter("original_org");
         String brand = request.getParameter("brand");
-        String carframe_no = request.getParameter("carframe_no");
-        String engine_no = request.getParameter("engine_no");
         String license_plate = request.getParameter("license_plate");
 
         //获取用户角色列表
@@ -218,7 +220,7 @@ public class VehicleManageController {
             original_org = Long.valueOf(original_org_str);
         }
 
-        Map<String , Object> map = this.vehicleManageService.getVehicleList(original_org , brand , carframe_no , engine_no , license_plate , start , size);
+        Map<String , Object> map = this.vehicleManageService.getVehicleList(original_org , brand , null , license_plate , null , null , null , start , size);
 
         long total = (Long)map.get("total");;
         List<VehicleInfo> vehicle_list = (List<VehicleInfo>)map.get("vehicle_list");
@@ -236,8 +238,6 @@ public class VehicleManageController {
 
         model.addAttribute("original_org" , original_org);
         model.addAttribute("brand" , brand);
-        model.addAttribute("carframe_no" , carframe_no);
-        model.addAttribute("engine_no" , engine_no);
         model.addAttribute("license_plate" , license_plate);
 
         model.addAttribute("user_role_list" , user_role_list);
@@ -345,8 +345,6 @@ public class VehicleManageController {
 
         String original_org_str = request.getParameter("original_org");
         String brand = request.getParameter("brand");
-        String carframe_no = request.getParameter("carframe_no");
-        String engine_no = request.getParameter("engine_no");
         String license_plate = request.getParameter("license_plate");
 
         //获取用户角色列表
@@ -358,7 +356,7 @@ public class VehicleManageController {
             original_org = Long.valueOf(original_org_str);
         }
 
-        Map<String , Object> map = this.vehicleManageService.getVehicleList(original_org , brand , carframe_no , engine_no , license_plate , start , size);
+        Map<String , Object> map = this.vehicleManageService.getVehicleList(original_org , brand , null , license_plate , null , null , null , start , size);
 
         long total = (Long)map.get("total");;
         List<VehicleInfo> vehicle_list = (List<VehicleInfo>)map.get("vehicle_list");
@@ -376,8 +374,6 @@ public class VehicleManageController {
 
         model.addAttribute("original_org" , original_org);
         model.addAttribute("brand" , brand);
-        model.addAttribute("carframe_no" , carframe_no);
-        model.addAttribute("engine_no" , engine_no);
         model.addAttribute("license_plate" , license_plate);
 
         model.addAttribute("user_role_list" , user_role_list);

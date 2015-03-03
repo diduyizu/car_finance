@@ -31,7 +31,7 @@ public class VehicleInfoRowMapper implements RowMapper<VehicleInfo>{
         vehicleInfo.setVehicle_vessel_tax(rs.getDouble("vehicle_vessel_tax"));
         vehicleInfo.setBusiness_insurance(rs.getDouble("business_insurance"));
         vehicleInfo.setBusiness_insurance_expire_at(rs.getDate("business_insurance_expire_at"));
-        vehicleInfo.setMaintian_on_km(rs.getLong("km"));;
+        vehicleInfo.setKm(rs.getLong("km"));
         vehicleInfo.setMaintian_on_km(rs.getLong("maintian_on_km"));
         vehicleInfo.setGps(rs.getString("gps"));
         vehicleInfo.setCurrent_city(rs.getLong("current_city"));

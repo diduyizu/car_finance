@@ -49,14 +49,9 @@ public class VehicleManageService {
      * @param size
      * @return
      */
-    public Map<String , Object> getVehicleList(long original_org , String brand , String carframe_no , String engine_no , String license_plate ,  int start , int size) {
-        long total = 1;
-        if(brand == null || "".equals(brand)) {
-            total = this.vehicleManageDao.getVehicleCount(original_org , brand);//门店品牌车辆总数
-        } else if((carframe_no == null || !"".equals(carframe_no)) && (engine_no == null || !"".equals(engine_no)) && (license_plate == null || !"".equals(license_plate))){
-            total = this.vehicleManageDao.getVehicleCount(original_org , null);//门店车辆总数
-        }
-        List<VehicleInfo> vehicle_list = this.vehicleManageDao.getVehicleList(original_org , brand , carframe_no , engine_no , license_plate , start , size);
+    public Map<String , Object> getVehicleList(long original_org , String brand , String vehicle_model , String license_plate , String gps , String km_begin , String km_end ,  int start , int size) {
+        long total = this.vehicleManageDao.getVehicleCount(original_org , brand , vehicle_model , license_plate , gps , km_begin , km_end);//门店品牌车辆总数
+        List<VehicleInfo> vehicle_list = this.vehicleManageDao.getVehicleList(original_org , brand , vehicle_model , license_plate , gps , km_begin , km_end , start , size);
         Map<String , Object> map = new HashMap<String, Object>();
         map.put("total" , total);
         map.put("vehicle_list" , vehicle_list);

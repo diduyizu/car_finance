@@ -31,15 +31,45 @@ public class VehicleManageDao extends BaseJdbcDaoImpl {
      * @param brand
      * @return
      */
-    public long getVehicleCount(long original_org , String brand) {
-        Object[] o;
-        String sql;
-        if(brand == null) {
-            sql = "select count(1) from vehicle_info where original_org = ?";
-            o = new Object[] { original_org };
+    public long getVehicleCount(long original_org , String brand , String vehicle_model , String license_plate , String gps , String km_begin , String km_end) {
+        String sql = "select count(1) from vehicle_info where original_org = ? ";
+        List<Object> param = new ArrayList<Object>();
+        param.add(original_org);
+
+        if(brand != null && !"".equals(brand.trim())) {
+            sql = sql + " and brand = ? ";
+            param.add(brand);
+        }
+        if(vehicle_model != null && !"".equals(vehicle_model.trim())) {
+            sql = sql + " and model = ? ";
+            param.add(vehicle_model);
+        }
+        if(license_plate != null && !"".equals(license_plate.trim())) {
+            sql = sql + " and license_plate = ? ";
+            param.add(license_plate);
+        }
+        if(gps != null && !"".equals(gps.trim())) {
+            sql = sql + " and gps = ? ";
+            param.add(gps);
+        }
+        if(km_begin != null && !"".equals(km_begin.trim()) && km_end != null && !"".equals(km_end)) {
+            sql = sql + " and km between ? and ? ";
+            param.add(km_begin);
+            param.add(km_end);
         } else {
-            sql = "select count(1) from vehicle_info where original_org = ? and brand = ? ";
-            o = new Object[] { original_org , brand };
+            if(km_begin != null && !"".equals(km_begin.trim())) {
+                sql = sql + " and km > ? ";
+                param.add(km_begin);
+            }
+            if(km_end != null && !"".equals(km_end)) {
+                sql = sql + " and km < ? ";
+                param.add(km_end);
+            }
+        }
+
+        Object[] o = new Object[param.size()];
+        for(int i = 0 ; i < param.size() ; i++) {
+            o[i] = param.get(i);
         }
 
         logger.info(sql.replaceAll("\\?", "{}"), o);
@@ -53,7 +83,7 @@ public class VehicleManageDao extends BaseJdbcDaoImpl {
      * @param size
      * @return
      */
-    public List<VehicleInfo> getVehicleList(long original_org , String brand , String carframe_no , String engine_no , String license_plate ,  int start , int size) {
+    public List<VehicleInfo> getVehicleList(long original_org , String brand , String vehicle_model , String license_plate , String gps , String km_begin , String km_end ,  int start , int size) {
         String sql = "select * from vehicle_info where original_org = ? ";
         List<Object> param = new ArrayList<Object>();
         param.add(original_org);
@@ -62,17 +92,31 @@ public class VehicleManageDao extends BaseJdbcDaoImpl {
             sql = sql + " and brand = ? ";
             param.add(brand);
         }
-        if(carframe_no != null && !"".equals(carframe_no.trim())) {
-            sql = sql + " and carframe_no = ? ";
-            param.add(carframe_no);
-        }
-        if(engine_no != null && !"".equals(engine_no.trim())) {
-            sql = sql + " and engine_no = ? ";
-            param.add(engine_no);
+        if(vehicle_model != null && !"".equals(vehicle_model.trim())) {
+            sql = sql + " and model = ? ";
+            param.add(vehicle_model);
         }
         if(license_plate != null && !"".equals(license_plate.trim())) {
             sql = sql + " and license_plate = ? ";
             param.add(license_plate);
+        }
+        if(gps != null && !"".equals(gps.trim())) {
+            sql = sql + " and gps = ? ";
+            param.add(gps);
+        }
+        if(km_begin != null && !"".equals(km_begin.trim()) && km_end != null && !"".equals(km_end)) {
+            sql = sql + " and km between ? and ? ";
+            param.add(km_begin);
+            param.add(km_end);
+        } else {
+            if(km_begin != null && !"".equals(km_begin.trim())) {
+                sql = sql + " and km > ? ";
+                param.add(km_begin);
+            }
+            if(km_end != null && !"".equals(km_end)) {
+                sql = sql + " and km < ? ";
+                param.add(km_end);
+            }
         }
         sql = sql + " order by id desc limit ?,?";
         param.add(start);
