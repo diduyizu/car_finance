@@ -141,6 +141,7 @@ public class VehicleManageDao extends BaseJdbcDaoImpl {
                 license_plate , card_at , limited_at , guide_price , vehicle_price , vehicle_tax , insurance_company , strong_insurance ,
                 vehicle_vessel_tax , strong_insurance_expire_at , business_insurance , business_insurance_expire_at , remark , create_by , original_org ,
                 km , maintian_on_km , gps , current_city , current_shop , lease_status , peccancy_status };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().update(sql , o);
     }
 
@@ -193,6 +194,7 @@ public class VehicleManageDao extends BaseJdbcDaoImpl {
                 "values (?,?,?,?,?,?,?,?,?,?,?)";
         Object[] o = new Object[] { carframe_no , engine_no , license_plate , insurance_company , strong_insurance ,
                 vehicle_vessel_tax , strong_insurance_expire_at , business_insurance , business_insurance_expire_at , remark , create_by };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().update(sql, o);
     }
 
@@ -218,6 +220,7 @@ public class VehicleManageDao extends BaseJdbcDaoImpl {
                 "where carframe_no = ? and engine_no = ? and license_plate = ?";
         Object[] o = new Object[] { insurance_company , strong_insurance , vehicle_vessel_tax , strong_insurance_expire_at , business_insurance , business_insurance_expire_at ,
                 carframe_no , engine_no , license_plate};
+        logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().update(sql, o);
 
      }
@@ -268,6 +271,7 @@ public class VehicleManageDao extends BaseJdbcDaoImpl {
                 "values (?,?,?,?,?,?,?,?,?,?,?)";
         Object[] o = new Object[] { carframe_no , engine_no , license_plate , peccancy_at , peccancy_place ,
                 peccancy_reason , score , status , create_by , peccancy_price , arbitration };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().update(sql , o);
     }
 

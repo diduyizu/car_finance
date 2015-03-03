@@ -65,6 +65,7 @@ public class StoreManageDao extends BaseJdbcDaoImpl {
         long store_id = this.commonDao.getNextVal("StoreSeq");
         String sql = "insert into sys_org(org_id , org_name , pid , org_type , org_province , org_city , org_country , org_address) values (?,?,?,?,?,?,?,?)";
         Object[] o = new Object[] { store_id , store_name , pid , store_type ,  province_id , city_id , country_id , store_address };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().update(sql , o);
     }
 

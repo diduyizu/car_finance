@@ -163,7 +163,7 @@
                     strong_insurance:strong_insurance,vehicle_vessel_tax:vehicle_vessel_tax,strong_insurance_expire_at:strong_insurance_expire_at,
                     business_insurance:business_insurance,business_insurance_expire_at:business_insurance_expire_at,remark:remark},
                 success:function(data){
-                    if(data == 1){
+                    if(data > 0){
                         alert("成功");
                         location.reload();
                     } else {
