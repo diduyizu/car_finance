@@ -474,7 +474,7 @@ public class VehicleManageController {
      * @return
      */
     @RequestMapping(value = "/insuranceremind/index" , method = {RequestMethod.GET , RequestMethod.POST})
-     public String InsuranceRemind(Model model , HttpServletRequest request , HttpServletResponse response) {
+    public String InsuranceRemind(Model model , HttpServletRequest request , HttpServletResponse response) {
         User user = (User)request.getSession().getAttribute("user");
 
         String pageindexStr = request.getParameter("page_index");//第几页
@@ -522,4 +522,54 @@ public class VehicleManageController {
         return "/module/vehiclemanage/insuranceremind/index";
     }
 
+    /**
+     * 车辆状态查询，车辆状态有：在库 ，已出库（已出库 里面有 零租出库的，产权租赁出库的） ，待出库
+     * @param model
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/leasestatus/index" , method = {RequestMethod.GET , RequestMethod.POST})
+    public String leaseStatusIndex(Model model , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        String pageindexStr = request.getParameter("page_index");//第几页
+        int page_index = Integer.parseInt(StringUtils.isBlank(pageindexStr) || "0".equals(pageindexStr) ? "1" : pageindexStr);
+        int size = Integer.valueOf(appProps.get("vehicle.leasestatus.query.size").toString());//每页显示条数
+        int start = (page_index - 1) * size;
+
+        String original_org_str = request.getParameter("original_org");
+        String lease_status = request.getParameter("leasestatus");//状态
+
+        //获取用户角色列表
+        List<UserRole> user_role_list = this.commonService.getUserRoleList(user.getUser_id());
+        long original_org;
+        if(original_org_str == null || "".equals(original_org_str)) {
+            original_org = user_role_list.get(0).getOrg_id();
+        } else {
+            original_org = Long.valueOf(original_org_str);
+        }
+
+        Map<String , Object> map = this.vehicleManageService.getVehicleLeaseStatusList(original_org , lease_status , start , size);
+        long total = (Long)map.get("total");;
+        List<VehicleInfo> vehicle_list = (List<VehicleInfo>)map.get("vehicle_lease_status_list");
+
+        long temp = (total - 1) <= 0 ? 0 : (total - 1);
+        int pages = Integer.parseInt(Long.toString(temp / size)) + 1;
+        int prepages = (page_index - 1) <= 0 ? 1 : (page_index - 1);
+        int nextpages = (page_index + 1) >= pages ? pages : (page_index + 1);
+
+        model.addAttribute("current_page" , page_index);
+        model.addAttribute("pages" , pages);
+        model.addAttribute("prepage" , prepages);
+        model.addAttribute("nextpage" , nextpages);
+        model.addAttribute("page_url" , request.getRequestURI());
+
+        model.addAttribute("original_org" , original_org);
+        model.addAttribute("lease_status" , lease_status);
+
+        model.addAttribute("user_role_list" , user_role_list);
+        model.addAttribute("vehicle_list" , vehicle_list);
+        return "/module/vehiclemanage/leasestatus/index";
+    }
 }

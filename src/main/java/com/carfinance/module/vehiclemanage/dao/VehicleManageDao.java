@@ -330,4 +330,47 @@ public class VehicleManageDao extends BaseJdbcDaoImpl {
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().query(sql, o, new VehicleInfoRowMapper());
     }
+
+    /**
+     * 获取某组织下，某一车辆状态的车辆总数
+     * @param original_org
+     * @param lease_status
+     * @return
+     */
+    public long getVehicleLeaseStatusCount(long original_org , String lease_status) {
+        String sql;
+        Object[] o;
+        if(lease_status == null || "".equals(lease_status)) {
+            sql = "select count(1) from vehicle_info where original_org = ?";
+            o = new Object[] { original_org };
+        } else {
+            sql = "select count(1) from vehicle_info where original_org = ? and lease_status = ?";
+            o = new Object[] { original_org , lease_status };
+        }
+
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().queryForLong(sql, o);
+    }
+
+    /**
+     * 获取某组织下，某一车辆状态的车辆列表
+     * @param original_org
+     * @param lease_status
+     * @param start
+     * @param size
+     * @return
+     */
+    public List<VehicleInfo> getVehicleLeaseStatusList(long original_org , String lease_status , int start , int size) {
+        String sql;
+        Object[] o;
+        if(lease_status == null || "".equals(lease_status)) {
+            sql = "select * from vehicle_info where original_org = ? order by id desc limit ?,?";
+            o = new Object[] { original_org , start , size };
+        } else {
+            sql = "select * from vehicle_info where original_org = ? and lease_status = ? order by id desc limit ?,?";
+            o = new Object[] { original_org , lease_status , start , size };
+        }
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().query(sql, o, new VehicleInfoRowMapper());
+    }
 }

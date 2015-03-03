@@ -201,4 +201,21 @@ public class VehicleManageService {
         return map;
     }
 
+    /**
+     *
+     * @param original_org
+     * @param lease_status
+     * @param start
+     * @param size
+     * @return
+     */
+    public Map<String , Object> getVehicleLeaseStatusList(long original_org , String lease_status , int start , int size) {
+        long total = this.vehicleManageDao.getVehicleLeaseStatusCount(original_org , lease_status);//某门店下，某状态下的车辆总数
+        List<VehicleInfo> vehicle_lease_status_list = this.vehicleManageDao.getVehicleLeaseStatusList(original_org, lease_status , start, size);//某门店下，某状态下的车辆列表
+        Map<String , Object> map = new HashMap<String, Object>();
+        map.put("total" , total);
+        map.put("vehicle_lease_status_list" , vehicle_lease_status_list);
+        return map;
+    }
+
 }
