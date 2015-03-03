@@ -63,9 +63,9 @@ public class CustomerManageDao extends BaseJdbcDaoImpl {
         return this.getJdbcTemplate().query(sql, o, new CustomerInfoRowMapper());
     }
 
-    public int addCustomerInfo(String identity_id , String customer_name , String customer_dn , String customer_email , long create_by) {
-        String sql = "insert into customer_info(identity_id , customer_name , customer_dn , customer_email , create_by) values (?,?,?,?,?)";
-        Object[] o = new Object[] { identity_id , customer_name , customer_dn , customer_email , create_by };
+    public int addCustomerInfo(String identity_id , String customer_name , String customer_dn , String customer_email , String customer_type , long create_by) {
+        String sql = "insert into customer_info(identity_id , customer_name , customer_dn , customer_email , customer_type , create_by) values (?,?,?,?,?,?)";
+        Object[] o = new Object[] { identity_id , customer_name , customer_dn , customer_email , customer_type , create_by };
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().update(sql , o);
     }
@@ -81,9 +81,9 @@ public class CustomerManageDao extends BaseJdbcDaoImpl {
         }
     }
 
-    public int modifyCustomerInfo(long id , String identity_id , String customer_name , String customer_dn , String customer_email , long update_by) {
-        String sql = "update customer_info t set t.identity_id = ? , t.customer_name = ? , t.customer_dn = ? , t.customer_email = ? , t.update_by = ? where t.id = ?";
-        Object[] o = new Object[] { identity_id , customer_name , customer_dn , customer_email , update_by , id };
+    public int modifyCustomerInfo(long id , String identity_id , String customer_name , String customer_dn , String customer_email , String customer_type , long update_by) {
+        String sql = "update customer_info t set t.identity_id = ? , t.customer_name = ? , t.customer_dn = ? , t.customer_email = ? , t.customer_type = ? , t.update_by = ? where t.id = ?";
+        Object[] o = new Object[] { identity_id , customer_name , customer_dn , customer_email , customer_type , update_by , id };
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().update(sql , o);
     }

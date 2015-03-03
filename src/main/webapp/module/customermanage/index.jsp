@@ -43,19 +43,21 @@
 <table class="table table-bordered table-hover definewidth m10">
     <thead>
         <tr>
-            <th>身份证</th>
             <th>客户姓名</th>
+            <th>身份证</th>
             <th>客户手机</th>
             <th>客户邮箱</th>
+            <th>客户类型</th>
             <th>操作</th>
         </tr>
     </thead>
     <c:forEach var="customer" items="${customer_list}" varStatus="status">
         <tr>
-            <td>${customer.identity_id}</td>
             <td>${customer.customer_name}</td>
+            <td>${customer.identity_id}</td>
             <td>${customer.customer_dn}</td>
             <td>${customer.customer_email}</td>
+            <td>${customer.customer_type}</td>
             <td><a href="${ctx}/customer/info/modify?id=${customer.id}">修改</a></td>
         </tr>
     </c:forEach>

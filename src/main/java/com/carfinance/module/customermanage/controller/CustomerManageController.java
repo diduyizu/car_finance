@@ -91,8 +91,9 @@ public class CustomerManageController {
         String customer_name = request.getParameter("customer_name");
         String customer_dn = request.getParameter("customer_dn");
         String customer_email= request.getParameter("customer_email");
+        String customer_type= request.getParameter("customer_type");
 
-        return this.customerManageService.addCustomerInfo(identity_id , customer_name , customer_dn , customer_email , user.getUser_id());
+        return this.customerManageService.addCustomerInfo(identity_id , customer_name , customer_dn , customer_email , customer_type ,  user.getUser_id());
     }
 
     @RequestMapping(value = "/info/modify" , method = RequestMethod.GET)
@@ -116,7 +117,8 @@ public class CustomerManageController {
         String customer_name = request.getParameter("customer_name");
         String customer_dn = request.getParameter("customer_dn");
         String customer_email= request.getParameter("customer_email");
+        String customer_type= request.getParameter("customer_type");
 
-        return this.customerManageService.modifyCustomerInfo(id , identity_id , customer_name , customer_dn , customer_email , user.getUser_id());
+        return this.customerManageService.modifyCustomerInfo(id , identity_id , customer_name , customer_dn , customer_email , customer_type , user.getUser_id());
     }
 }

@@ -50,9 +50,9 @@ public class CustomerManageService {
     }
 
 
-    public int addCustomerInfo(String identity_id , String customer_name , String customer_dn , String customer_email , long create_by) {
+    public int addCustomerInfo(String identity_id , String customer_name , String customer_dn , String customer_email , String customer_type , long create_by) {
         try{
-            return this.customerManageDao.addCustomerInfo(identity_id , customer_name , customer_dn , customer_email , create_by);
+            return this.customerManageDao.addCustomerInfo(identity_id , customer_name , customer_dn , customer_email , customer_type , create_by);
         } catch (Exception e) {
             logger.info(e.getMessage() , e);
             return 0;
@@ -63,9 +63,9 @@ public class CustomerManageService {
         return this.customerManageDao.getCustomrInfobyId(id);
     }
 
-    public int modifyCustomerInfo(long id , String identity_id , String customer_name , String customer_dn , String customer_email , long create_by) {
+    public int modifyCustomerInfo(long id , String identity_id , String customer_name , String customer_dn , String customer_email , String customer_type , long create_by) {
         try{
-            return this.customerManageDao.modifyCustomerInfo(id , identity_id , customer_name , customer_dn , customer_email , create_by);
+            return this.customerManageDao.modifyCustomerInfo(id , identity_id , customer_name , customer_dn , customer_email , customer_type , create_by);
         } catch (Exception e) {
             logger.info(e.getMessage() , e);
             return 0;

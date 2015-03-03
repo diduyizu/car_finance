@@ -15,6 +15,15 @@ public class CustomerInfo implements Serializable{
     private long create_by;
     private Date update_at;
     private long update_by;
+    private String customer_type;
+
+    public String getCustomer_type() {
+        return customer_type;
+    }
+
+    public void setCustomer_type(String customer_type) {
+        this.customer_type = customer_type;
+    }
 
     public Date getCreate_at() {
         return create_at;

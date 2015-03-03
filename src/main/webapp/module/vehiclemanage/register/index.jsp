@@ -55,9 +55,9 @@
     GPS状态：
     <select id="gps" name="gps">
         <option value="">全部</option>
-        <option value="正常">正常</option>
-        <option value="异常">异常</option>
-        <option value="未安装">未安装</option>
+        <option value="正常" <c:if test="${gps == '正常'}">selected="selected"</c:if>>正常</option>
+        <option value="异常" <c:if test="${gps == '异常'}">selected="selected"</c:if>>异常</option>
+        <option value="未安装" <c:if test="${gps == '未安装'}">selected="selected"</c:if>>未安装</option>
     </select>
     公里数：
     <input type="text" name="km_begin" id="km_begin"class="abc input-default" placeholder="" value="${km_begin}">到

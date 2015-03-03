@@ -41,12 +41,12 @@
     <form class="definewidth m20">
         <table class="table table-bordered table-hover definewidth m10">
             <tr>
-                <td class="tableleft">身份证</td>
-                <td><input type="text" name="identity_id" id="identity_id" required="true"/></td>
-            </tr>
-            <tr>
                 <td width="10%" class="tableleft">姓名</td>
                 <td><input type="text" name="customer_name" id="customer_name" required="true"/></td>
+            </tr>
+            <tr>
+                <td class="tableleft">身份证</td>
+                <td><input type="text" name="identity_id" id="identity_id" required="true"/></td>
             </tr>
             <tr>
                 <td class="tableleft">手机号</td>
@@ -55,6 +55,15 @@
             <tr>
                 <td class="tableleft">邮箱</td>
                 <td><input type="text" name="customer_email" id="customer_email" required="true"/></td>
+            </tr>
+            <tr>
+                <td class="tableleft">客户类型</td>
+                <td>
+                    <select id="customer_type" name="customer_type">
+                        <option value="个人用户">个人用户</option>
+                        <option value="企业用户">企业用户</option>
+                    </select>
+                </td>
             </tr>
             <tr>
                 <td class="tableleft"></td>
@@ -78,11 +87,12 @@
             var customer_name=$.trim($('#customer_name').val());
             var customer_dn=$.trim($('#customer_dn').val());
             var customer_email=$.trim($('#customer_email').val());
+            var customer_type=$.trim($('#customer_type').val());
 
             $.ajax({
                 url:"${ctx}/customer/info/doadd",
                 type: "post",
-                data:{identity_id:identity_id,customer_name:customer_name,customer_dn:customer_dn,customer_email:customer_email},
+                data:{identity_id:identity_id,customer_name:customer_name,customer_dn:customer_dn,customer_email:customer_email,customer_type:customer_type},
                 success:function(data){
                     if(data == 1){
                         alert("成功");

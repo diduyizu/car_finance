@@ -18,6 +18,7 @@ public class CustomerInfoRowMapper implements RowMapper<CustomerInfo>{
         customerInfo.setCreate_by(rs.getLong("create_by"));
         customerInfo.setUpdate_at(rs.getDate("update_at"));
         customerInfo.setUpdate_by(rs.getLong("update_at"));
+        customerInfo.setCustomer_type(rs.getString("customer_type"));
 
         return customerInfo;
 	}
