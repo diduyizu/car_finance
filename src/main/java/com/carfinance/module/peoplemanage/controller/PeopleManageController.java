@@ -83,7 +83,7 @@ public class PeopleManageController {
 
         String org_id_str = request.getParameter("choose_org_id");
             String user_name = request.getParameter("username");
-        List<Org> user_org_list = this.commonService.getUserOrgList(user.getUser_id());//获取用户所在组织
+        List<Org> user_org_list = this.commonService.getUserAllOrgList(user.getUser_id());//获取用户所在组织
         long org_id = (org_id_str == null || "".equals(org_id_str.trim())) ? user_org_list.get(0).getOrg_id() : Long.valueOf(org_id_str);
         Map<String , Object> map = this.peopleManageService.getOrgUserlist(org_id , user_name , start , size);//获取某一组织用户列表以及用户总数
         long total = (Long)map.get("total");;
@@ -224,7 +224,7 @@ public class PeopleManageController {
 
         String org_id_str = request.getParameter("choose_org_id");
         String user_name = request.getParameter("username");
-        List<Org> user_org_list = this.commonService.getUserOrgList(user.getUser_id());
+        List<Org> user_org_list = this.commonService.getUserAllOrgList(user.getUser_id());
         long org_id = (org_id_str == null || "".equals(org_id_str.trim())) ? user_org_list.get(0).getOrg_id() : Long.valueOf(org_id_str);
         Map<String , Object> map = this.peopleManageService.getOrgUserRolelist(org_id, user_name , start, size);
         long total = (Long)map.get("total");;

@@ -65,5 +65,10 @@ public class CacheKey {
     public static String getOrgUserListKey(long org_id) {
         return "ORG_USER_LIST_" + org_id;
     }
-	
+
+    //系统中已经被使用过的地市
+    public static String getSysUsedCityList() {
+        return "SYS_USED_CITY_LIST";
+    }
+
 }

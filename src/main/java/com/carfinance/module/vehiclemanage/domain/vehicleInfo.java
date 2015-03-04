@@ -49,6 +49,16 @@ public class VehicleInfo implements Serializable{
     private Date update_at;
     private long original_org;
 
+    private String current_city_name;
+
+    public String getCurrent_city_name() {
+        return current_city_name;
+    }
+
+    public void setCurrent_city_name(String current_city_name) {
+        this.current_city_name = current_city_name;
+    }
+
     public long getKm() {
         return km;
     }

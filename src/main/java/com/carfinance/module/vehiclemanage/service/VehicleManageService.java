@@ -1,6 +1,7 @@
 package com.carfinance.module.vehiclemanage.service;
 
 import com.carfinance.module.common.dao.CommonDao;
+import com.carfinance.module.common.domain.City;
 import com.carfinance.module.common.service.CommonService;
 import com.carfinance.module.common.service.ManageMemcacdedClient;
 import com.carfinance.module.init.service.InitService;
@@ -42,16 +43,24 @@ public class VehicleManageService {
      * 获取某组织下车辆列表
      * @param original_org
      * @param brand
-     * @param carframe_no
-     * @param engine_no
      * @param license_plate
      * @param start
      * @param size
      * @return
      */
-    public Map<String , Object> getVehicleList(long original_org , String brand , String vehicle_model , String license_plate , String gps , String km_begin , String km_end ,  int start , int size) {
-        long total = this.vehicleManageDao.getVehicleCount(original_org , brand , vehicle_model , license_plate , gps , km_begin , km_end);//门店品牌车辆总数
-        List<VehicleInfo> vehicle_list = this.vehicleManageDao.getVehicleList(original_org , brand , vehicle_model , license_plate , gps , km_begin , km_end , start , size);
+    public Map<String , Object> getVehicleList(long original_org , String current_city , String brand , String vehicle_model , String license_plate , String gps , String km_begin , String km_end , String lease_status ,  int start , int size) {
+        long total = this.vehicleManageDao.getVehicleCount(original_org , current_city , brand , vehicle_model , license_plate , gps , km_begin , km_end , lease_status);//门店品牌车辆总数
+        List<VehicleInfo> vehicle_list = this.vehicleManageDao.getVehicleList(original_org , current_city , brand , vehicle_model , license_plate , gps , km_begin , km_end , lease_status , start , size);
+        List<City> sys_used_city_list = this.commonService.getSysUsedCityList();
+        for(VehicleInfo vehicleInfo : vehicle_list) {
+            for(City city : sys_used_city_list) {
+                if(vehicleInfo.getCurrent_city() == city.getCity_id()) {
+                    vehicleInfo.setCurrent_city_name(city.getCity_name());
+                    break;
+                }
+            }
+        }
+
         Map<String , Object> map = new HashMap<String, Object>();
         map.put("total" , total);
         map.put("vehicle_list" , vehicle_list);

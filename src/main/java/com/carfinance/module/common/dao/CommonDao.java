@@ -119,4 +119,27 @@ public class CommonDao extends BaseJdbcDaoImpl{
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().query(sql , o  , new OrgRowMapper());
     }
+
+    /**
+     * 获取系统中已经被使用过的地市
+     * @return
+     */
+    public List<City> getSysUsedCityList() {
+        String sql="select * from sys_city where status = 1 order by province_id , city_id";
+        Object[] o = new Object[] { };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().query(sql , o  , new CityRowMapper());
+    }
+
+    /**
+     * 获取子组织
+     * @param parent_org_ids
+     * @return
+     */
+    public List<Org> getUserSubOrgList(String parent_org_ids) {
+        String sql="SELECT b.* FROM sys_org b where pid in (?) order by b.pid , b.org_type";
+        Object[] o = new Object[] { parent_org_ids };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().query(sql , o  , new OrgRowMapper());
+    }
 }

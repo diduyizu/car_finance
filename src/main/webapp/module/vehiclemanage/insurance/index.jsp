@@ -36,13 +36,13 @@
 <body>
 <form class="form-inline definewidth m20" action="${ctx}/vehicle/insurance/index" method="post">
     门店：
-    <select id="original_org">
-        <c:forEach var="user_role" items="${user_role_list}" varStatus="status">
-            <c:if test="${user_role.org_id == original_org}">
-                <option value="${user_role.org_id}" selected="selected">${user_role.org_name}</option>
+    <select id="original_org" name="original_org">
+        <c:forEach var="org" items="${user_all_org_list}" varStatus="status">
+            <c:if test="${org.org_id == original_org}">
+                <option value="${org.org_id}" selected="selected">${org.org_name}</option>
             </c:if>
-            <c:if test="${user_role.org_id != original_org}">
-                <option value="${user_role.org_id}">${user_role.org_name}</option>
+            <c:if test="${org.org_id != original_org}">
+                <option value="${org.org_id}">${org.org_name}</option>
             </c:if>
         </c:forEach>
     </select>

@@ -56,30 +56,30 @@ public class VehicleManageController {
         int start = (page_index - 1) * size;
 
         String original_org_str = request.getParameter("original_org");
+        String current_city = request.getParameter("current_city");
         String brand = request.getParameter("brand");
         String vehicle_model = request.getParameter("model");
         String license_plate = request.getParameter("license_plate");
         String gps = request.getParameter("gps");
         String km_begin = request.getParameter("km_begin");
         String km_end = request.getParameter("km_end");
+        String lease_status = request.getParameter("lease_status");
+
+        List<Org> user_all_org_list = this.commonService.getUserAllOrgList(user.getUser_id());
 
         //获取用户角色列表
-        List<UserRole> user_role_list = this.commonService.getUserRoleList(user.getUser_id());
-        long original_org;
+//        List<UserRole> user_role_list = this.commonService.getUserRoleList(user.getUser_id());
+        long original_org = (original_org_str == null || "".equals(original_org_str.trim())) ? user_all_org_list.get(0).getOrg_id() : Long.valueOf(original_org_str);
         String original_org_name = "";
-        if(original_org_str == null || "".equals(original_org_str)) {
-            original_org = user_role_list.get(0).getOrg_id();
-        } else {
-            original_org = Long.valueOf(original_org_str);
-        }
-        for(UserRole userRole : user_role_list) {
-            if(userRole.getOrg_id() == original_org) {
-                original_org_name = userRole.getOrg_name();
+        for(Org org : user_all_org_list) {
+            if(org.getOrg_id() == original_org) {
+                original_org_name = org.getOrg_name();
                 break;
             }
         }
 
-        Map<String , Object> map = this.vehicleManageService.getVehicleList(original_org , brand , vehicle_model , license_plate , gps , km_begin , km_end , start , size);
+        List<City> sys_used_city_list = this.commonService.getSysUsedCityList();
+        Map<String , Object> map = this.vehicleManageService.getVehicleList(original_org , current_city , brand , vehicle_model , license_plate , gps , km_begin , km_end , lease_status , start , size);
 
         long total = (Long)map.get("total");;
         List<VehicleInfo> vehicle_list = (List<VehicleInfo>)map.get("vehicle_list");
@@ -95,6 +95,7 @@ public class VehicleManageController {
         model.addAttribute("nextpage" , nextpages);
         model.addAttribute("page_url" , request.getRequestURI());
 
+        model.addAttribute("current_city" , current_city);
         model.addAttribute("original_org" , original_org);
         model.addAttribute("original_org_name" , original_org_name);
         model.addAttribute("brand" , brand);
@@ -104,7 +105,9 @@ public class VehicleManageController {
         model.addAttribute("km_begin" , km_begin);
         model.addAttribute("km_end" , km_end);
 
-        model.addAttribute("user_role_list" , user_role_list);
+        model.addAttribute("sys_used_city_list" , sys_used_city_list);
+//        model.addAttribute("user_role_list" , user_role_list);
+        model.addAttribute("user_all_org_list" , user_all_org_list);
         model.addAttribute("vehicle_list" , vehicle_list);
         return "/module/vehiclemanage/register/index";
     }
@@ -212,15 +215,17 @@ public class VehicleManageController {
         String license_plate = request.getParameter("license_plate");
 
         //获取用户角色列表
-        List<UserRole> user_role_list = this.commonService.getUserRoleList(user.getUser_id());
-        long original_org;
-        if(original_org_str == null || "".equals(original_org_str)) {
-            original_org = user_role_list.get(0).getOrg_id();
-        } else {
-            original_org = Long.valueOf(original_org_str);
-        }
+//        List<UserRole> user_role_list = this.commonService.getUserRoleList(user.getUser_id());
+//        long original_org;
+//        if(original_org_str == null || "".equals(original_org_str)) {
+//            original_org = user_role_list.get(0).getOrg_id();
+//        } else {
+//            original_org = Long.valueOf(original_org_str);
+//        }
+        List<Org> user_all_org_list = this.commonService.getUserAllOrgList(user.getUser_id());
+        long original_org = (original_org_str == null || "".equals(original_org_str.trim())) ? user_all_org_list.get(0).getOrg_id() : Long.valueOf(original_org_str);
 
-        Map<String , Object> map = this.vehicleManageService.getVehicleList(original_org , brand , null , license_plate , null , null , null , start , size);
+        Map<String , Object> map = this.vehicleManageService.getVehicleList(original_org , null , brand , null , license_plate , null , null , null , null , start , size);
 
         long total = (Long)map.get("total");;
         List<VehicleInfo> vehicle_list = (List<VehicleInfo>)map.get("vehicle_list");
@@ -240,7 +245,8 @@ public class VehicleManageController {
         model.addAttribute("brand" , brand);
         model.addAttribute("license_plate" , license_plate);
 
-        model.addAttribute("user_role_list" , user_role_list);
+//        model.addAttribute("user_role_list" , user_role_list);
+        model.addAttribute("user_all_org_list" , user_all_org_list);
         model.addAttribute("vehicle_list" , vehicle_list);
         return "/module/vehiclemanage/insurance/index";
     }
@@ -348,15 +354,17 @@ public class VehicleManageController {
         String license_plate = request.getParameter("license_plate");
 
         //获取用户角色列表
-        List<UserRole> user_role_list = this.commonService.getUserRoleList(user.getUser_id());
-        long original_org;
-        if(original_org_str == null || "".equals(original_org_str)) {
-            original_org = user_role_list.get(0).getOrg_id();
-        } else {
-            original_org = Long.valueOf(original_org_str);
-        }
+//        List<UserRole> user_role_list = this.commonService.getUserRoleList(user.getUser_id());
+//        long original_org;
+//        if(original_org_str == null || "".equals(original_org_str)) {
+//            original_org = user_role_list.get(0).getOrg_id();
+//        } else {
+//            original_org = Long.valueOf(original_org_str);
+//        }
+        List<Org> user_all_org_list = this.commonService.getUserAllOrgList(user.getUser_id());
+        long original_org = (original_org_str == null || "".equals(original_org_str.trim())) ? user_all_org_list.get(0).getOrg_id() : Long.valueOf(original_org_str);
 
-        Map<String , Object> map = this.vehicleManageService.getVehicleList(original_org , brand , null , license_plate , null , null , null , start , size);
+        Map<String , Object> map = this.vehicleManageService.getVehicleList(original_org , null , brand , null , license_plate , null , null , null , null , start , size);
 
         long total = (Long)map.get("total");;
         List<VehicleInfo> vehicle_list = (List<VehicleInfo>)map.get("vehicle_list");
@@ -376,7 +384,8 @@ public class VehicleManageController {
         model.addAttribute("brand" , brand);
         model.addAttribute("license_plate" , license_plate);
 
-        model.addAttribute("user_role_list" , user_role_list);
+//        model.addAttribute("user_role_list" , user_role_list);
+        model.addAttribute("user_all_org_list" , user_all_org_list);
         model.addAttribute("vehicle_list" , vehicle_list);
         return "/module/vehiclemanage/peccancy/index";
     }

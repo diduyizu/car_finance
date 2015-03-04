@@ -31,11 +31,15 @@ public class VehicleManageDao extends BaseJdbcDaoImpl {
      * @param brand
      * @return
      */
-    public long getVehicleCount(long original_org , String brand , String vehicle_model , String license_plate , String gps , String km_begin , String km_end) {
+    public long getVehicleCount(long original_org , String current_city , String brand , String vehicle_model , String license_plate , String gps , String km_begin , String km_end , String lease_status) {
         String sql = "select count(1) from vehicle_info where original_org = ? ";
         List<Object> param = new ArrayList<Object>();
         param.add(original_org);
 
+        if(current_city != null && !"".equals(current_city.trim())) {
+            sql = sql + " and current_city = ? ";
+            param.add(current_city);
+        }
         if(brand != null && !"".equals(brand.trim())) {
             sql = sql + " and brand = ? ";
             param.add(brand);
@@ -65,6 +69,10 @@ public class VehicleManageDao extends BaseJdbcDaoImpl {
                 sql = sql + " and km < ? ";
                 param.add(km_end);
             }
+        }
+        if(lease_status != null && !"".equals(lease_status.trim())) {
+            sql = sql + " and lease_status = ? ";
+            param.add(lease_status);
         }
 
         Object[] o = new Object[param.size()];
@@ -83,11 +91,15 @@ public class VehicleManageDao extends BaseJdbcDaoImpl {
      * @param size
      * @return
      */
-    public List<VehicleInfo> getVehicleList(long original_org , String brand , String vehicle_model , String license_plate , String gps , String km_begin , String km_end ,  int start , int size) {
+    public List<VehicleInfo> getVehicleList(long original_org , String current_city , String brand , String vehicle_model , String license_plate , String gps , String km_begin , String km_end , String lease_status ,  int start , int size) {
         String sql = "select * from vehicle_info where original_org = ? ";
         List<Object> param = new ArrayList<Object>();
         param.add(original_org);
 
+        if(current_city != null && !"".equals(current_city.trim())) {
+            sql = sql + " and current_city = ? ";
+            param.add(current_city);
+        }
         if(brand != null && !"".equals(brand.trim())) {
             sql = sql + " and brand = ? ";
             param.add(brand);
@@ -117,6 +129,10 @@ public class VehicleManageDao extends BaseJdbcDaoImpl {
                 sql = sql + " and km < ? ";
                 param.add(km_end);
             }
+        }
+        if(lease_status != null && !"".equals(lease_status.trim())) {
+            sql = sql + " and lease_status = ? ";
+            param.add(lease_status);
         }
         sql = sql + " order by id desc limit ?,?";
         param.add(start);

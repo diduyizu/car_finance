@@ -173,9 +173,9 @@ public class CommonService {
      * @param user_id
      * @return
      */
-    public List<Org> getUserOrgList(long user_id) {
-        return this.commonDao.getUserOrgList(user_id);
-    }
+//    public List<Org> getUserOrgList(long user_id) {
+//        return this.commonDao.getUserOrgList(user_id);
+//    }
 
     /**
      * 获取枚举表中某一类型的枚举值
@@ -195,5 +195,78 @@ public class CommonService {
             map.put(en.getFiel_name() , tmp_list);
         }
         return map.get(fiel_name);
+    }
+
+    /**
+     * 获取系统中已经被使用过的地市
+     * 已经被使用过的判断为：
+     *
+     * @return
+     */
+    public List<City> getSysUsedCityList() {
+        String key = CacheKey.getSysUsedCityList();
+        List<City> city_list = (List<City>)memcachedClient.get(key);
+        if(city_list == null) {
+            city_list = commonDao.getSysUsedCityList();
+            memcachedClient.set(key, 60*60, city_list);
+        }
+        return city_list;
+    }
+
+    /**
+     * 递归查找org_list下所有org，放到sub_org_list中返回
+     * @param org_list
+     * @param sub_org_list
+     * @return
+     */
+    private List<Org> getUserSubOrgList(List<Org> org_list , List<Org> sub_org_list) {
+        String all_orgid = "";
+        for(Org org : org_list) {
+            if(org.getOrg_type() < 14) {//小于14的，才会存在子门店
+                if("".equals(all_orgid)) {
+                    all_orgid = org.getOrg_id()+"";
+                } else {
+                    all_orgid = all_orgid + "," + org.getOrg_id();
+                }
+            }
+        }
+        //获取当前用户的所在组织的所有子门店
+        if(!"".equals(all_orgid)) {
+            List<Org> sub_tmp = this.commonDao.getUserSubOrgList(all_orgid);
+            sub_org_list.addAll(sub_tmp);
+            this.getUserSubOrgList(sub_tmp, sub_org_list);
+        }
+        return sub_org_list;
+    }
+
+    /**
+     * 获取用户可操作的所有门店列表
+     * 树状结构关系
+     * 如果用户所在某个门店，下面有管辖子门店，则子门店一并返回
+     * @return
+     */
+    public List<Org> getUserAllOrgList(long user_id) {
+        //首先，先要获取该用户所在组织，然后判断该组织是否有子门店
+        List<Org> org_list = this.commonDao.getUserOrgList(user_id);//用户当前所在门店
+        List<Org> sub_list = new ArrayList<Org>();
+        sub_list = this.getUserSubOrgList(org_list , sub_list);//用户所在门店的所有子门店
+
+        //整合所有该用户的门店，包括父门店、子门店
+        List<Org> user_all_org_list = new ArrayList<Org>();
+        user_all_org_list.addAll(org_list);
+        for(Org sub_org : sub_list) {
+            boolean flag = false;//是否有重复的
+            for(Org org : org_list) {
+                if(org.getOrg_id() == sub_org.getOrg_id()) {
+                    flag = true;
+                    break;
+                }
+            }
+            if(!flag) {
+                user_all_org_list.add(sub_org);
+            }
+        }
+
+        return user_all_org_list;
     }
 }
