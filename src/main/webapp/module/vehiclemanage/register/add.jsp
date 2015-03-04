@@ -203,7 +203,7 @@
             </tr>
             <tr>
                 <td class="tableleft"></td>
-                <td>
+                <td colspan="5">
                     <button type="button" class="btn btn-primary" id="save">保存</button> &nbsp;&nbsp;
                     <button type="button" class="btn btn-success" id="backid">返回列表</button>
                 </td>
