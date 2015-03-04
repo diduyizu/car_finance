@@ -88,13 +88,10 @@
 <table class="table table-bordered table-hover definewidth m10">
     <thead>
         <tr>
-            <th>序号</th>
-            <th>归属门店</th>
+            <th>车牌</th>
             <th>当前所在地市</th>
             <th>品牌</th>
             <th>车型</th>
-            <th>车架号</th>
-            <th>发动机号</th>
             <th>保养剩余公里数</th>
             <th>公里数</th>
             <th>GPS状态</th>
@@ -103,13 +100,10 @@
     </thead>
     <c:forEach var="vehicle" items="${vehicle_list}" varStatus="status">
         <tr>
-            <td>${vehicle.id}</td>
-            <td>${original_org_name}</td>
+            <td><a href="javascript:;">${vehicle.license_plate}</a></td>
             <td>${vehicle.current_city_name}</td>
             <td>${vehicle.brand}</td>
             <td>${vehicle.model}</td>
-            <td>${vehicle.carframe_no}</td>
-            <td>${vehicle.engine_no}</td>
             <td>${vehicle.maintian_on_km}</td>
             <td>${vehicle.km}</td>
             <td>${vehicle.gps}</td>

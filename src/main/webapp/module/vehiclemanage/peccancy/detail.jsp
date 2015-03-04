@@ -40,9 +40,9 @@
 <table class="table table-bordered table-hover definewidth m10">
     <thead>
         <tr>
+            <th>车牌号</th>
             <th>车架号</th>
             <th>发动机号</th>
-            <th>车牌号</th>
             <th>违章时间</th>
             <th>违章地点</th>
             <th>违章原因</th>
@@ -55,9 +55,9 @@
     </thead>
     <c:forEach var="vehiclePeccancy" items="${vehiclePeccancy_list}" varStatus="status">
         <tr>
+            <td>${vehiclePeccancy.license_plate}</td>
             <td>${vehiclePeccancy.carframe_no}</td>
             <td>${vehiclePeccancy.engine_no}</td>
-            <td>${vehiclePeccancy.license_plate}</td>
             <td>${vehiclePeccancy.peccancy_at}</td>
             <td>${vehiclePeccancy.peccancy_place}</td>
             <td>${vehiclePeccancy.peccancy_reason}</td>
@@ -70,7 +70,7 @@
             <td>${vehiclePeccancy.arbitration}</td>
             <td>
                 <c:if test="${vehiclePeccancy.status == 0}">
-                    <a href="javascript:;" id="execute">处理</a>
+                    <a href="javascript:;" id="execute" value="${vehiclePeccancy.id}">处理</a>
                 </c:if>
             </td>
         </tr>
@@ -82,7 +82,7 @@
 </html>
 <script>
     $('#execute').click(function(){
-        var carframe_no = $('#carframe_no');
-        alert(carframe_no);
+        var id = $("#execute").attr("value");
+        alert(id);
     });
 </script>

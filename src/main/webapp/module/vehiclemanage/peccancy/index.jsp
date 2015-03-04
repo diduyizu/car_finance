@@ -60,9 +60,9 @@
 <table class="table table-bordered table-hover definewidth m10">
     <thead>
         <tr>
+            <th>车牌号</th>
             <th>车架号</th>
             <th>发动机号</th>
-            <th>车牌号</th>
             <th>供应商名称</th>
             <th>保险公司</th>
             <th>备注</th>
@@ -71,10 +71,10 @@
     <c:forEach var="vehicle" items="${vehicle_list}" varStatus="status">
         <tr>
             <td>
-                <a href="${ctx}/vehicle/peccancy/detail?carframe_no=${vehicle.carframe_no}">${vehicle.carframe_no}</a>
+                <a href="${ctx}/vehicle/peccancy/detail?carframe_no=${vehicle.carframe_no}">${vehicle.license_plate}</a>
             </td>
+            <td>${vehicle.carframe_no}</td>
             <td>${vehicle.engine_no}</td>
-            <td>${vehicle.license_plate}</td>
             <td>${vehicle.supplier}</td>
             <td>${vehicle.insurance_company}</td>
             <td>${vehicle.remark}</td>

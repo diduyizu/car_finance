@@ -352,7 +352,6 @@ public class VehicleManageDao extends BaseJdbcDaoImpl {
     /**
      * 获取车辆保险到期提醒列表
      * @param original_org
-     * @param brand
      * @param carframe_no
      * @param engine_no
      * @param license_plate

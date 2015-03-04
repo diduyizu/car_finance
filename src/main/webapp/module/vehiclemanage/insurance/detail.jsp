@@ -40,9 +40,9 @@
 <table class="table table-bordered table-hover definewidth m10">
     <thead>
         <tr>
+            <th>车牌号</th>
             <th>车架号</th>
             <th>发动机号</th>
-            <th>车牌号</th>
             <th>保险公司</th>
             <th>交强险</th>
             <th>车船税</th>
@@ -55,9 +55,9 @@
     </thead>
     <c:forEach var="vehicleInsurance" items="${vehicleInsurance_list}" varStatus="status">
         <tr>
+            <td>${vehicleInsurance.license_plate}</td>
             <td>${vehicleInsurance.carframe_no}</td>
             <td>${vehicleInsurance.engine_no}</td>
-            <td>${vehicleInsurance.license_plate}</td>
             <td>${vehicleInsurance.insurance_company}</td>
             <td>${vehicleInsurance.strong_insurance}</td>
             <td>${vehicleInsurance.vehicle_vessel_tax}</td>
