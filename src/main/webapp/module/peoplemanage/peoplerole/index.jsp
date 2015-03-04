@@ -35,7 +35,7 @@
 </head>
 <body>
 <form class="form-inline definewidth m20" action="${ctx}/people/peoplerole/index" method="post">
-    <select id="org_select">
+    <select id="choose_org_id" name="choose_org_id">
         <c:forEach var="org" items="${user_org_list}" varStatus="status">
             <c:if test="${org.org_id == choose_org_id}">
                 <option value="${org.org_id}" selected="selected">${org.org_name}</option>
@@ -47,14 +47,14 @@
     </select>
     真实姓名：
     <input type="text" name="username" id="username"class="abc input-default" placeholder="" value="${user_name}">&nbsp;&nbsp;
-    <input type="hidden" id="choose_org_id" name="choose_org_id" value="${choose_org_id}">
+    <%--<input type="hidden" id="choose_org_id" name="choose_org_id" value="${choose_org_id}">--%>
     <button type="submit" class="btn btn-primary">查询</button>
 </form>
 <table class="table table-bordered table-hover definewidth m10">
     <thead>
         <tr>
             <th>真实姓名</th>
-            <th>用户所在组织</th>
+            <th>用户所在门店</th>
             <th>用户角色</th>
             <th>操作</th>
         </tr>
@@ -85,8 +85,4 @@
 			window.location.href=url;
 		}
 	}
-
-    $('#org_select').change(function(){
-        window.location.href="${ctx}/people/peoplerole/index?choose_org_id="+choose_org_id;
-    });
 </script>

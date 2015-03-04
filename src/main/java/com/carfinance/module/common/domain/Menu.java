@@ -14,6 +14,15 @@ public class Menu implements Serializable{
     private String type;//类型
     private String css;//
 	private String status;
+    private long home_page_id;//默认首页id
+
+    public long getHome_page_id() {
+        return home_page_id;
+    }
+
+    public void setHome_page_id(long home_page_id) {
+        this.home_page_id = home_page_id;
+    }
 
     private int role_menu_status = 0;//角色对应于该菜单，是否有权限，0-无权限；1-有权限
 

@@ -55,10 +55,15 @@
                 <td><input type="text" name="nice_name" id="nice_name"/></td>
             </tr>
             <tr>
-                <td class="tableleft">组织名称</td>
+                <td class="tableleft">门店名称</td>
                 <td>
-                    <input type="text" name="org_name" id="org_name" value="${org.org_name}" readonly required="true"/>
-                    <input type="hidden" name="org_id" id="org_id" value="${org.org_id}" required="true"/>
+                    <%--<input type="text" name="org_name" id="org_name" value="${org.org_name}" readonly required="true"/>--%>
+                    <%--<input type="hidden" name="org_id" id="org_id" value="${org.org_id}" required="true"/>--%>
+                    <select id="org_id" name="org_id">
+                        <c:forEach var="org" items="${user_all_org_list}" varStatus="status">
+                            <option value="${org.org_id}">${org.org_name}</option>
+                        </c:forEach>
+                    </select>
                 </td>
             </tr>
             <tr>

@@ -82,7 +82,7 @@ public class PeopleManageController {
         int start = (page_index - 1) * size;
 
         String org_id_str = request.getParameter("choose_org_id");
-            String user_name = request.getParameter("username");
+        String user_name = request.getParameter("username");
         List<Org> user_org_list = this.commonService.getUserAllOrgList(user.getUser_id());//获取用户所在组织
         long org_id = (org_id_str == null || "".equals(org_id_str.trim())) ? user_org_list.get(0).getOrg_id() : Long.valueOf(org_id_str);
         Map<String , Object> map = this.peopleManageService.getOrgUserlist(org_id , user_name , start , size);//获取某一组织用户列表以及用户总数
@@ -119,11 +119,13 @@ public class PeopleManageController {
     public String peopleAddIndex(Model model , HttpServletRequest request , HttpServletResponse response) {
         User user = (User)request.getSession().getAttribute("user");
 
-        String org_id = request.getParameter("org_id");//当前所在组织id
-        Org org = this.peopleManageService.getOrgByOrgId(Long.valueOf(org_id));
+//        String org_id = request.getParameter("org_id");//当前所在组织id
+//        Org org = this.peopleManageService.getOrgByOrgId(Long.valueOf(org_id));
+        List<Org> user_all_org_list = this.commonService.getUserAllOrgList(user.getUser_id());
         List<Role> roleList = initService.getRole();
 
-        model.addAttribute("org" , org);
+//        model.addAttribute("org" , org);
+        model.addAttribute("user_all_org_list" , user_all_org_list);
         model.addAttribute("role_list" , roleList);
         return "/module/peoplemanage/people/add";
     }

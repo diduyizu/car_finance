@@ -60,8 +60,17 @@ public class CommonService {
                     long menu_id = menu.getMenu_id();//顶层菜单id
                     List<Menu> sub_menu_list = new ArrayList<Menu>();//子菜单
                     for(Menu sub_menu : user_all_menu_list) {
-                        if(sub_menu.getPid() == menu_id && !sub_menu_list.contains(sub_menu)) {
-                            sub_menu_list.add(sub_menu);
+                        if(sub_menu.getPid() == menu_id) {
+                            boolean isContain = false;
+                            for(Menu tmp : sub_menu_list) {
+                                if(sub_menu.getMenu_id() == tmp.getMenu_id()) {
+                                    isContain = true;
+                                    break;
+                                }
+                            }
+                            if(!isContain) {//不包含，才将本次的sub_menu加入
+                                sub_menu_list.add(sub_menu);
+                            }
                         }
                     }
 
@@ -76,7 +85,6 @@ public class CommonService {
                         sub_menu_vo_list.add(menu_vo);
                     }
 
-
                     Map<String , Object> tmp = new HashMap<String, Object>();
                     tmp.put("text" , menu.getMenu_name());
                     tmp.put("items" , sub_menu_vo_list);
@@ -84,6 +92,7 @@ public class CommonService {
                     List<Map<String , Object>> tmp_list = new ArrayList<Map<String, Object>>();
                     tmp_list.add(tmp);
                     aaa.put("id" , menu_id);
+                    aaa.put("homePage" , menu.getHome_page_id());
                     aaa.put("menu" , tmp_list);
 
                     return_list.add(aaa);

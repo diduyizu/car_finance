@@ -18,7 +18,8 @@ public class MenuRowMapper implements RowMapper<Menu>{
         menu.setType(rs.getString("type"));
         menu.setCss(rs.getString("css"));
         menu.setStatus(rs.getString("status"));
-		
+		menu.setHome_page_id(rs.getLong("home_page_id"));
+
 		return menu; 
 	}
 }

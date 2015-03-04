@@ -57,10 +57,12 @@ public class PeopleManageDao extends BaseJdbcDaoImpl {
         String sql;
         Object[] o;
         if(user_name == null || "".equals(user_name.trim())) {
-            sql = "select c.* from user_role a , sys_org b , users c where a.org_id = b.org_id and a.user_id = c.user_id and a.org_id = ? order by c.user_id limit ?,?";
+            sql = "select distinct c.user_id  , c.login_name , c.login_pwd , c.user_name , c.nick_name , c.head_url , c.birthday , c.address , c.email " +
+                    "from user_role a , sys_org b , users c where a.org_id = b.org_id and a.user_id = c.user_id and a.org_id = ? order by c.user_id limit ?,?";
             o = new Object[] { org_id , start , size };
         } else {
-            sql = "select c.* from user_role a , sys_org b , users c where a.org_id = b.org_id and a.user_id = c.user_id and a.org_id = ? and c.user_name = ? order by c.user_id limit ?,?";
+            sql = "select distinct c.user_id  , c.login_name , c.login_pwd , c.user_name , c.nick_name , c.head_url , c.birthday , c.address , c.email " +
+                    "from user_role a , sys_org b , users c where a.org_id = b.org_id and a.user_id = c.user_id and a.org_id = ? and c.user_name = ? order by c.user_id limit ?,?";
             o = new Object[] { org_id , user_name , start , size };
         }
         logger.info(sql.replaceAll("\\?", "{}"), o);

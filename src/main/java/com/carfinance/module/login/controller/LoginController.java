@@ -104,8 +104,7 @@ public class LoginController {
             List<Menu> user_top_menu_list = (List<Menu>)map.get("top_menu_ist");
             String user_menu_list = (String)map.get("menu_list");
 
-
-                    model.addAttribute("user" , user);
+            model.addAttribute("user" , user);
             model.addAttribute("user_top_menu_list" , user_top_menu_list);
             model.addAttribute("user_menu_list" , user_menu_list);
             return "/module/index";
