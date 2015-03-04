@@ -41,12 +41,12 @@ public class VehicleManageDao extends BaseJdbcDaoImpl {
             param.add(current_city);
         }
         if(brand != null && !"".equals(brand.trim())) {
-            sql = sql + " and brand = ? ";
-            param.add(brand);
+            sql = sql + " and brand like ? ";
+            param.add("%"+brand+"%");
         }
         if(vehicle_model != null && !"".equals(vehicle_model.trim())) {
-            sql = sql + " and model = ? ";
-            param.add(vehicle_model);
+            sql = sql + " and model like ? ";
+            param.add("%"+vehicle_model+"%");
         }
         if(license_plate != null && !"".equals(license_plate.trim())) {
             sql = sql + " and license_plate = ? ";
@@ -101,12 +101,12 @@ public class VehicleManageDao extends BaseJdbcDaoImpl {
             param.add(current_city);
         }
         if(brand != null && !"".equals(brand.trim())) {
-            sql = sql + " and brand = ? ";
-            param.add(brand);
+            sql = sql + " and brand like ? ";
+            param.add("%"+brand+"%");
         }
         if(vehicle_model != null && !"".equals(vehicle_model.trim())) {
-            sql = sql + " and model = ? ";
-            param.add(vehicle_model);
+            sql = sql + " and model like ? ";
+            param.add("%"+vehicle_model+"%");
         }
         if(license_plate != null && !"".equals(license_plate.trim())) {
             sql = sql + " and license_plate = ? ";
@@ -188,19 +188,19 @@ public class VehicleManageDao extends BaseJdbcDaoImpl {
                           Date limited_at , double guide_price , double vehicle_price , double vehicle_tax , String insurance_company ,
                           double strong_insurance , double vehicle_vessel_tax , Date strong_insurance_expire_at , double business_insurance ,
                           Date business_insurance_expire_at , String remark , long create_by , long original_org ,
-                          long km , long maintian_on_km , String gps , long current_city , long current_shop , String lease_status , String peccancy_status) {
+                          long km , long maintian_on_km , String gps , long current_city , long current_shop , String lease_status , String peccancy_status , long next_main_km) {
 
         String sql = "insert into vehicle_info(archive_no , inventory_no , brand , model , color , carframe_no , engine_no , registry_certificate , " +
                 "certificate_direction , loan_bank , consistency_cer , check_list , duty_paid_proof , record , buy_at , supplier , " +
                 "license_plate , card_at , limited_at , guide_price , vehicle_price , vehicle_tax , insurance_company , strong_insurance , " +
                 "vehicle_vessel_tax , strong_insurance_expire_at , business_insurance , business_insurance_expire_at , remark , create_by , " +
-                "original_org , km , maintian_on_km , gps , current_city , current_shop , lease_status , peccancy_status) " +
-                "values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                "original_org , km , maintian_on_km , gps , current_city , current_shop , lease_status , peccancy_status , next_main_km) " +
+                "values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         Object[] o = new Object[] { archive_no , inventory_no , brand , model , color , carframe_no , engine_no , registry_certificate ,
                 certificate_direction , loan_bank , consistency_cer , check_list , duty_paid_proof , record , buy_at , supplier ,
                 license_plate , card_at , limited_at , guide_price , vehicle_price , vehicle_tax , insurance_company , strong_insurance ,
                 vehicle_vessel_tax , strong_insurance_expire_at , business_insurance , business_insurance_expire_at , remark , create_by , original_org ,
-                km , maintian_on_km , gps , current_city , current_shop , lease_status , peccancy_status };
+                km , maintian_on_km , gps , current_city , current_shop , lease_status , peccancy_status , next_main_km };
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().update(sql , o);
     }

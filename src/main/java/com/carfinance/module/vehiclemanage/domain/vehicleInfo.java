@@ -48,6 +48,15 @@ public class VehicleInfo implements Serializable{
     private long update_by;
     private Date update_at;
     private long original_org;
+    private long next_main_km;//下次保养公里数
+
+    public long getNext_main_km() {
+        return next_main_km;
+    }
+
+    public void setNext_main_km(long next_main_km) {
+        this.next_main_km = next_main_km;
+    }
 
     private String current_city_name;
 

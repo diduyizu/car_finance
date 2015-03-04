@@ -53,6 +53,7 @@ public class VehicleInfoRowMapper implements RowMapper<VehicleInfo>{
         vehicleInfo.setCreate_by(rs.getLong("update_by"));
         vehicleInfo.setCreate_at(rs.getDate("update_at"));
         vehicleInfo.setOriginal_org(rs.getLong("original_org"));
+        vehicleInfo.setNext_main_km(rs.getLong("next_main_km"));
 
         return vehicleInfo;
 	}

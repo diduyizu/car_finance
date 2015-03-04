@@ -143,13 +143,8 @@
                 <td><input type="text" name="km" id="km" required="true"/></td>
                 <td class="tableleft">保养剩余公里数</td>
                 <td><input type="text" name="maintian_on_km" id="maintian_on_km" required="true"/></td>
-                <td class="tableleft">是否有违章待处理</td>
-                <td>
-                    <select id="peccancy_status" name="peccancy_status">
-                        <option value="0">无</option>
-                        <option value="1">有</option>
-                    </select>
-                </td>
+                <td class="tableleft">下次保养公里数</td>
+                <td><input type="text" name="next_main_km" id="next_main_km" required="true"/></td>
             </tr>
             <tr>
                 <td class="tableleft">GPS状态</td>
@@ -178,8 +173,15 @@
                 </td>
             </tr>
             <tr>
-                <td width="10%" class="tableleft">档案编号</td>
-                <td><input type="text" name="archive_no" id="archive_no" required="true"/></td>
+                <%--<td width="10%" class="tableleft">档案编号</td>--%>
+                <%--<td><input type="text" name="archive_no" id="archive_no" required="true"/></td>--%>
+                <td class="tableleft">是否有违章待处理</td>
+                <td>
+                    <select id="peccancy_status" name="peccancy_status">
+                        <option value="0">无</option>
+                        <option value="1">有</option>
+                    </select>
+                </td>
                 <td class="tableleft">存货编码</td>
                 <td><input type="text" name="inventory_no" id="inventory_no" required="true"/></td>
                 <td class="tableleft">检验单</td>
@@ -282,6 +284,7 @@
             var record=$.trim($('#record').val());
             var remark=$.trim($('#remark').val());
             var original_org=$('#original_org').val();
+            var next_main_km=$.trim($('#next_main_km').val());
 
             $.ajax({
                 url:"${ctx}/vehicle/register/doadd",
@@ -293,7 +296,8 @@
                     guide_price:guide_price,vehicle_price:vehicle_price,vehicle_tax:vehicle_tax,insurance_company:insurance_company,
                     strong_insurance:strong_insurance,vehicle_vessel_tax:vehicle_vessel_tax,strong_insurance_expire_at:strong_insurance_expire_at,
                     business_insurance:business_insurance,business_insurance_expire_at:business_insurance_expire_at,remark:remark,original_org:original_org,
-                    km:km , maintian_on_km:maintian_on_km , gps:gps , current_city:current_city , current_shop:current_shop , lease_status:lease_status , peccancy_status:peccancy_status},
+                    km:km , maintian_on_km:maintian_on_km , gps:gps , current_city:current_city , current_shop:current_shop ,
+                    lease_status:lease_status , peccancy_status:peccancy_status , next_main_km:next_main_km},
                 success:function(data){
                     if(data == 1){
                         alert("成功");

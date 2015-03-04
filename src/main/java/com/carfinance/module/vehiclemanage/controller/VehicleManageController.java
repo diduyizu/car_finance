@@ -183,6 +183,7 @@ public class VehicleManageController {
         String record = request.getParameter("record");
         String remark = request.getParameter("remark");
         long original_org = Long.valueOf(request.getParameter("original_org"));
+        long next_main_km = Long.valueOf(request.getParameter("next_main_km"));
 
         return this.vehicleManageService.addVehicle(archive_no , inventory_no , brand , model , color , carframe_no , engine_no ,
                 registry_certificate , certificate_direction , loan_bank , consistency_cer , check_list ,
@@ -190,7 +191,7 @@ public class VehicleManageController {
                 limited_at , guide_price , vehicle_price , vehicle_tax , insurance_company ,
                 strong_insurance , vehicle_vessel_tax , strong_insurance_expire_at , business_insurance ,
                 business_insurance_expire_at , remark , user.getUser_id() , original_org ,
-                km , maintian_on_km , gps , current_city , current_shop , lease_status , peccancy_status);
+                km , maintian_on_km , gps , current_city , current_shop , lease_status , peccancy_status , next_main_km);
     }
 
 
