@@ -12,9 +12,11 @@ import com.carfinance.module.peoplemanage.domain.OrgUserRole;
 import com.carfinance.module.peoplemanage.domain.OrgUserRoleRowMapper;
 import com.carfinance.module.storemanage.domain.Store;
 import com.carfinance.module.storemanage.domain.StoreRowMapper;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.stereotype.Repository;
 
@@ -67,6 +69,28 @@ public class StoreManageDao extends BaseJdbcDaoImpl {
         Object[] o = new Object[] { store_id , store_name , pid , store_type ,  province_id , city_id , country_id , store_address , org_type_name , org_province_name , org_city_name , org_country_name };
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().update(sql , o);
+    }
+
+    public Org getCityOrgInfo(long city_id) {
+        try{
+            String sql = "select * from sys_org where org_city = ? and org_type = 13";
+            Object[] o = new Object[] { city_id };
+            logger.info(sql.replaceAll("\\?", "{}"), o);
+            return this.getJdbcTemplate().queryForObject(sql, o, new OrgRowMapper());
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
+    }
+
+    public Org getProvinceOrgInfo(long province_id) {
+        try{
+            String sql = "select * from sys_org where org_province = ? and org_type = 12";
+            Object[] o = new Object[] { province_id };
+            logger.info(sql.replaceAll("\\?", "{}"), o);
+            return this.getJdbcTemplate().queryForObject(sql, o, new OrgRowMapper());
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
 }

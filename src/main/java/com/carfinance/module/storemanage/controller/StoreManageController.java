@@ -86,11 +86,11 @@ public class StoreManageController {
     public String addIndex(Model model , HttpServletRequest request , HttpServletResponse response) {
         User user = (User)request.getSession().getAttribute("user");
 
-        List<Enum> org_type_list = this.commonService.getEnumFielList("ORG_TYPE");
+//        List<Enum> org_type_list = this.commonService.getEnumFielList("ORG_TYPE");
         List<Enum> province_list = this.commonService.getEnumFielList("SYS_PROVINCE");
 
         model.addAttribute("province_list" , province_list);
-        model.addAttribute("org_type_list" , org_type_list);
+//        model.addAttribute("org_type_list" , org_type_list);
         return "/module/storemanage/add/index";
     }
 
@@ -113,6 +113,25 @@ public class StoreManageController {
 
         String json = JSONArray.fromObject(city_list).toString();
         return new ResponseEntity<String>(json , responseHeaders, HttpStatus.OK);
+    }
+
+    /**
+     * 根据地市id，获取该归属该地市的门店信息
+     * @param model
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/add/cityorg" , method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<String> cityOrgInfo(Model model , HttpServletRequest request , HttpServletResponse response) {
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.set("Content-Type", "text/plain;charset=utf-8");
+        User user = (User)request.getSession().getAttribute("user");
+
+        long city_id = Long.valueOf(request.getParameter("city_id"));
+        String result = this.storeManageService.getCityOrgInfo(city_id);
+        return new ResponseEntity<String>(result , responseHeaders, HttpStatus.OK);
     }
 
     /**
@@ -150,11 +169,11 @@ public class StoreManageController {
 
         long province_id = Long.valueOf(request.getParameter("province_id"));
         long city_id = Long.valueOf(request.getParameter("city_id"));
-        long country_id = Long.valueOf(request.getParameter("country_id"));
+//        long country_id = Long.valueOf(request.getParameter("country_id"));
         long store_type = Long.valueOf(request.getParameter("store_type"));
         String store_name = request.getParameter("store_name");
         String store_address = request.getParameter("store_address");
 
-        return this.storeManageService.createStore(province_id , city_id , country_id , store_type , 0 ,  store_name , store_address);
+        return this.storeManageService.createStore(province_id , city_id , store_type , store_name , store_address);
     }
 }

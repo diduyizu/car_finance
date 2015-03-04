@@ -13,6 +13,7 @@ import com.carfinance.module.storemanage.dao.StoreManageDao;
 import com.carfinance.module.storemanage.domain.Store;
 import com.carfinance.utils.DateUtil;
 import com.carfinance.utils.MD5Util;
+import net.sf.json.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,21 +51,31 @@ public class StoreManageService {
         return map;
     }
 
-    public int createStore(long province_id , long city_id , long country_id , long store_type , long pid ,  String store_name , String store_address) {
-        List<Enum> org_type_list = this.commonService.getEnumFielList("ORG_TYPE");
-        List<Enum> province_list = this.commonService.getEnumFielList("SYS_PROVINCE");
-        List<City> city_list = this.commonService.getProvinceCityList(province_id);
-        List<Country> country_list = this.commonService.getCityCountryList(city_id);
+    public int createStore(long province_id , long city_id , long store_type , String store_name , String store_address) {
+        //根据store_type计算出pid
+        //如果store_type == 13，那么根据找到province_id对应的省公司id
+        //如果store_type > 13，那么根据city_id找到对应的市公司id
+        long pid = -1;
         String org_type_name = "";
-        String org_province_name = "";
-        String org_city_name = "";
-        String org_country_name = "";
-        for(Enum e : org_type_list) {
-            if(e.getEnum_value() == store_type) {
-                org_type_name = e.getEnum_desc();
-                break;
+        if(store_type == 13) {//市公司，那么pid需要找省公司
+            Org org = this.storeManageDao.getProvinceOrgInfo(province_id);
+            org_type_name = "市公司（一类门店）";
+            pid = org.getOrg_id();
+        } else if(store_type > 13) {//二三级公司，那么需要找市公司
+            Org org = this.storeManageDao.getCityOrgInfo(city_id);
+            pid = org.getOrg_id();
+            if(store_type == 14) {
+                org_type_name = "二类门店";
+            } else if(store_type == 15) {
+                org_type_name = "三类门店";
             }
         }
+
+        List<Enum> province_list = this.commonService.getEnumFielList("SYS_PROVINCE");
+        List<City> city_list = this.commonService.getProvinceCityList(province_id);
+
+        String org_province_name = "";
+        String org_city_name = "";
         for(Enum e : province_list) {
             if(e.getEnum_value() == province_id) {
                 org_province_name = e.getEnum_desc();
@@ -77,16 +88,25 @@ public class StoreManageService {
                 break;
             }
         }
-        for(Country country : country_list) {
-            if(country.getCountry_id() == country_id) {
-                org_country_name = country.getCountry_name();
-                break;
-            }
+
+        return this.storeManageDao.createStore(province_id , city_id , 0 , store_type , pid ,  store_name , store_address , org_type_name , org_province_name , org_city_name , "");
+    }
+
+    /**
+     * 根据地市id，获取该归属该地市的门店信息
+     * @param city_id
+     * @return
+     */
+    public String getCityOrgInfo(long city_id) {
+        Map<String , Object> map = new HashMap<String, Object>();
+        Org org = this.storeManageDao.getCityOrgInfo(city_id);
+        int city_have_org = 0;
+        if(org != null) {
+            city_have_org = 1;
+            map.put("org" , org);
         }
-
-
-
-        return this.storeManageDao.createStore(province_id , city_id , country_id , store_type , pid ,  store_name , store_address , org_type_name , org_province_name , org_city_name , org_country_name);
+        map.put("city_have_org" , city_have_org);
+        return JSONArray.fromObject(map).toString();
     }
 
 }

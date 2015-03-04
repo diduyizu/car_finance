@@ -52,21 +52,26 @@
                     </select>
                 </td>
             </tr>
-            <tr>
-                <td class="tableleft">区县</td>
-                <td>
-                    <select id="country">
-                        <option value="0">---请选择---</option>
-                    </select>
-                </td>
-            </tr>
+            <%--<tr>--%>
+                <%--<td class="tableleft">区县</td>--%>
+                <%--<td>--%>
+                    <%--<select id="country">--%>
+                        <%--<option value="0">---请选择---</option>--%>
+                    <%--</select>--%>
+                <%--</td>--%>
+            <%--</tr>--%>
             <tr>
                 <td class="tableleft">门店类型</td>
                 <td>
+                    <%--<select id="store_type">--%>
+                        <%--<c:forEach var="org_type" items="${org_type_list}" varStatus="status">--%>
+                            <%--<c:if test="${org_type.enum_value > 12}">--%>
+                                <%--<option value="${org_type.enum_value}">${org_type.enum_desc}</option>--%>
+                            <%--</c:if>--%>
+                        <%--</c:forEach>--%>
+                    <%--</select>--%>
                     <select id="store_type">
-                        <c:forEach var="org_type" items="${org_type_list}" varStatus="status">
-                            <option value="${org_type.enum_value}">${org_type.enum_desc}</option>
-                        </c:forEach>
+                        <option value="0">---请选择---</option>
                     </select>
                 </td>
             </tr>
@@ -110,15 +115,20 @@
         $('#city').change(function(){
             var city_id = $(this).children('option:selected').val();
             $.ajax({
-                url:"${ctx}/store/add/citycountrylist",
+                url:"${ctx}/store/add/cityorg",
                 type: "get",
                 data:{city_id:city_id},
                 dataType:"json",
                 success:function(data){
+                    $("#store_type").empty();
                     var d=eval(data);//解析
 //                    $("#country").append($('<option value="0">---请选择---</option>'));
                     $(d).each(function(index,entity){
-                        $("#country").append($('<option value="'+entity['country_id']+'">'+entity['country_name']+'</option>'));//后台数据加到下拉框
+                        if(entity['city_have_org'] == 1) {
+                            $("#store_type").append($('<option value="14">二类门店</option>')).append($('<option value="15">三类门店</option>'));
+                        } else {
+                            $("#store_type").append($('<option value="13">市公司（一类门店）</option>'));
+                        }
                     });
                 }
             })
