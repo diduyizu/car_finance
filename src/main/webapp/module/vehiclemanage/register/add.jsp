@@ -44,8 +44,8 @@
                 <td width="10%" class="tableleft">所属门店</td>
                 <td>
                     <select id="original_org" name="original_org">
-                        <c:forEach var="user_role" items="${user_role_list}" varStatus="status">
-                            <option value="${user_role.org_id}">${user_role.org_name}</option>
+                        <c:forEach var="org" items="${user_all_org_list}" varStatus="status">
+                            <option value="${org.org_id}">${org.org_name}</option>
                         </c:forEach>
                     </select>
                 </td>
@@ -53,20 +53,16 @@
             <tr>
                 <td class="tableleft">品牌</td>
                 <td><input type="text" name="brand" id="brand" required="true"/></td>
-            </tr>
-            <tr>
                 <td class="tableleft">车型</td>
                 <td><input type="text" name="model" id="model" required="true"/></td>
-            </tr>
-            <tr>
                 <td class="tableleft">颜色</td>
                 <td><input type="text" name="color" id="color" required="true"/></td>
             </tr>
             <tr>
+                <td class="tableleft">车牌号</td>
+                <td><input type="text" name="license_plate" id="license_plate" required="true"/></td>
                 <td class="tableleft">车架号</td>
                 <td><input type="text" name="carframe_no" id="carframe_no" required="true"/></td>
-            </tr>
-            <tr>
                 <td width="10%" class="tableleft">发动机号</td>
                 <td><input type="text" name="engine_no" id="engine_no" required="true"/></td>
             </tr>
@@ -78,16 +74,6 @@
                         <span class="add-on"><i class="icon-th"></i></span>
                     </div>
                 </td>
-            </tr>
-            <tr>
-                <td class="tableleft">供应商名称</td>
-                <td><input type="text" name="supplier" id="supplier" required="true"/></td>
-            </tr>
-            <tr>
-                <td class="tableleft">车牌号</td>
-                <td><input type="text" name="license_plate" id="license_plate" required="true"/></td>
-            </tr>
-            <tr>
                 <td class="tableleft">上牌登记日期</td>
                 <td>
                     <div class="input-append date" id="card_at" data-date-format="yyyy-mm-dd">
@@ -95,8 +81,12 @@
                         <span class="add-on"><i class="icon-th"></i></span>
                     </div>
                 </td>
+                <td class="tableleft">市场指导价</td>
+                <td><input type="text" name="guide_price" id="guide_price" required="true"/></td>
             </tr>
             <tr>
+                <td class="tableleft">供应商名称</td>
+                <td><input type="text" name="supplier" id="supplier" required="true"/></td>
                 <td width="10%" class="tableleft">年审日期</td>
                 <td>
                     <div class="input-append date" id="limited_at" data-date-format="yyyy-mm-dd">
@@ -104,28 +94,12 @@
                         <span class="add-on"><i class="icon-th"></i></span>
                     </div>
                 </td>
-            </tr>
-            <tr>
-                <td class="tableleft">市场指导价</td>
-                <td><input type="text" name="guide_price" id="guide_price" required="true"/></td>
-            </tr>
-            <tr>
                 <td class="tableleft">车购价</td>
                 <td><input type="text" name="vehicle_price" id="vehicle_price" required="true"/></td>
             </tr>
             <tr>
-                <td class="tableleft">车购税</td>
-                <td><input type="text" name="vehicle_tax" id="vehicle_tax" required="true"/></td>
-            </tr>
-            <tr>
-                <td class="tableleft">保险公司</td>
-                <td><input type="text" name="insurance_company" id="insurance_company" required="true"/></td>
-            </tr>
-            <tr>
                 <td class="tableleft">交强险</td>
                 <td><input type="text" name="strong_insurance" id="strong_insurance" required="true"/></td>
-            </tr>
-            <tr>
                 <td class="tableleft">交强险到期日期</td>
                 <td>
                     <div class="input-append date" id="strong_insurance_expire_at" data-date-format="yyyy-mm-dd">
@@ -133,68 +107,6 @@
                         <span class="add-on"><i class="icon-th"></i></span>
                     </div>
                 </td>
-            </tr>
-            <tr>
-                <td class="tableleft">车船税</td>
-                <td><input type="text" name="vehicle_vessel_tax" id="vehicle_vessel_tax" required="true"/></td>
-            </tr>
-            <tr>
-                <td class="tableleft">商业险</td>
-                <td><input type="text" name="business_insurance" id="business_insurance" required="true"/></td>
-            </tr>
-            <tr>
-                <td class="tableleft">商业险到期日期</td>
-                <td>
-                    <div class="input-append date" id="business_insurance_expire_at" data-date-format="yyyy-mm-dd">
-                        <input class="span2" size="16" type="text" id="business_insurance_expire_at_date" name="business_insurance_expire_at" required="true" readonly>
-                        <span class="add-on"><i class="icon-th"></i></span>
-                    </div>
-                </td>
-            </tr>
-            <%--需要新增的--%>
-            <tr>
-                <td width="10%" class="tableleft">公里数</td>
-                <td><input type="text" name="km" id="km" required="true"/></td>
-            </tr>
-            <tr>
-                <td class="tableleft">保养剩余公里数</td>
-                <td><input type="text" name="maintian_on_km" id="maintian_on_km" required="true"/></td>
-            </tr>
-            <tr>
-                <td class="tableleft">GPS状态</td>
-                <td>
-                    <select id="gps" name="gps">
-                        <option value="正常">正常</option>
-                        <option value="异常">异常</option>
-                        <option value="未安装">未安装</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td width="10%" class="tableleft">当前所在城市</td>
-                <td>
-                    <select id="province">
-                        <option value="0">---请选择省份---</option>
-                        <c:forEach var="province" items="${province_list}" varStatus="status">
-                            <option value="${province.enum_value}">${province.enum_desc}</option>
-                        </c:forEach>
-                    </select>
-                    <select id="current_city" name="current_city">
-                        <option value="0">---请选择地市---</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td class="tableleft">当前所在门店</td>
-                <td>
-                    <select id="current_shop" name="current_shop">
-                        <c:forEach var="user_role" items="${user_role_list}" varStatus="status">
-                            <option value="${user_role.org_id}">${user_role.org_name}</option>
-                        </c:forEach>
-                    </select>
-                </td>
-            </tr>
-            <tr>
                 <td class="tableleft">车辆租赁状态</td>
                 <td>
                     <select id="lease_status" name="lease_status">
@@ -206,6 +118,31 @@
                 </td>
             </tr>
             <tr>
+                <td class="tableleft">商业险</td>
+                <td><input type="text" name="business_insurance" id="business_insurance" required="true"/></td>
+                <td class="tableleft">商业险到期日期</td>
+                <td>
+                    <div class="input-append date" id="business_insurance_expire_at" data-date-format="yyyy-mm-dd">
+                        <input class="span2" size="16" type="text" id="business_insurance_expire_at_date" name="business_insurance_expire_at" required="true" readonly>
+                        <span class="add-on"><i class="icon-th"></i></span>
+                    </div>
+                </td>
+                <td class="tableleft">贷款银行</td>
+                <td><input type="text" name="loan_bank" id="loan_bank" required="true"/></td>
+            </tr>
+            <tr>
+                <td class="tableleft">车购税</td>
+                <td><input type="text" name="vehicle_tax" id="vehicle_tax" required="true"/></td>
+                <td class="tableleft">车船税</td>
+                <td><input type="text" name="vehicle_vessel_tax" id="vehicle_vessel_tax" required="true"/></td>
+                <td class="tableleft">保险公司</td>
+                <td><input type="text" name="insurance_company" id="insurance_company" required="true"/></td>
+            </tr>
+            <tr>
+                <td width="10%" class="tableleft">公里数</td>
+                <td><input type="text" name="km" id="km" required="true"/></td>
+                <td class="tableleft">保养剩余公里数</td>
+                <td><input type="text" name="maintian_on_km" id="maintian_on_km" required="true"/></td>
                 <td class="tableleft">是否有违章待处理</td>
                 <td>
                     <select id="peccancy_status" name="peccancy_status">
@@ -214,46 +151,53 @@
                     </select>
                 </td>
             </tr>
-            <%--需要新增的--%>
+            <tr>
+                <td class="tableleft">GPS状态</td>
+                <td>
+                    <select id="gps" name="gps">
+                        <option value="正常">正常</option>
+                        <option value="异常">异常</option>
+                        <option value="未安装">未安装</option>
+                    </select>
+                </td>
+                <td width="10%" class="tableleft">当前所在城市</td>
+                <td>
+                    <select id="current_city" name="current_city">
+                        <c:forEach var="city" items="${city_list}" varStatus="status">
+                            <option value="${city.city_id}">${city.city_name}</option>
+                        </c:forEach>
+                    </select>
+                </td>
+                <td class="tableleft">当前所在门店</td>
+                <td>
+                    <select id="current_shop" name="current_shop">
+                        <c:forEach var="org" items="${user_all_org_list}" varStatus="status">
+                            <option value="${org.org_id}">${org.org_name}</option>
+                        </c:forEach>
+                    </select>
+                </td>
+            </tr>
             <tr>
                 <td width="10%" class="tableleft">档案编号</td>
                 <td><input type="text" name="archive_no" id="archive_no" required="true"/></td>
-            </tr>
-            <tr>
                 <td class="tableleft">存货编码</td>
                 <td><input type="text" name="inventory_no" id="inventory_no" required="true"/></td>
-            </tr>
-
-            <tr>
-                <td class="tableleft">登记证书</td>
-                <td><input type="text" name="registry_certificate" id="registry_certificate" required="true"/></td>
-            </tr>
-            <tr>
-                <td class="tableleft">登记证书去向</td>
-                <td><input type="text" name="certificate_direction" id="certificate_direction" required="true"/></td>
-            </tr>
-            <tr>
-                <td class="tableleft">贷款银行</td>
-                <td><input type="text" name="loan_bank" id="loan_bank" required="true"/></td>
-            </tr>
-            <tr>
-                <td class="tableleft">关单/合格/一致性证书</td>
-                <td><input type="text" name="consistency_cer" id="consistency_cer" required="true"/></td>
-            </tr>
-            <tr>
                 <td class="tableleft">检验单</td>
                 <td><input type="text" name="check_list" id="check_list" required="true"/></td>
             </tr>
-
+            <tr>
+                <td class="tableleft">登记证书</td>
+                <td><input type="text" name="registry_certificate" id="registry_certificate" /></td>
+                <td class="tableleft">登记证书去向</td>
+                <td><input type="text" name="certificate_direction" id="certificate_direction" /></td>
+                <td class="tableleft">关单/合格/一致性证书</td>
+                <td><input type="text" name="consistency_cer" id="consistency_cer" /></td>
+            </tr>
             <tr>
                 <td width="10%" class="tableleft">完税证明/小本</td>
-                <td><input type="text" name="duty_paid_proof" id="duty_paid_proof" required="true"/></td>
-            </tr>
-            <tr>
+                <td><input type="text" name="duty_paid_proof" id="duty_paid_proof" /></td>
                 <td class="tableleft">记录</td>
-                <td><input type="text" name="record" id="record" required="true"/></td>
-            </tr>
-            <tr>
+                <td><input type="text" name="record" id="record" /></td>
                 <td class="tableleft">备注</td>
                 <td><input type="text" name="remark" id="remark"/></td>
             </tr>

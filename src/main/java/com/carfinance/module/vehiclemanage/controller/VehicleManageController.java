@@ -125,11 +125,11 @@ public class VehicleManageController {
         User user = (User)request.getSession().getAttribute("user");
 
         //获取用户角色列表
-        List<UserRole> user_role_list = this.commonService.getUserRoleList(user.getUser_id());
-        List<Enum> province_list = this.commonService.getEnumFielList("SYS_PROVINCE");
+        List<Org> user_all_org_list = this.commonService.getUserAllOrgList(user.getUser_id());
+        List<City> city_list = this.commonService.getSysUsedCityList();
 
-        model.addAttribute("province_list" , province_list);
-        model.addAttribute("user_role_list" , user_role_list);
+        model.addAttribute("city_list" , city_list);
+        model.addAttribute("user_all_org_list" , user_all_org_list);
         return "/module/vehiclemanage/register/add";
     }
 
