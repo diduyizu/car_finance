@@ -45,8 +45,19 @@
                 <td><input type="text" name="customer_name" id="customer_name" required="true"/></td>
             </tr>
             <tr>
-                <td class="tableleft">身份证</td>
-                <td><input type="text" name="identity_id" id="identity_id" required="true"/></td>
+                <td class="tableleft">证件类型</td>
+                <td>
+                    <select id="certificate_type" name="certificate_type">
+                        <option value="身份证">身份证</option>
+                        <option value="国际护照">国际护照</option>
+                        <option value="回乡证">回乡证</option>
+                        <option value="台胞证">台胞证</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="tableleft">证件号码</td>
+                <td><input type="text" name="certificate_no" id="certificate_no" required="true"/></td>
             </tr>
             <tr>
                 <td class="tableleft">手机号</td>
@@ -66,6 +77,18 @@
                 </td>
             </tr>
             <tr>
+                <td class="tableleft">客户房产</td>
+                <td><input type="text" name="customer_house" id="customer_house" /></td>
+            </tr>
+            <tr>
+                <td class="tableleft">客户车辆</td>
+                <td><input type="text" name="customer_vehicle" id="customer_vehicle"/></td>
+            </tr>
+            <tr>
+                <td class="tableleft">客户担保人/单位</td>
+                <td><input type="text" name="customer_guarantee" id="customer_guarantee"/></td>
+            </tr>
+            <tr>
                 <td class="tableleft"></td>
                 <td>
                     <button type="button" class="btn btn-primary" id="save">保存</button> &nbsp;&nbsp;
@@ -83,16 +106,22 @@
 		});
 
         $('#save').click(function(){
-            var identity_id=$.trim($('#identity_id').val());
+            var certificate_type=$.trim($('#certificate_type').val());
+            var certificate_no=$.trim($('#certificate_no').val());
             var customer_name=$.trim($('#customer_name').val());
             var customer_dn=$.trim($('#customer_dn').val());
             var customer_email=$.trim($('#customer_email').val());
             var customer_type=$.trim($('#customer_type').val());
+            var customer_house=$.trim($('#customer_house').val());
+            var customer_vehicle=$.trim($('#customer_vehicle').val());
+            var customer_guarantee=$.trim($('#customer_guarantee').val());
 
             $.ajax({
                 url:"${ctx}/customer/info/doadd",
                 type: "post",
-                data:{identity_id:identity_id,customer_name:customer_name,customer_dn:customer_dn,customer_email:customer_email,customer_type:customer_type},
+                data:{certificate_type:certificate_type,certificate_no:certificate_no,customer_name:customer_name,customer_dn:customer_dn,
+                    customer_email:customer_email,customer_type:customer_type,customer_house:customer_house,
+                    customer_vehicle:customer_vehicle,customer_guarantee:customer_guarantee},
                 success:function(data){
                     if(data == 1){
                         alert("成功");

@@ -35,7 +35,7 @@
 </head>
 <body>
 <form class="form-inline definewidth m20" action="${ctx}/vehicle/register/index" method="post">
-    门店：
+    当前所在城市：
     <select id="original_org" name="original_org">
         <c:forEach var="user_role" items="${user_role_list}" varStatus="status">
             <c:if test="${user_role.org_id == original_org}">
@@ -45,13 +45,21 @@
                 <option value="${user_role.org_id}">${user_role.org_name}</option>
             </c:if>
         </c:forEach>
-    </select>
+    </select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     品牌：
-    <input type="text" name="brand" id="brand"class="abc input-default" placeholder="" value="${brand}">&nbsp;&nbsp;
+    <input type="text" name="brand" id="brand"class="abc input-default" placeholder="" value="${brand}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     车辆型号：
-    <input type="text" name="model" id="model"class="abc input-default" placeholder="" value="${model}">&nbsp;&nbsp;
+    <input type="text" name="model" id="model"class="abc input-default" placeholder="" value="${model}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     车牌号：
-    <input type="text" name="license_plate" id="license_plate"class="abc input-default" placeholder="" value="${license_plate}">&nbsp;&nbsp;
+    <input type="text" name="license_plate" id="license_plate"class="abc input-default" placeholder="" value="${license_plate}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    车辆租赁状态：
+    <select id="leasestatus" name="leasestatus">
+        <option value="">全部</option>
+        <option value="在库" <c:if test="${lease_status == '在库'}">selected="selected"</c:if>>在库</option>
+        <option value="零租" <c:if test="${lease_status == '零租'}">selected="selected"</c:if>>零租</option>
+        <option value="产权租" <c:if test="${lease_status == '产权租'}">selected="selected"</c:if>>产权租</option>
+        <option value="售出" <c:if test="${lease_status == '售出'}">selected="selected"</c:if>>售出</option>
+    </select>
     GPS状态：
     <select id="gps" name="gps">
         <option value="">全部</option>
@@ -69,7 +77,7 @@
     <thead>
         <tr>
             <th>序号</th>
-            <th>分公司</th>
+            <th>所在城市</th>
             <th>品牌</th>
             <th>车型</th>
             <th>车架号</th>

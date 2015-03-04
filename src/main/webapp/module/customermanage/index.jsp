@@ -35,8 +35,8 @@
 </head>
 <body>
 <form class="form-inline definewidth m20" action="${ctx}/customer/info/index" method="post">
-    身份证：
-    <input type="text" name="identity_id" id="identity_id"class="abc input-default" placeholder="" value="${identity_id}">&nbsp;&nbsp;
+    证件号码：
+    <input type="text" name="certificate_no" id="certificate_no"class="abc input-default" placeholder="" value="${certificate_no}">&nbsp;&nbsp;
     <button type="submit" class="btn btn-primary">查询</button>&nbsp;&nbsp;
     <button type="button" class="btn btn-success" id="addnew">新增客户</button>
 </form>
@@ -44,20 +44,28 @@
     <thead>
         <tr>
             <th>客户姓名</th>
-            <th>身份证</th>
+            <th>证件类型</th>
+            <th>证件号码</th>
             <th>客户手机</th>
             <th>客户邮箱</th>
             <th>客户类型</th>
+            <th>客户房产</th>
+            <th>客户车辆</th>
+            <th>客户担保人/单位</th>
             <th>操作</th>
         </tr>
     </thead>
     <c:forEach var="customer" items="${customer_list}" varStatus="status">
         <tr>
             <td>${customer.customer_name}</td>
-            <td>${customer.identity_id}</td>
+            <td>${customer.certificate_type}</td>
+            <td>${customer.certificate_no}</td>
             <td>${customer.customer_dn}</td>
             <td>${customer.customer_email}</td>
             <td>${customer.customer_type}</td>
+            <td>${customer.customer_house}</td>
+            <td>${customer.customer_vehicle}</td>
+            <td>${customer.customer_guarantee}</td>
             <td><a href="${ctx}/customer/info/modify?id=${customer.id}">修改</a></td>
         </tr>
     </c:forEach>

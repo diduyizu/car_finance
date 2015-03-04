@@ -54,8 +54,8 @@ public class CustomerManageController {
         int size = Integer.valueOf(appProps.get("customer.query.size").toString());//每页显示条数
         int start = (page_index - 1) * size;
 
-        String identity_id = request.getParameter("identity_id");
-        Map<String , Object> map = this.customerManageService.getCustomerList(identity_id, start, size);
+        String certificate_no = request.getParameter("certificate_no");
+        Map<String , Object> map = this.customerManageService.getCustomerList(certificate_no, start, size);
 
         long total = (Long)map.get("total");;
         List<CustomerInfo> customer_list = (List<CustomerInfo>)map.get("customer_list");
@@ -71,7 +71,7 @@ public class CustomerManageController {
         model.addAttribute("nextpage" , nextpages);
         model.addAttribute("page_url" , request.getRequestURI());
 
-        model.addAttribute("identity_id" , identity_id);
+        model.addAttribute("certificate_no" , certificate_no);
         model.addAttribute("customer_list" , customer_list);
         return "/module/customermanage/index";
     }
@@ -87,13 +87,17 @@ public class CustomerManageController {
     public int customerInfoDoAdd(Model model1 , HttpServletRequest request , HttpServletResponse response) {
         User user = (User)request.getSession().getAttribute("user");
 
-        String identity_id = request.getParameter("identity_id");
+        String certificate_type = request.getParameter("certificate_type");
+        String certificate_no = request.getParameter("certificate_no");
         String customer_name = request.getParameter("customer_name");
         String customer_dn = request.getParameter("customer_dn");
         String customer_email= request.getParameter("customer_email");
         String customer_type= request.getParameter("customer_type");
+        String customer_house = request.getParameter("customer_house") == null ? "无" : request.getParameter("customer_house");
+        String customer_vehicle= request.getParameter("customer_vehicle") == null ? "无" : request.getParameter("customer_vehicle");
+        String customer_guarantee= request.getParameter("customer_guarantee") == null ? "无" : request.getParameter("customer_guarantee");
 
-        return this.customerManageService.addCustomerInfo(identity_id , customer_name , customer_dn , customer_email , customer_type ,  user.getUser_id());
+        return this.customerManageService.addCustomerInfo(certificate_type , certificate_no , customer_name , customer_dn , customer_email , customer_type , customer_house , customer_vehicle , customer_guarantee , user.getUser_id());
     }
 
     @RequestMapping(value = "/info/modify" , method = RequestMethod.GET)
@@ -113,12 +117,16 @@ public class CustomerManageController {
         User user = (User)request.getSession().getAttribute("user");
 
         long id = Long.valueOf(request.getParameter("id"));
-        String identity_id = request.getParameter("identity_id");
+        String certificate_type = request.getParameter("certificate_type");
+        String certificate_no = request.getParameter("certificate_no");
         String customer_name = request.getParameter("customer_name");
         String customer_dn = request.getParameter("customer_dn");
         String customer_email= request.getParameter("customer_email");
         String customer_type= request.getParameter("customer_type");
+        String customer_house = request.getParameter("customer_house") == null ? "无" : request.getParameter("customer_house");
+        String customer_vehicle= request.getParameter("customer_vehicle") == null ? "无" : request.getParameter("customer_vehicle");
+        String customer_guarantee= request.getParameter("customer_guarantee") == null ? "无" : request.getParameter("customer_guarantee");
 
-        return this.customerManageService.modifyCustomerInfo(id , identity_id , customer_name , customer_dn , customer_email , customer_type , user.getUser_id());
+        return this.customerManageService.modifyCustomerInfo(id , certificate_type , certificate_no , customer_name , customer_dn , customer_email , customer_type , customer_house , customer_vehicle , customer_guarantee , user.getUser_id());
     }
 }

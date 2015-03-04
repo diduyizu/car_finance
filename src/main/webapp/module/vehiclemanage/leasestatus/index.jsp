@@ -46,7 +46,7 @@
             </c:if>
         </c:forEach>
     </select>
-    车架号：
+    车辆租赁状态：
     <select id="leasestatus" name="leasestatus">
         <option value="">全部</option>
         <option value="在库" <c:if test="${lease_status == '在库'}">selected="selected"</c:if>>在库</option>

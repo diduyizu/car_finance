@@ -40,9 +40,9 @@ public class CustomerManageService {
     private CommonDao commonDao;
 
 
-    public Map<String , Object> getCustomerList(String identity_id , int start , int size) {
-        long total = (identity_id == null || "".equals(identity_id)) ? this.customerManageDao.getCustomerCount() : 1;
-        List<CustomerInfo> customer_list = this.customerManageDao.getCustomerList(identity_id, start, size);
+    public Map<String , Object> getCustomerList(String certificate_no , int start , int size) {
+        long total = (certificate_no == null || "".equals(certificate_no)) ? this.customerManageDao.getCustomerCount() : 1;
+        List<CustomerInfo> customer_list = this.customerManageDao.getCustomerList(certificate_no, start, size);
         Map<String , Object> map = new HashMap<String, Object>();
         map.put("total" , total);
         map.put("customer_list" , customer_list);
@@ -50,9 +50,9 @@ public class CustomerManageService {
     }
 
 
-    public int addCustomerInfo(String identity_id , String customer_name , String customer_dn , String customer_email , String customer_type , long create_by) {
+    public int addCustomerInfo(String certificate_type , String certificate_no , String customer_name , String customer_dn , String customer_email , String customer_type , String customer_house , String customer_vehicle , String customer_guarantee , long create_by) {
         try{
-            return this.customerManageDao.addCustomerInfo(identity_id , customer_name , customer_dn , customer_email , customer_type , create_by);
+            return this.customerManageDao.addCustomerInfo(certificate_type , certificate_no , customer_name , customer_dn , customer_email , customer_type , customer_house , customer_vehicle , customer_guarantee , create_by);
         } catch (Exception e) {
             logger.info(e.getMessage() , e);
             return 0;
@@ -63,9 +63,9 @@ public class CustomerManageService {
         return this.customerManageDao.getCustomrInfobyId(id);
     }
 
-    public int modifyCustomerInfo(long id , String identity_id , String customer_name , String customer_dn , String customer_email , String customer_type , long create_by) {
+    public int modifyCustomerInfo(long id , String certificate_type , String certificate_no , String customer_name , String customer_dn , String customer_email , String customer_type , String customer_house , String customer_vehicle , String customer_guarantee , long create_by) {
         try{
-            return this.customerManageDao.modifyCustomerInfo(id , identity_id , customer_name , customer_dn , customer_email , customer_type , create_by);
+            return this.customerManageDao.modifyCustomerInfo(id , certificate_type , certificate_no , customer_name , customer_dn , customer_email , customer_type , customer_house , customer_vehicle , customer_guarantee , create_by);
         } catch (Exception e) {
             logger.info(e.getMessage() , e);
             return 0;

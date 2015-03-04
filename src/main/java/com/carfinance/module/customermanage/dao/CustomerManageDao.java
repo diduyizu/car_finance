@@ -37,18 +37,18 @@ public class CustomerManageDao extends BaseJdbcDaoImpl {
 
     /**
      * 获取客户列表
-     * @param identity_id
+     * @param certificate_no
      * @param start
      * @param size
      * @return
      */
-    public List<CustomerInfo> getCustomerList(String identity_id , int start , int size) {
+    public List<CustomerInfo> getCustomerList(String certificate_no , int start , int size) {
         String sql = "select * from customer_info ";
         List<Object> param = new ArrayList<Object>();
 
-        if(identity_id != null && !"".equals(identity_id.trim())) {
-            sql = sql + " where identity_id = ? ";
-            param.add(identity_id);
+        if(certificate_no != null && !"".equals(certificate_no.trim())) {
+            sql = sql + " where certificate_no = ? ";
+            param.add(certificate_no);
         }
         sql = sql + " order by id desc limit ?,?";
         param.add(start);
@@ -63,9 +63,9 @@ public class CustomerManageDao extends BaseJdbcDaoImpl {
         return this.getJdbcTemplate().query(sql, o, new CustomerInfoRowMapper());
     }
 
-    public int addCustomerInfo(String identity_id , String customer_name , String customer_dn , String customer_email , String customer_type , long create_by) {
-        String sql = "insert into customer_info(identity_id , customer_name , customer_dn , customer_email , customer_type , create_by) values (?,?,?,?,?,?)";
-        Object[] o = new Object[] { identity_id , customer_name , customer_dn , customer_email , customer_type , create_by };
+    public int addCustomerInfo(String certificate_type , String certificate_no , String customer_name , String customer_dn , String customer_email , String customer_type , String customer_house , String customer_vehicle , String customer_guarantee , long create_by) {
+        String sql = "insert into customer_info(certificate_type , certificate_no , customer_name , customer_dn , customer_email , customer_type , customer_house , customer_vehicle , customer_guarantee , create_by) values (?,?,?,?,?,?,?,?,?,?)";
+        Object[] o = new Object[] { certificate_type , certificate_no , customer_name , customer_dn , customer_email , customer_type , customer_house , customer_vehicle , customer_guarantee , create_by };
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().update(sql , o);
     }
@@ -81,9 +81,9 @@ public class CustomerManageDao extends BaseJdbcDaoImpl {
         }
     }
 
-    public int modifyCustomerInfo(long id , String identity_id , String customer_name , String customer_dn , String customer_email , String customer_type , long update_by) {
-        String sql = "update customer_info t set t.identity_id = ? , t.customer_name = ? , t.customer_dn = ? , t.customer_email = ? , t.customer_type = ? , t.update_by = ? where t.id = ?";
-        Object[] o = new Object[] { identity_id , customer_name , customer_dn , customer_email , customer_type , update_by , id };
+    public int modifyCustomerInfo(long id , String certificate_type , String certificate_no , String customer_name , String customer_dn , String customer_email , String customer_type , String customer_house , String customer_vehicle , String customer_guarantee , long update_by) {
+        String sql = "update customer_info t set t.certificate_type = ? , t.certificate_no = ? , t.customer_name = ? , t.customer_dn = ? , t.customer_email = ? , t.customer_type = ? , customer_house = ? , customer_vehicle = ? , customer_guarantee = ? , t.update_by = ? where t.id = ?";
+        Object[] o = new Object[] { certificate_type , certificate_no , customer_name , customer_dn , customer_email , customer_type , customer_house , customer_vehicle , customer_guarantee , update_by , id };
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().update(sql , o);
     }

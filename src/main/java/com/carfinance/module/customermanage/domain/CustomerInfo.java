@@ -7,8 +7,9 @@ public class CustomerInfo implements Serializable{
 	private static final long serialVersionUID = -1450900287435164266L;
 	
 	private long id;
-	private String identity_id;
-	private String customer_name;
+    private String customer_name;
+    private String certificate_type;//证件类型
+    private String certificate_no;//证件号码
     private String customer_dn;
     private String customer_email;
     private Date create_at;
@@ -16,6 +17,49 @@ public class CustomerInfo implements Serializable{
     private Date update_at;
     private long update_by;
     private String customer_type;
+    private String customer_house;
+    private String customer_vehicle;
+    private String customer_guarantee;
+
+    public String getCustomer_house() {
+        return customer_house;
+    }
+
+    public void setCustomer_house(String customer_house) {
+        this.customer_house = customer_house;
+    }
+
+    public String getCustomer_vehicle() {
+        return customer_vehicle;
+    }
+
+    public void setCustomer_vehicle(String customer_vehicle) {
+        this.customer_vehicle = customer_vehicle;
+    }
+
+    public String getCustomer_guarantee() {
+        return customer_guarantee;
+    }
+
+    public void setCustomer_guarantee(String customer_guarantee) {
+        this.customer_guarantee = customer_guarantee;
+    }
+
+    public String getCertificate_type() {
+        return certificate_type;
+    }
+
+    public void setCertificate_type(String certificate_type) {
+        this.certificate_type = certificate_type;
+    }
+
+    public String getCertificate_no() {
+        return certificate_no;
+    }
+
+    public void setCertificate_no(String certificate_no) {
+        this.certificate_no = certificate_no;
+    }
 
     public String getCustomer_type() {
         return customer_type;
@@ -67,14 +111,6 @@ public class CustomerInfo implements Serializable{
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public String getIdentity_id() {
-        return identity_id;
-    }
-
-    public void setIdentity_id(String identity_id) {
-        this.identity_id = identity_id;
     }
 
     public String getCustomer_name() {

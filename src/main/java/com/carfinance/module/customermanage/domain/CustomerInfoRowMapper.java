@@ -10,7 +10,8 @@ public class CustomerInfoRowMapper implements RowMapper<CustomerInfo>{
         CustomerInfo customerInfo=new CustomerInfo();
 
         customerInfo.setId(rs.getLong("id"));
-        customerInfo.setIdentity_id(rs.getString("identity_id"));
+        customerInfo.setCertificate_type(rs.getString("certificate_type"));
+        customerInfo.setCertificate_no(rs.getString("certificate_no"));
         customerInfo.setCustomer_name(rs.getString("customer_name"));
         customerInfo.setCustomer_dn(rs.getString("customer_dn"));
         customerInfo.setCustomer_email(rs.getString("customer_email"));
@@ -19,6 +20,10 @@ public class CustomerInfoRowMapper implements RowMapper<CustomerInfo>{
         customerInfo.setUpdate_at(rs.getDate("update_at"));
         customerInfo.setUpdate_by(rs.getLong("update_at"));
         customerInfo.setCustomer_type(rs.getString("customer_type"));
+
+        customerInfo.setCustomer_house(rs.getString("customer_house"));
+        customerInfo.setCustomer_vehicle(rs.getString("customer_vehicle"));
+        customerInfo.setCustomer_guarantee(rs.getString("customer_guarantee"));
 
         return customerInfo;
 	}
