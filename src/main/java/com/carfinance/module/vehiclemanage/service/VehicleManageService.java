@@ -89,8 +89,11 @@ public class VehicleManageService {
                     business_insurance_expire_at_date , remark , create_by , original_org ,
                     km , maintian_on_km , gps , current_city , current_shop , lease_status , peccancy_status , next_main_km);
             if(result > 0) {
+                //增加车辆保险详细
                 this.vehicleManageDao.addVehicleInsurance(carframe_no , engine_no , license_plate , insurance_company , strong_insurance ,
                         vehicle_vessel_tax , strong_insurance_expire_at_date , business_insurance , business_insurance_expire_at_date , remark , create_by);
+//                //增加车辆保养详细
+//                this.vehicleManageDao.addVehicleMaintain(carframe_no , engine_no , license_plate , "" , 0 , km , next_main_km , 0 , "" , create_by);
             }
             return result;
         } catch (Exception e) {
@@ -277,6 +280,38 @@ public class VehicleManageService {
                 } else {
                     this.vehicleManageDao.updateVehiclePeccancyStatus(carframe_no , engine_no , license_plate , 0);
                 }
+            }
+            return result;
+        } catch (Exception e) {
+            logger.info(e.getMessage() , e);
+            return 0;
+        }
+    }
+
+
+    public Map<String , Object> getVehicleMaintainRemindList(long original_org , String current_city , String license_plate , int start , int size) {
+        long remind_km = Long.valueOf(appProps.get("vehicle.maintain.remind.km").toString());//保养提醒公里数
+        long total = this.vehicleManageDao.getVehicleMaintainRemindCount(original_org, current_city, license_plate, remind_km);//需要提醒保养车辆总数
+        List<VehicleInfo> vehicle_maintain_remind_list = this.vehicleManageDao.getVehicleMaintainRemindList(original_org, license_plate, current_city, remind_km, start, size);
+        Map<String , Object> map = new HashMap<String, Object>();
+        map.put("total" , total);
+        map.put("vehicle_maintain_remind_list" , vehicle_maintain_remind_list);
+        return map;
+    }
+
+    public VehicleInfo getVehicleInfoByid(long id) {
+        return this.vehicleManageDao.getVehicleInfoByid(id);
+    }
+
+    public int maintainRecordDoAdd(String carframe_no , String engine_no , String license_plate , String maintain_at ,
+                                   String maintain_content , double maintain_price , long current_km , long next_maintain_km ,
+                                   long user_id , String user_name , long create_by) {
+        try{
+            Date maintain_at_date = DateUtil.string2Date(maintain_at);
+            int result = this.vehicleManageDao.addVehicleMaintain(carframe_no, engine_no, license_plate, maintain_at_date, maintain_content,
+                   maintain_price, current_km, next_maintain_km, user_id, user_name, create_by);
+            if(result > 0) {//插入保养记录表成功后，需要更新车辆主表
+                this.vehicleManageDao.updateVehicleRemind(carframe_no , engine_no , license_plate , current_km , next_maintain_km , next_maintain_km-current_km);
             }
             return result;
         } catch (Exception e) {

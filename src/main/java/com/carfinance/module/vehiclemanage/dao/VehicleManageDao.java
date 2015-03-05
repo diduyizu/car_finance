@@ -567,4 +567,96 @@ public class VehicleManageDao extends BaseJdbcDaoImpl {
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().update(sql, o);
     }
+
+
+    public long getVehicleMaintainRemindCount(long original_org , String current_city , String license_plate , long remind_km) {
+        String sql = "select count(1) from vehicle_info where original_org = ? ";
+        List<Object> param = new ArrayList<Object>();
+        param.add(original_org);
+
+        if(current_city != null && !"".equals(current_city.trim())) {
+            sql = sql + " and current_city = ? ";
+            param.add(Long.valueOf(current_city));
+        }
+        if(license_plate != null && !"".equals(license_plate.trim())) {
+            sql = sql + " and license_plate = ? ";
+            param.add(license_plate);
+        }
+        sql = sql + " and maintian_on_km < ? ";
+        param.add(remind_km);
+
+        Object[] o = new Object[param.size()];
+        for(int i = 0 ; i < param.size() ; i++) {
+            o[i] = param.get(i);
+        }
+
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().queryForLong(sql, o);
+    }
+
+    /**
+     * 获取车辆违章提醒列表
+     * @param original_org
+     * @param license_plate
+     * @param start
+     * @param size
+     * @return
+     */
+    public List<VehicleInfo> getVehicleMaintainRemindList(long original_org ,  String license_plate , String current_city , long remind_km , int start , int size) {
+        String sql = "select * from vehicle_info where original_org = ? ";
+        List<Object> param = new ArrayList<Object>();
+        param.add(original_org);
+
+        if(license_plate != null && !"".equals(license_plate.trim())) {
+            sql = sql + " and license_plate = ? ";
+            param.add(license_plate);
+        }
+        if(current_city != null && !"".equals(current_city.trim())) {
+            sql = sql + " and current_city = ? ";
+            param.add(Long.valueOf(current_city));
+        }
+        sql = sql + " and maintian_on_km < ? order by id desc limit ?,?";
+        param.add(remind_km);
+        param.add(start);
+        param.add(size);
+
+        Object[] o = new Object[param.size()];
+        for(int i = 0 ; i < param.size() ; i++) {
+            o[i] = param.get(i);
+        }
+
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().query(sql, o, new VehicleInfoRowMapper());
+    }
+
+    public int addVehicleMaintain(String carframe_no , String engine_no , String license_plate , Date maintain_at_date , String maintain_content ,
+                                   double maintain_price , long current_km , long next_maintain_km ,
+                                   long user_id , String user_name , long create_by) {
+        String sql = "insert into vehicle_maintail_record(carframe_no , engine_no , license_plate , maintain_date , maintain_content , maintain_price , " +
+                "current_km , next_maintain_km , user_id , user_name , create_by) " +
+                "values (?,?,?,?,?,?,?,?,?,?,?)";
+        Object[] o = new Object[] { carframe_no , engine_no , license_plate , maintain_at_date , maintain_content , maintain_price ,
+                current_km , next_maintain_km , user_id , user_name , create_by };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().update(sql, o);
+    }
+
+    public VehicleInfo getVehicleInfoByid(long id) {
+        try{
+            String sql = "select * from vehicle_info where id = ?";
+            Object[] o = new Object[] { id };
+            logger.info(sql.replaceAll("\\?", "{}"), o);
+            return this.getJdbcTemplate().queryForObject(sql, o, new VehicleInfoRowMapper());
+        } catch(EmptyResultDataAccessException e) {
+            return null;
+        }
+    }
+
+    public int updateVehicleRemind(String carframe_no , String engine_no , String license_plate , long current_km , long next_maintain_km , long maintian_on_km) {
+        String sql = "update vehicle_info set km = ? , next_main_km = ? , maintian_on_km = ? where carframe_no = ? and engine_no = ? and license_plate = ?  ";
+        Object[] o = new Object[] { current_km , next_maintain_km , maintian_on_km , carframe_no , engine_no , license_plate };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().update(sql, o);
+    }
+
 }
