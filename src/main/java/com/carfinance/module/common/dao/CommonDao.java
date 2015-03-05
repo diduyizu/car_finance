@@ -114,7 +114,9 @@ public class CommonDao extends BaseJdbcDaoImpl{
      * @return
      */
     public List<Org> getUserOrgList(long user_id) {
-        String sql="SELECT b.* FROM user_role a , sys_org b where a.org_id = b.org_id and a.user_id = ? order by b.pid , b.org_type";
+        String sql="select distinct b.org_id ,  b.org_name , b.pid , b.org_type , b.org_province , b.org_city , b.org_country , " +
+                "b.org_address , b.org_type_name , b.org_province_name , b.org_city_name , b.org_country_name  " +
+                "from user_role a , sys_org b where a.org_id = b.org_id and a.user_id = ? order by b.pid , b.org_type";
         Object[] o = new Object[] { user_id };
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().query(sql , o  , new OrgRowMapper());
