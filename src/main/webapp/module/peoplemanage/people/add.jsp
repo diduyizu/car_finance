@@ -51,6 +51,10 @@
                 <td><input type="text" name="user_name" id="user_name" required="true"/></td>
             </tr>
             <tr>
+                <td class="tableleft">员工工号/id</td>
+                <td><input type="text" name="employee_id" id="employee_id" value=""/></td>
+            </tr>
+            <tr>
                 <td class="tableleft">昵称</td>
                 <td><input type="text" name="nice_name" id="nice_name"/></td>
             </tr>
@@ -97,6 +101,7 @@
             var login_name = $.trim($('#login_name').val());
             var login_pwd = $.trim($('#login_pwd').val());
             var user_name = $.trim($('#user_name').val());
+            var employee_id = $.trim($('#employee_id').val());
             var nice_name = $.trim($('#nice_name').val());
             var org_id = $('#org_id').val();
             var role_id = $('#role_id').val();
@@ -117,7 +122,7 @@
             $.ajax({
                 url:"${ctx}/people/people/doadd",
                 type: "post",
-                data:{login_name:login_name,login_pwd:login_pwd,user_name:user_name,nick_name:nice_name,org_id:org_id,role_id:role_id},
+                data:{login_name:login_name,login_pwd:login_pwd,user_name:user_name,nick_name:nice_name,org_id:org_id,role_id:role_id,employee_id:employee_id},
 //                dataType:"json",
                 success:function(data){
                     if(data == 1){

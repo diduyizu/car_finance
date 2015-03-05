@@ -17,10 +17,46 @@ public class VehiclePeccancy implements Serializable{
     private int score;
     private int status;
     private String arbitration;
+    private String employee_id;
+    private String employee_name;
+    private long customer_id;
+    private String customer_name;
     private long create_by;
     private Date create_at;
     private long update_by;
     private Date update_at;
+
+    public String getEmployee_id() {
+        return employee_id;
+    }
+
+    public void setEmployee_id(String employee_id) {
+        this.employee_id = employee_id;
+    }
+
+    public String getEmployee_name() {
+        return employee_name;
+    }
+
+    public void setEmployee_name(String employee_name) {
+        this.employee_name = employee_name;
+    }
+
+    public long getCustomer_id() {
+        return customer_id;
+    }
+
+    public void setCustomer_id(long customer_id) {
+        this.customer_id = customer_id;
+    }
+
+    public String getCustomer_name() {
+        return customer_name;
+    }
+
+    public void setCustomer_name(String customer_name) {
+        this.customer_name = customer_name;
+    }
 
     public String getArbitration() {
         return arbitration;

@@ -76,13 +76,13 @@ public class PeopleManageService {
      * @param role_id
      * @return
      */
-    public int peopleDoAdd(long userid , String login_name, String login_pwd, String user_name, String nick_name , String org_id , String role_id) {
+    public int peopleDoAdd(long userid , String login_name, String login_pwd, String user_name, String nick_name , String org_id , String role_id , String employee_id) {
         int check = this.peopleManageDao.checkUserName(login_name);
         int result = 0;
         if(check == 0) {
             String login_pwd_md5 = MD5Util.MD5Encrypt(login_pwd);
             long add_userid = commonDao.getNextVal("UsersSeq");
-            result = this.peopleManageDao.inertUser(add_userid , login_name , login_pwd_md5 , user_name , nick_name , userid , DateUtil.date2String(new Date()));
+            result = this.peopleManageDao.inertUser(add_userid , login_name , login_pwd_md5 , user_name , nick_name , userid , DateUtil.date2String(new Date()) , employee_id);
             if(result == 1) {//成功以后，将该用户角色和组织对应起来
                 this.peopleManageDao.insertUserRole(add_userid , Long.valueOf(role_id) , Long.valueOf(org_id));
             }

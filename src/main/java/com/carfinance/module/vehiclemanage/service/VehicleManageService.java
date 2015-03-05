@@ -173,12 +173,14 @@ public class VehicleManageService {
     }
 
     public int addVehiclePeccancy(String carframe_no , String engine_no , String license_plate , String peccancy_at , String peccancy_place ,
-                                  String peccancy_reason , long score , int status , long create_by , double peccancy_price , String arbitration) {
+                                  String peccancy_reason , long score , int status , long create_by , double peccancy_price , String arbitration ,
+                                  String employee_id , String employee_name , long customer_id , String customer_name) {
 
         try{
             Date peccancy_at_date = DateUtil.string2Date(peccancy_at);
             int result = this.vehicleManageDao.addVehiclePeccancy(carframe_no , engine_no , license_plate , peccancy_at_date ,
-                    peccancy_place , peccancy_reason , score , status , create_by , peccancy_price , arbitration);
+                    peccancy_place , peccancy_reason , score , status , create_by , peccancy_price , arbitration ,
+                    employee_id , employee_name , customer_id , customer_name);
             if(result > 0) {//插入违章记录表成功后，需要判断该车辆是否还有未处理违章，如果有，需要更新车辆主表
                 boolean has_peccancy = false;
                 if(status == 1) {//本次录入的，就是未处理的违章，直接更新表

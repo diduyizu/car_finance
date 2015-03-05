@@ -8,7 +8,6 @@ import com.carfinance.module.vehiclemanage.domain.VehicleInfo;
 import com.carfinance.module.vehiclemanage.domain.VehicleInsurance;
 import com.carfinance.module.vehiclemanage.service.VehicleManageService;
 import com.carfinance.module.vehiclemanage.domain.VehiclePeccancy;
-import com.carfinance.module.common.domain.Enum;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,8 +33,6 @@ public class VehicleManageController {
 	private CommonService commonService;
     @Autowired
     private VehicleManageService vehicleManageService;
-    @Autowired
-    private InitService initService;
 	@Autowired
 	private Properties appProps;
 
@@ -468,8 +465,14 @@ public class VehicleManageController {
         double peccancy_price = Double.valueOf(request.getParameter("peccancy_price"));
         String arbitration = request.getParameter("arbitration");
 
+        String employee_id = request.getParameter("employee_id");
+        String employee_name = request.getParameter("employee_name");
+        long customer_id  = Long.valueOf(request.getParameter("customer_id"));
+        String customer_name = request.getParameter("customer_name");
+
         return this.vehicleManageService.addVehiclePeccancy(carframe_no , engine_no , license_plate , peccancy_at ,
-                peccancy_place , peccancy_reason , score , status , user.getUser_id() , peccancy_price , arbitration);
+                peccancy_place , peccancy_reason , score , status , user.getUser_id() , peccancy_price , arbitration ,
+                employee_id , employee_name , customer_id , customer_name);
     }
 
     /**
@@ -760,8 +763,8 @@ public class VehicleManageController {
         long user_id = Long.valueOf(request.getParameter("user_id"));
         String user_name = request.getParameter("user_name");
 
-        return this.vehicleManageService.maintainRecordDoAdd(carframe_no , engine_no , license_plate , maintain_at ,
-                maintain_content , maintain_price , current_km , next_maintain_km , user_id , user_name , user.getUser_id());
+        return this.vehicleManageService.maintainRecordDoAdd(carframe_no, engine_no, license_plate, maintain_at,
+                maintain_content, maintain_price, current_km, next_maintain_km, user_id, user_name, user.getUser_id());
     }
 
 }

@@ -326,12 +326,15 @@ public class VehicleManageDao extends BaseJdbcDaoImpl {
      * @return
      */
     public int addVehiclePeccancy(String carframe_no , String engine_no , String license_plate , Date peccancy_at , String peccancy_place ,
-                                  String peccancy_reason , long score , int status , long create_by , double peccancy_price , String arbitration) {
+                                  String peccancy_reason , long score , int status , long create_by , double peccancy_price , String arbitration ,
+                                  String employee_id , String employee_name , long customer_id , String customer_name) {
         String sql = "insert into vehicle_peccancy(carframe_no , engine_no , license_plate , peccancy_at , " +
-                "peccancy_place , peccancy_reason , score , status , create_by , peccancy_price , arbitration) " +
-                "values (?,?,?,?,?,?,?,?,?,?,?)";
+                "peccancy_place , peccancy_reason , score , status , create_by , peccancy_price , arbitration , " +
+                "employee_id , employee_name , customer_id , customer_name) " +
+                "values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         Object[] o = new Object[] { carframe_no , engine_no , license_plate , peccancy_at , peccancy_place ,
-                peccancy_reason , score , status , create_by , peccancy_price , arbitration };
+                peccancy_reason , score , status , create_by , peccancy_price , arbitration ,
+                employee_id , employee_name , customer_id , customer_name };
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().update(sql, o);
     }
