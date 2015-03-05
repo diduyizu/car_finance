@@ -70,7 +70,7 @@
             <td>${vehiclePeccancy.arbitration}</td>
             <td>
                 <c:if test="${vehiclePeccancy.status == 0}">
-                    <a href="javascript:;" id="execute" value="${vehiclePeccancy.id}">处理</a>
+                    <a href="${ctx}/vehicle/peccancy/handle?id=${vehiclePeccancy.id}">处理</a>
                 </c:if>
             </td>
         </tr>
@@ -81,8 +81,4 @@
 </body>
 </html>
 <script>
-    $('#execute').click(function(){
-        var id = $("#execute").attr("value");
-        alert(id);
-    });
 </script>

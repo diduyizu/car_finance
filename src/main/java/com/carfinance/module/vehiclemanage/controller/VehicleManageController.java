@@ -554,7 +554,7 @@ public class VehicleManageController {
         List<Org> user_all_org_list = this.commonService.getUserAllOrgList(user.getUser_id());
         long original_org = (original_org_str == null || "".equals(original_org_str.trim())) ? user_all_org_list.get(0).getOrg_id() : Long.valueOf(original_org_str);
         List<City> sys_used_city_list = this.commonService.getSysUsedCityList();
-        Map<String , Object> map = this.vehicleManageService.getVehiclePeccancyRemindList(original_org , current_city , license_plate , start , size);
+        Map<String , Object> map = this.vehicleManageService.getVehiclePeccancyRemindList(original_org, current_city, license_plate, start, size);
 
         long total = (Long)map.get("total");
         List<VehicleInfo> vehicle_peccancy_remind_list = (List<VehicleInfo>)map.get("vehicle_peccancy_remind_list");
@@ -608,8 +608,8 @@ public class VehicleManageController {
             original_org = Long.valueOf(original_org_str);
         }
 
-        Map<String , Object> map = this.vehicleManageService.getVehicleLeaseStatusList(original_org , lease_status , start , size);
-        long total = (Long)map.get("total");;
+        Map<String , Object> map = this.vehicleManageService.getVehicleLeaseStatusList(original_org, lease_status, start, size);
+        long total = (Long)map.get("total");
         List<VehicleInfo> vehicle_list = (List<VehicleInfo>)map.get("vehicle_lease_status_list");
 
         long temp = (total - 1) <= 0 ? 0 : (total - 1);
@@ -629,5 +629,51 @@ public class VehicleManageController {
         model.addAttribute("user_role_list" , user_role_list);
         model.addAttribute("vehicle_list" , vehicle_list);
         return "/module/vehiclemanage/leasestatus/index";
+    }
+
+    /**
+     * 违章详情页，点击处理，跳转到违章处理页
+     * @param model
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/peccancy/handle" , method = RequestMethod.GET)
+    public String peccancyHandle(Model model , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+         
+        long id = Long.valueOf(request.getParameter("id"));
+        VehiclePeccancy vehiclePeccancy = this.vehicleManageService.getVehiclePeccancy(id);
+
+        model.addAttribute("vehicle_peccancy" , vehiclePeccancy);
+        return "/module/vehiclemanage/peccancy/handle";
+    }
+
+    /**
+     * 处理车辆违章
+     * @param model1
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/peccancy/dohandle" , method = RequestMethod.POST)
+    @ResponseBody
+    public int peccancyDoHandle(Model model1 , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        long id = Long.valueOf(request.getParameter("id"));
+        String carframe_no = request.getParameter("carframe_no");
+        String engine_no = request.getParameter("engine_no");
+        String license_plate = request.getParameter("license_plate");
+        String peccancy_at = request.getParameter("peccancy_at_date");
+        String peccancy_place  = request.getParameter("peccancy_place");
+        String peccancy_reason = request.getParameter("peccancy_reason");
+        long score = Long.valueOf(request.getParameter("score"));
+        int status = Integer.valueOf(request.getParameter("status"));
+        double peccancy_price = Double.valueOf(request.getParameter("peccancy_price"));
+        String arbitration = request.getParameter("arbitration");
+
+        return this.vehicleManageService.peccancyDoHandle(id , carframe_no , engine_no , license_plate , peccancy_at ,
+                peccancy_place , peccancy_reason , score , status , peccancy_price , arbitration , user.getUser_id());
     }
 }

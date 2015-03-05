@@ -11,6 +11,7 @@ import com.carfinance.module.vehiclemanage.domain.VehiclePeccancyRowMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -482,9 +483,9 @@ public class VehicleManageDao extends BaseJdbcDaoImpl {
      * 更新车辆主表违章记录状态
      * @return
      */
-    public int updateVehiclePeccancyStatus(String carframe_no , String engine_no , String license_plate) {
-        String sql = "update vehicle_info set peccancy_status = 1 where carframe_no = ? and engine_no = ? and license_plate = ? and peccancy_status = 0 ";
-        Object[] o = new Object[] { carframe_no , engine_no , license_plate };
+    public int updateVehiclePeccancyStatus(String carframe_no , String engine_no , String license_plate , int peccancy_status) {
+        String sql = "update vehicle_info set peccancy_status = ? where carframe_no = ? and engine_no = ? and license_plate = ?  ";
+        Object[] o = new Object[] { peccancy_status , carframe_no , engine_no , license_plate };
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().update(sql, o);
     }
@@ -544,5 +545,26 @@ public class VehicleManageDao extends BaseJdbcDaoImpl {
 
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().query(sql, o, new VehicleInfoRowMapper());
+    }
+
+    public VehiclePeccancy getVehiclePeccancy(long id) {
+        try{
+            String sql = "select * from vehicle_peccancy where id = ? ";
+            Object[] o = new Object[] { id };
+            logger.info(sql.replaceAll("\\?", "{}"), o);
+            return this.getJdbcTemplate().queryForObject(sql, o, new VehiclePeccancyRowMapper());
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
+    }
+
+    public int peccancyDoHandle(long id , String carframe_no , String engine_no , String license_plate , Date peccancy_at , String peccancy_place ,
+                                  String peccancy_reason , long score , int status , double peccancy_price , String arbitration , long update_by) {
+
+        String sql = "update vehicle_peccancy set peccancy_at = ? , peccancy_place = ? , peccancy_reason = ? , score = ? , peccancy_price = ? , arbitration = ? , status = ? , update_by = ? " +
+                "where id = ? and carframe_no = ? and engine_no = ? and license_plate = ? ";
+        Object[] o = new Object[] { peccancy_at , peccancy_place , peccancy_reason , score , peccancy_price , arbitration , status , update_by , id , carframe_no , engine_no , license_plate };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().update(sql, o);
     }
 }

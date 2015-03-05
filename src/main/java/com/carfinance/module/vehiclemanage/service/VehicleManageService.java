@@ -187,7 +187,7 @@ public class VehicleManageService {
                     }
                 }
                 if(has_peccancy) {//存在违章，更新车辆主表
-                    this.vehicleManageDao.updateVehiclePeccancyStatus(carframe_no , engine_no , license_plate);
+                    this.vehicleManageDao.updateVehiclePeccancyStatus(carframe_no , engine_no , license_plate , 1);
                 }
             }
             return result;
@@ -235,12 +235,54 @@ public class VehicleManageService {
     }
 
     public Map<String , Object> getVehiclePeccancyRemindList(long original_org , String current_city , String license_plate , int start , int size) {
-        long total = this.vehicleManageDao.getVehiclePeccancyRemindCount(original_org , current_city , license_plate);//需要提醒违章处理车辆总数
-        List<VehicleInfo> vehicle_peccancy_remind_list = this.vehicleManageDao.getVehiclePeccancyRemindList(original_org  , license_plate , current_city , start , size);
+        long total = this.vehicleManageDao.getVehiclePeccancyRemindCount(original_org, current_city, license_plate);//需要提醒违章处理车辆总数
+        List<VehicleInfo> vehicle_peccancy_remind_list = this.vehicleManageDao.getVehiclePeccancyRemindList(original_org, license_plate, current_city, start, size);
         Map<String , Object> map = new HashMap<String, Object>();
         map.put("total" , total);
         map.put("vehicle_peccancy_remind_list" , vehicle_peccancy_remind_list);
         return map;
+    }
+    
+    public VehiclePeccancy getVehiclePeccancy(long id) {
+        return this.vehicleManageDao.getVehiclePeccancy(id);
+    }
+
+    /**
+     * 执行处理违章记录
+     * @param id
+     * @param carframe_no
+     * @param engine_no
+     * @param license_plate
+     * @param peccancy_at
+     * @param peccancy_place
+     * @param peccancy_reason
+     * @param score
+     * @param status
+     * @param peccancy_price
+     * @param arbitration
+     * @param userid
+     * @return
+     */
+    public int peccancyDoHandle(long id , String carframe_no , String engine_no , String license_plate , String peccancy_at , String peccancy_place ,
+                                  String peccancy_reason , long score , int status , double peccancy_price , String arbitration , long userid) {
+
+        try{
+            Date peccancy_at_date = DateUtil.string2Date(peccancy_at);
+            int result = this.vehicleManageDao.peccancyDoHandle(id, carframe_no, engine_no, license_plate, peccancy_at_date,
+                    peccancy_place, peccancy_reason, score, status, peccancy_price, arbitration, userid);
+            if(result > 0) {//更新成功后，判断是否还有违章记录，需要更新汽车主表的违章记录状态
+                long peccancy_coutn = this.vehicleManageDao.getVehiclePeccancyCount(carframe_no , engine_no , license_plate);
+                if(peccancy_coutn > 0) {//存在违章，更新车辆主表
+                    this.vehicleManageDao.updateVehiclePeccancyStatus(carframe_no , engine_no , license_plate , 1);
+                } else {
+                    this.vehicleManageDao.updateVehiclePeccancyStatus(carframe_no , engine_no , license_plate , 0);
+                }
+            }
+            return result;
+        } catch (Exception e) {
+            logger.info(e.getMessage() , e);
+            return 0;
+        }
     }
 
 }
