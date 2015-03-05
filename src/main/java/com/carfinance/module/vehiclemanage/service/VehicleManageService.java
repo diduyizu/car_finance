@@ -192,13 +192,10 @@ public class VehicleManageService {
      * @param size
      * @return
      */
-    public Map<String , Object> getVehicleInsuranceRemindList(long original_org , String carframe_no , String engine_no , String license_plate , int start , int size) {
-        long total = 1;
+    public Map<String , Object> getVehicleInsuranceRemindList(long original_org , String carframe_no , String engine_no , String current_city , String license_plate , int start , int size) {
         int remind_day = Integer.valueOf(appProps.get("vehicle.insurance.remind.day").toString());//还有多少天需要提醒
-        if((carframe_no == null || "".equals(carframe_no)) && (engine_no == null || "".equals(engine_no)) && (license_plate == null || "".equals(license_plate))) {
-            total = this.vehicleManageDao.getInsuranceRemindCount(original_org , remind_day);//需要提醒保险到期车辆总数
-        }
-        List<VehicleInfo> vehicle_insurance_remind_list = this.vehicleManageDao.getVehicleInsuranceList(original_org  , carframe_no , engine_no , license_plate , remind_day , start , size);
+        long total = this.vehicleManageDao.getInsuranceRemindCount(original_org , carframe_no , engine_no , current_city , license_plate , remind_day);//需要提醒保险到期车辆总数
+        List<VehicleInfo> vehicle_insurance_remind_list = this.vehicleManageDao.getVehicleInsuranceList(original_org  , carframe_no , engine_no , license_plate , current_city , remind_day , start , size);
         Map<String , Object> map = new HashMap<String, Object>();
         map.put("total" , total);
         map.put("vehicle_insurance_remind_list" , vehicle_insurance_remind_list);

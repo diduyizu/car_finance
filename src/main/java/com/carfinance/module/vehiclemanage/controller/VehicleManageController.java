@@ -489,20 +489,23 @@ public class VehicleManageController {
         int start = (page_index - 1) * size;
 
         String original_org_str = request.getParameter("original_org");
-        String carframe_no = request.getParameter("carframe_no");
-        String engine_no = request.getParameter("engine_no");
+        String current_city = request.getParameter("current_city");
+//        String carframe_no = request.getParameter("carframe_no");
+//        String engine_no = request.getParameter("engine_no");
         String license_plate = request.getParameter("license_plate");
 
         //获取用户角色列表
-        List<UserRole> user_role_list = this.commonService.getUserRoleList(user.getUser_id());
-        long original_org;
-        if(original_org_str == null || "".equals(original_org_str)) {
-            original_org = user_role_list.get(0).getOrg_id();
-        } else {
-            original_org = Long.valueOf(original_org_str);
-        }
-
-        Map<String , Object> map = this.vehicleManageService.getVehicleInsuranceRemindList(original_org , carframe_no , engine_no , license_plate , start , size);
+//        List<UserRole> user_role_list = this.commonService.getUserRoleList(user.getUser_id());
+//        long original_org;
+//        if(original_org_str == null || "".equals(original_org_str)) {
+//            original_org = user_role_list.get(0).getOrg_id();
+//        } else {
+//            original_org = Long.valueOf(original_org_str);
+//        }
+        List<Org> user_all_org_list = this.commonService.getUserAllOrgList(user.getUser_id());
+        long original_org = (original_org_str == null || "".equals(original_org_str.trim())) ? user_all_org_list.get(0).getOrg_id() : Long.valueOf(original_org_str);
+        List<City> sys_used_city_list = this.commonService.getSysUsedCityList();
+        Map<String , Object> map = this.vehicleManageService.getVehicleInsuranceRemindList(original_org , null , null , current_city , license_plate , start , size);
 
         long total = (Long)map.get("total");
         List<VehicleInfo> vehicle_insurance_remind_list = (List<VehicleInfo>)map.get("vehicle_insurance_remind_list");
@@ -519,11 +522,14 @@ public class VehicleManageController {
         model.addAttribute("page_url" , request.getRequestURI());
 
         model.addAttribute("original_org" , original_org);
-        model.addAttribute("carframe_no" , carframe_no);
-        model.addAttribute("engine_no" , engine_no);
+//        model.addAttribute("carframe_no" , carframe_no);
+//        model.addAttribute("engine_no" , engine_no);
         model.addAttribute("license_plate" , license_plate);
+        model.addAttribute("current_city" , current_city);
 
-        model.addAttribute("user_role_list" , user_role_list);
+        model.addAttribute("sys_used_city_list" , sys_used_city_list);
+//        model.addAttribute("user_role_list" , user_role_list);
+        model.addAttribute("user_all_org_list" , user_all_org_list);
         model.addAttribute("vehicle_insurance_remind_list" , vehicle_insurance_remind_list);
         return "/module/vehiclemanage/insuranceremind/index";
     }

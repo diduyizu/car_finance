@@ -38,7 +38,7 @@ public class VehicleManageDao extends BaseJdbcDaoImpl {
 
         if(current_city != null && !"".equals(current_city.trim())) {
             sql = sql + " and current_city = ? ";
-            param.add(current_city);
+            param.add(Long.valueOf(current_city));
         }
         if(brand != null && !"".equals(brand.trim())) {
             sql = sql + " and brand like ? ";
@@ -98,7 +98,7 @@ public class VehicleManageDao extends BaseJdbcDaoImpl {
 
         if(current_city != null && !"".equals(current_city.trim())) {
             sql = sql + " and current_city = ? ";
-            param.add(current_city);
+            param.add(Long.valueOf(current_city));
         }
         if(brand != null && !"".equals(brand.trim())) {
             sql = sql + " and brand like ? ";
@@ -341,9 +341,36 @@ public class VehicleManageDao extends BaseJdbcDaoImpl {
      * @param remind_day
      * @return
      */
-    public long getInsuranceRemindCount(long original_org , int remind_day) {
-        String sql = "select count(1) from vehicle_info where original_org = ? and TO_DAYS(NOW()) - TO_DAYS(strong_insurance_expire_at) <= ?";
-        Object[] o = new Object[] { original_org , remind_day };
+    public long getInsuranceRemindCount(long original_org , String carframe_no , String engine_no , String current_city , String license_plate , int remind_day) {
+//        String sql = "select count(1) from vehicle_info where original_org = ? and TO_DAYS(NOW()) - TO_DAYS(strong_insurance_expire_at) <= ?";
+//        Object[] o = new Object[] { original_org , remind_day };
+        String sql = "select count(1) from vehicle_info where original_org = ? ";
+        List<Object> param = new ArrayList<Object>();
+        param.add(original_org);
+
+        if(carframe_no != null && !"".equals(carframe_no.trim())) {
+            sql = sql + " and carframe_no = ? ";
+            param.add(carframe_no);
+        }
+        if(engine_no != null && !"".equals(engine_no.trim())) {
+            sql = sql + " and engine_no = ? ";
+            param.add(engine_no);
+        }
+        if(current_city != null && !"".equals(current_city.trim())) {
+            sql = sql + " and current_city = ? ";
+            param.add(Long.valueOf(current_city));
+        }
+        if(license_plate != null && !"".equals(license_plate.trim())) {
+            sql = sql + " and license_plate = ? ";
+            param.add(license_plate);
+        }
+        sql = sql + " and TO_DAYS(strong_insurance_expire_at) - TO_DAYS(NOW()) <= ?";
+        param.add(remind_day);
+
+        Object[] o = new Object[param.size()];
+        for(int i = 0 ; i < param.size() ; i++) {
+            o[i] = param.get(i);
+        }
 
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().queryForLong(sql, o);
@@ -359,7 +386,7 @@ public class VehicleManageDao extends BaseJdbcDaoImpl {
      * @param size
      * @return
      */
-    public List<VehicleInfo> getVehicleInsuranceList(long original_org , String carframe_no , String engine_no , String license_plate , int remind_day , int start , int size) {
+    public List<VehicleInfo> getVehicleInsuranceList(long original_org , String carframe_no , String engine_no , String license_plate , String current_city , int remind_day , int start , int size) {
         String sql = "select * from vehicle_info where original_org = ? ";
         List<Object> param = new ArrayList<Object>();
         param.add(original_org);
@@ -376,7 +403,11 @@ public class VehicleManageDao extends BaseJdbcDaoImpl {
             sql = sql + " and license_plate = ? ";
             param.add(license_plate);
         }
-        sql = sql + " and TO_DAYS(NOW()) - TO_DAYS(strong_insurance_expire_at) <= ? order by strong_insurance_expire_at desc limit ?,?";
+        if(current_city != null && !"".equals(current_city.trim())) {
+            sql = sql + " and current_city = ? ";
+            param.add(Long.valueOf(current_city));
+        }
+        sql = sql + " and TO_DAYS(strong_insurance_expire_at) - TO_DAYS(NOW()) <= ? order by strong_insurance_expire_at limit ?,?";
         param.add(remind_day);
         param.add(start);
         param.add(size);

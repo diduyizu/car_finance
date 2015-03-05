@@ -35,23 +35,35 @@
 </head>
 <body>
 <form class="form-inline definewidth m20" action="${ctx}/vehicle/insuranceremind/index" method="post">
-    门店：
-    <select id="original_org">
-        <c:forEach var="user_role" items="${user_role_list}" varStatus="status">
-            <c:if test="${user_role.org_id == original_org}">
-                <option value="${user_role.org_id}" selected="selected">${user_role.org_name}</option>
+    所在门店：
+    <select id="original_org" name="original_org">
+        <c:forEach var="org" items="${user_all_org_list}" varStatus="status">
+            <c:if test="${org.org_id == original_org}">
+                <option value="${org.org_id}" selected="selected">${org.org_name}</option>
             </c:if>
-            <c:if test="${user_role.org_id != original_org}">
-                <option value="${user_role.org_id}">${user_role.org_name}</option>
+            <c:if test="${org.org_id != original_org}">
+                <option value="${org.org_id}">${org.org_name}</option>
+            </c:if>
+        </c:forEach>
+    </select>
+    当前所在城市：
+    <select id="current_city" name="current_city">
+        <option value="">全部</option>
+        <c:forEach var="city" items="${sys_used_city_list}" varStatus="status">
+            <c:if test="${city.city_id == current_city}">
+                <option value="${city.city_id}" selected="selected">${city.city_name}</option>
+            </c:if>
+            <c:if test="${city.city_id != current_city}">
+                <option value="${city.city_id}">${city.city_name}</option>
             </c:if>
         </c:forEach>
     </select>
     <%--品牌：--%>
     <%--<input type="text" name="brand" id="brand"class="abc input-default" placeholder="" value="${brand}">&nbsp;&nbsp;--%>
-    车架号：
-    <input type="text" name="carframe_no" id="carframe_no"class="abc input-default" placeholder="" value="${carframe_no}">&nbsp;&nbsp;
-    发动机号：
-    <input type="text" name="engine_no" id="engine_no"class="abc input-default" placeholder="" value="${engine_no}">&nbsp;&nbsp;
+    <%--车架号：--%>
+    <%--<input type="text" name="carframe_no" id="carframe_no"class="abc input-default" placeholder="" value="${carframe_no}">&nbsp;&nbsp;--%>
+    <%--发动机号：--%>
+    <%--<input type="text" name="engine_no" id="engine_no"class="abc input-default" placeholder="" value="${engine_no}">&nbsp;&nbsp;--%>
     车牌号：
     <input type="text" name="license_plate" id="license_plate"class="abc input-default" placeholder="" value="${license_plate}">&nbsp;&nbsp;
     <button type="submit" class="btn btn-primary">查询</button>&nbsp;&nbsp;
@@ -59,26 +71,26 @@
 <table class="table table-bordered table-hover definewidth m10">
     <thead>
         <tr>
-            <th>车架号</th>
-            <th>发动机号</th>
+            <%--<th>车架号</th>--%>
+            <%--<th>发动机号</th>--%>
             <th>车牌号</th>
             <th>保险公司</th>
             <th>交强险</th>
-            <th>车船税</th>
             <th>交强险到期日期</th>
+            <th>车船税</th>
             <th>商业险</th>
             <th>商业险到期日期</th>
         </tr>
     </thead>
     <c:forEach var="vehicle" items="${vehicle_insurance_remind_list}" varStatus="status">
         <tr>
-            <td>${vehicle.carframe_no}</td>
-            <td>${vehicle.engine_no}</td>
-            <td>${vehicle.license_plate}</td>
+            <%--<td>${vehicle.carframe_no}</td>--%>
+            <%--<td>${vehicle.engine_no}</td>--%>
+            <td><a href="${ctx}/vehicle/insurance/detail?carframe_no=${vehicle.carframe_no}">${vehicle.license_plate}</a></td>
             <td>${vehicle.insurance_company}</td>
             <td>${vehicle.strong_insurance}</td>
-            <td>${vehicle.vehicle_vessel_tax}</td>
             <td>${vehicle.strong_insurance_expire_at}</td>
+            <td>${vehicle.vehicle_vessel_tax}</td>
             <td>${vehicle.business_insurance}</td>
             <td>${vehicle.business_insurance_expire_at}</td>
         </tr>

@@ -111,25 +111,25 @@
     <thead>
         <tr>
             <th>车牌</th>
-            <th>当前所在地市</th>
             <th>品牌</th>
             <th>车型</th>
-            <th>保养剩余公里数</th>
-            <th>公里数</th>
-            <th>GPS状态</th>
+            <th>当前所在地市</th>
             <th>车辆状态</th>
+            <th>GPS状态</th>
+            <%--<th>保养剩余公里数</th>--%>
+            <%--<th>公里数</th>--%>
         </tr>
     </thead>
     <c:forEach var="vehicle" items="${vehicle_list}" varStatus="status">
         <tr>
             <td><a href="javascript:;">${vehicle.license_plate}</a></td>
-            <td>${vehicle.current_city_name}</td>
             <td>${vehicle.brand}</td>
             <td>${vehicle.model}</td>
-            <td>${vehicle.maintian_on_km}</td>
-            <td>${vehicle.km}</td>
-            <td>${vehicle.gps}</td>
+            <td>${vehicle.current_city_name}</td>
             <td>${vehicle.lease_status}</td>
+            <td>${vehicle.gps}</td>
+            <%--<td>${vehicle.maintian_on_km}</td>--%>
+            <%--<td>${vehicle.km}</td>--%>
         </tr>
     </c:forEach>
     </tr>
