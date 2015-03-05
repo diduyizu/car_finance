@@ -332,7 +332,7 @@ public class VehicleManageDao extends BaseJdbcDaoImpl {
         Object[] o = new Object[] { carframe_no , engine_no , license_plate , peccancy_at , peccancy_place ,
                 peccancy_reason , score , status , create_by , peccancy_price , arbitration };
         logger.info(sql.replaceAll("\\?", "{}"), o);
-        return this.getJdbcTemplate().update(sql , o);
+        return this.getJdbcTemplate().update(sql, o);
     }
 
     /**
@@ -460,6 +460,88 @@ public class VehicleManageDao extends BaseJdbcDaoImpl {
             sql = "select * from vehicle_info where original_org = ? and lease_status = ? order by id desc limit ?,?";
             o = new Object[] { original_org , lease_status , start , size };
         }
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().query(sql, o, new VehicleInfoRowMapper());
+    }
+
+    /**
+     * 查询车辆未处理违章数量
+     * @param carframe_no
+     * @param engine_no
+     * @param license_plate
+     * @return
+     */
+    public long getVehiclePeccancyCount(String carframe_no , String engine_no , String license_plate) {
+        String sql = "select count(1) from vehicle_peccancy where carframe_no = ? and engine_no = ? and license_plate = ? and status = 0 ";
+        Object[] o = new Object[] { carframe_no , engine_no , license_plate };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().queryForLong(sql, o);
+    }
+
+    /**
+     * 更新车辆主表违章记录状态
+     * @return
+     */
+    public int updateVehiclePeccancyStatus(String carframe_no , String engine_no , String license_plate) {
+        String sql = "update vehicle_info set peccancy_status = 1 where carframe_no = ? and engine_no = ? and license_plate = ? and peccancy_status = 0 ";
+        Object[] o = new Object[] { carframe_no , engine_no , license_plate };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().update(sql, o);
+    }
+
+    public long getVehiclePeccancyRemindCount(long original_org , String current_city , String license_plate) {
+        String sql = "select count(1) from vehicle_info where original_org = ? ";
+        List<Object> param = new ArrayList<Object>();
+        param.add(original_org);
+
+        if(current_city != null && !"".equals(current_city.trim())) {
+            sql = sql + " and current_city = ? ";
+            param.add(Long.valueOf(current_city));
+        }
+        if(license_plate != null && !"".equals(license_plate.trim())) {
+            sql = sql + " and license_plate = ? ";
+            param.add(license_plate);
+        }
+        sql = sql + " and peccancy_status = 1 ";
+         Object[] o = new Object[param.size()];
+        for(int i = 0 ; i < param.size() ; i++) {
+            o[i] = param.get(i);
+        }
+
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().queryForLong(sql, o);
+    }
+
+    /**
+     * 获取车辆违章提醒列表
+     * @param original_org
+     * @param license_plate
+     * @param start
+     * @param size
+     * @return
+     */
+    public List<VehicleInfo> getVehiclePeccancyRemindList(long original_org ,  String license_plate , String current_city , int start , int size) {
+        String sql = "select * from vehicle_info where original_org = ? ";
+        List<Object> param = new ArrayList<Object>();
+        param.add(original_org);
+
+        if(license_plate != null && !"".equals(license_plate.trim())) {
+            sql = sql + " and license_plate = ? ";
+            param.add(license_plate);
+        }
+        if(current_city != null && !"".equals(current_city.trim())) {
+            sql = sql + " and current_city = ? ";
+            param.add(Long.valueOf(current_city));
+        }
+        sql = sql + " and peccancy_status = 1 order by id desc limit ?,?";
+        param.add(start);
+        param.add(size);
+
+        Object[] o = new Object[param.size()];
+        for(int i = 0 ; i < param.size() ; i++) {
+            o[i] = param.get(i);
+        }
+
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().query(sql, o, new VehicleInfoRowMapper());
     }

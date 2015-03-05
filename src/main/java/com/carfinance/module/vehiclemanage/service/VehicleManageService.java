@@ -174,8 +174,23 @@ public class VehicleManageService {
 
         try{
             Date peccancy_at_date = DateUtil.string2Date(peccancy_at);
-            return this.vehicleManageDao.addVehiclePeccancy(carframe_no , engine_no , license_plate , peccancy_at_date ,
+            int result = this.vehicleManageDao.addVehiclePeccancy(carframe_no , engine_no , license_plate , peccancy_at_date ,
                     peccancy_place , peccancy_reason , score , status , create_by , peccancy_price , arbitration);
+            if(result > 0) {//插入违章记录表成功后，需要判断该车辆是否还有未处理违章，如果有，需要更新车辆主表
+                boolean has_peccancy = false;
+                if(status == 1) {//本次录入的，就是未处理的违章，直接更新表
+                    has_peccancy = true;
+                } else {//根据车牌、发动机号、车架号，查询违章详细表，查找该车辆是否有未处理的违章
+                    long peccancy_coutn = this.vehicleManageDao.getVehiclePeccancyCount(carframe_no , engine_no , license_plate);
+                    if(peccancy_coutn > 0) {
+                        has_peccancy = true;
+                    }
+                }
+                if(has_peccancy) {//存在违章，更新车辆主表
+                    this.vehicleManageDao.updateVehiclePeccancyStatus(carframe_no , engine_no , license_plate);
+                }
+            }
+            return result;
         } catch (Exception e) {
             logger.info(e.getMessage() , e);
             return 0;
@@ -216,6 +231,15 @@ public class VehicleManageService {
         Map<String , Object> map = new HashMap<String, Object>();
         map.put("total" , total);
         map.put("vehicle_lease_status_list" , vehicle_lease_status_list);
+        return map;
+    }
+
+    public Map<String , Object> getVehiclePeccancyRemindList(long original_org , String current_city , String license_plate , int start , int size) {
+        long total = this.vehicleManageDao.getVehiclePeccancyRemindCount(original_org , current_city , license_plate);//需要提醒违章处理车辆总数
+        List<VehicleInfo> vehicle_peccancy_remind_list = this.vehicleManageDao.getVehiclePeccancyRemindList(original_org  , license_plate , current_city , start , size);
+        Map<String , Object> map = new HashMap<String, Object>();
+        map.put("total" , total);
+        map.put("vehicle_peccancy_remind_list" , vehicle_peccancy_remind_list);
         return map;
     }
 
