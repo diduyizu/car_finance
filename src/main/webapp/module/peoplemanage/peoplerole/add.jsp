@@ -46,7 +46,7 @@
                     <td>
                         <select id="org_id" name="org_id">
                             <%--<c:forEach var="org" items="${user_all_org_list}" varStatus="status">--%>
-                            <%--<option value="${org.org_id}">${org.org_name}</option>--%>
+                                <%--<option value="${org.org_id}">${org.org_name}</option>--%>
                             <%--</c:forEach>--%>
                             <c:forEach var="org" items="${user_org_list}" varStatus="status">
                                 <c:if test="${org.org_id == choose_org_id}">
@@ -92,14 +92,9 @@
 <script>
     $(function () {       
 		$('#backid').click(function(){
-            window.location.href="${ctx}/people/peoplerole/index";
-		});
-
-        $('#org_id').change(function(){
-            var org_id = $(this).children('option:selected').val();
             var edited_user_id = $('#edited_user_id').val();
-            window.location.href="${ctx}/people/peoplerole/edit?edited_user_id="+edited_user_id+"&org_id="+org_id;
-        });
+            window.location.href="${ctx}/people/peoplerole/detail?edited_user_id="+edited_user_id;
+		});
 
         $('#save').click(function(){
             var edited_user_id = $('#edited_user_id').val();
@@ -111,7 +106,7 @@
 
             $.ajax({
                 type:'POST',
-                url:'${ctx}/people/peoplerole/doedit',
+                url:'${ctx}/people/peoplerole/doadd',
                 data:{edited_user_id:edited_user_id,org_id:org_id,role_id:role_id},
                 dataType:'text',
                 success: function(data){

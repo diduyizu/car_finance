@@ -251,6 +251,36 @@ public class PeopleManageController {
         return "/module/peoplemanage/peoplerole/index";
 	}
 
+    @RequestMapping(value = "/peoplerole/detail" , method = RequestMethod.GET)
+    public String peopleroleDetail(Model model , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        String pageindexStr = request.getParameter("page_index");//第几页
+        int page_index = Integer.parseInt(StringUtils.isBlank(pageindexStr) || "0".equals(pageindexStr) ? "1" : pageindexStr);
+        int size = Integer.valueOf(appProps.get("people.people.size").toString());//每页显示条数
+        int start = (page_index - 1) * size;
+
+        long edited_user_id = Long.valueOf(request.getParameter("edited_user_id"));
+        Map<String , Object> map = this.peopleManageService.getUserOrgRoleList(edited_user_id, start, size);
+        long total = (Long)map.get("total");;
+        List<OrgUserRole> user_org_role_list = (List<OrgUserRole>)map.get("user_org_role_list");
+
+        long temp = (total - 1) <= 0 ? 0 : (total - 1);
+        int pages = Integer.parseInt(Long.toString(temp / size)) + 1;
+        int prepages = (page_index - 1) <= 0 ? 1 : (page_index - 1);
+        int nextpages = (page_index + 1) >= pages ? pages : (page_index + 1);
+
+        model.addAttribute("current_page" , page_index);
+        model.addAttribute("pages" , pages);
+        model.addAttribute("prepage" , prepages);
+        model.addAttribute("nextpage" , nextpages);
+        model.addAttribute("page_url" , request.getRequestURI());
+
+        model.addAttribute("edited_user_id" , edited_user_id);
+        model.addAttribute("user_org_role_list" , user_org_role_list);
+        return "/module/peoplemanage/peoplerole/detail";
+    }
+
     /**
      * 人员管理-人员角色管理
      * 点击修改，进入修改页面
@@ -260,17 +290,35 @@ public class PeopleManageController {
      * @return
      */
     @RequestMapping(value = "/peoplerole/edit" , method = RequestMethod.GET)
-    public String peopleroleDoAdd(Model model , HttpServletRequest request , HttpServletResponse response) {
+    public String peopleroleEdit(Model model , HttpServletRequest request , HttpServletResponse response) {
+//        User user = (User)request.getSession().getAttribute("user");
+//
+//        long edited_user_id = Long.valueOf(request.getParameter("edited_user_id"));//被编辑的用户id
+//        long org_id = Long.valueOf(request.getParameter("org_id"));//当前所在组织
+//        List<OrgUserRole> user_org_role_list = this.peopleManageService.getUserOrgRoleList(org_id , edited_user_id);
+//
+//        model.addAttribute("edited_user_name" , user_org_role_list.get(0).getUser_name());
+//        model.addAttribute("org_name" , user_org_role_list.get(0).getOrg_name());
+//        model.addAttribute("edited_user_id" , edited_user_id);
+//        model.addAttribute("org_id" , org_id);
+//        model.addAttribute("user_org_role_list" , user_org_role_list);
+
         User user = (User)request.getSession().getAttribute("user");
 
         long edited_user_id = Long.valueOf(request.getParameter("edited_user_id"));//被编辑的用户id
-        long org_id = Long.valueOf(request.getParameter("org_id"));//当前所在组织
-        List<OrgUserRole> user_org_role_list = this.peopleManageService.getUserOrgRoleList(org_id , edited_user_id);
+        User edited_user = this.peopleManageService.getUserByid(edited_user_id);
 
-        model.addAttribute("edited_user_name" , user_org_role_list.get(0).getUser_name());
-        model.addAttribute("org_name" , user_org_role_list.get(0).getOrg_name());
+        String org_id_str = request.getParameter("org_id");//当前所在组织
+        List<Org> user_org_list = this.commonService.getUserAllOrgList(user.getUser_id());
+        long org_id = (org_id_str == null || "".equals(org_id_str.trim())) ? user_org_list.get(0).getOrg_id() : Long.valueOf(org_id_str);
+        List<OrgUserRole> user_org_role_list = this.peopleManageService.getUserOrgRoleList(org_id , edited_user_id);
+//        List<Org> user_all_org_list = this.commonService.getUserAllOrgList(user.getUser_id());
+//        List<Role> roleList = initService.getRole();
+
         model.addAttribute("edited_user_id" , edited_user_id);
-        model.addAttribute("org_id" , org_id);
+        model.addAttribute("edited_user" , edited_user);
+        model.addAttribute("choose_org_id" , org_id);
+        model.addAttribute("user_org_list" , user_org_list);
         model.addAttribute("user_org_role_list" , user_org_role_list);
         return "/module/peoplemanage/peoplerole/edit";
     }
@@ -293,6 +341,39 @@ public class PeopleManageController {
 
         return this.peopleManageService.peopleroleDoEdit(edited_user_id , org_id , role_ids);
     }
+
+//    @RequestMapping(value = "/peoplerole/add" , method = RequestMethod.GET)
+//    public String peopleroleAdd(Model model , HttpServletRequest request , HttpServletResponse response) {
+//        User user = (User)request.getSession().getAttribute("user");
+//
+//        long edited_user_id = Long.valueOf(request.getParameter("edited_user_id"));//被编辑的用户id
+//        User edited_user = this.peopleManageService.getUserByid(edited_user_id);
+//
+//        String org_id_str = request.getParameter("org_id");//当前所在组织
+//        List<Org> user_org_list = this.commonService.getUserAllOrgList(user.getUser_id());
+//        long org_id = (org_id_str == null || "".equals(org_id_str.trim())) ? user_org_list.get(0).getOrg_id() : Long.valueOf(org_id_str);
+//        List<OrgUserRole> user_org_role_list = this.peopleManageService.getUserOrgRoleList(org_id , edited_user_id);
+////        List<Org> user_all_org_list = this.commonService.getUserAllOrgList(user.getUser_id());
+////        List<Role> roleList = initService.getRole();
+//
+//        model.addAttribute("edited_user_id" , edited_user_id);
+//        model.addAttribute("edited_user" , edited_user);
+//        model.addAttribute("choose_org_id" , org_id);
+//        model.addAttribute("user_org_list" , user_org_list);
+//        model.addAttribute("user_org_role_list" , user_org_role_list);
+//        return "/module/peoplemanage/peoplerole/add";
+//    }
+//
+//    @RequestMapping(value = "/peoplerole/doadd" , method = RequestMethod.POST)
+//    @ResponseBody
+//    public int peopleroleDoADD(Model model , HttpServletRequest request , HttpServletResponse response) {
+//        User user = (User)request.getSession().getAttribute("user");
+//        long edited_user_id = Long.valueOf(request.getParameter("edited_user_id"));
+//        long org_id = Long.valueOf(request.getParameter("org_id"));
+//        String role_ids = request.getParameter("role_id");//角色id，xxx,xxx,xxx格式
+//
+//        return this.peopleManageService.peopleroleDoEdit(edited_user_id , org_id , role_ids);
+//    }
 
     /**
      * 角色权限配置

@@ -143,11 +143,8 @@ public class PeopleManageService {
     }
 
     public Map<String , Object> getOrgUserRolelist(long org_id , String user_name , int start ,  int size) {
-        long total = 1;
-        if(user_name == null) {
-            total = peopleManageDao.getOrgUserRolelist(org_id);//某组织下用户角色总数
-        }
-        List<OrgUserRole> org_user_list = peopleManageDao.getOrgUserRolelist(org_id, user_name , start, size);
+        long total = peopleManageDao.getOrgUserRoleCount(org_id , user_name);//某组织下用户角色总数
+        List<OrgUserRole> org_user_list = peopleManageDao.getOrgUserRoleList(org_id, user_name , start, size);
         Map<String , Object> map = new HashMap<String, Object>();
         map.put("total" , total);
         map.put("org_user_role_list" , org_user_list);
@@ -172,7 +169,8 @@ public class PeopleManageService {
                     break;
                 }
             }
-            OrgUserRole org_user_role = new OrgUserRole(user_id , role.getRole_id() , org_id , user_role_list.get(0).getUser_name()  , role.getRole_name() , user_role_list.get(0).getOrg_name() , user_role_status);
+            String user_name = (user_role_list == null || user_role_list.size() == 0) ? "": user_role_list.get(0).getUser_name();
+            OrgUserRole org_user_role = new OrgUserRole(user_id , role.getRole_id() , org_id , user_name  , role.getRole_name() , user_name , user_role_status);
             org_user_role_list.add(org_user_role);
         }
         return org_user_role_list;
@@ -218,8 +216,36 @@ public class PeopleManageService {
     }
 
     public int peopleroleDoEdit(long edited_user_id , long org_id , String role_ids) {
-        role_ids = role_ids.substring(0 , role_ids.length()-1);
-        this.peopleManageDao.peopleroleDoEdit(edited_user_id, org_id, role_ids.split(","));
+        role_ids = role_ids.length() > 0 ? role_ids.substring(0 , role_ids.length()-1) : role_ids;
+        this.peopleManageDao.peopleroleDoEdit(edited_user_id, org_id, role_ids);
         return 1;
+    }
+
+    public User getUserByid(long user_id) {
+        return this.peopleManageDao.getUserByid(user_id);
+    }
+
+    public Map<String , Object> getUserOrgRoleList(long user_id , int start, int size) {
+//        List<Role> role_list = this.initService.getRole();
+//        List<OrgUserRole> user_role_list = this.peopleManageDao.getUserOrgRoleList(user_id);
+//        List<OrgUserRole> org_user_role_list = new ArrayList<OrgUserRole>();
+//        for(Role role : role_list) {
+//            int user_role_status = 0;
+//            for(OrgUserRole user_role : user_role_list) {
+//                if(user_role.getRole_id() == role.getRole_id()) {
+//                    user_role_status = 1;
+//                    break;
+//                }
+//            }
+//            OrgUserRole org_user_role = new OrgUserRole(user_id , role.getRole_id() , org_id , user_role_list.get(0).getUser_name()  , role.getRole_name() , user_role_list.get(0).getOrg_name() , user_role_status);
+//            org_user_role_list.add(org_user_role);
+//        }
+//        return org_user_role_list;
+        long total = this.peopleManageDao.getUserOrgRoleCount(user_id);
+        List<OrgUserRole> user_org_role_list = this.peopleManageDao.getUserOrgRoleList(user_id , start , size);
+        Map<String , Object> map = new HashMap<String, Object>();
+        map.put("total" , total);
+        map.put("user_org_role_list" , user_org_role_list);
+        return map;
     }
 }
