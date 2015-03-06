@@ -128,6 +128,9 @@
                     if(data == 1){
                         alert("成功");
                         location.reload();
+                    } else if(data = -1) {
+                        alert("证件号码重复");
+                        return false;
                     } else {
                         alert("失败");
                         return false;
