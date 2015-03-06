@@ -267,7 +267,6 @@ public class VehicleManageController {
         int start = (page_index - 1) * size;
 
         String carframe_no = request.getParameter("carframe_no");//车架号
-
         Map<String , Object> map = this.vehicleManageService.getVehicleInsuranceList(carframe_no , start , size);
 
         long total = (Long)map.get("total");;

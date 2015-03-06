@@ -34,7 +34,18 @@
     </style>
 </head>
 <body>
-<form class="form-inline definewidth m20" action="${ctx}/customer/info/index" method="post">
+<form class="form-inline definewidth m20" action="${ctx}/vehicleservice/reservation/index" method="post">
+    门店：
+    <select id="original_org" name="original_org">
+        <c:forEach var="org" items="${user_all_org_list}" varStatus="status">
+            <c:if test="${org.org_id == original_org}">
+                <option value="${org.org_id}" selected="selected">${org.org_name}</option>
+            </c:if>
+            <c:if test="${org.org_id != original_org}">
+                <option value="${org.org_id}">${org.org_name}</option>
+            </c:if>
+        </c:forEach>
+    </select>&nbsp;&nbsp;
     姓名：
     <input type="text" name="customer_name" id="customer_name"class="abc input-default" placeholder="" value="${customer_name}">&nbsp;&nbsp;
     手机号码：
@@ -68,9 +79,15 @@
             <td>${reservation.model}</td>
             <td>${reservation.unit_price}</td>
             <td>${reservation.quantity}</td>
-            <td>${reservation.with_driver}</td>
-            <td>${reservation.expenses_self}</td>
-            <td><${reservation.status}</td>
+            <td>
+                <c:if test="${reservation.with_driver == 1}">是</c:if>
+                <c:if test="${reservation.with_driver == 0}">否</c:if>
+            </td>
+            <td>
+                <c:if test="${reservation.expenses_self == 1}">是</c:if>
+                <c:if test="${reservation.expenses_self == 0}">否</c:if>
+            </td>
+            <td>${reservation.status}</td>
         </tr>
     </c:forEach>
 </table>
