@@ -278,4 +278,14 @@ public class CommonService {
 
         return user_all_org_list;
     }
+
+    /**
+     * 根据用户、角色，获取该用户所有组织列表
+     * @param user_id
+     * @param role_id
+     * @return
+     */
+    public List<Org> getUserRoleOrgList(long user_id , long role_id) {
+        return this.commonDao.getUserRoleOrgList(user_id , role_id);
+    }
 }

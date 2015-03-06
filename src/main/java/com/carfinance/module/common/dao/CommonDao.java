@@ -144,4 +144,17 @@ public class CommonDao extends BaseJdbcDaoImpl{
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().query(sql , o  , new OrgRowMapper());
     }
+
+    /**
+     * 根据用户、角色，获取该用户所有组织列表
+     * @param user_id
+     * @param role_id
+     * @return
+     */
+    public List<Org> getUserRoleOrgList(long user_id , long role_id) {
+        String sql="select b.* from user_role a , sys_org b where a.org_id = b.org_id and a.user_id = ? and role_id = ? order by b.pid , b.org_type";
+        Object[] o = new Object[] { user_id , role_id };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().query(sql , o  , new OrgRowMapper());
+    }
 }

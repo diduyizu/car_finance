@@ -61,4 +61,20 @@ public class VehicleServiceManageService {
             return 0;
         }
     }
+
+    /**
+     * 获取某组织下，风控需要审核预约单列表
+     * @param org_id
+     * @param start
+     * @param size
+     * @return
+     */
+    public Map<String , Object> getOrgRiskControlList(long org_id , String status , int start, int size) {
+        long total = this.vehicleServiceManageDao.getOrgRiskControlCount(org_id , status);
+        List<VehicleReservationInfo> reservation_list = this.vehicleServiceManageDao.getOrgRiskControlList(org_id , status , start , size);
+        Map<String , Object> map = new HashMap<String, Object>();
+        map.put("total" , total);
+        map.put("reservation_list", reservation_list);
+        return map;
+    }
 }

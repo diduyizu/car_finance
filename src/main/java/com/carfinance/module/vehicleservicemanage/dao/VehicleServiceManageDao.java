@@ -53,6 +53,36 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
 
     }
 
+    public long getOrgRiskControlCount(long org_id , String status) {
+        String sql;
+        Object[] o;
+        if(status == null || "".equals(status)) {
+            sql = "select count(1) from vehicle_reservation where org_id = ? and status in ('待审核','风控通过','风控不通过')";
+            o = new Object[] { org_id };
+        } else {
+            sql = "select count(1) from vehicle_reservation where org_id = ? and status = ? ";
+            o = new Object[] { org_id , status };
+        }
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().queryForLong(sql, o);
+    }
 
+    /**
+     * 获取某个门店下，风控列表
+     */
+    public List<VehicleReservationInfo> getOrgRiskControlList(long org_id , String status , int start, int size) {
+        String sql;
+        Object[] o;
+        if(status == null || "".equals(status)) {
+            sql = "select * from vehicle_reservation where org_id = ? and status in ('待审核','风控通过','风控不通过') limit ?,? ";
+            o = new Object[] { org_id , start , size };
+        } else {
+            sql = "select * from vehicle_reservation where org_id = ? and status = ? limit ?,? ";
+            o = new Object[] { org_id , status , start , size};
+        }
+
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().query(sql, o, new VehicleReservationInfoRowMapper());
+    }
 
 }

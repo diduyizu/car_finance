@@ -47,7 +47,7 @@ public class VehicleServiceManageController {
      * @return
      */
     @RequestMapping(value = "/reservation/index" , method = {RequestMethod.GET , RequestMethod.POST})
-    public String registerIndex(Model model , HttpServletRequest request , HttpServletResponse response) {
+    public String reservationIndex(Model model , HttpServletRequest request , HttpServletResponse response) {
         User user = (User)request.getSession().getAttribute("user");
 
         String pageindexStr = request.getParameter("page_index");//第几页
@@ -112,7 +112,7 @@ public class VehicleServiceManageController {
      * @return
      */
     @RequestMapping(value = "/reservation/add" , method = RequestMethod.GET)
-    public String registerAdd(Model model , HttpServletRequest request , HttpServletResponse response) {
+    public String reservationAdd(Model model , HttpServletRequest request , HttpServletResponse response) {
         User user = (User)request.getSession().getAttribute("user");
 
         //获取用户角色列表
@@ -124,9 +124,16 @@ public class VehicleServiceManageController {
         return "/module/vehicleservicemanage/reservation/add";
     }
 
+    /**
+     * 执行新增
+     * @param model
+     * @param request
+     * @param response
+     * @return
+     */
     @RequestMapping(value = "/reservation/doadd" , method = RequestMethod.POST)
     @ResponseBody
-    public int ReservationDoAdd(Model model , HttpServletRequest request , HttpServletResponse response) {
+    public int reservationDoAdd(Model model , HttpServletRequest request , HttpServletResponse response) {
         User user = (User)request.getSession().getAttribute("user");
 
         String original_org = request.getParameter("original_org");
@@ -144,5 +151,63 @@ public class VehicleServiceManageController {
 
         return this.vehicleServiceManageService.addReservation(original_org , carframe_model , customer_name , customer_dn ,
                 use_begin , use_end , unit_price , quantity , with_driver , expenses_self , employee_id , employee_name , user.getUser_id());
+    }
+
+    /**
+     * 风控审核列表
+     * 同时，系统管理员能够查看到全部
+     * @param model
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/riskcontrol/audit" , method = {RequestMethod.GET , RequestMethod.POST})
+    public String reservationAudit(Model model , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        String pageindexStr = request.getParameter("page_index");//第几页
+        int page_index = Integer.parseInt(StringUtils.isBlank(pageindexStr) || "0".equals(pageindexStr) ? "1" : pageindexStr);
+        int size = Integer.valueOf(appProps.get("vehicle.reservation.query.size").toString());//每页显示条数
+        int start = (page_index - 1) * size;
+
+        String original_org_str = request.getParameter("original_org");
+        String status = request.getParameter("status");
+
+        //获取当前用户存在风控的组织列表，管理员获取全部组织列表
+        List<Org> user_role_org_list = this.commonService.getUserRoleOrgList(user.getUser_id() , 20006);
+
+        //获取用户角色列表
+        long original_org = (original_org_str == null || "".equals(original_org_str.trim())) ? user_role_org_list.get(0).getOrg_id() : Long.valueOf(original_org_str);
+        String original_org_name = "";
+        for(Org org : user_role_org_list) {
+            if(org.getOrg_id() == original_org) {
+                original_org_name = org.getOrg_name();
+                break;
+            }
+        }
+
+        Map<String , Object> map = this.vehicleServiceManageService.getOrgRiskControlList(original_org, status, start, size);
+
+        long total = (Long)map.get("total");
+        List<VehicleReservationInfo> reservation_list = (List<VehicleReservationInfo>)map.get("reservation_list");
+
+        long temp = (total - 1) <= 0 ? 0 : (total - 1);
+        int pages = Integer.parseInt(Long.toString(temp / size)) + 1;
+        int prepages = (page_index - 1) <= 0 ? 1 : (page_index - 1);
+        int nextpages = (page_index + 1) >= pages ? pages : (page_index + 1);
+
+        model.addAttribute("current_page" , page_index);
+        model.addAttribute("pages" , pages);
+        model.addAttribute("prepage" , prepages);
+        model.addAttribute("nextpage" , nextpages);
+        model.addAttribute("page_url" , request.getRequestURI());
+
+        model.addAttribute("status" , status);
+        model.addAttribute("original_org" , original_org);
+        model.addAttribute("original_org_name" , original_org_name);
+
+        model.addAttribute("user_role_org_list" , user_role_org_list);
+        model.addAttribute("reservation_list" , reservation_list);
+        return "/module/vehicleservicemanage/riskcontrol/auditlist";
     }
 }
