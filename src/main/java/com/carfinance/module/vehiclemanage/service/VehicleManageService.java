@@ -76,11 +76,11 @@ public class VehicleManageService {
                           long km , long maintian_on_km , String gps , long current_city , long current_shop , String lease_status , String peccancy_status , long next_main_km) {
 
         try{
-            Date buy_at_date = DateUtil.string2Date(buy_at);
-            Date card_at_date = DateUtil.string2Date(card_at);
-            Date limited_at_date = DateUtil.string2Date(limited_at);
-            Date strong_insurance_expire_at_date = DateUtil.string2Date(strong_insurance_expire_at);
-            Date business_insurance_expire_at_date = DateUtil.string2Date(business_insurance_expire_at);
+            Date buy_at_date = DateUtil.string2Date(buy_at , "yyyy-MM-dd");
+            Date card_at_date = DateUtil.string2Date(card_at , "yyyy-MM-dd");
+            Date limited_at_date = DateUtil.string2Date(limited_at , "yyyy-MM-dd");
+            Date strong_insurance_expire_at_date = DateUtil.string2Date(strong_insurance_expire_at , "yyyy-MM-dd");
+            Date business_insurance_expire_at_date = DateUtil.string2Date(business_insurance_expire_at , "yyyy-MM-dd");
             int result = this.vehicleManageDao.addVehicle(archive_no , inventory_no , brand , model , color , carframe_no , engine_no ,
                     registry_certificate , certificate_direction , loan_bank , consistency_cer , check_list ,
                     duty_paid_proof , record , buy_at_date , supplier , license_plate , card_at_date ,
@@ -155,8 +155,8 @@ public class VehicleManageService {
                             String business_insurance_expire_at , String remark , long create_by) {
 
         try{
-            Date strong_insurance_expire_at_date = DateUtil.string2Date(strong_insurance_expire_at);
-            Date business_insurance_expire_at_date = DateUtil.string2Date(business_insurance_expire_at);
+            Date strong_insurance_expire_at_date = DateUtil.string2Date(strong_insurance_expire_at , "yyyy-MM-dd");
+            Date business_insurance_expire_at_date = DateUtil.string2Date(business_insurance_expire_at , "yyyy-MM-dd");
 
             int i = this.vehicleManageDao.addVehicleInsurance(carframe_no , engine_no , license_plate , insurance_company , strong_insurance ,
                         vehicle_vessel_tax , strong_insurance_expire_at_date , business_insurance , business_insurance_expire_at_date , remark , create_by);
@@ -177,7 +177,7 @@ public class VehicleManageService {
                                   String employee_id , String employee_name , long customer_id , String customer_name) {
 
         try{
-            Date peccancy_at_date = DateUtil.string2Date(peccancy_at);
+            Date peccancy_at_date = DateUtil.string2Date(peccancy_at , "yyyy-MM-dd");
             int result = this.vehicleManageDao.addVehiclePeccancy(carframe_no , engine_no , license_plate , peccancy_at_date ,
                     peccancy_place , peccancy_reason , score , status , create_by , peccancy_price , arbitration ,
                     employee_id , employee_name , customer_id , customer_name);
@@ -272,7 +272,7 @@ public class VehicleManageService {
                                   String peccancy_reason , long score , int status , double peccancy_price , String arbitration , long userid) {
 
         try{
-            Date peccancy_at_date = DateUtil.string2Date(peccancy_at);
+            Date peccancy_at_date = DateUtil.string2Date(peccancy_at , "yyyy-MM-dd");
             int result = this.vehicleManageDao.peccancyDoHandle(id, carframe_no, engine_no, license_plate, peccancy_at_date,
                     peccancy_place, peccancy_reason, score, status, peccancy_price, arbitration, userid);
             if(result > 0) {//更新成功后，判断是否还有违章记录，需要更新汽车主表的违章记录状态
@@ -309,7 +309,7 @@ public class VehicleManageService {
                                    String maintain_content , double maintain_price , long current_km , long next_maintain_km ,
                                    long user_id , String user_name , long create_by) {
         try{
-            Date maintain_at_date = DateUtil.string2Date(maintain_at);
+            Date maintain_at_date = DateUtil.string2Date(maintain_at , "yyyy-MM-dd");
             int result = this.vehicleManageDao.addVehicleMaintain(carframe_no, engine_no, license_plate, maintain_at_date, maintain_content,
                    maintain_price, current_km, next_maintain_km, user_id, user_name, create_by);
             if(result > 0) {//插入保养记录表成功后，需要更新车辆主表

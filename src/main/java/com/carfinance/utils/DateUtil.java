@@ -21,12 +21,12 @@ public class DateUtil {
 	
 	/**
 	 * 将字符串转化为Date类型
-	 * @param str 字符串 格式为 yyyy-MM-dd
+	 * @param str 字符串 格式为 yyyy-MM-dd/yyyy-MM-dd HH:MM:SS
 	 * @return
 	 * @throws Exception
 	 */
-	public static Date string2Date(String str) throws Exception{
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+	public static Date string2Date(String str , String date_format) throws Exception{
+		SimpleDateFormat format = new SimpleDateFormat(date_format);
 		return format.parse(str);
 	}
 
