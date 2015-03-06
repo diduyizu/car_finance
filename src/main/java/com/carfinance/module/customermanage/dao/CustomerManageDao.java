@@ -28,9 +28,26 @@ public class CustomerManageDao extends BaseJdbcDaoImpl {
      * 获取客户总数
      * @return
      */
-    public long getCustomerCount() {
-        String sql = "select count(1) from customer_info ";
-        Object[] o = new Object[] { };
+    public long getCustomerCount(String customer_name , String dn , String certificate_no) {
+        String sql = "select count(1) from customer_info where 1=1 ";
+        List<Object> param = new ArrayList<Object>();
+
+        if(customer_name != null && !"".equals(customer_name.trim())) {
+            sql = sql + " and customer_name = ? ";
+            param.add(customer_name);
+        }
+        if(dn != null && !"".equals(dn.trim())) {
+            sql = sql + " and customer_dn = ? ";
+            param.add(dn);
+        }
+        if(certificate_no != null && !"".equals(certificate_no.trim())) {
+            sql = sql + " and certificate_no = ? ";
+            param.add(certificate_no);
+        }
+        Object[] o = new Object[param.size()];
+        for(int i = 0 ; i < param.size() ; i++) {
+            o[i] = param.get(i);
+        }
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().queryForLong(sql, o);
     }
@@ -42,12 +59,20 @@ public class CustomerManageDao extends BaseJdbcDaoImpl {
      * @param size
      * @return
      */
-    public List<CustomerInfo> getCustomerList(String certificate_no , int start , int size) {
-        String sql = "select * from customer_info ";
+    public List<CustomerInfo> getCustomerList(String customer_name , String dn , String certificate_no , int start , int size) {
+        String sql = "select * from customer_info where 1=1 ";
         List<Object> param = new ArrayList<Object>();
 
+        if(customer_name != null && !"".equals(customer_name.trim())) {
+            sql = sql + " and customer_name = ? ";
+            param.add(customer_name);
+        }
+        if(dn != null && !"".equals(dn.trim())) {
+            sql = sql + " and customer_dn = ? ";
+            param.add(dn);
+        }
         if(certificate_no != null && !"".equals(certificate_no.trim())) {
-            sql = sql + " where certificate_no = ? ";
+            sql = sql + " and certificate_no = ? ";
             param.add(certificate_no);
         }
         sql = sql + " order by id desc limit ?,?";

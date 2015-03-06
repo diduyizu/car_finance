@@ -54,8 +54,10 @@ public class CustomerManageController {
         int size = Integer.valueOf(appProps.get("customer.query.size").toString());//每页显示条数
         int start = (page_index - 1) * size;
 
+        String customer_name = request.getParameter("customer_name");
+        String dn = request.getParameter("dn");
         String certificate_no = request.getParameter("certificate_no");
-        Map<String , Object> map = this.customerManageService.getCustomerList(certificate_no, start, size);
+        Map<String , Object> map = this.customerManageService.getCustomerList(customer_name , dn , certificate_no, start, size);
 
         long total = (Long)map.get("total");;
         List<CustomerInfo> customer_list = (List<CustomerInfo>)map.get("customer_list");
@@ -71,6 +73,8 @@ public class CustomerManageController {
         model.addAttribute("nextpage" , nextpages);
         model.addAttribute("page_url" , request.getRequestURI());
 
+        model.addAttribute("customer_name" , customer_name);
+        model.addAttribute("dn" , dn);
         model.addAttribute("certificate_no" , certificate_no);
         model.addAttribute("customer_list" , customer_list);
         return "/module/customermanage/index";

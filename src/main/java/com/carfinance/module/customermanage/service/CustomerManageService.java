@@ -40,9 +40,9 @@ public class CustomerManageService {
     private CommonDao commonDao;
 
 
-    public Map<String , Object> getCustomerList(String certificate_no , int start , int size) {
-        long total = (certificate_no == null || "".equals(certificate_no)) ? this.customerManageDao.getCustomerCount() : 1;
-        List<CustomerInfo> customer_list = this.customerManageDao.getCustomerList(certificate_no, start, size);
+    public Map<String , Object> getCustomerList(String customer_name , String dn , String certificate_no , int start , int size) {
+        long total = this.customerManageDao.getCustomerCount(customer_name , dn , certificate_no);
+        List<CustomerInfo> customer_list = this.customerManageDao.getCustomerList(customer_name , dn , certificate_no, start, size);
         Map<String , Object> map = new HashMap<String, Object>();
         map.put("total" , total);
         map.put("customer_list" , customer_list);
