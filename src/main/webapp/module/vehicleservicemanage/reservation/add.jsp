@@ -4,21 +4,17 @@
 <html>
 <head>
     <title></title>
-    <link rel="stylesheet" type="text/css" href="<c:url value="/resources/Css/bootstrap.css" />" />
-    <link rel="stylesheet" type="text/css" href="<c:url value="/resources/Css/bootstrap-responsive.css" />" />
-    <link rel="stylesheet" type="text/css" href="<c:url value="/resources/Css/style.css" />" />
     <link rel="stylesheet" type="text/css" href="<c:url value="/resources/Css/bootstrap.min.css" />" />
-    <link rel="stylesheet" type="text/css" href="<c:url value="/resources/Css/bootstrap-datetimepicker.min.css" />" />
+    <link rel="stylesheet" type="text/css" href="<c:url value="/resources/Css/bootstrap-responsive.css" />" />
+    <link rel="stylesheet" type="text/css" href="<c:url value="/resources/Css/datetimepicker.css" />" />
+    <link rel="stylesheet" type="text/css" href="<c:url value="/resources/Css/style.css" />" />
 
     <script type="text/javascript" src="<c:url value="/resources/Js/jquery.js" />"></script>
-    <script type="text/javascript" src="<c:url value="/resources/Js/bootstrap.js" />"></script>
+    <script type="text/javascript" src="<c:url value="/resources/Js/bootstrap.min.js" />"></script>
+    <script type="text/javascript" src="<c:url value="/resources/Js/bootstrap-datetimepicker.js" />"></script>
+    <script type="text/javascript" src="<c:url value="/resources/Js/bootstrap-datetimepicker.zh-CN.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/Js/ckform.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/Js/common.js" />"></script>
-    <script type="text/javascript" src="<c:url value="/resources/Js/bootstrap.min.js" />"></script>
-    <script type="text/javascript" src="<c:url value="/resources/Js/bootstrap-datetimepicker.min.js" />"></script>
-    <script type="text/javascript" src="<c:url value="/resources/Js/bootstrap-datetimepicker.zh-CN.js" />"></script>
-
- 
 
     <style type="text/css">
         body {
