@@ -89,7 +89,12 @@ public class StoreManageService {
             }
         }
 
-        return this.storeManageDao.createStore(province_id , city_id , 0 , store_type , pid ,  store_name , store_address , org_type_name , org_province_name , org_city_name , "");
+        int result = this.storeManageDao.createStore(province_id , city_id , 0 , store_type , pid ,  store_name , store_address , org_type_name , org_province_name , org_city_name , "");
+        if(result > 0) {//成功，更新使用地市
+            this.storeManageDao.updateCityUsedStatus(city_id , province_id);
+        }
+
+        return result;
     }
 
     /**

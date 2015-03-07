@@ -93,4 +93,11 @@ public class StoreManageDao extends BaseJdbcDaoImpl {
         }
     }
 
+    public void updateCityUsedStatus(long city_id , long province_id) {
+        String sql = "update sys_city set status = 1 where city_id = ? and province_id = ?";
+        Object[] o = new Object[] { city_id , province_id };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        this.getJdbcTemplate().update(sql, o);
+    }
+
 }
