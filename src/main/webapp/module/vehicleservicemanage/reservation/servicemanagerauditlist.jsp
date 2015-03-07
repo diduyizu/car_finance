@@ -94,7 +94,7 @@
             <td>
                 <c:if test="${reservation.status == '风控通过'}">
                     <button type="button" class="btn btn-success" id="pass" value="${reservation.id}">通过</button>
-                    <button type="button" class="btn btn-error" id="nopass" value="${reservation.id}">不通过</button>
+                    <button type="button" class="btn btn-danger" id="nopass" value="${reservation.id}">不通过</button>
                 </c:if>
             </td>
         </tr>
@@ -124,21 +124,23 @@
         })
 
         $('#nopass').click(function(){
-            var id = $(this).val();
-            $.ajax({
-                url:"${ctx}/vehicleservice/servicemanager/doaudit",
-                type: "post",
-                data:{id:id,status:'业务经理不通过'},
-                success:function(data){
-                    if(data == 1){
-                        alert("成功");
-                        location.reload();
-                    } else {
-                        alert("失败");
-                        return false;
+            if(confirm("确定不通过吗？")) {
+                var id = $(this).val();
+                $.ajax({
+                    url:"${ctx}/vehicleservice/servicemanager/doaudit",
+                    type: "post",
+                    data:{id:id,status:'业务经理不通过'},
+                    success:function(data){
+                        if(data == 1){
+                            alert("成功");
+                            location.reload();
+                        } else {
+                            alert("失败");
+                            return false;
+                        }
                     }
-                }
-            })
+                })
+            }
         })
     });
 

@@ -192,23 +192,28 @@ public class PeopleManageService {
      * @return
      */
     public int roleMenuDoConfig(String sub_menu_ids , long role_id) {
-        //找到子菜单对应的父菜单
-        String[] sub_menu_arr = sub_menu_ids.substring(0 , sub_menu_ids.length()-1).split(",");
-        List<Long> top_menu_list = new ArrayList<Long>();
-        for(int i = 0 ; i < sub_menu_arr.length ; i++) {
-            String sub_menu_id_str = sub_menu_arr[i];
-            String top_menu_id_str = sub_menu_id_str.substring(0 , sub_menu_id_str.length()-2) + "00";
-            Long top_menu_id = Long.valueOf(top_menu_id_str);
-            if(!top_menu_list.contains(top_menu_id)) {
-                top_menu_list.add(top_menu_id);
+        if(sub_menu_ids.length() > 0) {
+            //找到子菜单对应的父菜单
+            String[] sub_menu_arr = sub_menu_ids.substring(0 , sub_menu_ids.length()-1).split(",");
+            List<Long> top_menu_list = new ArrayList<Long>();
+            for(int i = 0 ; i < sub_menu_arr.length ; i++) {
+                String sub_menu_id_str = sub_menu_arr[i];
+                String top_menu_id_str = sub_menu_id_str.substring(0 , sub_menu_id_str.length()-2) + "00";
+                Long top_menu_id = Long.valueOf(top_menu_id_str);
+                if(!top_menu_list.contains(top_menu_id)) {
+                    top_menu_list.add(top_menu_id);
+                }
             }
-        }
-        String all_menu_id = sub_menu_ids.substring(0 , sub_menu_ids.length()-1);
-        for(int i = 0 ; i < top_menu_list.size() ; i++) {
-            all_menu_id = all_menu_id + "," + top_menu_list.get(i);
+            String all_menu_id = sub_menu_ids.substring(0 , sub_menu_ids.length()-1);
+            for(int i = 0 ; i < top_menu_list.size() ; i++) {
+                all_menu_id = all_menu_id + "," + top_menu_list.get(i);
+            }
+
+            this.peopleManageDao.roleMenuDoConfig(all_menu_id.split(",") , role_id);
+        } else {//该角色不配置菜单，则删除该角色所有菜单
+            this.peopleManageDao.deleteRoleMenu(role_id);
         }
 
-        this.peopleManageDao.roleMenuDoConfig(all_menu_id.split(",") , role_id);
         String key = CacheKey.getRoleMenuListKey(role_id);
         memcachedClient.delete(key);
 
