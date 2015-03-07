@@ -139,8 +139,9 @@ public class CommonDao extends BaseJdbcDaoImpl{
      * @return
      */
     public List<Org> getUserSubOrgList(String parent_org_ids) {
-        String sql="SELECT b.* FROM sys_org b where pid in (?) order by b.pid , b.org_type";
-        Object[] o = new Object[] { parent_org_ids };
+        String sql="SELECT b.* FROM sys_org b where pid in ("+parent_org_ids+") order by b.pid , b.org_type";
+//        Object[] o = new Object[] { parent_org_ids };
+        Object[] o = new Object[] {};
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().query(sql , o  , new OrgRowMapper());
     }
