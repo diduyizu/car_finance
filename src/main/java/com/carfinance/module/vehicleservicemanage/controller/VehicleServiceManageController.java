@@ -359,4 +359,15 @@ public class VehicleServiceManageController {
 
         return this.vehicleServiceManageService.riskcontrolAudit(id , status , user.getUser_id());
     }
+
+    @RequestMapping(value = "/reservation/dofinish" , method = RequestMethod.POST)
+    @ResponseBody
+    public int reservationDoFinish(Model model1 , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        long id = Long.valueOf(request.getParameter("id"));
+        String status = request.getParameter("status");
+
+        return this.vehicleServiceManageService.riskcontrolAudit(id , status , user.getUser_id());
+    }
 }

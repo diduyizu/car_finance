@@ -65,9 +65,10 @@
             <th>车型</th>
             <th>单价</th>
             <th>数量</th>
-            <th>是否要配驾</th>
-            <th>是否自理油及过路停车费</th>
+            <th>配驾</th>
+            <th>自理油/过路费</th>
             <th>状态</th>
+            <th>操作</th>
         </tr>
     </thead>
     <c:forEach var="reservation" items="${reservation_list}" varStatus="status">
@@ -88,6 +89,11 @@
                 <c:if test="${reservation.expenses_self == 0}">否</c:if>
             </td>
             <td>${reservation.status}</td>
+            <td>
+                <c:if test="${reservation.status == '财务通过'}">
+                    <button type="button" class="btn btn-success" id="pass" value="${reservation.id}">结单</button>
+                </c:if>
+            </td>
         </tr>
     </c:forEach>
 </table>
@@ -98,4 +104,22 @@
     $('#addnew').click(function(){
         window.location.href="${ctx}/vehicleservice/reservation/add";
     });
+
+    $('#pass').click(function(){
+        var id = $(this).val();
+        $.ajax({
+            url:"${ctx}/vehicleservice/reservation/dofinish",
+            type: "post",
+            data:{id:id,status:'完结'},
+            success:function(data){
+                if(data == 1){
+                    alert("成功");
+                    location.reload();
+                } else {
+                    alert("失败");
+                    return false;
+                }
+            }
+        })
+    })
 </script>
