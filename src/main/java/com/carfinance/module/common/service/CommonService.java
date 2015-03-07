@@ -54,10 +54,18 @@ public class CommonService {
             for(Menu menu : user_all_menu_list) {
                 Map<String , Object> aaa = new HashMap<String, Object>();
                 if(menu.getPid() == 0) {//顶层菜单，需要组装子菜单
-                    if(!top_menu_list.contains(menu)) {//顶层菜单列表中没有该菜单，将该菜单加入到顶层菜单列表中
+                    boolean isContainTopMenu = false;
+                    long menu_id = menu.getMenu_id();//顶层菜单id
+                    for(Menu top_menu : top_menu_list) {
+                        if(top_menu.getMenu_id() == menu_id) {
+                            isContainTopMenu = true;
+                            break;
+                        }
+                    }
+                    if(!isContainTopMenu) {//顶层菜单列表中没有该菜单，将该菜单加入到顶层菜单列表中
                         top_menu_list.add(menu);
                     }
-                    long menu_id = menu.getMenu_id();//顶层菜单id
+
                     List<Menu> sub_menu_list = new ArrayList<Menu>();//子菜单
                     for(Menu sub_menu : user_all_menu_list) {
                         if(sub_menu.getPid() == menu_id) {

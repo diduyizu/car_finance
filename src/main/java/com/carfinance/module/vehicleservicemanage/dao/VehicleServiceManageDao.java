@@ -53,11 +53,12 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
 
     }
 
-    public long getOrgRiskControlCount(long org_id , String status) {
+    public long getOrgReservationCount(long org_id , String status) {
         String sql;
         Object[] o;
         if(status == null || "".equals(status)) {
-            sql = "select count(1) from vehicle_reservation where org_id = ? and status in ('待审核','风控通过','风控不通过')";
+//            sql = "select count(1) from vehicle_reservation where org_id = ? and status in ('待审核','风控通过','风控不通过')";
+            sql = "select count(1) from vehicle_reservation where org_id = ? ";
             o = new Object[] { org_id };
         } else {
             sql = "select count(1) from vehicle_reservation where org_id = ? and status = ? ";
@@ -70,11 +71,12 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
     /**
      * 获取某个门店下，风控列表
      */
-    public List<VehicleReservationInfo> getOrgRiskControlList(long org_id , String status , int start, int size) {
+    public List<VehicleReservationInfo> getOrgReservationList(long org_id , String status , int start, int size) {
         String sql;
         Object[] o;
         if(status == null || "".equals(status)) {
-            sql = "select * from vehicle_reservation where org_id = ? and status in ('待审核','风控通过','风控不通过') limit ?,? ";
+//            sql = "select * from vehicle_reservation where org_id = ? and status in ('待审核','风控通过','风控不通过') limit ?,? ";
+            sql = "select * from vehicle_reservation where org_id = ? limit ?,? ";
             o = new Object[] { org_id , start , size };
         } else {
             sql = "select * from vehicle_reservation where org_id = ? and status = ? limit ?,? ";
@@ -83,6 +85,14 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
 
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().query(sql, o, new VehicleReservationInfoRowMapper());
+    }
+
+    public int riskcontrolAudit(long id , String status , long user_id) {
+        String sql = "update vehicle_reservation set status = ? , risk_control_update_by = ? , risk_control_update_at = now() where id = ?";
+        Object[] o = new Object[] { status , user_id , id };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().update(sql, o);
+
     }
 
 }

@@ -162,7 +162,7 @@ public class VehicleServiceManageController {
      * @return
      */
     @RequestMapping(value = "/riskcontrol/audit" , method = {RequestMethod.GET , RequestMethod.POST})
-    public String reservationAudit(Model model , HttpServletRequest request , HttpServletResponse response) {
+    public String riskcontrolAudit(Model model , HttpServletRequest request , HttpServletResponse response) {
         User user = (User)request.getSession().getAttribute("user");
 
         String pageindexStr = request.getParameter("page_index");//第几页
@@ -186,7 +186,7 @@ public class VehicleServiceManageController {
             }
         }
 
-        Map<String , Object> map = this.vehicleServiceManageService.getOrgRiskControlList(original_org, status, start, size);
+        Map<String , Object> map = this.vehicleServiceManageService.getOrgReservationList(original_org, status, start, size);
 
         long total = (Long)map.get("total");
         List<VehicleReservationInfo> reservation_list = (List<VehicleReservationInfo>)map.get("reservation_list");
@@ -208,6 +208,155 @@ public class VehicleServiceManageController {
 
         model.addAttribute("user_role_org_list" , user_role_org_list);
         model.addAttribute("reservation_list" , reservation_list);
-        return "/module/vehicleservicemanage/riskcontrol/auditlist";
+        return "/module/vehicleservicemanage/reservation/riskcontrolauditlist";
+    }
+
+    @RequestMapping(value = "/riskcontrol/doaudit" , method = RequestMethod.POST)
+    @ResponseBody
+    public int riskcontrolDoAudit(Model model1 , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        long id = Long.valueOf(request.getParameter("id"));
+        String status = request.getParameter("status");
+
+        return this.vehicleServiceManageService.riskcontrolAudit(id , status , user.getUser_id());
+    }
+
+    /**
+     * 业务经理审核列表
+     * 同时，系统管理员能够查看到全部
+     * @param model
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/servicemanager/audit" , method = {RequestMethod.GET , RequestMethod.POST})
+    public String serviceManagerAudit(Model model , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        String pageindexStr = request.getParameter("page_index");//第几页
+        int page_index = Integer.parseInt(StringUtils.isBlank(pageindexStr) || "0".equals(pageindexStr) ? "1" : pageindexStr);
+        int size = Integer.valueOf(appProps.get("vehicle.reservation.query.size").toString());//每页显示条数
+        int start = (page_index - 1) * size;
+
+        String original_org_str = request.getParameter("original_org");
+        String status = request.getParameter("status");
+
+        //获取当前用户存在风控的组织列表，管理员获取全部组织列表
+        List<Org> user_role_org_list = this.commonService.getUserRoleOrgList(user.getUser_id() , 20004);
+
+        //获取用户角色列表
+        long original_org = (original_org_str == null || "".equals(original_org_str.trim())) ? user_role_org_list.get(0).getOrg_id() : Long.valueOf(original_org_str);
+        String original_org_name = "";
+        for(Org org : user_role_org_list) {
+            if(org.getOrg_id() == original_org) {
+                original_org_name = org.getOrg_name();
+                break;
+            }
+        }
+
+        Map<String , Object> map = this.vehicleServiceManageService.getOrgReservationList(original_org, status, start, size);
+
+        long total = (Long)map.get("total");
+        List<VehicleReservationInfo> reservation_list = (List<VehicleReservationInfo>)map.get("reservation_list");
+
+        long temp = (total - 1) <= 0 ? 0 : (total - 1);
+        int pages = Integer.parseInt(Long.toString(temp / size)) + 1;
+        int prepages = (page_index - 1) <= 0 ? 1 : (page_index - 1);
+        int nextpages = (page_index + 1) >= pages ? pages : (page_index + 1);
+
+        model.addAttribute("current_page" , page_index);
+        model.addAttribute("pages" , pages);
+        model.addAttribute("prepage" , prepages);
+        model.addAttribute("nextpage" , nextpages);
+        model.addAttribute("page_url" , request.getRequestURI());
+
+        model.addAttribute("status" , status);
+        model.addAttribute("original_org" , original_org);
+        model.addAttribute("original_org_name" , original_org_name);
+
+        model.addAttribute("user_role_org_list" , user_role_org_list);
+        model.addAttribute("reservation_list" , reservation_list);
+        return "/module/vehicleservicemanage/reservation/servicemanagerauditlist";
+    }
+
+    @RequestMapping(value = "/servicemanager/doaudit" , method = RequestMethod.POST)
+    @ResponseBody
+    public int serviceManagerDoAudit(Model model1 , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        long id = Long.valueOf(request.getParameter("id"));
+        String status = request.getParameter("status");
+
+        return this.vehicleServiceManageService.riskcontrolAudit(id , status , user.getUser_id());
+    }
+
+    /**
+     * 财务审核列表
+     * 同时，系统管理员能够查看到全部
+     * @param model
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/finance/audit" , method = {RequestMethod.GET , RequestMethod.POST})
+    public String financeAudit(Model model , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        String pageindexStr = request.getParameter("page_index");//第几页
+        int page_index = Integer.parseInt(StringUtils.isBlank(pageindexStr) || "0".equals(pageindexStr) ? "1" : pageindexStr);
+        int size = Integer.valueOf(appProps.get("vehicle.reservation.query.size").toString());//每页显示条数
+        int start = (page_index - 1) * size;
+
+        String original_org_str = request.getParameter("original_org");
+        String status = request.getParameter("status");
+
+        //获取当前用户存在风控的组织列表，管理员获取全部组织列表
+        List<Org> user_role_org_list = this.commonService.getUserRoleOrgList(user.getUser_id() , 20005);
+
+        //获取用户角色列表
+        long original_org = (original_org_str == null || "".equals(original_org_str.trim())) ? user_role_org_list.get(0).getOrg_id() : Long.valueOf(original_org_str);
+        String original_org_name = "";
+        for(Org org : user_role_org_list) {
+            if(org.getOrg_id() == original_org) {
+                original_org_name = org.getOrg_name();
+                break;
+            }
+        }
+
+        Map<String , Object> map = this.vehicleServiceManageService.getOrgReservationList(original_org, status, start, size);
+
+        long total = (Long)map.get("total");
+        List<VehicleReservationInfo> reservation_list = (List<VehicleReservationInfo>)map.get("reservation_list");
+
+        long temp = (total - 1) <= 0 ? 0 : (total - 1);
+        int pages = Integer.parseInt(Long.toString(temp / size)) + 1;
+        int prepages = (page_index - 1) <= 0 ? 1 : (page_index - 1);
+        int nextpages = (page_index + 1) >= pages ? pages : (page_index + 1);
+
+        model.addAttribute("current_page" , page_index);
+        model.addAttribute("pages" , pages);
+        model.addAttribute("prepage" , prepages);
+        model.addAttribute("nextpage" , nextpages);
+        model.addAttribute("page_url" , request.getRequestURI());
+
+        model.addAttribute("status" , status);
+        model.addAttribute("original_org" , original_org);
+        model.addAttribute("original_org_name" , original_org_name);
+
+        model.addAttribute("user_role_org_list" , user_role_org_list);
+        model.addAttribute("reservation_list" , reservation_list);
+        return "/module/vehicleservicemanage/reservation/financeauditlist";
+    }
+
+    @RequestMapping(value = "/finance/doaudit" , method = RequestMethod.POST)
+    @ResponseBody
+    public int financeDoAudit(Model model1 , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        long id = Long.valueOf(request.getParameter("id"));
+        String status = request.getParameter("status");
+
+        return this.vehicleServiceManageService.riskcontrolAudit(id , status , user.getUser_id());
     }
 }

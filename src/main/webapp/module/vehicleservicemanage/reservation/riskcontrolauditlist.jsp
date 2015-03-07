@@ -69,8 +69,8 @@
             <th>车型</th>
             <th>单价</th>
             <th>数量</th>
-            <th>是否要配驾</th>
-            <th>是否自理油及过路停车费</th>
+            <th>配驾</th>
+            <th>自理油/过路费</th>
             <th>状态</th>
             <th>操作</th>
         </tr>
@@ -95,7 +95,8 @@
             <td>${reservation.status}</td>
             <td>
                 <c:if test="${reservation.status == '待审核'}">
-                    通过  不通过
+                    <button type="button" class="btn btn-success" id="pass" value="${reservation.id}">通过</button>
+                    <button type="button" class="btn btn-error" id="nopass" value="${reservation.id}">不通过</button>
                 </c:if>
             </td>
         </tr>
@@ -104,3 +105,43 @@
 <%@ include file="/resources/page.jsp"%>
 </body>
 </html>
+<script>
+    $(function () {
+        $('#pass').click(function(){
+            var id = $(this).val();
+            $.ajax({
+                url:"${ctx}/vehicleservice/riskcontrol/doaudit",
+                type: "post",
+                data:{id:id,status:'风控通过'},
+                success:function(data){
+                    if(data == 1){
+                        alert("成功");
+                        location.reload();
+                    } else {
+                        alert("失败");
+                        return false;
+                    }
+                }
+            })
+        })
+
+        $('#nopass').click(function(){
+            var id = $(this).val();
+            $.ajax({
+                url:"${ctx}/vehicleservice/riskcontrol/doaudit",
+                type: "post",
+                data:{id:id,status:'风控不通过'},
+                success:function(data){
+                    if(data == 1){
+                        alert("成功");
+                        location.reload();
+                    } else {
+                        alert("失败");
+                        return false;
+                    }
+                }
+            })
+        })
+    });
+
+</script>
