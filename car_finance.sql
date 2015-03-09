@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.1.4
+-- version 4.1.6
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: 2015-03-09 10:39:29
--- 服务器版本： 5.6.11
--- PHP Version: 5.5.1
+-- Generation Time: 2015-03-09 14:42:00
+-- 服务器版本： 5.6.16
+-- PHP Version: 5.5.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -87,7 +87,7 @@ CREATE TABLE IF NOT EXISTS `sequence` (
 --
 
 INSERT INTO `sequence` (`name`, `current_value`, `increment`) VALUES
-('ContraceSeq', 100007, 1),
+('ContraceSeq', 100008, 1),
 ('StoreSeq', 100007, 1),
 ('UsersSeq', 100014, 1);
 
@@ -219,17 +219,21 @@ INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `menu_url`, `pid`, `level`, `men
 (30006, '车辆违章处理提醒', 'carfinance/vehicle/peccancyremind/index', 30000, 0, '车辆违章处理提醒', 'page', NULL, 1, 0),
 (30007, '车辆保养提醒', 'carfinance/vehicle/maintainremind/index', 30000, 0, '车辆保养提醒', 'page', NULL, 1, 0),
 (40000, '车辆业务办理', '', 0, 0, '车辆业务办理', 'page', 'nav-product', 1, 0),
-(40001, '业务办理审核工作流', 'http://www.xici.net', 40000, 0, '业务办理审核工作流', 'page', NULL, 1, 0),
-(40002, '产权租赁登记', 'http://www.xici.net', 40000, 0, '产权租赁登记', 'page', NULL, 1, 0),
-(40003, '车辆自用记录登记', 'http://www.xici.net', 40000, 0, '车辆自用记录登记', 'page', NULL, 1, 0),
-(40004, '车辆配驾记录登记', 'http://www.xici.net', 40000, 0, '车辆配驾记录登记', 'page', NULL, 1, 0),
-(40005, '产权租赁完结', 'http://www.xici.net', 40000, 0, '产权租赁完结', 'page', NULL, 1, 0),
-(40006, '车辆自用记录完结', 'http://www.xici.net', 40000, 0, '车辆自用记录完结', 'page', NULL, 1, 0),
-(40007, '车辆配架记录完结', 'http://www.xici.net', 40000, 0, '车辆配架记录完结', 'page', NULL, 1, 0),
-(40008, '车辆预约单管理', 'carfinance/vehicleservice/reservation/index', 40000, 0, '车辆预约单管理', 'page', NULL, 1, 0),
-(40009, '预约单风控审核', 'carfinance/vehicleservice/riskcontrol/audit', 40000, 0, '预约单凤控审核', 'page', NULL, 1, 0),
-(40010, '预约单业务经理审核', 'carfinance/vehicleservice/servicemanager/audit', 40000, 0, '预约单业务经理审核', 'page', NULL, 1, 0),
-(40011, '预约单财务审核', 'carfinance/vehicleservice/finance/audit', 40000, 0, '预约单财务审核', 'page', NULL, 1, 0),
+(40001, '预约单管理', 'carfinance/vehicleservice/reservation/index', 40000, 0, '车辆预约单管理', 'page', NULL, 1, 0),
+(40002, '预约单提醒', 'carfinance/vehicleservice/reservation/remind', 40000, 0, '预约单提醒', 'page', NULL, 1, 0),
+(40003, '合同管理', 'carfinance/vehicleservice/reservation/remind', 40000, 0, '合同管理', 'page', NULL, 1, 0),
+(40006, '合同店长审核', 'carfinance/vehicleservice/servicemanager/audit', 40000, 0, '预约单业务经理审核', 'page', NULL, 1, 0),
+(40007, '合同一类店长审核', '', 40000, 0, '合同一类店长审核', 'page', NULL, 1, 0),
+(40008, '合同区域经理审核', '', 40008, 0, '', 'page', NULL, 1, 0),
+(40009, '合同财务审核', 'carfinance/vehicleservice/finance/audit', 40000, 0, '预约单财务审核', 'page', NULL, 1, 0),
+(40020, '业务办理审核工作流', 'http://www.xici.net', 40000, 0, '业务办理审核工作流', 'page', NULL, 0, 0),
+(40021, '产权租赁登记', 'http://www.xici.net', 40000, 0, '产权租赁登记', 'page', NULL, 0, 0),
+(40022, '车辆自用记录登记', 'http://www.xici.net', 40000, 0, '车辆自用记录登记', 'page', NULL, 0, 0),
+(40023, '车辆配驾记录登记', 'http://www.xici.net', 40000, 0, '车辆配驾记录登记', 'page', NULL, 0, 0),
+(40024, '产权租赁完结', 'http://www.xici.net', 40000, 0, '产权租赁完结', 'page', NULL, 0, 0),
+(40025, '车辆自用记录完结', 'http://www.xici.net', 40000, 0, '车辆自用记录完结', 'page', NULL, 0, 0),
+(40026, '车辆配架记录完结', 'http://www.xici.net', 40000, 0, '车辆配架记录完结', 'page', NULL, 0, 0),
+(40027, '预约单风控审核', 'carfinance/vehicleservice/riskcontrol/audit', 40000, 0, '预约单凤控审核', 'page', NULL, 0, 0),
 (50000, '财务管理', '', 0, 0, '财务管理', 'page', 'nav-cost', 1, 0),
 (60000, '客户管理', '', 0, 0, '客户管理', 'page', 'nav-user', 1, 0),
 (60001, '客户资料维护', 'carfinance/customer/info/index', 60000, 0, '客户录入登记', 'page', NULL, 1, 0),
@@ -319,42 +323,6 @@ CREATE TABLE IF NOT EXISTS `sys_role_menu` (
 --
 
 INSERT INTO `sys_role_menu` (`role_id`, `menu_id`, `status`) VALUES
-(10000, 10001, 1),
-(10000, 10002, 1),
-(10000, 10003, 1),
-(10000, 10004, 1),
-(10000, 20001, 1),
-(10000, 20002, 1),
-(10000, 30001, 1),
-(10000, 30002, 1),
-(10000, 30003, 1),
-(10000, 30004, 1),
-(10000, 30005, 1),
-(10000, 30006, 1),
-(10000, 30007, 1),
-(10000, 30008, 1),
-(10000, 40001, 1),
-(10000, 40002, 1),
-(10000, 40003, 1),
-(10000, 40004, 1),
-(10000, 40005, 1),
-(10000, 40006, 1),
-(10000, 40007, 1),
-(10000, 40008, 1),
-(10000, 40009, 1),
-(10000, 40010, 1),
-(10000, 40011, 1),
-(10000, 60001, 1),
-(10000, 60002, 1),
-(10000, 60003, 1),
-(10000, 60004, 1),
-(10000, 70001, 1),
-(10000, 10000, 1),
-(10000, 20000, 1),
-(10000, 30000, 1),
-(10000, 40000, 1),
-(10000, 60000, 1),
-(10000, 70000, 1),
 (20004, 10002, 1),
 (20004, 10003, 1),
 (20004, 20001, 1),
@@ -370,7 +338,36 @@ INSERT INTO `sys_role_menu` (`role_id`, `menu_id`, `status`) VALUES
 (20004, 20000, 1),
 (20004, 30000, 1),
 (20004, 40000, 1),
-(20004, 60000, 1);
+(20004, 60000, 1),
+(10000, 10001, 1),
+(10000, 10002, 1),
+(10000, 10003, 1),
+(10000, 10004, 1),
+(10000, 20001, 1),
+(10000, 20002, 1),
+(10000, 30001, 1),
+(10000, 30003, 1),
+(10000, 30004, 1),
+(10000, 30005, 1),
+(10000, 30006, 1),
+(10000, 30007, 1),
+(10000, 40001, 1),
+(10000, 40002, 1),
+(10000, 40003, 1),
+(10000, 40006, 1),
+(10000, 40007, 1),
+(10000, 40009, 1),
+(10000, 60001, 1),
+(10000, 60002, 1),
+(10000, 60003, 1),
+(10000, 60004, 1),
+(10000, 70001, 1),
+(10000, 10000, 1),
+(10000, 20000, 1),
+(10000, 30000, 1),
+(10000, 40000, 1),
+(10000, 60000, 1),
+(10000, 70000, 1);
 
 -- --------------------------------------------------------
 
@@ -473,7 +470,8 @@ INSERT INTO `vehicle_contract` (`id`, `customer_name`, `customer_type`, `custome
 (100004, '“”', '个人用户', '“”', '身份证', '“”', '“”', '0', '“”', '2015-03-09 07:26:52', 100000, '2015-03-09 07:26:52', 0, '待审核', 0, '2015-03-09 07:26:52', 0, '2015-03-09 07:26:52', 0, '2015-03-09 07:26:52', 0, 11, 0, '2015-03-09 07:26:52'),
 (100005, '“”', '个人用户', '“”', '身份证', '“”', '“”', '0', '“”', '2015-03-09 07:43:39', 100000, '2015-03-09 07:43:39', 0, '待审核', 0, '2015-03-09 07:43:39', 0, '2015-03-09 07:43:39', 0, '2015-03-09 07:43:39', 0, 12, 0, '2015-03-09 07:43:39'),
 (100006, '“”', '个人用户', '“”', '身份证', '“”', '“”', '0', '“”', '2015-03-09 07:48:10', 100000, '2015-03-09 07:48:10', 0, '待审核', 0, '2015-03-09 07:48:10', 0, '2015-03-09 07:48:10', 0, '2015-03-09 07:48:10', 0, 13, 0, '2015-03-09 07:48:10'),
-(100007, '“”', '个人用户', '“”', '身份证', '“”', '“”', '0', '“”', '2015-03-09 07:49:38', 100000, '2015-03-09 07:49:38', 0, '待审核', 0, '2015-03-09 07:49:38', 0, '2015-03-09 07:49:38', 0, '2015-03-09 07:49:38', 0, 14, 0, '2015-03-09 07:49:38');
+(100007, '“”', '个人用户', '“”', '身份证', '“”', '“”', '0', '“”', '2015-03-09 07:49:38', 100000, '2015-03-09 07:49:38', 0, '待审核', 0, '2015-03-09 07:49:38', 0, '2015-03-09 07:49:38', 0, '2015-03-09 07:49:38', 0, 14, 0, '2015-03-09 07:49:38'),
+(100008, '“”', '个人用户', '“”', '身份证', '“”', '“”', '0', '“”', '2015-03-09 13:05:36', 100000, '2015-03-09 13:05:36', 0, '待审核', 0, '2015-03-09 13:05:36', 0, '2015-03-09 13:05:36', 0, '2015-03-09 13:05:36', 0, 15, 0, '2015-03-09 13:05:36');
 
 -- --------------------------------------------------------
 
@@ -548,7 +546,14 @@ CREATE TABLE IF NOT EXISTS `vehicle_info` (
   `original_org` int(11) NOT NULL COMMENT '归属门店',
   `next_main_km` int(11) NOT NULL DEFAULT '0' COMMENT '下次保养公里数',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='车辆信息表' AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='车辆信息表' AUTO_INCREMENT=2 ;
+
+--
+-- 转存表中的数据 `vehicle_info`
+--
+
+INSERT INTO `vehicle_info` (`id`, `brand`, `model`, `color`, `carframe_no`, `engine_no`, `buy_at`, `supplier`, `license_plate`, `card_at`, `limited_at`, `guide_price`, `vehicle_price`, `vehicle_tax`, `insurance_company`, `strong_insurance`, `strong_insurance_expire_at`, `vehicle_vessel_tax`, `business_insurance`, `business_insurance_expire_at`, `km`, `maintian_on_km`, `gps`, `current_city`, `current_shop`, `lease_status`, `peccancy_status`, `archive_no`, `inventory_no`, `registry_certificate`, `certificate_direction`, `loan_bank`, `consistency_cer`, `check_list`, `duty_paid_proof`, `record`, `remark`, `update_at`, `update_by`, `create_by`, `create_at`, `original_org`, `next_main_km`) VALUES
+(1, '奔驰', 's600', '黑色', '1231sdfs23424', '3432424wefwef', '2015-03-15 16:00:00', '12121', '苏ad12345', '2015-03-08 16:00:00', '2015-03-08 16:00:00', '12121.00', '12121.00', '121212.00', '1212', '1212.00', '2015-03-23 16:00:00', '1212.00', '121.00', '2015-03-23 16:00:00', 11111, 22222, '正常', 512, 100006, '在库', 0, '', '121212', '12121', '12121', '21212', '12121', '12121', '12121', '12121', '12121', '2015-03-09 12:24:14', 0, 100000, '2015-03-09 12:24:14', 1, 33333);
 
 -- --------------------------------------------------------
 
@@ -575,7 +580,14 @@ CREATE TABLE IF NOT EXISTS `vehicle_insurance` (
   PRIMARY KEY (`id`),
   KEY `carframe_no` (`carframe_no`,`engine_no`),
   KEY `license_plate` (`license_plate`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='车辆保险' AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='车辆保险' AUTO_INCREMENT=2 ;
+
+--
+-- 转存表中的数据 `vehicle_insurance`
+--
+
+INSERT INTO `vehicle_insurance` (`id`, `carframe_no`, `engine_no`, `license_plate`, `insurance_company`, `strong_insurance`, `strong_insurance_expire_at`, `vehicle_vessel_tax`, `business_insurance`, `business_insurance_expire_at`, `remark`, `create_by`, `create_at`, `update_by`, `update_at`) VALUES
+(1, '1231sdfs23424', '3432424wefwef', '苏ad12345', '1212', 1212, '2015-03-23 16:00:00', 1212, 121, '2015-03-23 16:00:00', '12121', 100000, '2015-03-09 12:24:14', 0, '2015-03-09 12:24:14');
 
 -- --------------------------------------------------------
 
@@ -663,7 +675,7 @@ CREATE TABLE IF NOT EXISTS `vehicle_reservation` (
   `finance_update_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '财务经理审核时间',
   `remark` varchar(1024) NOT NULL COMMENT '备注，描述，填写客户所需车辆型号、价格、是否配驾、是否自理油费等信息',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='预约单' AUTO_INCREMENT=15 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='预约单' AUTO_INCREMENT=16 ;
 
 --
 -- 转存表中的数据 `vehicle_reservation`
@@ -680,7 +692,8 @@ INSERT INTO `vehicle_reservation` (`id`, `customer_name`, `customer_dn`, `use_be
 (11, '啊撒范德萨', '按时发达', '2016-03-11 01:03:00', '2014-12-02 00:03:00', NULL, NULL, NULL, NULL, NULL, '0阿凡达', '萨芬的', 1, 1, 100000, '2015-03-09 07:26:49', NULL, '2015-03-09 07:26:49', NULL, '2015-03-09 07:26:49', NULL, '2015-03-09 07:26:49', '阿斯顿发萨菲'),
 (12, '啊撒范德萨', '阿萨德发的是', '2016-03-11 01:03:00', '2016-03-08 17:03:00', NULL, NULL, NULL, NULL, NULL, '0阿范德萨发', '啊事发地点时', 1, 1, 100000, '2015-03-09 07:43:19', NULL, '2015-03-09 07:43:19', NULL, '2015-03-09 07:43:19', NULL, '2015-03-09 07:43:19', '阿萨德发'),
 (13, '啊撒飞洒', '阿萨德发的是', '2016-03-10 01:03:00', '2016-03-08 17:03:00', NULL, NULL, NULL, NULL, NULL, '0阿发', '啊sfd', 1, 1, 100000, '2015-03-09 07:48:06', NULL, '2015-03-09 07:48:06', NULL, '2015-03-09 07:48:06', NULL, '2015-03-09 07:48:06', '艾丝凡'),
-(14, '撒范德萨', '按时发达', '2016-03-09 00:03:00', '2016-03-09 07:03:00', NULL, NULL, NULL, NULL, NULL, '0阿发', '爱的发', 1, 1, 100000, '2015-03-09 07:49:31', NULL, '2015-03-09 07:49:31', NULL, '2015-03-09 07:49:31', NULL, '2015-03-09 07:49:31', '按时发达');
+(14, '撒范德萨', '按时发达', '2016-03-09 00:03:00', '2016-03-09 07:03:00', NULL, NULL, NULL, NULL, NULL, '0阿发', '爱的发', 1, 1, 100000, '2015-03-09 07:49:31', NULL, '2015-03-09 07:49:31', NULL, '2015-03-09 07:49:31', NULL, '2015-03-09 07:49:31', '按时发达'),
+(15, '阿地方打发的身份', '12312313', '2016-03-11 01:03:00', '2014-12-09 01:03:00', NULL, NULL, NULL, NULL, NULL, '01213', '12313', 1, 1, 100000, '2015-03-09 13:02:36', NULL, '2015-03-09 13:02:36', NULL, '2015-03-09 13:02:36', NULL, '2015-03-09 13:02:36', '大大方方');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
