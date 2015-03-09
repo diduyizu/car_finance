@@ -6,6 +6,7 @@ import com.carfinance.module.common.service.ManageMemcacdedClient;
 import com.carfinance.module.init.service.InitService;
 import com.carfinance.module.storemanage.dao.StoreManageDao;
 import com.carfinance.module.vehicleservicemanage.dao.VehicleServiceManageDao;
+import com.carfinance.module.vehicleservicemanage.domain.VehicleContraceInfo;
 import com.carfinance.module.vehicleservicemanage.domain.VehicleReservationInfo;
 import com.carfinance.module.vehicleservicemanage.domain.VehicleReservationInfoRowMapper;
 import com.carfinance.utils.DateUtil;
@@ -91,6 +92,17 @@ public class VehicleServiceManageService {
         return this.vehicleServiceManageDao.reservationDoCancel(reservation_id, user_id, status);
     }
 
+
+    public Map<String , Object> getOrgContraceList(long org_id , int start, int size) {
+        long total = this.vehicleServiceManageDao.getOrgContraceCount(org_id);
+        List<VehicleContraceInfo> contrace_list = this.vehicleServiceManageDao.getOrgContraceList(org_id, start, size);
+        Map<String , Object> map = new HashMap<String, Object>();
+        map.put("total" , total);
+        map.put("contrace_list", contrace_list);
+        return map;
+    }
+
+
     public long addContrace(long reservation_id , long user_id) {
         try{
             return this.vehicleServiceManageDao.addContrace(reservation_id , user_id);
@@ -98,6 +110,13 @@ public class VehicleServiceManageService {
             logger.info(e.getMessage() , e);
             return 0;
         }
+    }
+
+    public long modifycontrace(long contrace_id , long original_org , String customer_name , String customer_type , String customer_dn ,
+                               String certificate_type , String certificate_no , String use_begin , String use_end , String employee_id ,
+                               String employee_name , String remark , long user_id) {
+        return this.vehicleServiceManageDao.modifyContrace(contrace_id , original_org , customer_name , customer_type , customer_dn ,
+                certificate_type , certificate_no , use_begin , use_end , employee_id , employee_name , remark , user_id);
     }
 
 

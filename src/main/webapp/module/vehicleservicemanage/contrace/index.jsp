@@ -34,7 +34,7 @@
     </style>
 </head>
 <body>
-<form class="form-inline definewidth m20" action="${ctx}/vehicleservice/reservation/remind" method="post">
+<form class="form-inline definewidth m20" action="${ctx}/vehicleservice/reservation/index" method="post">
     门店：
     <select id="original_org" name="original_org">
         <c:forEach var="org" items="${user_all_org_list}" varStatus="status">
@@ -53,7 +53,7 @@
     证件号码：
     <input type="text" name="certificate_no" id="certificate_no"class="abc input-default" placeholder="" value="${certificate_no}">&nbsp;&nbsp;
     <button type="submit" class="btn btn-primary">查询</button>&nbsp;&nbsp;
-    <%--<button type="button" class="btn btn-success" id="addnew">新增</button>--%>
+    <button type="button" class="btn btn-success" id="addnew">新增</button>
 </form>
 <table class="table table-bordered table-hover definewidth m10">
     <thead>
@@ -74,9 +74,13 @@
             <td>${reservation.use_begin}</td>
             <td>${reservation.use_end}</td>
             <td>${reservation.remark}</td>
-            <td>初始状态</td>
             <td>
-                <c:if test="${reservation.create_by == user.user_id}">
+                <c:if test="${reservation.status == 0}">初始状态</c:if>
+                <c:if test="${reservation.status == 1}">已完结</c:if>
+                <c:if test="${reservation.status == 2}">已取消</c:if>
+            </td>
+            <td>
+                <c:if test="${reservation.status == 0 && reservation.create_by == user.user_id}">
                     <button type="button" class="btn btn-success" id="cancel" value="${reservation.id}">取消</button>
                     <button type="button" class="btn btn-success" id="tocontract" value="${reservation.id}">转合同</button>
                 </c:if>

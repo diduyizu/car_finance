@@ -4,6 +4,8 @@ import com.carfinance.core.dao.BaseJdbcDaoImpl;
 import com.carfinance.module.common.dao.CommonDao;
 import com.carfinance.module.storemanage.domain.Store;
 import com.carfinance.module.storemanage.domain.StoreRowMapper;
+import com.carfinance.module.vehicleservicemanage.domain.VehicleContraceInfo;
+import com.carfinance.module.vehicleservicemanage.domain.VehicleContraceInfoRowMapper;
 import com.carfinance.module.vehicleservicemanage.domain.VehicleReservationInfo;
 import com.carfinance.module.vehicleservicemanage.domain.VehicleReservationInfoRowMapper;
 import com.carfinance.utils.DateUtil;
@@ -119,10 +121,60 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
         return this.getJdbcTemplate().update(sql, o);
     }
 
+
+    public long getOrgContraceCount(long org_id) {
+        String sql;
+        Object[] o;
+//        if(status == null || "".equals(status)) {
+////            sql = "select count(1) from vehicle_reservation where org_id = ? and status in ('待审核','风控通过','风控不通过')";
+//            sql = "select count(1) from vehicle_reservation where org_id = ? ";
+//            o = new Object[] { org_id };
+//        } else {
+            sql = "select count(1) from vehicle_contract where org_id = ? ";
+            o = new Object[] { org_id };
+//        }
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().queryForLong(sql, o);
+    }
+
+    /**
+     * 获取某个门店下，风控列表
+     */
+    public List<VehicleContraceInfo> getOrgContraceList(long org_id , int start, int size) {
+        String sql;
+        Object[] o;
+//        if(status == null || "".equals(status)) {
+////            sql = "select * from vehicle_reservation where org_id = ? and status in ('待审核','风控通过','风控不通过') limit ?,? ";
+//            sql = "select * from vehicle_reservation where org_id = ? limit ?,? ";
+//            o = new Object[] { org_id , start , size };
+//        } else {
+            sql = "select * from vehicle_contract where org_id = ? limit ?,? ";
+            o = new Object[] { org_id , start , size};
+//        }
+
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().query(sql, o, new VehicleContraceInfoRowMapper());
+    }
+
+
     public long addContrace(long reservation_id , long user_id) {
         long contrace_id = this.commonDao.getNextVal("ContraceSeq");
         String sql = "insert into vehicle_contract(id , reservation_id , create_by) values (?,?,?)";
         Object[] o = new Object[] { contrace_id , reservation_id , user_id };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        long result = this.getJdbcTemplate().update(sql, o);
+        if(result > 1) {
+            result = contrace_id;
+        }
+        return result;
+    }
+
+    public long modifyContrace(long contrace_id , long original_org , String customer_name , String customer_type , String customer_dn ,
+                               String certificate_type , String certificate_no , String use_begin , String use_end , String employee_id ,
+                               String employee_name , String remark , long user_id) {
+        String sql = "update vehicle_contract set customer_name = ? , customer_type = ? , customer_dn = ? , customer_cer_type = ? , customer_cer_no = ? , " +
+                " remark = ? , employee_id = ? , employee_name = ? where id = ? and create_by = ?";
+        Object[] o = new Object[] { customer_name , customer_type , customer_dn , certificate_type , certificate_no , remark , employee_id , employee_name , contrace_id , user_id };
         logger.info(sql.replaceAll("\\?", "{}"), o);
         long result = this.getJdbcTemplate().update(sql, o);
         if(result > 1) {

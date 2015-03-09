@@ -232,6 +232,62 @@ public class VehicleServiceManageController {
     }
 
     /**
+     * 合同管理首页
+     * @param model
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/contrace/index" , method = {RequestMethod.GET , RequestMethod.POST})
+    public String contraceIndex(Model model , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        String pageindexStr = request.getParameter("page_index");//第几页
+        int page_index = Integer.parseInt(StringUtils.isBlank(pageindexStr) || "0".equals(pageindexStr) ? "1" : pageindexStr);
+        int size = Integer.valueOf(appProps.get("vehicle.reservation.query.size").toString());//每页显示条数
+        int start = (page_index - 1) * size;
+
+        String original_org_str = request.getParameter("original_org");
+        List<Org> user_all_org_list = this.commonService.getUserAllOrgList(user.getUser_id());
+
+        //获取用户角色列表
+        long original_org = (original_org_str == null || "".equals(original_org_str.trim())) ? user_all_org_list.get(0).getOrg_id() : Long.valueOf(original_org_str);
+        String original_org_name = "";
+        for(Org org : user_all_org_list) {
+            if(org.getOrg_id() == original_org) {
+                original_org_name = org.getOrg_name();
+                break;
+            }
+        }
+
+        List<City> sys_used_city_list = this.commonService.getSysUsedCityList();
+        Map<String , Object> map = this.vehicleServiceManageService.getOrgContraceList(original_org, start, size);
+
+        long total = (Long)map.get("total");;
+        List<VehicleReservationInfo> contrace_list = (List<VehicleReservationInfo>)map.get("contrace_list");
+
+        long temp = (total - 1) <= 0 ? 0 : (total - 1);
+        int pages = Integer.parseInt(Long.toString(temp / size)) + 1;
+        int prepages = (page_index - 1) <= 0 ? 1 : (page_index - 1);
+        int nextpages = (page_index + 1) >= pages ? pages : (page_index + 1);
+
+        model.addAttribute("current_page" , page_index);
+        model.addAttribute("pages" , pages);
+        model.addAttribute("prepage" , prepages);
+        model.addAttribute("nextpage" , nextpages);
+        model.addAttribute("page_url" , request.getRequestURI());
+
+        model.addAttribute("original_org" , original_org);
+        model.addAttribute("original_org_name" , original_org_name);
+
+        model.addAttribute("sys_used_city_list" , sys_used_city_list);
+        model.addAttribute("user_all_org_list" , user_all_org_list);
+        model.addAttribute("reservation_list" , contrace_list);
+        return "/module/vehicleservicemanage/contrace/index";
+    }
+
+
+    /**
      * 预约单转正式合同，跳转至新增合同页
      * 同时，将预约单状态，改为完结
      * @param model
@@ -259,8 +315,35 @@ public class VehicleServiceManageController {
         return "/module/vehicleservicemanage/contrace/add";
     }
 
-     
 
+    /**
+     * 新增合同，其实是更新、修改合同
+     * @param model
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/contrace/doadd" , method = RequestMethod.POST)
+    @ResponseBody
+    public long contraceDoAdd(Model model , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        long contrace_id = Long.valueOf(request.getParameter("contrace_id"));
+        long original_org = Long.valueOf(request.getParameter("original_org"));
+        String customer_name = request.getParameter("customer_name");
+        String customer_type = request.getParameter("customer_type");
+        String customer_dn= request.getParameter("customer_dn");
+        String certificate_type= request.getParameter("certificate_type");
+        String certificate_no= request.getParameter("certificate_no");
+        String use_begin= request.getParameter("use_begin");
+        String use_end= request.getParameter("use_end");
+        String employee_id= request.getParameter("employee_id");
+        String employee_name= request.getParameter("employee_name");
+        String remark= request.getParameter("remark");
+
+        return this.vehicleServiceManageService.modifycontrace(contrace_id, original_org, customer_name, customer_type, customer_dn,
+               certificate_type, certificate_no, use_begin, use_end, employee_id, employee_name, remark, user.getUser_id());
+    }
 
 
 
