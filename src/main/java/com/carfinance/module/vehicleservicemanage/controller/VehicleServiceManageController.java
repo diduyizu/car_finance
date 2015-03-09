@@ -56,12 +56,6 @@ public class VehicleServiceManageController {
         int start = (page_index - 1) * size;
 
         String original_org_str = request.getParameter("original_org");
-//        String current_city = request.getParameter("current_city");
-//        String brand = request.getParameter("brand");
-//        String vehicle_model = request.getParameter("model");
-//        String license_plate = request.getParameter("license_plate");
-//        String lease_status = request.getParameter("lease_status");
-
         List<Org> user_all_org_list = this.commonService.getUserAllOrgList(user.getUser_id());
 
         //获取用户角色列表
@@ -91,12 +85,8 @@ public class VehicleServiceManageController {
         model.addAttribute("nextpage" , nextpages);
         model.addAttribute("page_url" , request.getRequestURI());
 
-//        model.addAttribute("current_city" , current_city);
         model.addAttribute("original_org" , original_org);
         model.addAttribute("original_org_name" , original_org_name);
-//        model.addAttribute("brand" , brand);
-//        model.addAttribute("model" , vehicle_model);
-//        model.addAttribute("license_plate" , license_plate);
 
         model.addAttribute("sys_used_city_list" , sys_used_city_list);
         model.addAttribute("user_all_org_list" , user_all_org_list);
@@ -115,12 +105,6 @@ public class VehicleServiceManageController {
         int start = (page_index - 1) * size;
 
         String original_org_str = request.getParameter("original_org");
-//        String current_city = request.getParameter("current_city");
-//        String brand = request.getParameter("brand");
-//        String vehicle_model = request.getParameter("model");
-//        String license_plate = request.getParameter("license_plate");
-//        String lease_status = request.getParameter("lease_status");
-
         List<Org> user_all_org_list = this.commonService.getUserAllOrgList(user.getUser_id());
 
         //获取用户角色列表
@@ -151,12 +135,8 @@ public class VehicleServiceManageController {
         model.addAttribute("nextpage" , nextpages);
         model.addAttribute("page_url" , request.getRequestURI());
 
-//        model.addAttribute("current_city" , current_city);
         model.addAttribute("original_org" , original_org);
         model.addAttribute("original_org_name" , original_org_name);
-//        model.addAttribute("brand" , brand);
-//        model.addAttribute("model" , vehicle_model);
-//        model.addAttribute("license_plate" , license_plate);
 
         model.addAttribute("sys_used_city_list" , sys_used_city_list);
         model.addAttribute("user_all_org_list" , user_all_org_list);
@@ -197,15 +177,10 @@ public class VehicleServiceManageController {
         User user = (User)request.getSession().getAttribute("user");
 
         String original_org = request.getParameter("original_org");
-//        String carframe_model = request.getParameter("model");
         String customer_name = request.getParameter("customer_name");
         String customer_dn= request.getParameter("customer_dn");
         String use_begin= request.getParameter("use_begin");
         String use_end= request.getParameter("use_end");
-//        double unit_price= Double.valueOf( request.getParameter("unit_price"));
-//        long quantity= Long.valueOf(request.getParameter("quantity"));
-//        int with_driver= Integer.valueOf(request.getParameter("with_driver"));
-//        int expenses_self= Integer.valueOf(request.getParameter("expenses_self"));
         String employee_id= request.getParameter("employee_id");
         String employee_name= request.getParameter("employee_name");
         String remark= request.getParameter("remark");
