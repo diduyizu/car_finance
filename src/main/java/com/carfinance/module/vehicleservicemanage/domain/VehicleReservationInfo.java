@@ -20,13 +20,40 @@ public class VehicleReservationInfo implements Serializable{
     private String employee_id;
     private String employee_name;
     private long org_id;
-    private String status;
+    private long status;
+    private long create_by;
+    private Date create_at;
     private long risk_control_update_by;
     private Date risk_control_update_at;
     private long business_manager_update_by;
     private Date business_manager_update_at;
     private long finance_update_by;
     private Date finance_update_at;
+    private String remark;
+
+    public long getCreate_by() {
+        return create_by;
+    }
+
+    public void setCreate_by(long create_by) {
+        this.create_by = create_by;
+    }
+
+    public Date getCreate_at() {
+        return create_at;
+    }
+
+    public void setCreate_at(Date create_at) {
+        this.create_at = create_at;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -136,11 +163,11 @@ public class VehicleReservationInfo implements Serializable{
         this.org_id = org_id;
     }
 
-    public String getStatus() {
+    public long getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(long status) {
         this.status = status;
     }
 

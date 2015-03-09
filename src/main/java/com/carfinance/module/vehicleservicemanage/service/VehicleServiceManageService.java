@@ -48,14 +48,23 @@ public class VehicleServiceManageService {
         return map;
     }
 
-    public int addReservation(String original_org , String carframe_model , String customer_name , String customer_dn , String use_begin , String use_end ,
-                              double unit_price , long quantity , int with_driver , int expenses_self , String employee_id , String employee_name , long user_id) {
+    public Map<String , Object> getOrgReservationRemindList(long org_id , int remind_days , int start, int size) {
+        long total = this.vehicleServiceManageDao.getOrgReservationRemindCount(org_id , remind_days);
+        List<VehicleReservationInfo> reservation_list = this.vehicleServiceManageDao.getOrgReservationRemindList(org_id , remind_days , start , size);
+        Map<String , Object> map = new HashMap<String, Object>();
+        map.put("total" , total);
+        map.put("reservation_list", reservation_list);
+        return map;
+    }
+
+    public int addReservation(String original_org , String customer_name , String customer_dn , String use_begin , String use_end ,
+                             String employee_id , String employee_name , String remark , long user_id) {
         try{
             Date use_begin_date = DateUtil.string2Date(use_begin , "yyyy-mm-dd HH:MM");
             Date use_end_date = DateUtil.string2Date(use_end , "yyyy-mm-dd HH:MM");
 
-            return this.vehicleServiceManageDao.addReservation(original_org , carframe_model , customer_name , customer_dn , use_begin_date , use_end_date ,
-                    unit_price , quantity , with_driver , expenses_self , employee_id , employee_name , user_id);
+            return this.vehicleServiceManageDao.addReservation(original_org , customer_name , customer_dn , use_begin_date , use_end_date ,
+                    employee_id , employee_name , remark , user_id);
         } catch(Exception e) {
             logger.info(e.getMessage() , e);
             return 0;
@@ -78,10 +87,54 @@ public class VehicleServiceManageService {
         return map;
     }
 
+    public int reservationDoCancel(long reservation_id , long user_id , int status) {
+        return this.vehicleServiceManageDao.reservationDoCancel(reservation_id, user_id, status);
+    }
+
+    public long addContrace(long reservation_id , long user_id) {
+        try{
+            return this.vehicleServiceManageDao.addContrace(reservation_id , user_id);
+        } catch(Exception e) {
+            logger.info(e.getMessage() , e);
+            return 0;
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public int riskcontrolAudit(long id , String status , long user_id) {
         return this.vehicleServiceManageDao.riskcontrolAudit(id , status , user_id);
-
     }
+
+
 
 }

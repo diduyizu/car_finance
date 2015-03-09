@@ -104,6 +104,66 @@ public class VehicleServiceManageController {
         return "/module/vehicleservicemanage/reservation/index";
     }
 
+
+    @RequestMapping(value = "/reservation/remind" , method = {RequestMethod.GET , RequestMethod.POST})
+    public String reservationRemind(Model model , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        String pageindexStr = request.getParameter("page_index");//第几页
+        int page_index = Integer.parseInt(StringUtils.isBlank(pageindexStr) || "0".equals(pageindexStr) ? "1" : pageindexStr);
+        int size = Integer.valueOf(appProps.get("vehicle.reservation.query.size").toString());//每页显示条数
+        int start = (page_index - 1) * size;
+
+        String original_org_str = request.getParameter("original_org");
+//        String current_city = request.getParameter("current_city");
+//        String brand = request.getParameter("brand");
+//        String vehicle_model = request.getParameter("model");
+//        String license_plate = request.getParameter("license_plate");
+//        String lease_status = request.getParameter("lease_status");
+
+        List<Org> user_all_org_list = this.commonService.getUserAllOrgList(user.getUser_id());
+
+        //获取用户角色列表
+        long original_org = (original_org_str == null || "".equals(original_org_str.trim())) ? user_all_org_list.get(0).getOrg_id() : Long.valueOf(original_org_str);
+        String original_org_name = "";
+        for(Org org : user_all_org_list) {
+            if(org.getOrg_id() == original_org) {
+                original_org_name = org.getOrg_name();
+                break;
+            }
+        }
+
+        int remind_days = Integer.valueOf(appProps.get("vehicle.reservation.remind.day").toString());//多少天之内，提醒
+        List<City> sys_used_city_list = this.commonService.getSysUsedCityList();
+        Map<String , Object> map = this.vehicleServiceManageService.getOrgReservationRemindList(original_org, remind_days , start, size);
+
+        long total = (Long)map.get("total");;
+        List<VehicleReservationInfo> reservation_list = (List<VehicleReservationInfo>)map.get("reservation_list");
+
+        long temp = (total - 1) <= 0 ? 0 : (total - 1);
+        int pages = Integer.parseInt(Long.toString(temp / size)) + 1;
+        int prepages = (page_index - 1) <= 0 ? 1 : (page_index - 1);
+        int nextpages = (page_index + 1) >= pages ? pages : (page_index + 1);
+
+        model.addAttribute("current_page" , page_index);
+        model.addAttribute("pages" , pages);
+        model.addAttribute("prepage" , prepages);
+        model.addAttribute("nextpage" , nextpages);
+        model.addAttribute("page_url" , request.getRequestURI());
+
+//        model.addAttribute("current_city" , current_city);
+        model.addAttribute("original_org" , original_org);
+        model.addAttribute("original_org_name" , original_org_name);
+//        model.addAttribute("brand" , brand);
+//        model.addAttribute("model" , vehicle_model);
+//        model.addAttribute("license_plate" , license_plate);
+
+        model.addAttribute("sys_used_city_list" , sys_used_city_list);
+        model.addAttribute("user_all_org_list" , user_all_org_list);
+        model.addAttribute("reservation_list" , reservation_list);
+        return "/module/vehicleservicemanage/reservation/remind";
+    }
+
     /**
      * 跳转至车辆预约单录入页面
      * @param model
@@ -125,7 +185,7 @@ public class VehicleServiceManageController {
     }
 
     /**
-     * 执行新增
+     * 预约单执行新增
      * @param model
      * @param request
      * @param response
@@ -137,21 +197,92 @@ public class VehicleServiceManageController {
         User user = (User)request.getSession().getAttribute("user");
 
         String original_org = request.getParameter("original_org");
-        String carframe_model = request.getParameter("model");
+//        String carframe_model = request.getParameter("model");
         String customer_name = request.getParameter("customer_name");
         String customer_dn= request.getParameter("customer_dn");
         String use_begin= request.getParameter("use_begin");
         String use_end= request.getParameter("use_end");
-        double unit_price= Double.valueOf( request.getParameter("unit_price"));
-        long quantity= Long.valueOf(request.getParameter("quantity"));
-        int with_driver= Integer.valueOf(request.getParameter("with_driver"));
-        int expenses_self= Integer.valueOf(request.getParameter("expenses_self"));
+//        double unit_price= Double.valueOf( request.getParameter("unit_price"));
+//        long quantity= Long.valueOf(request.getParameter("quantity"));
+//        int with_driver= Integer.valueOf(request.getParameter("with_driver"));
+//        int expenses_self= Integer.valueOf(request.getParameter("expenses_self"));
         String employee_id= request.getParameter("employee_id");
         String employee_name= request.getParameter("employee_name");
+        String remark= request.getParameter("remark");
 
-        return this.vehicleServiceManageService.addReservation(original_org , carframe_model , customer_name , customer_dn ,
-                use_begin , use_end , unit_price , quantity , with_driver , expenses_self , employee_id , employee_name , user.getUser_id());
+        return this.vehicleServiceManageService.addReservation(original_org , customer_name , customer_dn ,
+                use_begin , use_end , employee_id , employee_name , remark , user.getUser_id());
     }
+
+    /**
+     * 取消预约单
+     * @param model
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/reservation/docancel" , method = RequestMethod.POST)
+    @ResponseBody
+    public int reservationDoCancel(Model model , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        long reservation_id = Long.valueOf(request.getParameter("reservation_id"));
+        int status = Integer.valueOf(request.getParameter("status"));
+        return this.vehicleServiceManageService.reservationDoCancel(reservation_id, user.getUser_id(), status);
+    }
+
+    /**
+     * 预约单转正式合同，跳转至新增合同页
+     * 同时，将预约单状态，改为完结
+     * @param model
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/contrace/add" , method = RequestMethod.GET)
+    public String contraceAdd(Model model , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        long reservation_id = Long.valueOf(request.getParameter("reservation_id"));
+        //获取用户角色列表
+        List<Org> user_all_org_list = this.commonService.getUserAllOrgList(user.getUser_id());
+        List<City> city_list = this.commonService.getSysUsedCityList();
+
+        this.vehicleServiceManageService.reservationDoCancel(reservation_id, user.getUser_id(), 1);//将预约单状态改为完结
+        //同时，生成合同，此时合同是空合同
+        //跳转至合同页面，输入内容，点击提交，其实是对现在生成的合同内容进行更新
+        long contrace_id = this.vehicleServiceManageService.addContrace(reservation_id , user.getUser_id());
+
+        model.addAttribute("contrace_id" , contrace_id);
+        model.addAttribute("city_list" , city_list);
+        model.addAttribute("user_all_org_list" , user_all_org_list);
+        return "/module/vehicleservicemanage/contrace/add";
+    }
+
+     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * 风控审核列表

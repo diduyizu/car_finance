@@ -21,21 +21,26 @@ public class VehicleReservationInfoRowMapper implements RowMapper<VehicleReserva
         vehicleReservationInfo.setUse_begin(use_begin_str.substring(0 , use_begin_str.length()-2));
         vehicleReservationInfo.setUse_end(use_end_str.substring(0 , use_end_str.length()-2));
 
-        vehicleReservationInfo.setModel(rs.getString("model"));
-        vehicleReservationInfo.setUnit_price(rs.getDouble("unit_price"));
-        vehicleReservationInfo.setQuantity(rs.getLong("quantity"));
-        vehicleReservationInfo.setWith_driver(rs.getInt("with_driver"));
-        vehicleReservationInfo.setExpenses_self(rs.getInt("expenses_self"));
+        vehicleReservationInfo.setCreate_by(rs.getLong("create_by"));
+        vehicleReservationInfo.setCreate_at(rs.getDate("create_at"));
+
+//        vehicleReservationInfo.setModel(rs.getString("model"));
+//        vehicleReservationInfo.setUnit_price(rs.getDouble("unit_price"));
+//        vehicleReservationInfo.setQuantity(rs.getLong("quantity"));
+//        vehicleReservationInfo.setWith_driver(rs.getInt("with_driver"));
+//        vehicleReservationInfo.setExpenses_self(rs.getInt("expenses_self"));
         vehicleReservationInfo.setEmployee_id(rs.getString("employee_id"));
         vehicleReservationInfo.setEmployee_name(rs.getString("employee_name"));
         vehicleReservationInfo.setOrg_id(rs.getLong("org_id"));
-        vehicleReservationInfo.setStatus(rs.getString("status"));
-        vehicleReservationInfo.setRisk_control_update_by(rs.getLong("risk_control_update_by"));
-        vehicleReservationInfo.setRisk_control_update_at(rs.getDate("risk_control_update_at"));
-        vehicleReservationInfo.setBusiness_manager_update_by(rs.getLong("business_manager_update_by"));
-        vehicleReservationInfo.setBusiness_manager_update_at(rs.getDate("business_manager_update_at"));
-        vehicleReservationInfo.setFinance_update_by(rs.getLong("finance_update_by"));
-        vehicleReservationInfo.setFinance_update_at(rs.getDate("finance_update_at"));
+        vehicleReservationInfo.setStatus(rs.getLong("status"));
+//        vehicleReservationInfo.setRisk_control_update_by(rs.getLong("risk_control_update_by"));
+//        vehicleReservationInfo.setRisk_control_update_at(rs.getDate("risk_control_update_at"));
+//        vehicleReservationInfo.setBusiness_manager_update_by(rs.getLong("business_manager_update_by"));
+//        vehicleReservationInfo.setBusiness_manager_update_at(rs.getDate("business_manager_update_at"));
+//        vehicleReservationInfo.setFinance_update_by(rs.getLong("finance_update_by"));
+//        vehicleReservationInfo.setFinance_update_at(rs.getDate("finance_update_at"));
+
+        vehicleReservationInfo.setRemark(rs.getString("remark"));
 
         return vehicleReservationInfo;
 	}
