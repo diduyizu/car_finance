@@ -55,7 +55,7 @@
     车牌号：
     <input type="text" name="license_plate" id="license_plate"class="abc input-default" placeholder="" value="${license_plate}">&nbsp;&nbsp;
     <button type="submit" class="btn btn-primary">查询</button>&nbsp;&nbsp;
-    <button type="button" class="btn btn-success" id="addnew">新增车辆违章记录</button>
+    <%--<button type="button" class="btn btn-success" id="addnew">新增车辆违章记录</button>--%>
 </form>
 <table class="table table-bordered table-hover definewidth m10">
     <thead>

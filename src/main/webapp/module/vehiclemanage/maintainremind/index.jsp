@@ -70,7 +70,7 @@
             <th>下次保养公里数</th>
             <th>剩余保养公里数</th>
             <th>所在城市</th>
-            <th>操作</th>
+            <%--<th>操作</th>--%>
         </tr>
     </thead>
     <c:forEach var="vehicle" items="${vehicle_maintain_remind_list}" varStatus="status">
@@ -80,7 +80,7 @@
             <td>${vehicle.next_main_km}</td>
             <td>${vehicle.maintian_on_km}</td>
             <td>${vehicle.current_city}</td>
-            <td><a href="${ctx}/vehicle/maintainremind/add?id=${vehicle.id}">录入保养记录</a></td>
+            <%--<td><a href="${ctx}/vehicle/maintainremind/add?id=${vehicle.id}">录入保养记录</a></td>--%>
         </tr>
     </c:forEach>
 </table>

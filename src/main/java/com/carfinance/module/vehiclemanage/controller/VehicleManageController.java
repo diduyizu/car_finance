@@ -298,6 +298,11 @@ public class VehicleManageController {
     @RequestMapping(value = "/insurance/add" , method = RequestMethod.GET)
     public String insuranceAdd(Model model , HttpServletRequest request , HttpServletResponse response) {
         User user = (User)request.getSession().getAttribute("user");
+
+        long vehicle_id = Long.valueOf(request.getParameter("vehicle_id"));//车辆id
+        VehicleInfo vehicleInfo = this.vehicleManageService.getVehicleInfoByid(vehicle_id);
+
+        model.addAttribute("vehicle_info" , vehicleInfo);
         return "/module/vehiclemanage/insurance/add";
     }
 
@@ -437,6 +442,11 @@ public class VehicleManageController {
     @RequestMapping(value = "/peccancy/add" , method = RequestMethod.GET)
     public String peccancyAdd(Model model , HttpServletRequest request , HttpServletResponse response) {
         User user = (User)request.getSession().getAttribute("user");
+
+        long vehicle_id = Long.valueOf(request.getParameter("vehicle_id"));//车辆id
+        VehicleInfo vehicleInfo = this.vehicleManageService.getVehicleInfoByid(vehicle_id);
+
+        model.addAttribute("vehicle_info" , vehicleInfo);
         return "/module/vehiclemanage/peccancy/add";
     }
 
@@ -739,8 +749,8 @@ public class VehicleManageController {
     public String maintainRecordAdd(Model model , HttpServletRequest request , HttpServletResponse response) {
         User user = (User)request.getSession().getAttribute("user");
 
-        long id = Long.valueOf(request.getParameter("id"));
-        VehicleInfo vehicleInfo = this.vehicleManageService.getVehicleInfoByid(id);
+        long vehicle_id = Long.valueOf(request.getParameter("vehicle_id"));
+        VehicleInfo vehicleInfo = this.vehicleManageService.getVehicleInfoByid(vehicle_id);
 
         model.addAttribute("vehicle_info" , vehicleInfo);
         return "/module/vehiclemanage/maintainremind/add";

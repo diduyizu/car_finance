@@ -116,6 +116,7 @@
             <th>当前所在地市</th>
             <th>车辆状态</th>
             <th>GPS状态</th>
+            <th>操作</th>
             <%--<th>保养剩余公里数</th>--%>
             <%--<th>公里数</th>--%>
         </tr>
@@ -128,6 +129,11 @@
             <td>${vehicle.current_city_name}</td>
             <td>${vehicle.lease_status}</td>
             <td>${vehicle.gps}</td>
+            <td>
+                <button type="button" class="btn btn-success" id="addinsurance" value="${vehicle.id}">新增保险</button>
+                <button type="button" class="btn btn-success" id="addpeccancy" value="${vehicle.id}">新增违章</button>
+                <button type="button" class="btn btn-success" id="addmaintainremind" value="${vehicle.id}">新增保养</button>
+            </td>
             <%--<td>${vehicle.maintian_on_km}</td>--%>
             <%--<td>${vehicle.km}</td>--%>
         </tr>
@@ -141,4 +147,22 @@
     $('#addnew').click(function(){
         window.location.href="${ctx}/vehicle/register/add";
     });
+
+    $('#addinsurance').click(function(){
+        var vehicle_id = $(this).val();
+        window.location.href="${ctx}/vehicle/insurance/add?vehicle_id="+vehicle_id;
+    });
+
+    $('#addpeccancy').click(function(){
+        var vehicle_id = $(this).val();
+        window.location.href="${ctx}/vehicle/peccancy/add?vehicle_id="+vehicle_id;
+    });
+
+
+    $('#addmaintainremind').click(function(){
+        var vehicle_id = $(this).val();
+        window.location.href="${ctx}/vehicle/maintainremind/add?vehicle_id="+vehicle_id;
+    });
+
+
 </script>
