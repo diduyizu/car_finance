@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.1.4
+-- version 4.1.6
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: 2015-03-10 11:21:12
--- 服务器版本： 5.6.11
--- PHP Version: 5.5.1
+-- Generation Time: 2015-03-10 14:46:31
+-- 服务器版本： 5.6.16
+-- PHP Version: 5.5.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -222,10 +222,10 @@ INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `menu_url`, `pid`, `level`, `men
 (40001, '预约单管理', 'carfinance/vehicleservice/reservation/index', 40000, 0, '车辆预约单管理', 'page', NULL, 1, 0),
 (40002, '预约单提醒', 'carfinance/vehicleservice/reservation/remind', 40000, 0, '预约单提醒', 'page', NULL, 1, 0),
 (40003, '合同管理', 'carfinance/vehicleservice/contrace/index', 40000, 0, '合同管理', 'page', NULL, 1, 0),
-(40006, '合同店长审核', 'carfinance/vehicleservice/servicemanager/audit', 40000, 0, '预约单业务经理审核', 'page', NULL, 1, 0),
-(40007, '合同市店长审核', '', 40000, 0, '合同市店长审核', 'page', NULL, 1, 0),
-(40008, '合同区域经理审核', '', 40008, 0, '', 'page', NULL, 1, 0),
-(40009, '合同财务审核', 'carfinance/vehicleservice/finance/audit', 40000, 0, '预约单财务审核', 'page', NULL, 1, 0),
+(40006, '合同店长审核', 'carfinance/vehicleservice/contrace/shopowner/audit', 40000, 0, '预约单业务经理审核', 'page', NULL, 1, 0),
+(40007, '合同市店长审核', 'carfinance/vehicleservice/contrace/cityshopowner/audit', 40000, 0, '合同市店长审核', 'page', NULL, 1, 0),
+(40008, '合同区域经理审核', 'carfinance/vehicleservice/contrace/cityshopowner/audit', 40008, 0, '', 'page', NULL, 1, 0),
+(40009, '合同财务审核', 'carfinance/vehicleservice/contrace/finance/audit', 40000, 0, '预约单财务审核', 'page', NULL, 1, 0),
 (40020, '业务办理审核工作流', 'http://www.xici.net', 40000, 0, '业务办理审核工作流', 'page', NULL, 0, 0),
 (40021, '产权租赁登记', 'http://www.xici.net', 40000, 0, '产权租赁登记', 'page', NULL, 0, 0),
 (40022, '车辆自用记录登记', 'http://www.xici.net', 40000, 0, '车辆自用记录登记', 'page', NULL, 0, 0),
@@ -450,7 +450,7 @@ CREATE TABLE IF NOT EXISTS `vehicle_contrace` (
   `create_by` int(11) DEFAULT '0' COMMENT '创建人',
   `update_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
   `update_by` int(11) DEFAULT '0' COMMENT '更新人',
-  `status` int(11) NOT NULL DEFAULT '0' COMMENT '审核状态：0:待审核;1-店长审核通过;2:市公司店长审核通过;3:区域经理审核通过;4:财务通过;5:结单;-1店长驳回；-2:门店店长审核不通过',
+  `status` int(11) NOT NULL DEFAULT '0' COMMENT '审核状态：0-初始状态;1－待审核;2-店长审核通过;3-市公司店长审核通过;4-区域经理审核通过;5-财务通过;6-结单;-1店长驳回；-2:门店店长审核不通过',
   `shopowner_update_by` int(11) NOT NULL DEFAULT '0' COMMENT '店长审核人',
   `shopowner_update_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '店长审核时间',
   `city_shopowner_update_by` int(11) DEFAULT '0' COMMENT '市店长审核人',
