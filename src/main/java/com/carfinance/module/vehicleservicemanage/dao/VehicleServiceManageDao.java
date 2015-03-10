@@ -28,7 +28,7 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
     }
 
     public List<VehicleReservationInfo> getOrgReservationList(long org_id , int start, int size) {
-        String sql = "select * from vehicle_reservation where org_id = ? limit ?,? ";
+        String sql = "select * from vehicle_reservation where org_id = ? order by id desc limit ?,? ";
         Object[] o = new Object[] { org_id , start , size };
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().query(sql, o, new VehicleReservationInfoRowMapper());
