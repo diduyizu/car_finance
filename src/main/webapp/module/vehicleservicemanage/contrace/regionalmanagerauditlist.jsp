@@ -49,9 +49,7 @@
     状态：
     <select id="status" name="status">
         <option value="">全部</option>
-        <option value="待审核" <c:if test="${status == '待审核'}">selected="selected"</c:if>>待审核</option>
-        <option value="审核通过" <c:if test="${status == '审核通过'}">selected="selected"</c:if>>审核通过</option>
-        <option value="审核不通过" <c:if test="${status == '审核不通过'}">selected="selected"</c:if>>审核不通过</option>
+        <option value="风控通过" <c:if test="${status == '风控通过'}">selected="selected"</c:if>>风控通过</option>
     </select>
     姓名：
     <input type="text" name="customer_name" id="customer_name"class="abc input-default" placeholder="" value="${customer_name}">&nbsp;&nbsp;
@@ -94,10 +92,9 @@
             </td>
             <td>${reservation.status}</td>
             <td>
-                <c:if test="${reservation.status == '待审核'}">
+                <c:if test="${reservation.status == '风控通过'}">
                     <button type="button" class="btn btn-success pass" value="${reservation.id}">通过</button>
                     <button type="button" class="btn btn-danger nopass" value="${reservation.id}">不通过</button>
-                    <button type="button" class="btn btn-danger rewrite" value="${reservation.id}">驳回</button>
                 </c:if>
             </td>
         </tr>
@@ -111,9 +108,9 @@
         $('.pass').click(function(){
             var id = $(this).val();
             $.ajax({
-                url:"${ctx}/vehicleservice/contrace/doaudit",
+                url:"${ctx}/vehicleservice/servicemanager/doaudit",
                 type: "post",
-                data:{id:id,status:1},
+                data:{id:id,status:'业务经理通过'},
                 success:function(data){
                     if(data == 1){
                         alert("成功");
@@ -130,29 +127,9 @@
             if(confirm("确定不通过吗？")) {
                 var id = $(this).val();
                 $.ajax({
-                    url:"${ctx}/vehicleservice/contrace/doaudit",
+                    url:"${ctx}/vehicleservice/servicemanager/doaudit",
                     type: "post",
-                    data:{id:id,status:-2},
-                    success:function(data){
-                        if(data == 1){
-                            alert("成功");
-                            location.reload();
-                        } else {
-                            alert("失败");
-                            return false;
-                        }
-                    }
-                })
-            }
-        })
-
-        $('.rewrite').click(function(){
-            if(confirm("确定驳回吗？")) {
-                var id = $(this).val();
-                $.ajax({
-                    url:"${ctx}/vehicleservice/contrace/doaudit",
-                    type: "post",
-                    data:{id:id,status:-1},
+                    data:{id:id,status:'业务经理不通过'},
                     success:function(data){
                         if(data == 1){
                             alert("成功");

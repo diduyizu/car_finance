@@ -93,13 +93,6 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
         return this.getJdbcTemplate().query(sql, o, new VehicleReservationInfoRowMapper());
     }
 
-    public int riskcontrolAudit(long id , String status , long user_id) {
-        String sql = "update vehicle_reservation set status = ? , risk_control_update_by = ? , risk_control_update_at = now() where id = ?";
-        Object[] o = new Object[] { status , user_id , id };
-        logger.info(sql.replaceAll("\\?", "{}"), o);
-        return this.getJdbcTemplate().update(sql, o);
-    }
-
     /**
      * 业务员更新预订单
      *
@@ -222,4 +215,93 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().update(sql, o);
     }
+
+    /**
+     * 获取某一合同中车辆总价
+     * @param contrace_id
+     * @return
+     */
+    public double getContraceVehicleTotalPrice(long contrace_id) {
+        String sql = "select sum(vehicle_price) from vehicle_contrace_vehs where contrace_id = ? ";
+        Object o = new Object[] { contrace_id };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().queryForLong(sql, o, Long.class);
+    }
+
+    /**
+     * 需要市公司店长审核
+     * @param contrace_id
+     * @param user_id
+     * @return
+     */
+    public int contraceNeedCityAudit(long contrace_id , long user_id) {
+        String sql = "update vehicle_contrace set isovertop = 1 where id = ? and create_by = ?";
+        Object o = new Object[] { contrace_id , user_id };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().update(sql, o);
+    }
+
+    /**
+     * 门店店长审核
+     * @param id
+     * @param status
+     * @param user_id
+     * @return
+     */
+    public int shopownerDoAudit(long id , String status , long user_id) {
+        String sql = "update vehicle_contrace set status = ? , shopowner_update_by = ? , shopowner_update_at = now() where id = ?";
+        Object[] o = new Object[] { status , user_id , id };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().update(sql, o);
+    }
+
+    /**
+     * 市门店店长审核
+     * @param id
+     * @param status
+     * @param user_id
+     * @return
+     */
+    public int cityShopownerDoAudit(long id , String status , long user_id) {
+        String sql = "update vehicle_contrace set status = ? , city_shopowner_update_by = ? , city_shopowner_update_at = now() where id = ?";
+        Object[] o = new Object[] { status , user_id , id };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().update(sql, o);
+    }
+
+    /**
+     * 区域经理审核
+     * @param id
+     * @param status
+     * @param user_id
+     * @return
+     */
+    public int regionalManagerDoAudit(long id , String status , long user_id) {
+        String sql = "update vehicle_contrace set status = ? , regional_manager_update_by = ? , regional_manager_update_at = now() where id = ?";
+        Object[] o = new Object[] { status , user_id , id };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().update(sql, o);
+    }
+
+    /**
+     * 财务审核
+     * @param id
+     * @param status
+     * @param user_id
+     * @return
+     */
+    public int financeDoAudit(long id , String status , long user_id) {
+        String sql = "update vehicle_contrace set status = ? , finance_update_by = ? , finance_update_at = now() where id = ?";
+        Object[] o = new Object[] { status , user_id , id };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().update(sql, o);
+    }
+
+    public int contraceDoFinish(long id , String status , long user_id) {
+        String sql = "update vehicle_contrace set status = ? where id = ? and (create_by = ? or update_by = ?)";
+        Object[] o = new Object[] { status , id , user_id , user_id };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().update(sql, o);
+    }
+     
 }

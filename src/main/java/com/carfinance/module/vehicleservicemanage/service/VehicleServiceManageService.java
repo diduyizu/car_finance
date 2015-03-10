@@ -40,6 +40,8 @@ public class VehicleServiceManageService {
     private InitService initService;
     @Autowired
     private CommonDao commonDao;
+    @Autowired
+    private Properties appProps;
 
     public Map<String , Object> getOrgReservationList(long org_id , int start, int size) {
         long total = this.vehicleServiceManageDao.getOrgReservationCount(org_id);
@@ -151,12 +153,16 @@ public class VehicleServiceManageService {
         }
         //如果有车辆，那么更新合同表状态为待审核
         int result = this.vehicleServiceManageDao.contraceToShopAudit(contrace_id , user_id);
-
         if(result > 0) {
-            //TODO
             //判断该合同下所属车辆，是否超过一定金额，如果超过，则需要市店长、区域经理审核
+            //获取该合同对应车辆，算出总价
+            double total_price = this.vehicleServiceManageDao.getContraceVehicleTotalPrice(contrace_id);
+            //需要市门店经理审批的限额
+            double top = Double.valueOf(appProps.get("city.shopowner.audit.top").toString());
+            if(total_price >= top) {//车辆总价，大于限额，则需要更新合同主表，市公司经理审核状态为：1-需要审核
+                this.vehicleServiceManageDao.contraceNeedCityAudit(contrace_id , user_id);
+            }
         }
-
 
         return result;
     }
@@ -197,34 +203,59 @@ public class VehicleServiceManageService {
     }
 
 
+    /**
+     * 门店店长审核
+     * @param id
+     * @param status
+     * @param user_id
+     * @return
+     */
+    public int shopownerDoAudit(long id , String status , long user_id) {
+        return this.vehicleServiceManageDao.shopownerDoAudit(id , status , user_id);
+    }
 
+    /**
+     * 市门店店长审核
+     * @param id
+     * @param status
+     * @param user_id
+     * @return
+     */
+    public int cityShopownerDoAudit(long id , String status , long user_id) {
+        return this.vehicleServiceManageDao.cityShopownerDoAudit(id , status , user_id);
+    }
 
+    /**
+     * 区域经理审核
+     * @param id
+     * @param status
+     * @param user_id
+     * @return
+     */
+    public int regionalManagerDoAudit(long id , String status , long user_id) {
+        return this.vehicleServiceManageDao.regionalManagerDoAudit(id , status , user_id);
+    }
 
+    /**
+     * 财务审核
+     * @param id
+     * @param status
+     * @param user_id
+     * @return
+     */
+    public int financeDoAudit(long id , String status , long user_id) {
+        return this.vehicleServiceManageDao.financeDoAudit(id , status , user_id);
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public int riskcontrolAudit(long id , String status , long user_id) {
-        return this.vehicleServiceManageDao.riskcontrolAudit(id , status , user_id);
+    /**
+     * 业务员结单
+     * @param id
+     * @param status
+     * @param user_id
+     * @return
+     */
+    public int contraceDoFinish(long id , String status , long user_id) {
+        return this.vehicleServiceManageDao.contraceDoFinish(id , status , user_id);
     }
 
 

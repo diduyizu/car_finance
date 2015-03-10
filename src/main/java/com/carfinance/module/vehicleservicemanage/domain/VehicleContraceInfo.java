@@ -32,6 +32,15 @@ public class VehicleContraceInfo implements Serializable{
     private Date regional_manager_update_at;
     private String use_begin;
     private String use_end;
+    private int isovertop;//是否超额，如果超额，需要市门店经理及以上审核
+
+    public int getIsovertop() {
+        return isovertop;
+    }
+
+    public void setIsovertop(int isovertop) {
+        this.isovertop = isovertop;
+    }
 
     public String getUse_begin() {
         return use_begin;

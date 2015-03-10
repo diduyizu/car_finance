@@ -98,7 +98,13 @@ public class VehicleServiceManageController {
         return "/module/vehicleservicemanage/reservation/index";
     }
 
-
+    /**
+     * 车辆预约单提醒
+     * @param model
+     * @param request
+     * @param response
+     * @return
+     */
     @RequestMapping(value = "/reservation/remind" , method = {RequestMethod.GET , RequestMethod.POST})
     public String reservationRemind(Model model , HttpServletRequest request , HttpServletResponse response) {
         User user = (User)request.getSession().getAttribute("user");
@@ -211,7 +217,7 @@ public class VehicleServiceManageController {
     }
 
     /**
-     * 合同管理首页
+     * 合同管理首页，合同列表
      * @param model
      * @param request
      * @param response
@@ -351,7 +357,7 @@ public class VehicleServiceManageController {
     }
 
     /**
-     * 业务员，给合同增加车辆，进入车辆选择列表
+     * 业务员，给 合同增加车辆，进入车辆选择列表
      * @param model
      * @param request
      * @param response
@@ -401,6 +407,11 @@ public class VehicleServiceManageController {
         return "/module/vehicleservicemanage/contrace/addvech";
     }
 
+    //TODO 业务员选择车辆，分配给某合同
+
+
+    //TODO 业务员选择配驾员，分配给某车辆
+
     /**
      * 业务员提交店长审核合同
      * @param model
@@ -438,8 +449,8 @@ public class VehicleServiceManageController {
         String status = request.getParameter("status");
 
         //获取当前用户存在店长角色的组织列表，角色表中20008对应店长
-        //TODO 管理员获取全部组织列表
         List<Org> user_role_org_list = this.commonService.getUserRoleOrgList(user.getUser_id() , 20008);
+        //TODO 管理员获取全部组织列表
 
         //获取用户角色列表
         long original_org = (original_org_str == null || "".equals(original_org_str.trim())) ? user_role_org_list.get(0).getOrg_id() : Long.valueOf(original_org_str);
@@ -475,32 +486,33 @@ public class VehicleServiceManageController {
         return "/module/vehicleservicemanage/contrace/shopownerauditlist";
     }
 
-     
-
-
-
-
-
-    @RequestMapping(value = "/riskcontrol/doaudit" , method = RequestMethod.POST)
+    /**
+     * 门店店长执行审核
+     * @param model1
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/contrace/shopowner/doaudit" , method = RequestMethod.POST)
     @ResponseBody
-    public int riskcontrolDoAudit(Model model1 , HttpServletRequest request , HttpServletResponse response) {
+    public int shopownerDoAudit(Model model1 , HttpServletRequest request , HttpServletResponse response) {
         User user = (User)request.getSession().getAttribute("user");
 
         long id = Long.valueOf(request.getParameter("id"));
         String status = request.getParameter("status");
 
-        return this.vehicleServiceManageService.riskcontrolAudit(id , status , user.getUser_id());
+        return this.vehicleServiceManageService.shopownerDoAudit(id , status , user.getUser_id());
     }
 
     /**
-     * 业务经理审核列表
+     * 市店长审核列表
      * 同时，系统管理员能够查看到全部
      * @param model
      * @param request
      * @param response
      * @return
      */
-    @RequestMapping(value = "/servicemanager/audit" , method = {RequestMethod.GET , RequestMethod.POST})
+    @RequestMapping(value = "/contrace/cityshopowner/audit" , method = {RequestMethod.GET , RequestMethod.POST})
     public String serviceManagerAudit(Model model , HttpServletRequest request , HttpServletResponse response) {
         User user = (User)request.getSession().getAttribute("user");
 
@@ -512,8 +524,9 @@ public class VehicleServiceManageController {
         String original_org_str = request.getParameter("original_org");
         String status = request.getParameter("status");
 
-        //获取当前用户存在风控的组织列表，管理员获取全部组织列表
-        List<Org> user_role_org_list = this.commonService.getUserRoleOrgList(user.getUser_id() , 20004);
+        //获取当前用户存在市门店的组织列表，管理员获取全部组织列表
+        List<Org> user_role_org_list = this.commonService.getUserRoleOrgList(user.getUser_id() , 20009);
+        //TODO 管理员获取全部组织列表
 
         //获取用户角色列表
         long original_org = (original_org_str == null || "".equals(original_org_str.trim())) ? user_role_org_list.get(0).getOrg_id() : Long.valueOf(original_org_str);
@@ -525,7 +538,7 @@ public class VehicleServiceManageController {
             }
         }
 
-        Map<String , Object> map = this.vehicleServiceManageService.getOrgReservationList(original_org, status, start, size);
+        Map<String , Object> map = this.vehicleServiceManageService.getOrgContraceList(original_org, status, start, size);
 
         long total = (Long)map.get("total");
         List<VehicleReservationInfo> reservation_list = (List<VehicleReservationInfo>)map.get("reservation_list");
@@ -547,10 +560,17 @@ public class VehicleServiceManageController {
 
         model.addAttribute("user_role_org_list" , user_role_org_list);
         model.addAttribute("reservation_list" , reservation_list);
-        return "/module/vehicleservicemanage/reservation/servicemanagerauditlist";
+        return "/module/vehicleservicemanage/contrace/cityshopownerauditlist";
     }
 
-    @RequestMapping(value = "/servicemanager/doaudit" , method = RequestMethod.POST)
+    /**
+     * 市店长执行审核
+     * @param model1
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/contrace/cityshopowner/doaudit" , method = RequestMethod.POST)
     @ResponseBody
     public int serviceManagerDoAudit(Model model1 , HttpServletRequest request , HttpServletResponse response) {
         User user = (User)request.getSession().getAttribute("user");
@@ -558,7 +578,85 @@ public class VehicleServiceManageController {
         long id = Long.valueOf(request.getParameter("id"));
         String status = request.getParameter("status");
 
-        return this.vehicleServiceManageService.riskcontrolAudit(id , status , user.getUser_id());
+        return this.vehicleServiceManageService.cityShopownerDoAudit(id , status , user.getUser_id());
+    }
+
+
+    /**
+     * 区域经理审核列表
+     * 同时，系统管理员能够查看到全部
+     * @param model
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/contrace/regionalmanager/audit" , method = {RequestMethod.GET , RequestMethod.POST})
+    public String regionalManagerAudit(Model model , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        String pageindexStr = request.getParameter("page_index");//第几页
+        int page_index = Integer.parseInt(StringUtils.isBlank(pageindexStr) || "0".equals(pageindexStr) ? "1" : pageindexStr);
+        int size = Integer.valueOf(appProps.get("vehicle.reservation.query.size").toString());//每页显示条数
+        int start = (page_index - 1) * size;
+
+        String original_org_str = request.getParameter("original_org");
+        String status = request.getParameter("status");
+
+        //获取当前用户存在区域经理的组织列表，管理员获取全部组织列表
+        List<Org> user_role_org_list = this.commonService.getUserRoleOrgList(user.getUser_id() , 20010);
+        //TODO 管理员获取全部组织列表
+
+        //获取用户角色列表
+        long original_org = (original_org_str == null || "".equals(original_org_str.trim())) ? user_role_org_list.get(0).getOrg_id() : Long.valueOf(original_org_str);
+        String original_org_name = "";
+        for(Org org : user_role_org_list) {
+            if(org.getOrg_id() == original_org) {
+                original_org_name = org.getOrg_name();
+                break;
+            }
+        }
+
+        Map<String , Object> map = this.vehicleServiceManageService.getOrgContraceList(original_org, status, start, size);
+
+        long total = (Long)map.get("total");
+        List<VehicleReservationInfo> reservation_list = (List<VehicleReservationInfo>)map.get("reservation_list");
+
+        long temp = (total - 1) <= 0 ? 0 : (total - 1);
+        int pages = Integer.parseInt(Long.toString(temp / size)) + 1;
+        int prepages = (page_index - 1) <= 0 ? 1 : (page_index - 1);
+        int nextpages = (page_index + 1) >= pages ? pages : (page_index + 1);
+
+        model.addAttribute("current_page" , page_index);
+        model.addAttribute("pages" , pages);
+        model.addAttribute("prepage" , prepages);
+        model.addAttribute("nextpage" , nextpages);
+        model.addAttribute("page_url" , request.getRequestURI());
+
+        model.addAttribute("status" , status);
+        model.addAttribute("original_org" , original_org);
+        model.addAttribute("original_org_name" , original_org_name);
+
+        model.addAttribute("user_role_org_list" , user_role_org_list);
+        model.addAttribute("reservation_list" , reservation_list);
+        return "/module/vehicleservicemanage/contrace/regionalmanagerauditlist";
+    }
+
+    /**
+     * 市店长执行审核
+     * @param model1
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/contrace/regionalmanager/doaudit" , method = RequestMethod.POST)
+    @ResponseBody
+    public int regionalManagerDoAudit(Model model1 , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        long id = Long.valueOf(request.getParameter("id"));
+        String status = request.getParameter("status");
+
+        return this.vehicleServiceManageService.regionalManagerDoAudit(id , status , user.getUser_id());
     }
 
     /**
@@ -569,7 +667,7 @@ public class VehicleServiceManageController {
      * @param response
      * @return
      */
-    @RequestMapping(value = "/finance/audit" , method = {RequestMethod.GET , RequestMethod.POST})
+    @RequestMapping(value = "/contrace/finance/audit" , method = {RequestMethod.GET , RequestMethod.POST})
     public String financeAudit(Model model , HttpServletRequest request , HttpServletResponse response) {
         User user = (User)request.getSession().getAttribute("user");
 
@@ -583,6 +681,7 @@ public class VehicleServiceManageController {
 
         //获取当前用户存在风控的组织列表，管理员获取全部组织列表
         List<Org> user_role_org_list = this.commonService.getUserRoleOrgList(user.getUser_id() , 20005);
+        //TODO 管理员获取全部组织列表
 
         //获取用户角色列表
         long original_org = (original_org_str == null || "".equals(original_org_str.trim())) ? user_role_org_list.get(0).getOrg_id() : Long.valueOf(original_org_str);
@@ -619,7 +718,14 @@ public class VehicleServiceManageController {
         return "/module/vehicleservicemanage/reservation/financeauditlist";
     }
 
-    @RequestMapping(value = "/finance/doaudit" , method = RequestMethod.POST)
+    /**
+     * 财务执行审核
+     * @param model1
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/contrace/finance/doaudit" , method = RequestMethod.POST)
     @ResponseBody
     public int financeDoAudit(Model model1 , HttpServletRequest request , HttpServletResponse response) {
         User user = (User)request.getSession().getAttribute("user");
@@ -627,17 +733,24 @@ public class VehicleServiceManageController {
         long id = Long.valueOf(request.getParameter("id"));
         String status = request.getParameter("status");
 
-        return this.vehicleServiceManageService.riskcontrolAudit(id , status , user.getUser_id());
+        return this.vehicleServiceManageService.financeDoAudit(id , status , user.getUser_id());
     }
 
-    @RequestMapping(value = "/reservation/dofinish" , method = RequestMethod.POST)
+    /**
+     * 业务员结单
+     * @param model1
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/contrace/dofinish" , method = RequestMethod.POST)
     @ResponseBody
-    public int reservationDoFinish(Model model1 , HttpServletRequest request , HttpServletResponse response) {
+    public int contraceDoFinish(Model model1 , HttpServletRequest request , HttpServletResponse response) {
         User user = (User)request.getSession().getAttribute("user");
 
         long id = Long.valueOf(request.getParameter("id"));
         String status = request.getParameter("status");
 
-        return this.vehicleServiceManageService.riskcontrolAudit(id , status , user.getUser_id());
+        return this.vehicleServiceManageService.contraceDoFinish(id , status , user.getUser_id());
     }
 }

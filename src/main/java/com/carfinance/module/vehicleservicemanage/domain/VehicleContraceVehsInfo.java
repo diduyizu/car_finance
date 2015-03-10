@@ -14,6 +14,51 @@ public class VehicleContraceVehsInfo implements Serializable{
     private int isother;
     private String driving_user_id;
     private String driving_user_name;
+    private double vehicle_price;
+    private long create_by;
+    private Date create_at;
+    private long update_by;
+    private Date update_at;
+
+    public double getVehicle_price() {
+        return vehicle_price;
+    }
+
+    public void setVehicle_price(double vehicle_price) {
+        this.vehicle_price = vehicle_price;
+    }
+
+    public long getCreate_by() {
+        return create_by;
+    }
+
+    public void setCreate_by(long create_by) {
+        this.create_by = create_by;
+    }
+
+    public Date getCreate_at() {
+        return create_at;
+    }
+
+    public void setCreate_at(Date create_at) {
+        this.create_at = create_at;
+    }
+
+    public long getUpdate_by() {
+        return update_by;
+    }
+
+    public void setUpdate_by(long update_by) {
+        this.update_by = update_by;
+    }
+
+    public Date getUpdate_at() {
+        return update_at;
+    }
+
+    public void setUpdate_at(Date update_at) {
+        this.update_at = update_at;
+    }
 
     public static long getSerialVersionUID() {
         return serialVersionUID;

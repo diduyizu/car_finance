@@ -38,6 +38,7 @@ public class VehicleContraceInfoRowMapper implements RowMapper<VehicleContraceIn
         vehicleContraceInfo.setRegional_manager_update_at(rs.getDate("regional_manager_update_at"));
         vehicleContraceInfo.setFinance_update_by(rs.getLong("finance_update_by"));
         vehicleContraceInfo.setFinance_update_at(rs.getDate("finance_update_at"));
+        vehicleContraceInfo.setIsovertop(rs.getInt("isovertop"));
 
         return vehicleContraceInfo;
 	}
