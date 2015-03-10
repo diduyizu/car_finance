@@ -2,6 +2,7 @@ package com.carfinance.module.vehicleservicemanage.controller;
 
 import com.carfinance.module.common.domain.City;
 import com.carfinance.module.common.domain.Org;
+import com.carfinance.module.common.domain.UserRole;
 import com.carfinance.module.common.service.CommonService;
 import com.carfinance.module.init.service.InitService;
 import com.carfinance.module.login.domain.User;
@@ -195,8 +196,8 @@ public class VehicleServiceManageController {
         String employee_name= request.getParameter("employee_name");
         String remark= request.getParameter("remark");
 
-        return this.vehicleServiceManageService.addReservation(original_org , customer_name , customer_dn ,
-                use_begin , use_end , employee_id , employee_name , remark , user.getUser_id());
+        return this.vehicleServiceManageService.addReservation(original_org, customer_name, customer_dn,
+                use_begin, use_end, employee_id, employee_name, remark, user.getUser_id());
     }
 
     /**
@@ -294,7 +295,7 @@ public class VehicleServiceManageController {
         this.vehicleServiceManageService.reservationDoCancel(reservation_id, user.getUser_id(), 1);//将预约单状态改为完结
         //同时，生成合同，此时合同是空合同
         //跳转至合同页面，输入内容，点击提交，其实是对现在生成的合同内容进行更新
-        long contrace_id = this.vehicleServiceManageService.addContrace(reservation_id , org_id , user.getUser_id());
+        long contrace_id = this.vehicleServiceManageService.addContrace(reservation_id, org_id, user.getUser_id());
 
         model.addAttribute("contrace_id" , contrace_id);
         model.addAttribute("city_list" , city_list);
@@ -446,11 +447,18 @@ public class VehicleServiceManageController {
         int start = (page_index - 1) * size;
 
         String original_org_str = request.getParameter("original_org");
-        String status = request.getParameter("status");
+        String status = request.getParameter("status") == null ? "0" : request.getParameter("status");//店长默认查看待审核状态的列表
 
-        //获取当前用户存在店长角色的组织列表，角色表中20008对应店长
-        List<Org> user_role_org_list = this.commonService.getUserRoleOrgList(user.getUser_id() , 20008);
         //TODO 管理员获取全部组织列表
+        //获取当前用户存在店长角色的组织列表，角色表中20008对应店长
+        boolean isSysadmin = this.commonService.isSysadmin(user.getUser_id());
+        List<Org> user_role_org_list;
+        if(isSysadmin) {
+            user_role_org_list = this.commonService.getUserAllOrgList(user.getUser_id());
+        } else {
+            user_role_org_list = this.commonService.getUserRoleOrgList(user.getUser_id() , 20008);
+        }
+
 
         //获取用户角色列表
         long original_org = (original_org_str == null || "".equals(original_org_str.trim())) ? user_role_org_list.get(0).getOrg_id() : Long.valueOf(original_org_str);
@@ -522,11 +530,17 @@ public class VehicleServiceManageController {
         int start = (page_index - 1) * size;
 
         String original_org_str = request.getParameter("original_org");
-        String status = request.getParameter("status");
+        String status = request.getParameter("status") == null ? "2" : request.getParameter("status");//市店长默认查看店长审核通过的列表
 
         //获取当前用户存在市门店的组织列表，管理员获取全部组织列表
-        List<Org> user_role_org_list = this.commonService.getUserRoleOrgList(user.getUser_id() , 20009);
         //TODO 管理员获取全部组织列表
+        boolean isSysadmin = this.commonService.isSysadmin(user.getUser_id());
+        List<Org> user_role_org_list;
+        if(isSysadmin) {
+            user_role_org_list = this.commonService.getUserAllOrgList(user.getUser_id());
+        } else {
+            user_role_org_list = this.commonService.getUserRoleOrgList(user.getUser_id() , 20009);
+        }
 
         //获取用户角色列表
         long original_org = (original_org_str == null || "".equals(original_org_str.trim())) ? user_role_org_list.get(0).getOrg_id() : Long.valueOf(original_org_str);
@@ -600,11 +614,18 @@ public class VehicleServiceManageController {
         int start = (page_index - 1) * size;
 
         String original_org_str = request.getParameter("original_org");
-        String status = request.getParameter("status");
+        String status = request.getParameter("status") == null ? "3" : request.getParameter("status");//市店长默认查看店长审核通过的列表
 
-        //获取当前用户存在区域经理的组织列表，管理员获取全部组织列表
-        List<Org> user_role_org_list = this.commonService.getUserRoleOrgList(user.getUser_id() , 20010);
         //TODO 管理员获取全部组织列表
+        //获取当前用户存在区域经理的组织列表，管理员获取全部组织列表
+        boolean isSysadmin = this.commonService.isSysadmin(user.getUser_id());
+        List<Org> user_role_org_list;
+        if(isSysadmin) {
+            user_role_org_list = this.commonService.getUserAllOrgList(user.getUser_id());
+        } else {
+            user_role_org_list = this.commonService.getUserRoleOrgList(user.getUser_id() , 20010);
+        }
+
 
         //获取用户角色列表
         long original_org = (original_org_str == null || "".equals(original_org_str.trim())) ? user_role_org_list.get(0).getOrg_id() : Long.valueOf(original_org_str);
@@ -656,7 +677,7 @@ public class VehicleServiceManageController {
         long id = Long.valueOf(request.getParameter("id"));
         String status = request.getParameter("status");
 
-        return this.vehicleServiceManageService.regionalManagerDoAudit(id , status , user.getUser_id());
+        return this.vehicleServiceManageService.regionalManagerDoAudit(id, status, user.getUser_id());
     }
 
     /**
@@ -677,11 +698,17 @@ public class VehicleServiceManageController {
         int start = (page_index - 1) * size;
 
         String original_org_str = request.getParameter("original_org");
-        String status = request.getParameter("status");
+        String status = request.getParameter("status") == null ? "4" : request.getParameter("status");//财务默认查看区域经理审核通过的列表
 
         //获取当前用户存在风控的组织列表，管理员获取全部组织列表
-        List<Org> user_role_org_list = this.commonService.getUserRoleOrgList(user.getUser_id() , 20005);
         //TODO 管理员获取全部组织列表
+        boolean isSysadmin = this.commonService.isSysadmin(user.getUser_id());
+        List<Org> user_role_org_list;
+        if(isSysadmin) {
+            user_role_org_list = this.commonService.getUserAllOrgList(user.getUser_id());
+        } else {
+            user_role_org_list = this.commonService.getUserRoleOrgList(user.getUser_id() , 20005);
+        }
 
         //获取用户角色列表
         long original_org = (original_org_str == null || "".equals(original_org_str.trim())) ? user_role_org_list.get(0).getOrg_id() : Long.valueOf(original_org_str);
@@ -733,7 +760,7 @@ public class VehicleServiceManageController {
         long id = Long.valueOf(request.getParameter("id"));
         String status = request.getParameter("status");
 
-        return this.vehicleServiceManageService.financeDoAudit(id , status , user.getUser_id());
+        return this.vehicleServiceManageService.financeDoAudit(id, status, user.getUser_id());
     }
 
     /**
@@ -751,6 +778,6 @@ public class VehicleServiceManageController {
         long id = Long.valueOf(request.getParameter("id"));
         String status = request.getParameter("status");
 
-        return this.vehicleServiceManageService.contraceDoFinish(id , status , user.getUser_id());
+        return this.vehicleServiceManageService.contraceDoFinish(id, status, user.getUser_id());
     }
 }

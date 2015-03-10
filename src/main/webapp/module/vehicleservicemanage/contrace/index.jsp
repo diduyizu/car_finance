@@ -46,12 +46,12 @@
             </c:if>
         </c:forEach>
     </select>&nbsp;&nbsp;
-    姓名：
-    <input type="text" name="customer_name" id="customer_name"class="abc input-default" placeholder="" value="${customer_name}">&nbsp;&nbsp;
-    手机号码：
-    <input type="text" name="dn" id="dn"class="abc input-default" placeholder="" value="${dn}">&nbsp;&nbsp;
-    证件号码：
-    <input type="text" name="certificate_no" id="certificate_no"class="abc input-default" placeholder="" value="${certificate_no}">&nbsp;&nbsp;
+    <%--姓名：--%>
+    <%--<input type="text" name="customer_name" id="customer_name"class="abc input-default" placeholder="" value="${customer_name}">&nbsp;&nbsp;--%>
+    <%--手机号码：--%>
+    <%--<input type="text" name="dn" id="dn"class="abc input-default" placeholder="" value="${dn}">&nbsp;&nbsp;--%>
+    <%--证件号码：--%>
+    <%--<input type="text" name="certificate_no" id="certificate_no"class="abc input-default" placeholder="" value="${certificate_no}">&nbsp;&nbsp;--%>
     <button type="submit" class="btn btn-primary">查询</button>&nbsp;&nbsp;
 </form>
 <table class="table table-bordered table-hover definewidth m10">
@@ -81,17 +81,26 @@
             <td>${contrace.remark}</td>
             <td>
                 <c:if test="${contrace.status == 0}">初始状态</c:if>
-                <c:if test="${contrace.status == 1}">店长审核通过</c:if>
-                <c:if test="${contrace.status == 2}">市公司店长审核通过</c:if>
-                <c:if test="${contrace.status == 3}">区域经理审核通过</c:if>
-                <c:if test="${contrace.status == 4}">财务通过</c:if>
+                <c:if test="${contrace.status == 1}">待审核</c:if>
+                <c:if test="${contrace.status == 2}">店长审核通过</c:if>
+                <c:if test="${contrace.status == 3}">市公司店长审核通过</c:if>
+                <c:if test="${contrace.status == 4}">区域经理审核通过</c:if>
+                <c:if test="${contrace.status == 5}">财务通过</c:if>
+                <c:if test="${contrace.status == 6}">完结</c:if>
                 <c:if test="${contrace.status == -1}">店长驳回</c:if>
+                <c:if test="${contrace.status == -2}">长审核不通过</c:if>
+                <c:if test="${contrace.status == -3}">市公司店长审核不通过</c:if>
+                <c:if test="${contrace.status == -4}">区域经理审核不通过</c:if>
+                <c:if test="${contrace.status == -5}">财务不通过</c:if>
             </td>
             <td>
                 <c:if test="${(contrace.status == 0 || contrace.status == -1) && contrace.create_by == user.user_id}">
                     <button type="button" class="btn btn-success modify" value="${contrace.id}">编辑</button>
                     <button type="button" class="btn btn-success addvehicle" value="${contrace.id}">增加车辆</button>
                     <button type="button" class="btn btn-success audit" value="${contrace.id}">提交审核</button>
+                </c:if>
+                <c:if test="${contrace.status == 5 && contrace.create_by == user.user_id}">
+                    <button type="button" class="btn btn-success over" value="${contrace.id}">结单</button>
                 </c:if>
             </td>
         </tr>

@@ -49,52 +49,57 @@
     状态：
     <select id="status" name="status">
         <option value="">全部</option>
-        <option value="风控通过" <c:if test="${status == '风控通过'}">selected="selected"</c:if>>风控通过</option>
+        <option value="2" <c:if test="${status == '2'}">selected="selected"</c:if>>店长审核通过</option>
     </select>
-    姓名：
-    <input type="text" name="customer_name" id="customer_name"class="abc input-default" placeholder="" value="${customer_name}">&nbsp;&nbsp;
-    手机号码：
-    <input type="text" name="dn" id="dn"class="abc input-default" placeholder="" value="${dn}">&nbsp;&nbsp;
+    <%--姓名：--%>
+    <%--<input type="text" name="customer_name" id="customer_name"class="abc input-default" placeholder="" value="${customer_name}">&nbsp;&nbsp;--%>
+    <%--手机号码：--%>
+    <%--<input type="text" name="dn" id="dn"class="abc input-default" placeholder="" value="${dn}">&nbsp;&nbsp;--%>
     <button type="submit" class="btn btn-primary">查询</button>
 </form>
 <table class="table table-bordered table-hover definewidth m10">
     <thead>
         <tr>
             <th>客户姓名</th>
+            <th>客户类型</th>
             <th>手机号码</th>
-            <th>用车开始时间</th>
-            <th>用车结束时间</th>
-            <th>车型</th>
-            <th>单价</th>
-            <th>数量</th>
-            <th>配驾</th>
-            <th>自理油/过路费</th>
+            <th>证件类型</th>
+            <th>证件号码</th>
+            <th>开始时间</th>
+            <th>结束时间</th>
+            <th>描述</th>
             <th>状态</th>
             <th>操作</th>
         </tr>
     </thead>
-    <c:forEach var="reservation" items="${reservation_list}" varStatus="status">
+    <c:forEach var="contrace" items="${contrace_list}" varStatus="status">
         <tr>
-            <td>${reservation.customer_name}</td>
-            <td>${reservation.customer_dn}</td>
-            <td>${reservation.use_begin}</td>
-            <td>${reservation.use_end}</td>
-            <td>${reservation.model}</td>
-            <td>${reservation.unit_price}</td>
-            <td>${reservation.quantity}</td>
+            <td>${contrace.customer_name}</td>
+            <td>${contrace.customer_type}</td>
+            <td>${contrace.customer_dn}</td>
+            <td>${contrace.customer_cer_type}</td>
+            <td>${contrace.customer_cer_no}</td>
+            <td>${contrace.use_begin}</td>
+            <td>${contrace.use_end}</td>
+            <td>${contrace.remark}</td>
             <td>
-                <c:if test="${reservation.with_driver == 1}">是</c:if>
-                <c:if test="${reservation.with_driver == 0}">否</c:if>
+                <c:if test="${contrace.status == 0}">初始状态</c:if>
+                <c:if test="${contrace.status == 1}">待审核</c:if>
+                <c:if test="${contrace.status == 2}">店长审核通过</c:if>
+                <c:if test="${contrace.status == 3}">市公司店长审核通过</c:if>
+                <c:if test="${contrace.status == 4}">区域经理审核通过</c:if>
+                <c:if test="${contrace.status == 5}">财务通过</c:if>
+                <c:if test="${contrace.status == 6}">完结</c:if>
+                <c:if test="${contrace.status == -1}">店长驳回</c:if>
+                <c:if test="${contrace.status == -2}">长审核不通过</c:if>
+                <c:if test="${contrace.status == -3}">市公司店长审核不通过</c:if>
+                <c:if test="${contrace.status == -4}">区域经理审核不通过</c:if>
+                <c:if test="${contrace.status == -5}">财务不通过</c:if>
             </td>
             <td>
-                <c:if test="${reservation.expenses_self == 1}">是</c:if>
-                <c:if test="${reservation.expenses_self == 0}">否</c:if>
-            </td>
-            <td>${reservation.status}</td>
-            <td>
-                <c:if test="${reservation.status == '风控通过'}">
-                    <button type="button" class="btn btn-success pass" value="${reservation.id}">通过</button>
-                    <button type="button" class="btn btn-danger nopass" value="${reservation.id}">不通过</button>
+                <c:if test="${contrace.status == 0}">
+                    <button type="button" class="btn btn-success pass" value="${contrace.id}">通过</button>
+                    <button type="button" class="btn btn-danger nopass" value="${contrace.id}">不通过</button>
                 </c:if>
             </td>
         </tr>

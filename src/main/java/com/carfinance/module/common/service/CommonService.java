@@ -296,4 +296,21 @@ public class CommonService {
     public List<Org> getUserRoleOrgList(long user_id , long role_id) {
         return this.commonDao.getUserRoleOrgList(user_id , role_id);
     }
+
+    /**
+     * 判断某用户是否是管理员
+     * @param user_id
+     * @return
+     */
+    public boolean isSysadmin(long user_id) {
+        boolean isSysadmin = false;
+        List<UserRole> user_role_list = this.getUserRoleList(user_id);
+        for(UserRole user_role : user_role_list) {
+            if(user_role.getRole_id() == 10000) {
+                isSysadmin = true;
+                break;
+            }
+        }
+        return isSysadmin;
+    }
 }
