@@ -297,6 +297,13 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
         return this.getJdbcTemplate().update(sql, o);
     }
 
+    /**
+     * 业务员结单
+     * @param id
+     * @param status
+     * @param user_id
+     * @return
+     */
     public int contraceDoFinish(long id , String status , long user_id) {
         String sql = "update vehicle_contrace set status = ? where id = ? and (create_by = ? or update_by = ?)";
         Object[] o = new Object[] { status , id , user_id , user_id };
