@@ -127,19 +127,13 @@
 
         $('#save').click(function(){
             var original_org=$.trim($('#original_org').val());
-//            var model=$.trim($('#model').val());
             var customer_name=$.trim($('#customer_name').val());
             var customer_dn=$.trim($('#customer_dn').val());
             var use_begin_date=$.trim($('#use_begin_date').val());
             var use_end_date=$.trim($('#use_end_date').val());
-//            var unit_price=$.trim($('#unit_price').val());
-//            var quantity=$.trim($('#quantity').val());
-//            var with_driver=$('input[name="with_driver"]:checked').val();
-//            var expenses_self=$('input[name="expenses_self"]:checked').val();
             var employee_id=$.trim($('#employee_id').val());
             var employee_name=$.trim($('#employee_name').val());
             var remark=$.trim($('#remark').val());
-
 
             $.ajax({
                 url:"${ctx}/vehicleservice/reservation/doadd",

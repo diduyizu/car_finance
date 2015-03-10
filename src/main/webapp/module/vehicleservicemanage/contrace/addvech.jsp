@@ -34,7 +34,7 @@
     </style>
 </head>
 <body>
-<form class="form-inline definewidth m20" action="${ctx}/vehicle/register/index" method="post">
+<form class="form-inline definewidth m20" action="${ctx}/vehicleservice/contrace/addvech" method="post">
     <table>
         <tr>
             <td>
@@ -74,15 +74,6 @@
                     <option value="售出" <c:if test="${lease_status == '售出'}">selected="selected"</c:if>>售出</option>
                 </select>&nbsp;&nbsp;
             </td>
-            <td>
-                GPS状态：
-                <select id="gps" name="gps">
-                    <option value="">全部</option>
-                    <option value="正常" <c:if test="${gps == '正常'}">selected="selected"</c:if>>正常</option>
-                    <option value="异常" <c:if test="${gps == '异常'}">selected="selected"</c:if>>异常</option>
-                    <option value="未安装" <c:if test="${gps == '未安装'}">selected="selected"</c:if>>未安装</option>
-                </select>&nbsp;&nbsp;
-            </td>
         </tr>
         <tr>
             <td>
@@ -99,13 +90,9 @@
             </td>
             <td>
                 <button type="submit" class="btn btn-primary">查询</button>&nbsp;&nbsp;
-                <button type="button" class="btn btn-success" id="addnew">新增车辆</button>
             </td>
         </tr>
     </table>
-    <%--公里数：--%>
-    <%--<input type="text" name="km_begin" id="km_begin"class="abc input-default" placeholder="" value="${km_begin}">到--%>
-    <%--<input type="text" name="km_end" id="km_end"class="abc input-default" placeholder="" value="${km_end}">&nbsp;&nbsp;--%>
 </form>
 <table class="table table-bordered table-hover definewidth m10">
     <thead>

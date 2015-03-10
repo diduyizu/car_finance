@@ -30,6 +30,24 @@ public class VehicleContraceInfo implements Serializable{
     private long org_id;
     private long regional_manager_update_by;
     private Date regional_manager_update_at;
+    private String use_begin;
+    private String use_end;
+
+    public String getUse_begin() {
+        return use_begin;
+    }
+
+    public void setUse_begin(String use_begin) {
+        this.use_begin = use_begin;
+    }
+
+    public String getUse_end() {
+        return use_end;
+    }
+
+    public void setUse_end(String use_end) {
+        this.use_end = use_end;
+    }
 
     public static long getSerialVersionUID() {
         return serialVersionUID;

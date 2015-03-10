@@ -25,12 +25,10 @@ public class VehicleContraceInfoRowMapper implements RowMapper<VehicleContraceIn
         vehicleContraceInfo.setUpdate_at(rs.getDate("update_at"));
         vehicleContraceInfo.setStatus(rs.getLong("status"));
         vehicleContraceInfo.setReservation_id(rs.getLong("reservation_id"));
-
-//        String use_begin_str = rs.getTimestamp("use_begin").toString();
-//        String use_end_str = rs.getTimestamp("use_end").toString();
-//        vehicleContraceInfo.setUse_begin(use_begin_str.substring(0 , use_begin_str.length()-2));
-//        vehicleContraceInfo.setUse_end(use_end_str.substring(0 , use_end_str.length()-2));
-
+        String use_begin_str = rs.getTimestamp("use_begin").toString();
+        String use_end_str = rs.getTimestamp("use_end").toString();
+        vehicleContraceInfo.setUse_begin(use_begin_str.substring(0 , use_begin_str.length()-2));
+        vehicleContraceInfo.setUse_end(use_end_str.substring(0 , use_end_str.length()-2));
         vehicleContraceInfo.setOrg_id(rs.getLong("org_id"));
         vehicleContraceInfo.setShopowner_update_by(rs.getLong("shopowner_update_by"));
         vehicleContraceInfo.setShopowner_update_at(rs.getDate("shopowner_update_at"));

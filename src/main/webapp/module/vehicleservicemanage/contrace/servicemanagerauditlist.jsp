@@ -93,8 +93,8 @@
             <td>${reservation.status}</td>
             <td>
                 <c:if test="${reservation.status == '风控通过'}">
-                    <button type="button" class="btn btn-success" id="pass" value="${reservation.id}">通过</button>
-                    <button type="button" class="btn btn-danger" id="nopass" value="${reservation.id}">不通过</button>
+                    <button type="button" class="btn btn-success pass" value="${reservation.id}">通过</button>
+                    <button type="button" class="btn btn-danger nopass" value="${reservation.id}">不通过</button>
                 </c:if>
             </td>
         </tr>
@@ -105,7 +105,7 @@
 </html>
 <script>
     $(function () {
-        $('#pass').click(function(){
+        $('.pass').click(function(){
             var id = $(this).val();
             $.ajax({
                 url:"${ctx}/vehicleservice/servicemanager/doaudit",
@@ -123,7 +123,7 @@
             })
         })
 
-        $('#nopass').click(function(){
+        $('.nopass').click(function(){
             if(confirm("确定不通过吗？")) {
                 var id = $(this).val();
                 $.ajax({

@@ -81,8 +81,8 @@
             </td>
             <td>
                 <c:if test="${reservation.status == 0 && reservation.create_by == user.user_id}">
-                    <button type="button" class="btn btn-success" id="cancel" value="${reservation.id}">取消</button>
-                    <button type="button" class="btn btn-success" id="tocontract" value="${reservation.id}">转合同</button>
+                    <button type="button" class="btn btn-success cancel" value="${reservation.id}">取消</button>
+                    <button type="button" class="btn btn-success tocontract" value="${reservation.id},${reservation.org_id}" >转合同</button>
                 </c:if>
             </td>
         </tr>
@@ -96,12 +96,12 @@
         window.location.href="${ctx}/vehicleservice/reservation/add";
     });
 
-    $('#cancel').click(function(){
-        var reservation_id = $(this).val();
+    $('.cancel').click(function(){
+        var reservation_org_id = $(this).val();
         $.ajax({
             url:"${ctx}/vehicleservice/reservation/docancel",
             type: "post",
-            data:{reservation_id:reservation_id , status:2},
+            data:{reservation_org_id:reservation_org_id , status:2},
             success:function(data){
                 if(data == 1){
                     alert("成功");
@@ -114,8 +114,8 @@
         })
     })
 
-    $('#tocontract').click(function(){
-        var reservation_id = $(this).val();
-        window.location.href="${ctx}/vehicleservice/contrace/add?reservation_id="+reservation_id;
+    $('.tocontract').click(function(){
+        var reservation_org_id = $(this).val();
+        window.location.href="${ctx}/vehicleservice/contrace/add?reservation_org_id="+reservation_org_id;
     });
 </script>
