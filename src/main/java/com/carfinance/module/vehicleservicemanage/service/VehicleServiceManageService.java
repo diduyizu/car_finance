@@ -43,18 +43,18 @@ public class VehicleServiceManageService {
     @Autowired
     private Properties appProps;
 
-    public Map<String , Object> getOrgReservationList(long org_id , int start, int size) {
-        long total = this.vehicleServiceManageDao.getOrgReservationCount(org_id);
-        List<VehicleReservationInfo> reservation_list = this.vehicleServiceManageDao.getOrgReservationList(org_id , start , size);
+    public Map<String , Object> getOrgReservationList(long org_id , String customer_name , String dn , int start, int size) {
+        long total = this.vehicleServiceManageDao.getOrgReservationCount(org_id , customer_name , dn);
+        List<VehicleReservationInfo> reservation_list = this.vehicleServiceManageDao.getOrgReservationList(org_id , customer_name , dn , start , size);
         Map<String , Object> map = new HashMap<String, Object>();
         map.put("total" , total);
         map.put("reservation_list", reservation_list);
         return map;
     }
 
-    public Map<String , Object> getOrgReservationRemindList(long org_id , int remind_days , int start, int size) {
-        long total = this.vehicleServiceManageDao.getOrgReservationRemindCount(org_id , remind_days);
-        List<VehicleReservationInfo> reservation_list = this.vehicleServiceManageDao.getOrgReservationRemindList(org_id , remind_days , start , size);
+    public Map<String , Object> getOrgReservationRemindList(long org_id , int remind_days , String customer_name , String dn , int start, int size) {
+        long total = this.vehicleServiceManageDao.getOrgReservationRemindCount(org_id , remind_days , customer_name , dn);
+        List<VehicleReservationInfo> reservation_list = this.vehicleServiceManageDao.getOrgReservationRemindList(org_id , remind_days , customer_name , dn ,  start , size);
         Map<String , Object> map = new HashMap<String, Object>();
         map.put("total" , total);
         map.put("reservation_list", reservation_list);

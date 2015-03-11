@@ -22,30 +22,112 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
     @Autowired
     private CommonDao commonDao;
 
-    public long getOrgReservationCount(long org_id) {
+    public long getOrgReservationCount(long org_id , String customer_name , String dn) {
         String sql = "select count(1) from vehicle_reservation where org_id = ? ";
-        Object[] o = new Object[] { org_id };
+        List<Object> param = new ArrayList<Object>();
+        param.add(org_id);
+
+        if(customer_name != null && !"".equals(customer_name.trim())) {
+            sql = sql + " and customer_name = ? ";
+            param.add(customer_name);
+        }
+        if(dn != null && !"".equals(dn.trim())) {
+            sql = sql + " and customer_dn = ? ";
+            param.add(dn);
+        }
+
+        Object[] o = new Object[param.size()];
+        for(int i = 0 ; i < param.size() ; i++) {
+            o[i] = param.get(i);
+        }
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().queryForLong(sql, o);
     }
 
-    public List<VehicleReservationInfo> getOrgReservationList(long org_id , int start, int size) {
-        String sql = "select * from vehicle_reservation where org_id = ? order by id desc limit ?,? ";
-        Object[] o = new Object[] { org_id , start , size };
+    public List<VehicleReservationInfo> getOrgReservationList(long org_id , String customer_name , String dn , int start, int size) {
+//        String sql = " order by id desc limit ?,? ";
+//        Object[] o = new Object[] { org_id , start , size };
+//        logger.info(sql.replaceAll("\\?", "{}"), o);
+//        return this.getJdbcTemplate().query(sql, o, new VehicleReservationInfoRowMapper());
+        String sql = "select * from vehicle_reservation where org_id = ? ";
+        List<Object> param = new ArrayList<Object>();
+        param.add(org_id);
+
+        if(customer_name != null && !"".equals(customer_name.trim())) {
+            sql = sql + " and customer_name = ? ";
+            param.add(customer_name);
+        }
+        if(dn != null && !"".equals(dn.trim())) {
+            sql = sql + " and customer_dn = ? ";
+            param.add(dn);
+        }
+        sql = sql + " order by id desc limit ?,?";
+        param.add(start);
+        param.add(size);
+
+        Object[] o = new Object[param.size()];
+        for(int i = 0 ; i < param.size() ; i++) {
+            o[i] = param.get(i);
+        }
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().query(sql, o, new VehicleReservationInfoRowMapper());
     }
 
-    public long getOrgReservationRemindCount(long org_id , int remind_days) {
+    public long getOrgReservationRemindCount(long org_id , int remind_days , String customer_name , String dn) {
+//        String sql = "select count(1) from vehicle_reservation where  ";
+//        Object[] o = new Object[] { org_id , remind_days };
+//        logger.info(sql.replaceAll("\\?", "{}"), o);
+//        return this.getJdbcTemplate().queryForLong(sql, o);
         String sql = "select count(1) from vehicle_reservation where org_id = ? and TO_DAYS(use_begin) - TO_DAYS(NOW()) <= ? and status = 0 ";
-        Object[] o = new Object[] { org_id , remind_days };
+        List<Object> param = new ArrayList<Object>();
+        param.add(org_id);
+        param.add(remind_days);
+
+        if(customer_name != null && !"".equals(customer_name.trim())) {
+            sql = sql + " and customer_name = ? ";
+            param.add(customer_name);
+        }
+        if(dn != null && !"".equals(dn.trim())) {
+            sql = sql + " and customer_dn = ? ";
+            param.add(dn);
+        }
+
+        Object[] o = new Object[param.size()];
+        for(int i = 0 ; i < param.size() ; i++) {
+            o[i] = param.get(i);
+        }
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().queryForLong(sql, o);
+
+
     }
 
-    public List<VehicleReservationInfo> getOrgReservationRemindList(long org_id , int remind_days , int start, int size) {
-        String sql = "select * from vehicle_reservation where org_id = ? and TO_DAYS(use_begin) - TO_DAYS(NOW()) <= ? and status = 0 limit ?,? ";
-        Object[] o = new Object[] { org_id , remind_days , start , size };
+    public List<VehicleReservationInfo> getOrgReservationRemindList(long org_id , int remind_days , String customer_name , String dn , int start, int size) {
+//        String sql = "select * from vehicle_reservation where org_id = ? and TO_DAYS(use_begin) - TO_DAYS(NOW()) <= ? and status = 0 limit ?,? ";
+//        Object[] o = new Object[] { org_id , remind_days , start , size };
+//        logger.info(sql.replaceAll("\\?", "{}"), o);
+//        return this.getJdbcTemplate().query(sql, o, new VehicleReservationInfoRowMapper());
+        String sql = "select * from vehicle_reservation where org_id = ? and TO_DAYS(use_begin) - TO_DAYS(NOW()) <= ? and status = 0 ";
+        List<Object> param = new ArrayList<Object>();
+        param.add(org_id);
+        param.add(remind_days);
+
+        if(customer_name != null && !"".equals(customer_name.trim())) {
+            sql = sql + " and customer_name = ? ";
+            param.add(customer_name);
+        }
+        if(dn != null && !"".equals(dn.trim())) {
+            sql = sql + " and customer_dn = ? ";
+            param.add(dn);
+        }
+        sql = sql + " order by id desc limit ?,?";
+        param.add(start);
+        param.add(size);
+
+        Object[] o = new Object[param.size()];
+        for(int i = 0 ; i < param.size() ; i++) {
+            o[i] = param.get(i);
+        }
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().query(sql, o, new VehicleReservationInfoRowMapper());
     }

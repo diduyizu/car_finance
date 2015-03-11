@@ -50,8 +50,8 @@
     <input type="text" name="customer_name" id="customer_name"class="abc input-default" placeholder="" value="${customer_name}">&nbsp;&nbsp;
     手机号码：
     <input type="text" name="dn" id="dn"class="abc input-default" placeholder="" value="${dn}">&nbsp;&nbsp;
-    证件号码：
-    <input type="text" name="certificate_no" id="certificate_no"class="abc input-default" placeholder="" value="${certificate_no}">&nbsp;&nbsp;
+    <%--证件号码：--%>
+    <%--<input type="text" name="certificate_no" id="certificate_no"class="abc input-default" placeholder="" value="${certificate_no}">&nbsp;&nbsp;--%>
     <button type="submit" class="btn btn-primary">查询</button>&nbsp;&nbsp;
     <button type="button" class="btn btn-success" id="addnew">新增</button>
 </form>

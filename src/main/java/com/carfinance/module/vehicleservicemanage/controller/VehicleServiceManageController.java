@@ -61,20 +61,15 @@ public class VehicleServiceManageController {
         int start = (page_index - 1) * size;
 
         String original_org_str = request.getParameter("original_org");
+        String customer_name = request.getParameter("customer_name");
+        String dn = request.getParameter("dn");
+
         List<Org> user_all_org_list = this.commonService.getUserAllOrgList(user.getUser_id());
 
         //获取用户角色列表
         long original_org = (original_org_str == null || "".equals(original_org_str.trim())) ? user_all_org_list.get(0).getOrg_id() : Long.valueOf(original_org_str);
-        String original_org_name = "";
-        for(Org org : user_all_org_list) {
-            if(org.getOrg_id() == original_org) {
-                original_org_name = org.getOrg_name();
-                break;
-            }
-        }
-
         List<City> sys_used_city_list = this.commonService.getSysUsedCityList();
-        Map<String , Object> map = this.vehicleServiceManageService.getOrgReservationList(original_org, start, size);
+        Map<String , Object> map = this.vehicleServiceManageService.getOrgReservationList(original_org, customer_name , dn ,  start, size);
 
         long total = (Long)map.get("total");;
         List<VehicleReservationInfo> reservation_list = (List<VehicleReservationInfo>)map.get("reservation_list");
@@ -91,7 +86,8 @@ public class VehicleServiceManageController {
         model.addAttribute("page_url" , request.getRequestURI());
 
         model.addAttribute("original_org" , original_org);
-        model.addAttribute("original_org_name" , original_org_name);
+        model.addAttribute("customer_name" , customer_name);
+        model.addAttribute("dn" , dn);
 
         model.addAttribute("sys_used_city_list" , sys_used_city_list);
         model.addAttribute("user_all_org_list" , user_all_org_list);
@@ -116,21 +112,16 @@ public class VehicleServiceManageController {
         int start = (page_index - 1) * size;
 
         String original_org_str = request.getParameter("original_org");
+        String customer_name = request.getParameter("customer_name");
+        String dn = request.getParameter("dn");
+
         List<Org> user_all_org_list = this.commonService.getUserAllOrgList(user.getUser_id());
 
         //获取用户角色列表
         long original_org = (original_org_str == null || "".equals(original_org_str.trim())) ? user_all_org_list.get(0).getOrg_id() : Long.valueOf(original_org_str);
-        String original_org_name = "";
-        for(Org org : user_all_org_list) {
-            if(org.getOrg_id() == original_org) {
-                original_org_name = org.getOrg_name();
-                break;
-            }
-        }
-
         int remind_days = Integer.valueOf(appProps.get("vehicle.reservation.remind.day").toString());//多少天之内，提醒
         List<City> sys_used_city_list = this.commonService.getSysUsedCityList();
-        Map<String , Object> map = this.vehicleServiceManageService.getOrgReservationRemindList(original_org, remind_days , start, size);
+        Map<String , Object> map = this.vehicleServiceManageService.getOrgReservationRemindList(original_org, remind_days , customer_name , dn ,  start, size);
 
         long total = (Long)map.get("total");;
         List<VehicleReservationInfo> reservation_list = (List<VehicleReservationInfo>)map.get("reservation_list");
@@ -147,7 +138,8 @@ public class VehicleServiceManageController {
         model.addAttribute("page_url" , request.getRequestURI());
 
         model.addAttribute("original_org" , original_org);
-        model.addAttribute("original_org_name" , original_org_name);
+        model.addAttribute("customer_name" , customer_name);
+        model.addAttribute("dn" , dn);
 
         model.addAttribute("sys_used_city_list" , sys_used_city_list);
         model.addAttribute("user_all_org_list" , user_all_org_list);
@@ -718,7 +710,7 @@ public class VehicleServiceManageController {
             }
         }
 
-        Map<String , Object> map = this.vehicleServiceManageService.getOrgContraceList(original_org, status, start, size , true);
+        Map<String , Object> map = this.vehicleServiceManageService.getOrgContraceList(original_org, status, start, size, true);
         long total = (Long)map.get("total");
         List<VehicleContraceInfo> contrace_list = (List<VehicleContraceInfo>)map.get("contrace_list");
 
