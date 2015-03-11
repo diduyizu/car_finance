@@ -104,9 +104,9 @@ public class VehicleServiceManageService {
 //        map.put("contrace_list", contrace_list);
 //        return map;
 //    }
-    public Map<String , Object> getOrgContraceList(long original_org, String status, int start, int size) {
-        long total = this.vehicleServiceManageDao.getOrgContraceCount(original_org, status);
-        List<VehicleContraceInfo> contrace_list = this.vehicleServiceManageDao.getOrgContraceList(original_org, status, start, size);
+    public Map<String , Object> getOrgContraceList(long original_org, String status, int start, int size , boolean over_top) {
+        long total = this.vehicleServiceManageDao.getOrgContraceCount(original_org, status , over_top);
+        List<VehicleContraceInfo> contrace_list = this.vehicleServiceManageDao.getOrgContraceList(original_org, status, over_top , start, size);
         Map<String , Object> map = new HashMap<String, Object>();
         map.put("total" , total);
         map.put("contrace_list", contrace_list);
@@ -147,12 +147,14 @@ public class VehicleServiceManageService {
      */
     public long contraceToShopAudit(long contrace_id , long user_id) {
         //首先判断该合同，是否存在对应的车辆关系；如果不存在，直接返回，提示业务员先要录入车辆
-        long contraceVehsCount = this.vehicleServiceManageDao.getContraceVehsCount(contrace_id);
-        if(contraceVehsCount == 0) {
-            return -1;//该合同没有录入车辆，请先增加车辆
-        }
+//        long contraceVehsCount = this.vehicleServiceManageDao.getContraceVehsCount(contrace_id);
+//        if(contraceVehsCount == 0) {
+//            return -1;//该合同没有录入车辆，请先增加车辆
+//        }
         //如果有车辆，那么更新合同表状态为待审核
-        int result = this.vehicleServiceManageDao.contraceToShopAudit(contrace_id , user_id);
+        //判断是否是系统管理员，如果是，则不需要匹配create_by
+        boolean isSysadmin = this.commonService.isSysadmin(user_id);
+        int result = this.vehicleServiceManageDao.contraceToShopAudit(contrace_id , user_id , isSysadmin);
         if(result > 0) {
             //判断该合同下所属车辆，是否超过一定金额，如果超过，则需要市店长、区域经理审核
             //获取该合同对应车辆，算出总价

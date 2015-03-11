@@ -88,7 +88,7 @@
                 <c:if test="${contrace.status == 5}">财务通过</c:if>
                 <c:if test="${contrace.status == 6}">完结</c:if>
                 <c:if test="${contrace.status == -1}">店长驳回</c:if>
-                <c:if test="${contrace.status == -2}">长审核不通过</c:if>
+                <c:if test="${contrace.status == -2}">店长审核不通过</c:if>
                 <c:if test="${contrace.status == -3}">市公司店长审核不通过</c:if>
                 <c:if test="${contrace.status == -4}">区域经理审核不通过</c:if>
                 <c:if test="${contrace.status == -5}">财务不通过</c:if>
@@ -132,12 +132,31 @@
             data:{contrace_id:contrace_id},
             dataType:"json",
             success:function(data){
-                if(data > 1){
+                if(data > 0){
                     alert("成功");
                     location.reload();
                 } else if(data == -1) {
                     alert("您还没有绑定车辆，请先增加车辆，再提交审核");
                     return false;
+                } else {
+                    alert("失败");
+                    return false;
+                }
+            }
+        })
+    });
+
+    $('.over').click(function(){
+        var id = $(this).val();
+        $.ajax({
+            url:"${ctx}/vehicleservice/contrace/dofinish",
+            type: "post",
+            data:{id:id,status:6},
+            dataType:"json",
+            success:function(data){
+                if(data > 0){
+                    alert("成功");
+                    location.reload();
                 } else {
                     alert("失败");
                     return false;

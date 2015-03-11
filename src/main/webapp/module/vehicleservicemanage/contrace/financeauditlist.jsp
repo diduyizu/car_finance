@@ -34,7 +34,7 @@
     </style>
 </head>
 <body>
-<form class="form-inline definewidth m20" action="${ctx}/vehicleservice/riskcontrol/audit" method="post">
+<form class="form-inline definewidth m20" action="${ctx}/vehicleservice/contrace/finance/audit" method="post">
     门店：
     <select id="original_org" name="original_org">
         <c:forEach var="org" items="${user_role_org_list}" varStatus="status">
@@ -91,13 +91,13 @@
                 <c:if test="${contrace.status == 5}">财务通过</c:if>
                 <c:if test="${contrace.status == 6}">完结</c:if>
                 <c:if test="${contrace.status == -1}">店长驳回</c:if>
-                <c:if test="${contrace.status == -2}">长审核不通过</c:if>
+                <c:if test="${contrace.status == -2}">店长审核不通过</c:if>
                 <c:if test="${contrace.status == -3}">市公司店长审核不通过</c:if>
                 <c:if test="${contrace.status == -4}">区域经理审核不通过</c:if>
                 <c:if test="${contrace.status == -5}">财务不通过</c:if>
             </td>
             <td>
-                <c:if test="${contrace.status == 0}">
+                <c:if test="${contrace.status == 4}">
                     <button type="button" class="btn btn-success pass" value="${contrace.id}">通过</button>
                     <button type="button" class="btn btn-danger nopass" value="${contrace.id}">不通过</button>
                 </c:if>
@@ -113,11 +113,11 @@
         $('.pass').click(function(){
             var id = $(this).val();
             $.ajax({
-                url:"${ctx}/vehicleservice/finance/doaudit",
+                url:"${ctx}/vehicleservice/contrace/finance/doaudit",
                 type: "post",
-                data:{id:id,status:'财务通过'},
+                data:{id:id,status:5},
                 success:function(data){
-                    if(data == 1){
+                    if(data > 0){
                         alert("成功");
                         location.reload();
                     } else {
@@ -132,11 +132,11 @@
             if(confirm("确定不通过吗？")) {
                 var id = $(this).val();
                 $.ajax({
-                    url:"${ctx}/vehicleservice/finance/doaudit",
+                    url:"${ctx}/vehicleservice/contrace/finance/doaudit",
                     type: "post",
-                    data:{id:id,status:'财务不通过'},
+                    data:{id:id,status:-5},
                     success:function(data){
-                        if(data == 1){
+                        if(data > 0){
                             alert("成功");
                             location.reload();
                         } else {

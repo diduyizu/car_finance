@@ -2,6 +2,7 @@ package com.carfinance.module.vehicleservicemanage.dao;
 
 import com.carfinance.core.dao.BaseJdbcDaoImpl;
 import com.carfinance.module.common.dao.CommonDao;
+import com.carfinance.module.vehiclemanage.domain.VehicleInfoRowMapper;
 import com.carfinance.module.vehicleservicemanage.domain.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -109,38 +111,75 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
     }
 
 
-    public long getOrgContraceCount(long org_id , String status) {
-        String sql;
-        Object[] o;
-        if(status == null || "".equals(status)) {
-            sql = "select count(1) from vehicle_contrace where org_id = ?  ";
-            o = new Object[] { org_id };
-        } else {
-            sql = "select count(1) from vehicle_contrace where org_id = ? and status = ? ";
-            o = new Object[] { org_id , Long.valueOf(status) };
+    public long getOrgContraceCount(long org_id , String status , boolean over_top) {
+//        String sql;
+//        Object[] o;
+//        if(status == null || "".equals(status)) {
+//            sql = "select count(1) from vehicle_contrace where org_id = ?  ";
+//            o = new Object[] { org_id };
+//        } else {
+//            sql = "select count(1) from vehicle_contrace where org_id = ? and status = ? ";
+//            o = new Object[] { org_id , Long.valueOf(status) };
+//        }
+//        logger.info(sql.replaceAll("\\?", "{}"), o);
+//        return this.getJdbcTemplate().queryForLong(sql, o);
+        String sql = "select count(1) from vehicle_contrace where org_id = ? ";
+        List<Object> param = new ArrayList<Object>();
+        param.add(org_id);
+
+        if(status != null && !"".equals(status.trim())) {
+            sql = sql + " and status = ? ";
+            param.add(Long.valueOf(status));
         }
+        if(over_top) {
+            sql = sql + " and isovertop = 1 ";
+        }
+
+        Object[] o = new Object[param.size()];
+        for(int i = 0 ; i < param.size() ; i++) {
+            o[i] = param.get(i);
+        }
+
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().queryForLong(sql, o);
     }
 
-    /**
-     * 获取某个门店下，风控列表
-     */
-    public List<VehicleContraceInfo> getOrgContraceList(long org_id , String status , int start, int size) {
-        String sql;
-        Object[] o;
-        if(status == null || "".equals(status)) {
-            sql = "select * from vehicle_contrace where org_id = ? limit ?,? ";
-            o = new Object[] { org_id , start , size };
-        } else {
-            sql = "select * from vehicle_contrace where org_id = ? and status = ? limit ?,? ";
-            o = new Object[] { org_id , Long.valueOf(status) , start , size};
+    public List<VehicleContraceInfo> getOrgContraceList(long org_id , String status , boolean over_top , int start, int size) {
+//        String sql;
+//        Object[] o;
+//        if(status == null || "".equals(status)) {
+//            sql = "select * from vehicle_contrace where org_id = ? limit ?,? ";
+//            o = new Object[] { org_id , start , size };
+//        } else {
+//            sql = "select * from vehicle_contrace where org_id = ? and status = ? limit ?,? ";
+//            o = new Object[] { org_id , Long.valueOf(status) , start , size};
+//        }
+//
+//        logger.info(sql.replaceAll("\\?", "{}"), o);
+//        return this.getJdbcTemplate().query(sql, o, new VehicleContraceInfoRowMapper());
+        String sql = "select * from vehicle_contrace where org_id = ? ";
+        List<Object> param = new ArrayList<Object>();
+        param.add(org_id);
+
+        if(status != null && !"".equals(status.trim())) {
+            sql = sql + " and status = ? ";
+            param.add(Long.valueOf(status));
+        }
+        if(over_top) {
+            sql = sql + " and isovertop = 1 ";
+        }
+        sql = sql + " order by id desc limit ?,?";
+        param.add(start);
+        param.add(size);
+
+        Object[] o = new Object[param.size()];
+        for(int i = 0 ; i < param.size() ; i++) {
+            o[i] = param.get(i);
         }
 
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().query(sql, o, new VehicleContraceInfoRowMapper());
     }
-
 
     public long addContrace(long reservation_id , long org_id , long user_id) {
         long contrace_id = this.commonDao.getNextVal("ContraceSeq");
@@ -188,7 +227,7 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
      */
     public long getContraceVehsCount(long contrace_id) {
         String sql = "select count(1) from vehicle_contrace_vehs where contrace_id = ? ";
-        Object o = new Object[] { contrace_id };
+        Object[] o = new Object[] { contrace_id };
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().queryForLong(sql, o);
     }
@@ -206,12 +245,20 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
     }
 
     /**
-     *
+     * 业务员提交合同，到门店店长审核
      * @return
      */
-    public int contraceToShopAudit(long contrace_id , long user_id) {
-        String sql = "update vehicle_contrace set status = 1 where id = ? and create_by = ? and status in (0,-1) ";
-        Object o = new Object[] { contrace_id , user_id };
+    public int contraceToShopAudit(long contrace_id , long user_id , boolean isSysadmin) {
+        String sql;
+        Object[] o;
+        if(isSysadmin) {
+            sql = "update vehicle_contrace set status = 1 where id = ? and status in (0,-1) ";
+            o = new Object[] { contrace_id };
+        } else {
+            sql = "update vehicle_contrace set status = 1 where id = ? and create_by = ? and status in (0,-1) ";
+            o = new Object[] { contrace_id , user_id };
+        }
+
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().update(sql, o);
     }
@@ -222,10 +269,10 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
      * @return
      */
     public double getContraceVehicleTotalPrice(long contrace_id) {
-        String sql = "select sum(vehicle_price) from vehicle_contrace_vehs where contrace_id = ? ";
-        Object o = new Object[] { contrace_id };
+        String sql = "select coalesce(sum(vehicle_price) , 0) from vehicle_contrace_vehs where contrace_id = ? ";
+        Object[] o = new Object[] { contrace_id };
         logger.info(sql.replaceAll("\\?", "{}"), o);
-        return this.getJdbcTemplate().queryForLong(sql, o, Long.class);
+        return this.getJdbcTemplate().queryForObject(sql, o, Double.class);
     }
 
     /**
@@ -236,7 +283,7 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
      */
     public int contraceNeedCityAudit(long contrace_id , long user_id) {
         String sql = "update vehicle_contrace set isovertop = 1 where id = ? and create_by = ?";
-        Object o = new Object[] { contrace_id , user_id };
+        Object[] o = new Object[] { contrace_id , user_id };
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().update(sql, o);
     }

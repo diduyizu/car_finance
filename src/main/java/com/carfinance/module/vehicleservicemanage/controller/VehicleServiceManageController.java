@@ -247,7 +247,7 @@ public class VehicleServiceManageController {
         }
 
         List<City> sys_used_city_list = this.commonService.getSysUsedCityList();
-        Map<String , Object> map = this.vehicleServiceManageService.getOrgContraceList(original_org, null , start, size);
+        Map<String , Object> map = this.vehicleServiceManageService.getOrgContraceList(original_org, null , start, size , false);
 
         long total = (Long)map.get("total");;
         List<VehicleContraceInfo> contrace_list = (List<VehicleContraceInfo>)map.get("contrace_list");
@@ -447,7 +447,7 @@ public class VehicleServiceManageController {
         int start = (page_index - 1) * size;
 
         String original_org_str = request.getParameter("original_org");
-        String status = request.getParameter("status") == null ? "0" : request.getParameter("status");//店长默认查看待审核状态的列表
+        String status = request.getParameter("status") == null ? "1" : request.getParameter("status");//店长默认查看待审核状态的列表
 
         //TODO 管理员获取全部组织列表
         //获取当前用户存在店长角色的组织列表，角色表中20008对应店长
@@ -470,9 +470,9 @@ public class VehicleServiceManageController {
             }
         }
 
-        Map<String , Object> map = this.vehicleServiceManageService.getOrgContraceList(original_org, status, start, size);
+        Map<String , Object> map = this.vehicleServiceManageService.getOrgContraceList(original_org, status, start, size , false);
         long total = (Long)map.get("total");
-        List<VehicleReservationInfo> reservation_list = (List<VehicleReservationInfo>)map.get("reservation_list");
+        List<VehicleContraceInfo> contrace_list = (List<VehicleContraceInfo>)map.get("contrace_list");
 
         long temp = (total - 1) <= 0 ? 0 : (total - 1);
         int pages = Integer.parseInt(Long.toString(temp / size)) + 1;
@@ -490,7 +490,7 @@ public class VehicleServiceManageController {
         model.addAttribute("original_org_name" , original_org_name);
 
         model.addAttribute("user_role_org_list" , user_role_org_list);
-        model.addAttribute("reservation_list" , reservation_list);
+        model.addAttribute("contrace_list" , contrace_list);
         return "/module/vehicleservicemanage/contrace/shopownerauditlist";
     }
 
@@ -552,10 +552,9 @@ public class VehicleServiceManageController {
             }
         }
 
-        Map<String , Object> map = this.vehicleServiceManageService.getOrgContraceList(original_org, status, start, size);
-
+        Map<String , Object> map = this.vehicleServiceManageService.getOrgContraceList(original_org, status, start, size , true);
         long total = (Long)map.get("total");
-        List<VehicleReservationInfo> reservation_list = (List<VehicleReservationInfo>)map.get("reservation_list");
+        List<VehicleContraceInfo> contrace_list = (List<VehicleContraceInfo>)map.get("contrace_list");
 
         long temp = (total - 1) <= 0 ? 0 : (total - 1);
         int pages = Integer.parseInt(Long.toString(temp / size)) + 1;
@@ -573,7 +572,7 @@ public class VehicleServiceManageController {
         model.addAttribute("original_org_name" , original_org_name);
 
         model.addAttribute("user_role_org_list" , user_role_org_list);
-        model.addAttribute("reservation_list" , reservation_list);
+        model.addAttribute("contrace_list" , contrace_list);
         return "/module/vehicleservicemanage/contrace/cityshopownerauditlist";
     }
 
@@ -614,7 +613,7 @@ public class VehicleServiceManageController {
         int start = (page_index - 1) * size;
 
         String original_org_str = request.getParameter("original_org");
-        String status = request.getParameter("status") == null ? "3" : request.getParameter("status");//市店长默认查看店长审核通过的列表
+        String status = request.getParameter("status") == null ? "3" : request.getParameter("status");//区域经理默认查看市店长审核通过的列表
 
         //TODO 管理员获取全部组织列表
         //获取当前用户存在区域经理的组织列表，管理员获取全部组织列表
@@ -637,10 +636,9 @@ public class VehicleServiceManageController {
             }
         }
 
-        Map<String , Object> map = this.vehicleServiceManageService.getOrgContraceList(original_org, status, start, size);
-
+        Map<String , Object> map = this.vehicleServiceManageService.getOrgContraceList(original_org, status, start, size , true);
         long total = (Long)map.get("total");
-        List<VehicleReservationInfo> reservation_list = (List<VehicleReservationInfo>)map.get("reservation_list");
+        List<VehicleContraceInfo> contrace_list = (List<VehicleContraceInfo>)map.get("contrace_list");
 
         long temp = (total - 1) <= 0 ? 0 : (total - 1);
         int pages = Integer.parseInt(Long.toString(temp / size)) + 1;
@@ -658,12 +656,12 @@ public class VehicleServiceManageController {
         model.addAttribute("original_org_name" , original_org_name);
 
         model.addAttribute("user_role_org_list" , user_role_org_list);
-        model.addAttribute("reservation_list" , reservation_list);
+        model.addAttribute("contrace_list" , contrace_list);
         return "/module/vehicleservicemanage/contrace/regionalmanagerauditlist";
     }
 
     /**
-     * 市店长执行审核
+     * 区域经理执行审核
      * @param model1
      * @param request
      * @param response
@@ -720,10 +718,9 @@ public class VehicleServiceManageController {
             }
         }
 
-        Map<String , Object> map = this.vehicleServiceManageService.getOrgReservationList(original_org, status, start, size);
-
+        Map<String , Object> map = this.vehicleServiceManageService.getOrgContraceList(original_org, status, start, size , true);
         long total = (Long)map.get("total");
-        List<VehicleReservationInfo> reservation_list = (List<VehicleReservationInfo>)map.get("reservation_list");
+        List<VehicleContraceInfo> contrace_list = (List<VehicleContraceInfo>)map.get("contrace_list");
 
         long temp = (total - 1) <= 0 ? 0 : (total - 1);
         int pages = Integer.parseInt(Long.toString(temp / size)) + 1;
@@ -741,8 +738,8 @@ public class VehicleServiceManageController {
         model.addAttribute("original_org_name" , original_org_name);
 
         model.addAttribute("user_role_org_list" , user_role_org_list);
-        model.addAttribute("reservation_list" , reservation_list);
-        return "/module/vehicleservicemanage/reservation/financeauditlist";
+        model.addAttribute("contrace_list" , contrace_list);
+        return "/module/vehicleservicemanage/contrace/financeauditlist";
     }
 
     /**
