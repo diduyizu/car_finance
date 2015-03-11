@@ -8,6 +8,7 @@ public class VehicleContraceVehsInfo implements Serializable{
 	
 	private long id;
     private long contrace_id;
+    private long vehicle_id;
     private String license_plate;
     private String model;
     private String company;
@@ -19,6 +20,14 @@ public class VehicleContraceVehsInfo implements Serializable{
     private Date create_at;
     private long update_by;
     private Date update_at;
+
+    public long getVehicle_id() {
+        return vehicle_id;
+    }
+
+    public void setVehicle_id(long vehicle_id) {
+        this.vehicle_id = vehicle_id;
+    }
 
     public double getVehicle_price() {
         return vehicle_price;

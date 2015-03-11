@@ -51,7 +51,7 @@
             </tr>
             <tr>
                 <td class="tableleft">客户姓名</td>
-                <td><input type="text" name="customer_name" id="customer_name" required="true"/></td>
+                <td><input type="text" name="customer_name" id="customer_name" value="${vehicleReservationInfo.customer_name}" required="true"/></td>
                 <td class="tableleft">客户类型</td>
                 <td>
                     <select id="customer_type" name="customer_type">
@@ -60,7 +60,7 @@
                     </select>
                 </td>
                 <td class="tableleft">客户手机</td>
-                <td><input type="text" name="customer_dn" id="customer_dn" required="true"/></td>
+                <td><input type="text" name="customer_dn" id="customer_dn" value="${vehicleReservationInfo.customer_dn}" required="true"/></td>
             </tr>
             <tr>
                 <td class="tableleft">证件类型</td>
@@ -78,22 +78,22 @@
             <tr>
                 <td class="tableleft">用车开始时间</td>
                 <td>
-                    <input class="form_datetime" size="16" type="text" id="use_begin_date" name="use_begin_date" value="" required="true" readonly>
+                    <input class="form_datetime" size="16" type="text" id="use_begin_date" name="use_begin_date" value="${vehicleReservationInfo.use_begin}" required="true" readonly>
                 </td>
                 <td class="tableleft">用车结束时间</td>
                 <td colspan="3">
-                    <input class="form_datetime" size="16" type="text" id="use_end_date" name="use_end_date" value="" required="true" readonly>
+                    <input class="form_datetime" size="16" type="text" id="use_end_date" name="use_end_date" value="${vehicleReservationInfo.use_end}" required="true" readonly>
                 </td>
             </tr>
             <tr>
                 <td class="tableleft">业务员id</td>
-                <td><input type="text" name="employee_id" id="employee_id" value="0" required="true"/></td>
+                <td><input type="text" name="employee_id" id="employee_id" value="${vehicleReservationInfo.employee_id}" required="true"/></td>
                 <td class="tableleft">业务员姓名</td>
-                <td colspan="3"><input type="text" name="employee_name" id="employee_name" required="true"/></td>
+                <td colspan="3"><input type="text" name="employee_name" id="employee_name" value="${vehicleReservationInfo.employee_name}" required="true"/></td>
             </tr>
             <tr>
                 <td class="tableleft">描述</td>
-                <td colspan="5"><textarea id="remark" rows="4" style="margin: 0px 0px 10px; width: 766px; height: 140px;" ></textarea></td>
+                <td colspan="5"><textarea id="remark" rows="4" style="margin: 0px 0px 10px; width: 766px; height: 140px;" >${vehicleReservationInfo.remark}</textarea></td>
             </tr>
             <tr>
                 <td class="tableleft"></td>
@@ -168,7 +168,7 @@
                     certificate_type:certificate_type,certificate_no:certificate_no,use_begin:use_begin_date,use_end:use_end_date,employee_id:employee_id,
                     employee_name:employee_name,remark:remark},
                 success:function(data){
-                    if(data == 1){
+                    if(data > 0){
                         alert("成功");
                         location.reload();
                     } else {

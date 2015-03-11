@@ -44,8 +44,8 @@ public class VehicleServiceManageService {
     private Properties appProps;
 
     public Map<String , Object> getOrgReservationList(long org_id , String customer_name , String dn , int start, int size) {
-        long total = this.vehicleServiceManageDao.getOrgReservationCount(org_id , customer_name , dn);
-        List<VehicleReservationInfo> reservation_list = this.vehicleServiceManageDao.getOrgReservationList(org_id , customer_name , dn , start , size);
+        long total = this.vehicleServiceManageDao.getOrgReservationCount(org_id, customer_name, dn);
+        List<VehicleReservationInfo> reservation_list = this.vehicleServiceManageDao.getOrgReservationList(org_id, customer_name, dn, start, size);
         Map<String , Object> map = new HashMap<String, Object>();
         map.put("total" , total);
         map.put("reservation_list", reservation_list);
@@ -113,6 +113,10 @@ public class VehicleServiceManageService {
         return map;
     }
 
+    public VehicleReservationInfo getVehicleReservationInfoById(long reservation_id)  {
+        return this.vehicleServiceManageDao.getVehicleReservationInfoById(reservation_id);
+    }
+
 
     public long addContrace(long reservation_id , long org_id , long user_id) {
         try{
@@ -147,10 +151,10 @@ public class VehicleServiceManageService {
      */
     public long contraceToShopAudit(long contrace_id , long user_id) {
         //首先判断该合同，是否存在对应的车辆关系；如果不存在，直接返回，提示业务员先要录入车辆
-//        long contraceVehsCount = this.vehicleServiceManageDao.getContraceVehsCount(contrace_id);
-//        if(contraceVehsCount == 0) {
-//            return -1;//该合同没有录入车辆，请先增加车辆
-//        }
+        long contraceVehsCount = this.vehicleServiceManageDao.getContraceVehsCount(contrace_id);
+        if(contraceVehsCount == 0) {
+            return -1;//该合同没有录入车辆，请先增加车辆
+        }
         //如果有车辆，那么更新合同表状态为待审核
         //判断是否是系统管理员，如果是，则不需要匹配create_by
         boolean isSysadmin = this.commonService.isSysadmin(user_id);
@@ -170,37 +174,32 @@ public class VehicleServiceManageService {
     }
 
     /**
-     * 根据合同id，获取该合同所在时间内，能够使用的车辆
-     * @param contrace_id
+     * 根据所有能够使用的车辆（车辆状态为：在库）
      * @param original_org
      * @param current_city
      * @param brand
      * @param vehicle_model
      * @param license_plate
-     * @param gps
-     * @param km_begin
-     * @param km_end
-     * @param lease_status
      * @param start
      * @param size
      * @return
      */
-    public Map<String , Object> getVehicleList(long contrace_id , long original_org , String current_city , String brand , String vehicle_model , String license_plate , String gps , String km_begin , String km_end , String lease_status ,  int start , int size) {
-//        long total = this.vehicleManageDao.getVehicleCount(original_org , current_city , brand , vehicle_model , license_plate , gps , km_begin , km_end , lease_status);//门店品牌车辆总数
-//        List<VehicleInfo> vehicle_list = this.vehicleManageDao.getVehicleList(original_org , current_city , brand , vehicle_model , license_plate , gps , km_begin , km_end , lease_status , start , size);
-//        List<City> sys_used_city_list = this.commonService.getSysUsedCityList();
-//        for(VehicleInfo vehicleInfo : vehicle_list) {
-//            for(City city : sys_used_city_list) {
-//                if(vehicleInfo.getCurrent_city() == city.getCity_id()) {
-//                    vehicleInfo.setCurrent_city_name(city.getCity_name());
-//                    break;
-//                }
-//            }
-//        }
+    public Map<String , Object> getContraceCanUseVehicleList(long original_org , String current_city , String brand , String vehicle_model , String license_plate ,  int start , int size) {
+        long total = this.vehicleServiceManageDao.getContraceCanUseVehicleCount(original_org, current_city, brand, vehicle_model, license_plate);
+        List<VehicleInfo> vehicle_list = this.vehicleServiceManageDao.getContraceCanUseVehicleList(original_org , current_city , brand , vehicle_model , license_plate , start , size);
+        List<City> sys_used_city_list = this.commonService.getSysUsedCityList();
+        for(VehicleInfo vehicleInfo : vehicle_list) {
+            for(City city : sys_used_city_list) {
+                if(vehicleInfo.getCurrent_city() == city.getCity_id()) {
+                    vehicleInfo.setCurrent_city_name(city.getCity_name());
+                    break;
+                }
+            }
+        }
 
         Map<String , Object> map = new HashMap<String, Object>();
-//        map.put("total" , total);
-//        map.put("vehicle_list" , vehicle_list);
+        map.put("total" , total);
+        map.put("vehicle_list" , vehicle_list);
         return map;
     }
 
@@ -257,7 +256,22 @@ public class VehicleServiceManageService {
      * @return
      */
     public int contraceDoFinish(long id , String status , long user_id) {
-        return this.vehicleServiceManageDao.contraceDoFinish(id , status , user_id);
+        return this.vehicleServiceManageDao.contraceDoFinish(id, status, user_id);
+    }
+
+    /**
+     * 业务员选择车辆，加入合同
+     * @param contrace_id
+     * @param vehicle_id
+     * @param user_id
+     * @return
+     */
+    public int contraceDoChooseVech(long contrace_id , long vehicle_id , long user_id , double vehicle_price) {
+        int result = this.vehicleServiceManageDao.contraceDoChooseVech(contrace_id , vehicle_id , user_id , vehicle_price);
+        if(result > 0) {//插入成功，更新该车辆状态为出库中
+            this.vehicleServiceManageDao.updateVehicleStatus(vehicle_id , "出库中");
+        }
+        return result;
     }
 
 

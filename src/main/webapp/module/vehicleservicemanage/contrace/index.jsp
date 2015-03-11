@@ -117,9 +117,7 @@
 
     $('.addvehicle').click(function(){
         var contrace_id = $(this).val();
-
-        //TODO
-        <%--window.location.href="${ctx}/vehicleservice/contrace/modify?contrace_id="+contrace_id;--%>
+        window.location.href="${ctx}/vehicleservice/contrace/addvech?contrace_id="+contrace_id;
     });
 
     //业务员，提交合同，到门店经理审核

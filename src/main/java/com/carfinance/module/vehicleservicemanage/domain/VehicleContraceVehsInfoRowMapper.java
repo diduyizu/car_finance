@@ -11,6 +11,7 @@ public class VehicleContraceVehsInfoRowMapper implements RowMapper<VehicleContra
 
         vehicleContraceVehsInfo.setId(rs.getLong("id"));
         vehicleContraceVehsInfo.setContrace_id(rs.getLong("contrace_id"));
+        vehicleContraceVehsInfo.setVehicle_id(rs.getLong("vehicle_id"));
         vehicleContraceVehsInfo.setLicense_plate(rs.getString("license_plate"));
         vehicleContraceVehsInfo.setModel(rs.getString("model"));
         vehicleContraceVehsInfo.setCompany(rs.getString("company"));

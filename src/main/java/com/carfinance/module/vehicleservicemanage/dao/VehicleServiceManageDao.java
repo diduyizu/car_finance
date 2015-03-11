@@ -2,6 +2,7 @@ package com.carfinance.module.vehicleservicemanage.dao;
 
 import com.carfinance.core.dao.BaseJdbcDaoImpl;
 import com.carfinance.module.common.dao.CommonDao;
+import com.carfinance.module.vehiclemanage.domain.VehicleInfo;
 import com.carfinance.module.vehiclemanage.domain.VehicleInfoRowMapper;
 import com.carfinance.module.vehicleservicemanage.domain.*;
 import org.slf4j.Logger;
@@ -192,6 +193,18 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
         return this.getJdbcTemplate().update(sql, o);
     }
 
+    public VehicleReservationInfo getVehicleReservationInfoById(long reservation_id)  {
+        try{
+            String sql = "select * from vehicle_reservation where id = ?";
+            Object[] o = new Object[] { reservation_id };
+            logger.info(sql.replaceAll("\\?", "{}"), o);
+            return this.getJdbcTemplate().queryForObject(sql, o, new VehicleReservationInfoRowMapper());
+        } catch(EmptyResultDataAccessException e) {
+            logger.error(e.getMessage() , e);
+            return null;
+        }
+    }
+
 
     public long getOrgContraceCount(long org_id , String status , boolean over_top) {
 //        String sql;
@@ -269,7 +282,7 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
         Object[] o = new Object[] { contrace_id , reservation_id , org_id , user_id };
         logger.info(sql.replaceAll("\\?", "{}"), o);
         long result = this.getJdbcTemplate().update(sql, o);
-        if(result > 1) {
+        if(result > 0) {
             result = contrace_id;
         }
         return result;
@@ -436,6 +449,107 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
     public int contraceDoFinish(long id , String status , long user_id) {
         String sql = "update vehicle_contrace set status = ? where id = ? and (create_by = ? or update_by = ?)";
         Object[] o = new Object[] { status , id , user_id , user_id };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().update(sql, o);
+    }
+
+    /**
+     * 获取合同能够使用的车辆
+     * @param original_org
+     * @param current_city
+     * @param brand
+     * @param vehicle_model
+     * @param license_plate
+     * @return
+     */
+    public long getContraceCanUseVehicleCount(long original_org , String current_city , String brand , String vehicle_model , String license_plate) {
+        String sql = "select count(1) from vehicle_info where original_org = ? and lease_status = '在库' ";
+        List<Object> param = new ArrayList<Object>();
+        param.add(original_org);
+
+        if(current_city != null && !"".equals(current_city.trim())) {
+            sql = sql + " and current_city = ? ";
+            param.add(Long.valueOf(current_city));
+        }
+        if(brand != null && !"".equals(brand.trim())) {
+            sql = sql + " and brand like ? ";
+            param.add("%"+brand+"%");
+        }
+        if(vehicle_model != null && !"".equals(vehicle_model.trim())) {
+            sql = sql + " and model like ? ";
+            param.add("%"+vehicle_model+"%");
+        }
+        if(license_plate != null && !"".equals(license_plate.trim())) {
+            sql = sql + " and license_plate = ? ";
+            param.add(license_plate);
+        }
+
+        Object[] o = new Object[param.size()];
+        for(int i = 0 ; i < param.size() ; i++) {
+            o[i] = param.get(i);
+        }
+
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().queryForLong(sql, o);
+    }
+
+    public List<VehicleInfo> getContraceCanUseVehicleList(long original_org , String current_city , String brand , String vehicle_model , String license_plate , int start , int size) {
+        String sql = "select * from vehicle_info where original_org = ? and lease_status = '在库' ";
+        List<Object> param = new ArrayList<Object>();
+        param.add(original_org);
+
+        if(current_city != null && !"".equals(current_city.trim())) {
+            sql = sql + " and current_city = ? ";
+            param.add(Long.valueOf(current_city));
+        }
+        if(brand != null && !"".equals(brand.trim())) {
+            sql = sql + " and brand like ? ";
+            param.add("%"+brand+"%");
+        }
+        if(vehicle_model != null && !"".equals(vehicle_model.trim())) {
+            sql = sql + " and model like ? ";
+            param.add("%"+vehicle_model+"%");
+        }
+        if(license_plate != null && !"".equals(license_plate.trim())) {
+            sql = sql + " and license_plate = ? ";
+            param.add(license_plate);
+        }
+        sql = sql + " order by id desc limit ?,?";
+        param.add(start);
+        param.add(size);
+
+        Object[] o = new Object[param.size()];
+        for(int i = 0 ; i < param.size() ; i++) {
+            o[i] = param.get(i);
+        }
+
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().query(sql, o, new VehicleInfoRowMapper());
+    }
+
+    /**
+     *
+     * @param contrace_id
+     * @param vehicle_id
+     * @param user_id
+     * @return
+     */
+    public int contraceDoChooseVech(long contrace_id , long vehicle_id , long user_id , double vehicle_price) {
+        String sql = "insert into vehicle_contrace_vehs (contrace_id , vehicle_id , create_by , vehicle_price) values (?,?,?,?)";
+        Object[] o = new Object[] { contrace_id , vehicle_id , user_id , vehicle_price };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().update(sql, o);
+    }
+
+    /**
+     * 更新车辆状态
+     * @param vehicle_id
+     * @param status
+     * @return
+     */
+    public int updateVehicleStatus(long vehicle_id , String status) {
+        String sql = "update vehicle_info set lease_status = ? where id = ?";
+        Object[] o = new Object[] { status , vehicle_id };
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().update(sql, o);
     }

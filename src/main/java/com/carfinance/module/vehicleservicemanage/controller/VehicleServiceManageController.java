@@ -288,10 +288,12 @@ public class VehicleServiceManageController {
         //同时，生成合同，此时合同是空合同
         //跳转至合同页面，输入内容，点击提交，其实是对现在生成的合同内容进行更新
         long contrace_id = this.vehicleServiceManageService.addContrace(reservation_id, org_id, user.getUser_id());
+        VehicleReservationInfo vehicleReservationInfo = this.vehicleServiceManageService.getVehicleReservationInfoById(reservation_id);
 
         model.addAttribute("contrace_id" , contrace_id);
         model.addAttribute("city_list" , city_list);
         model.addAttribute("user_all_org_list" , user_all_org_list);
+        model.addAttribute("vehicleReservationInfo" , vehicleReservationInfo);
         return "/module/vehicleservicemanage/contrace/add";
     }
 
@@ -377,7 +379,7 @@ public class VehicleServiceManageController {
         List<City> city_list = this.commonService.getSysUsedCityList();
         long original_org = (original_org_str == null || "".equals(original_org_str.trim())) ? user_all_org_list.get(0).getOrg_id() : Long.valueOf(original_org_str);
 
-        Map<String , Object> map = this.vehicleServiceManageService.getVehicleList(contrace_id , original_org , current_city , brand , vehicle_model , license_plate , null , null , null , null , start , size);
+        Map<String , Object> map = this.vehicleServiceManageService.getContraceCanUseVehicleList(original_org , current_city , brand , vehicle_model , license_plate , start , size);
 
         long total = (Long)map.get("total");;
         List<VehicleInfo> vehicle_list = (List<VehicleInfo>)map.get("vehicle_list");
@@ -397,11 +399,35 @@ public class VehicleServiceManageController {
         model.addAttribute("city_list" , city_list);
         model.addAttribute("user_all_org_list" , user_all_org_list);
         model.addAttribute("vehicle_list" , vehicle_list);
+
+
+        model.addAttribute("original_org" , original_org);
+        model.addAttribute("current_city" , current_city);
+        model.addAttribute("brand" , brand);
+        model.addAttribute("vehicle_model" , vehicle_model);
+        model.addAttribute("license_plate" , license_plate);
         return "/module/vehicleservicemanage/contrace/addvech";
     }
 
     //TODO 业务员选择车辆，分配给某合同
+    /**
+     * 业务员选择某车辆，执行分配
+     * @param model
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/contrace/dochoosevech" , method = RequestMethod.POST)
+    @ResponseBody
+    public long contraceDoChooseVech(Model model , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
 
+        long contrace_id = Long.valueOf(request.getParameter("contrace_id"));
+        String vehicle_id_price = request.getParameter("vehicle_id_price");
+        long vehicle_id = Long.valueOf(vehicle_id_price.split(",")[0]);
+        double vehicle_price = Double.valueOf(vehicle_id_price.split(",")[1]);
+        return this.vehicleServiceManageService.contraceDoChooseVech(contrace_id, vehicle_id , user.getUser_id() , vehicle_price);
+    }
 
     //TODO 业务员选择配驾员，分配给某车辆
 

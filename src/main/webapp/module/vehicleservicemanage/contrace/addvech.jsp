@@ -64,16 +64,6 @@
                     </c:forEach>
                 </select>&nbsp;&nbsp;
             </td>
-            <td>
-                车辆租赁状态：
-                <select id="lease_status" name="lease_status">
-                    <option value="">全部</option>
-                    <option value="在库" <c:if test="${lease_status == '在库'}">selected="selected"</c:if>>在库</option>
-                    <option value="零租" <c:if test="${lease_status == '零租'}">selected="selected"</c:if>>零租</option>
-                    <option value="产权租" <c:if test="${lease_status == '产权租'}">selected="selected"</c:if>>产权租</option>
-                    <option value="售出" <c:if test="${lease_status == '售出'}">selected="selected"</c:if>>售出</option>
-                </select>&nbsp;&nbsp;
-            </td>
         </tr>
         <tr>
             <td>
@@ -82,13 +72,14 @@
             </td>
             <td>
                 车辆型号：
-                <input type="text" name="model" id="model"class="abc input-default" placeholder="" value="${model}">&nbsp;&nbsp;
+                <input type="text" name="model" id="model"class="abc input-default" placeholder="" value="${vehicle_model}">&nbsp;&nbsp;
             </td>
             <td>
                 车牌号：
                 <input type="text" name="license_plate" id="license_plate"class="abc input-default" placeholder="" value="${license_plate}">&nbsp;&nbsp;
             </td>
             <td>
+                <input type="hidden" id="contrace_id" name="contrace_id" value="${contrace_id}">
                 <button type="submit" class="btn btn-primary">查询</button>&nbsp;&nbsp;
             </td>
         </tr>
@@ -102,27 +93,21 @@
             <th>车型</th>
             <th>当前所在地市</th>
             <th>车辆状态</th>
-            <th>GPS状态</th>
+            <th>保养剩余公里数</th>
+            <th>公里数</th>
             <th>操作</th>
-            <%--<th>保养剩余公里数</th>--%>
-            <%--<th>公里数</th>--%>
         </tr>
     </thead>
     <c:forEach var="vehicle" items="${vehicle_list}" varStatus="status">
         <tr>
-            <td><a href="javascript:;">${vehicle.license_plate}</a></td>
+            <td>${vehicle.license_plate}</td>
             <td>${vehicle.brand}</td>
             <td>${vehicle.model}</td>
             <td>${vehicle.current_city_name}</td>
             <td>${vehicle.lease_status}</td>
-            <td>${vehicle.gps}</td>
-            <td>
-                <button type="button" class="btn btn-success addinsurance" value="${vehicle.id}">新增保险</button>
-                <button type="button" class="btn btn-success addpeccancy" value="${vehicle.id}">新增违章</button>
-                <button type="button" class="btn btn-success addmaintainremind" value="${vehicle.id}">新增保养</button>
-            </td>
-            <%--<td>${vehicle.maintian_on_km}</td>--%>
-            <%--<td>${vehicle.km}</td>--%>
+            <td>${vehicle.maintian_on_km}</td>
+            <td>${vehicle.km}</td>
+            <td><button type="button" class="btn btn-success choosevehi" value="${vehicle.id},${vehicle.vehicle_price}">选择</button></td>
         </tr>
     </c:forEach>
     </tr>
@@ -131,24 +116,24 @@
 </body>
 </html>
 <script>
-    $('#addnew').click(function(){
-        window.location.href="${ctx}/vehicle/register/add";
-    });
 
-    $('.addinsurance').click(function(){
-        var vehicle_id = $(this).val();
-        window.location.href="${ctx}/vehicle/insurance/add?vehicle_id="+vehicle_id;
+    $('.choosevehi').click(function(){
+        var contrace_id = $.trim($('#contrace_id').val());
+        var vehicle_id_price = $(this).val();
+        $.ajax({
+            url:"${ctx}/vehicleservice/contrace/dochoosevech",
+            type: "post",
+            data:{contrace_id:contrace_id,vehicle_id_price:vehicle_id_price},
+            success:function(data){
+                if(data > 0){
+                    alert("成功");
+                    location.reload();
+                } else {
+                    alert("失败");
+                    return false;
+                }
+            }
+        })
     });
-
-    $('.addpeccancy').click(function(){
-        var vehicle_id = $(this).val();
-        window.location.href="${ctx}/vehicle/peccancy/add?vehicle_id="+vehicle_id;
-    });
-
-    $('.addmaintainremind').click(function(){
-        var vehicle_id = $(this).val();
-        window.location.href="${ctx}/vehicle/maintainremind/add?vehicle_id="+vehicle_id;
-    });
-
 
 </script>
