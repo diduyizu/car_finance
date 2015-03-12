@@ -9,7 +9,9 @@ import com.carfinance.module.login.domain.User;
 import com.carfinance.module.storemanage.service.StoreManageService;
 import com.carfinance.module.vehiclemanage.domain.VehicleInfo;
 import com.carfinance.module.vehiclemanage.service.VehicleManageService;
+import com.carfinance.module.vehicleservicemanage.domain.UserDriver;
 import com.carfinance.module.vehicleservicemanage.domain.VehicleContraceInfo;
+import com.carfinance.module.vehicleservicemanage.domain.VehicleContraceVehsInfo;
 import com.carfinance.module.vehicleservicemanage.domain.VehicleReservationInfo;
 import com.carfinance.module.vehicleservicemanage.service.VehicleServiceManageService;
 import org.apache.commons.lang3.StringUtils;
@@ -37,12 +39,8 @@ public class VehicleServiceManageController {
 	private CommonService commonService;
     @Autowired
     private VehicleServiceManageService vehicleServiceManageService;
-    @Autowired
-    private InitService initService;
 	@Autowired
 	private Properties appProps;
-    @Autowired
-    private VehicleManageService vehicleManageService;
 
     /**
      * 车辆预约单列表首页
@@ -423,13 +421,118 @@ public class VehicleServiceManageController {
         User user = (User)request.getSession().getAttribute("user");
 
         long contrace_id = Long.valueOf(request.getParameter("contrace_id"));
-        String vehicle_id_price = request.getParameter("vehicle_id_price");
-        long vehicle_id = Long.valueOf(vehicle_id_price.split(",")[0]);
-        double vehicle_price = Double.valueOf(vehicle_id_price.split(",")[1]);
-        return this.vehicleServiceManageService.contraceDoChooseVech(contrace_id, vehicle_id , user.getUser_id() , vehicle_price);
+        long vehicle_id = Long.valueOf(request.getParameter("vehicle_id"));
+        return this.vehicleServiceManageService.contraceDoChooseVech(contrace_id, vehicle_id , user.getUser_id());
+    }
+
+    //TODO 业务员查看合同车辆信息
+    @RequestMapping(value = "/contrace/vech/list" , method = {RequestMethod.GET , RequestMethod.POST})
+    public String contraceVechList(Model model , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        long contrace_id = Long.valueOf(request.getParameter("contrace_id"));
+        String brand = request.getParameter("brand");
+        String vehicle_model = request.getParameter("model");
+        String license_plate = request.getParameter("license_plate");
+
+        String pageindexStr = request.getParameter("page_index");//第几页
+        int page_index = Integer.parseInt(StringUtils.isBlank(pageindexStr) || "0".equals(pageindexStr) ? "1" : pageindexStr);
+        int size = Integer.valueOf(appProps.get("vehicle.reservation.query.size").toString());//每页显示条数
+        int start = (page_index - 1) * size;
+
+        //获取合同车辆列表
+        VehicleContraceInfo vehicleContraceInfo = this.vehicleServiceManageService.getVehicleContraceInfoById(contrace_id);
+        Map<String , Object> map = this.vehicleServiceManageService.getContraceVechList(contrace_id, brand, vehicle_model, license_plate, start, size);
+
+        long total = (Long)map.get("total");;
+        List<VehicleContraceVehsInfo> vehicle_list = (List<VehicleContraceVehsInfo>)map.get("vehicle_list");
+
+        long temp = (total - 1) <= 0 ? 0 : (total - 1);
+        int pages = Integer.parseInt(Long.toString(temp / size)) + 1;
+        int prepages = (page_index - 1) <= 0 ? 1 : (page_index - 1);
+        int nextpages = (page_index + 1) >= pages ? pages : (page_index + 1);
+
+        model.addAttribute("current_page" , page_index);
+        model.addAttribute("pages" , pages);
+        model.addAttribute("prepage" , prepages);
+        model.addAttribute("nextpage" , nextpages);
+        model.addAttribute("page_url" , request.getRequestURI());
+
+        model.addAttribute("contrace_id" , contrace_id);
+        model.addAttribute("vehicle_list" , vehicle_list);
+        model.addAttribute("brand" , brand);
+        model.addAttribute("vehicle_model" , vehicle_model);
+        model.addAttribute("license_plate" , license_plate);
+        model.addAttribute("vehicleContraceInfo" , vehicleContraceInfo);
+        return "/module/vehicleservicemanage/contrace/vehiclelist";
+    }
+
+    //TODO 业务员查看配驾列表
+    @RequestMapping(value = "/contrace/vechdriver/list" , method = {RequestMethod.GET , RequestMethod.POST})
+    public String contraceVechDriverList(Model model , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        long veh_contrace_vehs_id = Long.valueOf(request.getParameter("veh_contrace_vehs_id"));//合同车辆id
+        String original_org_str = request.getParameter("original_org");
+
+        List<Org> user_all_org_list = this.commonService.getUserAllOrgList(user.getUser_id());
+        long original_org = (original_org_str == null || "".equals(original_org_str.trim())) ? user_all_org_list.get(0).getOrg_id() : Long.valueOf(original_org_str);
+
+        String pageindexStr = request.getParameter("page_index");//第几页
+        int page_index = Integer.parseInt(StringUtils.isBlank(pageindexStr) || "0".equals(pageindexStr) ? "1" : pageindexStr);
+        int size = Integer.valueOf(appProps.get("vehicle.reservation.query.size").toString());//每页显示条数
+        int start = (page_index - 1) * size;
+
+        //获取可选择配驾员列表
+        Map<String , Object> map = this.vehicleServiceManageService.contraceVechDriverList(original_org, start, size);
+
+        long total = (Long)map.get("total");;
+        List<UserDriver> driver_list = (List<UserDriver>)map.get("driver_list");
+
+        long temp = (total - 1) <= 0 ? 0 : (total - 1);
+        int pages = Integer.parseInt(Long.toString(temp / size)) + 1;
+        int prepages = (page_index - 1) <= 0 ? 1 : (page_index - 1);
+        int nextpages = (page_index + 1) >= pages ? pages : (page_index + 1);
+
+        model.addAttribute("current_page" , page_index);
+        model.addAttribute("pages" , pages);
+        model.addAttribute("prepage" , prepages);
+        model.addAttribute("nextpage" , nextpages);
+        model.addAttribute("page_url" , request.getRequestURI());
+
+        model.addAttribute("veh_contrace_vehs_id" , veh_contrace_vehs_id);
+        model.addAttribute("driver_list" , driver_list);
+        return "/module/vehicleservicemanage/contrace/driverlist";
     }
 
     //TODO 业务员选择配驾员，分配给某车辆
+    @RequestMapping(value = "/contrace/dochoosedriver" , method = RequestMethod.POST)
+    @ResponseBody
+    public long contraceDoChooseDriver(Model model , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        long veh_contrace_vehs_id = Long.valueOf(request.getParameter("veh_contrace_vehs_id"));
+        long driver_user_id = Long.valueOf(request.getParameter("driver_user_id"));
+        return this.vehicleServiceManageService.contraceDoChooseDriver(veh_contrace_vehs_id, driver_user_id , user.getUser_id());
+    }
+
+    /**
+     * 业务员取消合同车辆
+     * @param model
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/contrace/cancelchoosevehicle" , method = RequestMethod.POST)
+    @ResponseBody
+    public long contraceCancelChooseVehicle(Model model , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        long veh_contrace_vehs_id = Long.valueOf(request.getParameter("veh_contrace_vehs_id"));
+        return this.vehicleServiceManageService.contraceCancelChooseVehicle(veh_contrace_vehs_id, user.getUser_id());
+    }
+
+
 
     /**
      * 业务员提交店长审核合同
@@ -554,11 +657,11 @@ public class VehicleServiceManageController {
         //TODO 管理员获取全部组织列表
         boolean isSysadmin = this.commonService.isSysadmin(user.getUser_id());
         List<Org> user_role_org_list;
-        if(isSysadmin) {
+//        if(isSysadmin) {
             user_role_org_list = this.commonService.getUserAllOrgList(user.getUser_id());
-        } else {
-            user_role_org_list = this.commonService.getUserRoleOrgList(user.getUser_id() , 20009);
-        }
+//        } else {
+//            user_role_org_list = this.commonService.getUserRoleOrgList(user.getUser_id() , 20009);
+//        }
 
         //获取用户角色列表
         long original_org = (original_org_str == null || "".equals(original_org_str.trim())) ? user_role_org_list.get(0).getOrg_id() : Long.valueOf(original_org_str);
@@ -637,12 +740,11 @@ public class VehicleServiceManageController {
         //获取当前用户存在区域经理的组织列表，管理员获取全部组织列表
         boolean isSysadmin = this.commonService.isSysadmin(user.getUser_id());
         List<Org> user_role_org_list;
-        if(isSysadmin) {
+//        if(isSysadmin) {
             user_role_org_list = this.commonService.getUserAllOrgList(user.getUser_id());
-        } else {
-            user_role_org_list = this.commonService.getUserRoleOrgList(user.getUser_id() , 20010);
-        }
-
+//        } else {
+//            user_role_org_list = this.commonService.getUserRoleOrgList(user.getUser_id() , 20010);
+//        }
 
         //获取用户角色列表
         long original_org = (original_org_str == null || "".equals(original_org_str.trim())) ? user_role_org_list.get(0).getOrg_id() : Long.valueOf(original_org_str);

@@ -13,7 +13,7 @@ public class VehicleContraceVehsInfo implements Serializable{
     private String model;
     private String company;
     private int isother;
-    private String driving_user_id;
+    private long driving_user_id;
     private String driving_user_name;
     private double vehicle_price;
     private long create_by;
@@ -121,11 +121,11 @@ public class VehicleContraceVehsInfo implements Serializable{
         this.isother = isother;
     }
 
-    public String getDriving_user_id() {
+    public long getDriving_user_id() {
         return driving_user_id;
     }
 
-    public void setDriving_user_id(String driving_user_id) {
+    public void setDriving_user_id(long driving_user_id) {
         this.driving_user_id = driving_user_id;
     }
 

@@ -49,10 +49,10 @@
     状态：
     <select id="status" name="status">
         <option value="">全部</option>
-        <option value="0" <c:if test="${status == '0'}">selected="selected"</c:if>>待审核</option>
-        <option value="1" <c:if test="${status == '1'}">selected="selected"</c:if>>店长审核通过</option>
-        <option value="－1" <c:if test="${status == '－1'}">selected="selected"</c:if>>店长驳回</option>
-        <option value="－2" <c:if test="${status == '－2'}">selected="selected"</c:if>>店长审核不通过</option>
+        <option value="1" <c:if test="${status == '1'}">selected="selected"</c:if>>待审核</option>
+        <option value="2" <c:if test="${status == '2'}">selected="selected"</c:if>>店长审核通过</option>
+        <option value="-1" <c:if test="${status == '-1'}">selected="selected"</c:if>>店长驳回</option>
+        <option value="-2" <c:if test="${status == '-2'}">selected="selected"</c:if>>店长审核不通过</option>
     </select>
     <%--姓名：--%>
     <%--<input type="text" name="customer_name" id="customer_name"class="abc input-default" placeholder="" value="${customer_name}">&nbsp;&nbsp;--%>

@@ -107,7 +107,7 @@
             <td>${vehicle.lease_status}</td>
             <td>${vehicle.maintian_on_km}</td>
             <td>${vehicle.km}</td>
-            <td><button type="button" class="btn btn-success choosevehi" value="${vehicle.id},${vehicle.vehicle_price}">选择</button></td>
+            <td><button type="button" class="btn btn-success choosevehi" value="${vehicle.id}">选择</button></td>
         </tr>
     </c:forEach>
     </tr>
@@ -119,11 +119,11 @@
 
     $('.choosevehi').click(function(){
         var contrace_id = $.trim($('#contrace_id').val());
-        var vehicle_id_price = $(this).val();
+        var vehicle_id = $(this).val();
         $.ajax({
             url:"${ctx}/vehicleservice/contrace/dochoosevech",
             type: "post",
-            data:{contrace_id:contrace_id,vehicle_id_price:vehicle_id_price},
+            data:{contrace_id:contrace_id,vehicle_id:vehicle_id},
             success:function(data){
                 if(data > 0){
                     alert("成功");

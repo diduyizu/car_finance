@@ -5,13 +5,13 @@ import com.carfinance.module.common.domain.City;
 import com.carfinance.module.common.service.CommonService;
 import com.carfinance.module.common.service.ManageMemcacdedClient;
 import com.carfinance.module.init.service.InitService;
+import com.carfinance.module.login.domain.User;
 import com.carfinance.module.storemanage.dao.StoreManageDao;
+import com.carfinance.module.vehiclemanage.dao.VehicleManageDao;
 import com.carfinance.module.vehiclemanage.domain.VehicleInfo;
+import com.carfinance.module.vehiclemanage.service.VehicleManageService;
 import com.carfinance.module.vehicleservicemanage.dao.VehicleServiceManageDao;
-import com.carfinance.module.vehicleservicemanage.domain.VehicleContraceInfo;
-import com.carfinance.module.vehicleservicemanage.domain.VehicleContraceVehsInfo;
-import com.carfinance.module.vehicleservicemanage.domain.VehicleReservationInfo;
-import com.carfinance.module.vehicleservicemanage.domain.VehicleReservationInfoRowMapper;
+import com.carfinance.module.vehicleservicemanage.domain.*;
 import com.carfinance.utils.DateTimeUtil;
 import com.carfinance.utils.DateUtil;
 import org.slf4j.Logger;
@@ -34,6 +34,8 @@ public class VehicleServiceManageService {
 	private ManageMemcacdedClient memcachedClient;
 	@Autowired
 	private VehicleServiceManageDao vehicleServiceManageDao;
+    @Autowired
+    private VehicleManageDao vehicleManageDao;
     @Autowired
     private CommonService commonService;
     @Autowired
@@ -266,14 +268,56 @@ public class VehicleServiceManageService {
      * @param user_id
      * @return
      */
-    public int contraceDoChooseVech(long contrace_id , long vehicle_id , long user_id , double vehicle_price) {
-        int result = this.vehicleServiceManageDao.contraceDoChooseVech(contrace_id , vehicle_id , user_id , vehicle_price);
+    public int contraceDoChooseVech(long contrace_id , long vehicle_id , long user_id) {
+        VehicleInfo vehicleInfo = this.vehicleManageDao.getVehicleInfoByid(vehicle_id);
+        int result = this.vehicleServiceManageDao.contraceDoChooseVech(contrace_id , vehicle_id , user_id , vehicleInfo.getVehicle_price() , vehicleInfo.getLicense_plate() , vehicleInfo.getModel());
         if(result > 0) {//插入成功，更新该车辆状态为出库中
             this.vehicleServiceManageDao.updateVehicleStatus(vehicle_id , "出库中");
         }
         return result;
     }
 
+    public Map<String , Object> getContraceVechList(long contrace_id , String brand , String vehicle_model , String license_plate , int start , int size) {
+        long total = this.vehicleServiceManageDao.getContraceVechCount(contrace_id, brand, vehicle_model, license_plate);
+        List<VehicleContraceVehsInfo> vehicle_list = this.vehicleServiceManageDao.getContraceVech(contrace_id, brand, vehicle_model, license_plate, start, size);
 
+        Map<String , Object> map = new HashMap<String, Object>();
+        map.put("total" , total);
+        map.put("vehicle_list" , vehicle_list);
+        return map;
+    }
 
+    public Map<String , Object> contraceVechDriverList(long original_org , int start , int size) {
+        long total = this.vehicleServiceManageDao.getcontraceVechDriverCount(original_org);
+        List<UserDriver> driver_list = this.vehicleServiceManageDao.getcontraceVechDriverList(original_org, start, size);
+
+        Map<String , Object> map = new HashMap<String, Object>();
+        map.put("total" , total);
+        map.put("driver_list" , driver_list);
+        return map;
+    }
+
+    public int contraceDoChooseDriver(long veh_contrace_vehs_id, long driver_user_id , long user_id) {
+        User user = this.commonDao.getUserById(driver_user_id);
+        int result = this.vehicleServiceManageDao.contraceDoChooseDriver(veh_contrace_vehs_id, driver_user_id, user.getUser_name() , user_id);
+        if(result > 0) {//更新配驾成功，更新配驾用户状态为已分配
+            this.vehicleServiceManageDao.updateUserDriverStatus(driver_user_id , 1);
+        }
+        return result;
+    }
+
+    public int contraceCancelChooseVehicle(long veh_contrace_vehs_id , long user_id) {
+        int result = this.vehicleServiceManageDao.contraceCancelChooseVehicle(veh_contrace_vehs_id, user_id);
+        if(result > 0) {//更新取消车辆，更新车辆及配驾人员信息
+            VehicleContraceVehsInfo vehicleContraceVehsInfo = this.vehicleServiceManageDao.getContraceVehicleByid(veh_contrace_vehs_id);
+            if(vehicleContraceVehsInfo != null) {
+                long vehicle_id = vehicleContraceVehsInfo.getVehicle_id();
+                long driver_user_id = vehicleContraceVehsInfo.getDriving_user_id();
+
+                this.vehicleServiceManageDao.updateVehicleStatus(vehicle_id , "在库");
+                this.vehicleServiceManageDao.updateUserDriverStatus(driver_user_id , 0);
+            }
+        }
+        return result;
+    }
 }
