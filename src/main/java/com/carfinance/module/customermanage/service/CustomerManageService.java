@@ -67,13 +67,18 @@ public class CustomerManageService {
 
     public int modifyCustomerInfo(long id , String certificate_type , String certificate_no , String customer_name , String customer_dn , String customer_email , String customer_type , String customer_house , String customer_vehicle , String customer_guarantee , long create_by) {
         try{
-            long customer_count = this.customerManageDao.getCustomerCount(null , null , certificate_no);//根据身份证件号码，查询是否有重复
-            if(customer_count > 0) return -1;//表示该证件号码，已经被使用
-            return this.customerManageDao.modifyCustomerInfo(id , certificate_type , certificate_no , customer_name , customer_dn , customer_email , customer_type , customer_house , customer_vehicle , customer_guarantee , create_by);
+            CustomerInfo customerInfo = this.customerManageDao.getCustomrInfobyId(id);
+            if(customerInfo != null) {
+                if(!certificate_no.equals(customerInfo.getCertificate_no())) {
+                    long customer_count = this.customerManageDao.getCustomerCount(null , null , certificate_no);//根据身份证件号码，查询是否有重复
+                    if(customer_count > 0) return -1;//表示该证件号码，已经被使用
+                }
+                return this.customerManageDao.modifyCustomerInfo(id , certificate_type , certificate_no , customer_name , customer_dn , customer_email , customer_type , customer_house , customer_vehicle , customer_guarantee , create_by);
+            }
         } catch (Exception e) {
             logger.info(e.getMessage() , e);
-            return 0;
         }
+        return 0;
     }
 
 }
