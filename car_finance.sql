@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.1.6
+-- version 4.1.4
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: 2015-03-11 14:59:09
--- 服务器版本： 5.6.16
--- PHP Version: 5.5.9
+-- Generation Time: 2015-03-12 10:15:27
+-- 服务器版本： 5.6.11
+-- PHP Version: 5.5.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -67,7 +67,14 @@ CREATE TABLE IF NOT EXISTS `customer_info` (
   `customer_guarantee` varchar(64) DEFAULT '无' COMMENT '客户担保人或担保公司',
   PRIMARY KEY (`id`),
   KEY `identity_id` (`certificate_no`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='客户信息表' AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='客户信息表' AUTO_INCREMENT=2 ;
+
+--
+-- 转存表中的数据 `customer_info`
+--
+
+INSERT INTO `customer_info` (`id`, `customer_name`, `certificate_type`, `certificate_no`, `customer_dn`, `customer_email`, `create_at`, `create_by`, `update_at`, `update_by`, `customer_type`, `customer_house`, `customer_vehicle`, `customer_guarantee`) VALUES
+(1, '姜寅1', '身份证', '1234567890', '12312311', '12321321', '2015-03-12 07:58:46', 100015, '2015-03-12 07:58:46', 100015, '个人用户', '123213', '123123', '123213');
 
 -- --------------------------------------------------------
 
@@ -89,7 +96,7 @@ CREATE TABLE IF NOT EXISTS `sequence` (
 INSERT INTO `sequence` (`name`, `current_value`, `increment`) VALUES
 ('ContraceSeq', 100015, 1),
 ('StoreSeq', 100009, 1),
-('UsersSeq', 100019, 1);
+('UsersSeq', 100020, 1);
 
 -- --------------------------------------------------------
 
@@ -406,24 +413,27 @@ CREATE TABLE IF NOT EXISTS `users` (
   `create_by` int(11) NOT NULL DEFAULT '10000' COMMENT '创建人id',
   `create_at` varchar(32) NOT NULL COMMENT '创建时间',
   `status` int(11) NOT NULL DEFAULT '1' COMMENT '状态：1－正常；0-删除',
-  PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=100020 ;
+  `driver_status` int(11) DEFAULT '0' COMMENT '配驾状态：0-未分配；1-已分配',
+  PRIMARY KEY (`user_id`),
+  KEY `driver_status` (`driver_status`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=100021 ;
 
 --
 -- 转存表中的数据 `users`
 --
 
-INSERT INTO `users` (`user_id`, `login_name`, `login_pwd`, `user_name`, `nick_name`, `employee_id`, `head_url`, `birthday`, `address`, `email`, `create_by`, `create_at`, `status`) VALUES
-(100000, 'sysadmin', '96E79218965EB72C92A549DD5A330112', '系统管理员a', '系统管理员', NULL, NULL, NULL, NULL, NULL, 10000, '', 1),
-(100011, 'jiangyinyewuyuan', '96E79218965EB72C92A549DD5A330112', '僵硬业务员', '僵硬业务员', '1234', NULL, NULL, NULL, NULL, 100000, '2015-03-07 15:03:949', 1),
-(100012, 'jiangyinyewujingli', '96E79218965EB72C92A549DD5A330112', '僵硬业务经理', '僵硬业务经理', '2345', NULL, NULL, NULL, NULL, 100000, '2015-03-07 15:03:292', 1),
-(100013, 'jiangyinfengkong', '96E79218965EB72C92A549DD5A330112', '僵硬风控', '僵硬风控', '3456', NULL, NULL, NULL, NULL, 100000, '2015-03-07 15:03:214', 1),
-(100014, 'jiangyingcaiwu', '96E79218965EB72C92A549DD5A330112', '僵硬财务', '僵硬财务', '4567', NULL, NULL, NULL, NULL, 100000, '2015-03-07 15:03:529', 1),
-(100015, 'zhenjiangyewuyuan', '96E79218965EB72C92A549DD5A330112', '镇江业务员', '镇江业务员', '1234', NULL, NULL, NULL, NULL, 100000, '2015-03-11 18:03:726', 1),
-(100016, 'zhenjiangdianzhang', '96E79218965EB72C92A549DD5A330112', '镇江店长', '镇江店长', '1234', NULL, NULL, NULL, NULL, 100000, '2015-03-11 18:03:609', 1),
-(100017, 'zhenjiangshidianzhang', '96E79218965EB72C92A549DD5A330112', '镇江市店长', '镇江市店长', '1234', NULL, NULL, NULL, NULL, 100000, '2015-03-11 18:03:404', 1),
-(100018, 'quyujingli', '96E79218965EB72C92A549DD5A330112', '华东区经理', '华东区经理', '1234', NULL, NULL, NULL, NULL, 100000, '2015-03-11 18:03:625', 1),
-(100019, 'zhenjiangcaiwu', '96E79218965EB72C92A549DD5A330112', '镇江财务', '镇江财务', '1234', NULL, NULL, NULL, NULL, 100000, '2015-03-11 18:03:326', 1);
+INSERT INTO `users` (`user_id`, `login_name`, `login_pwd`, `user_name`, `nick_name`, `employee_id`, `head_url`, `birthday`, `address`, `email`, `create_by`, `create_at`, `status`, `driver_status`) VALUES
+(100000, 'sysadmin', '96E79218965EB72C92A549DD5A330112', '系统管理员a', '系统管理员', NULL, NULL, NULL, NULL, NULL, 10000, '', 1, 0),
+(100011, 'jiangyinyewuyuan', '96E79218965EB72C92A549DD5A330112', '僵硬业务员', '僵硬业务员', '1234', NULL, NULL, NULL, NULL, 100000, '2015-03-07 15:03:949', 1, 0),
+(100012, 'jiangyinyewujingli', '96E79218965EB72C92A549DD5A330112', '僵硬业务经理', '僵硬业务经理', '2345', NULL, NULL, NULL, NULL, 100000, '2015-03-07 15:03:292', 1, 0),
+(100013, 'jiangyinfengkong', '96E79218965EB72C92A549DD5A330112', '僵硬风控', '僵硬风控', '3456', NULL, NULL, NULL, NULL, 100000, '2015-03-07 15:03:214', 1, 0),
+(100014, 'jiangyingcaiwu', '96E79218965EB72C92A549DD5A330112', '僵硬财务', '僵硬财务', '4567', NULL, NULL, NULL, NULL, 100000, '2015-03-07 15:03:529', 1, 0),
+(100015, 'zhenjiangyewuyuan', '96E79218965EB72C92A549DD5A330112', '镇江业务员', '镇江业务员', '1234', NULL, NULL, NULL, NULL, 100000, '2015-03-11 18:03:726', 1, 0),
+(100016, 'zhenjiangdianzhang', '96E79218965EB72C92A549DD5A330112', '镇江店长', '镇江店长', '1234', NULL, NULL, NULL, NULL, 100000, '2015-03-11 18:03:609', 1, 0),
+(100017, 'zhenjiangshidianzhang', '96E79218965EB72C92A549DD5A330112', '镇江市店长', '镇江市店长', '1234', NULL, NULL, NULL, NULL, 100000, '2015-03-11 18:03:404', 1, 0),
+(100018, 'quyujingli', '96E79218965EB72C92A549DD5A330112', '华东区经理', '华东区经理', '1234', NULL, NULL, NULL, NULL, 100000, '2015-03-11 18:03:625', 1, 0),
+(100019, 'zhenjiangcaiwu', '96E79218965EB72C92A549DD5A330112', '镇江财务', '镇江财务', '1234', NULL, NULL, NULL, NULL, 100000, '2015-03-11 18:03:326', 1, 0),
+(100020, 'zhenjiangpeijia', '96E79218965EB72C92A549DD5A330112', '镇江配驾', '镇江配驾', '1234', NULL, NULL, NULL, NULL, 100000, '2015-03-12 12:03:468', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -452,7 +462,8 @@ INSERT INTO `user_role` (`user_id`, `role_id`, `org_id`, `status`) VALUES
 (100016, 20008, 100009, 1),
 (100017, 20009, 100008, 1),
 (100018, 20010, 10, 1),
-(100019, 20005, 100009, 1);
+(100019, 20005, 100009, 1),
+(100020, 20007, 100009, 1);
 
 -- --------------------------------------------------------
 
@@ -507,7 +518,7 @@ INSERT INTO `vehicle_contrace` (`id`, `customer_name`, `customer_type`, `custome
 (100011, NULL, '个人用户', NULL, '身份证', NULL, NULL, '0', NULL, '2015-03-11 12:23:03', 100015, '2015-03-11 12:23:03', 0, 0, 0, '2015-03-11 12:23:03', 0, '2015-03-11 12:23:03', 0, '2015-03-11 12:23:03', 100009, 26, 0, '2015-03-11 12:23:03', '2015-03-11 12:23:03', '2015-03-11 12:23:03', 0),
 (100012, 'zddfsf', '个人用户', 'sdfsafas', '身份证', 'asdfsafdsaf', 'sfdsafdsaf', '0adfsaf', 'sadfsaf', '2015-03-11 12:26:51', 100015, '2015-03-11 12:26:51', 0, 0, 0, '2015-03-11 12:26:51', 0, '2015-03-11 12:26:51', 0, '2015-03-11 12:26:51', 100009, 27, 0, '2015-03-11 12:26:51', '2015-03-11 03:00:00', '2015-03-12 04:30:00', 0),
 (100013, NULL, '个人用户', NULL, '身份证', NULL, NULL, '0', NULL, '2015-03-11 12:27:07', 100015, '2015-03-11 12:27:07', 0, 0, 0, '2015-03-11 12:27:07', 0, '2015-03-11 12:27:07', 0, '2015-03-11 12:27:07', 100009, 27, 0, '2015-03-11 12:27:07', '2015-03-11 12:27:07', '2015-03-11 12:27:07', 0),
-(100014, 'jiangyin', '个人用户', '15380897663', '身份证', '人人2224324', '德国方法范儿儿儿人人人过分的人工费登革热个人头人儿童二', '1234', 'jiangyin', '2015-03-11 12:37:59', 100015, '2015-03-11 12:37:59', 0, 0, 0, '2015-03-11 12:37:59', 0, '2015-03-11 12:37:59', 0, '2015-03-11 12:37:59', 100009, 28, 0, '2015-03-11 12:37:59', '2015-05-01 04:00:00', '2015-05-10 04:00:00', 0),
+(100014, 'jiangyin', '个人用户', '15380897663', '身份证', '人人2224324', '德国方法范儿儿儿人人人过分的人工费登革热个人头人儿童二', '1234', 'jiangyin', '2015-03-11 12:37:59', 100015, '2015-03-11 12:37:59', 0, 5, 100016, '2015-03-12 00:27:53', 100017, '2015-03-12 01:28:45', 100019, '2015-03-12 01:46:09', 100009, 28, 100018, '2015-03-12 01:46:00', '2015-05-01 04:00:00', '2015-05-10 04:00:00', 1),
 (100015, NULL, '个人用户', NULL, '身份证', NULL, NULL, '0', NULL, '2015-03-11 12:38:23', 100015, '2015-03-11 12:38:23', 0, 0, 0, '2015-03-11 12:38:23', 0, '2015-03-11 12:38:23', 0, '2015-03-11 12:38:23', 100009, 28, 0, '2015-03-11 12:38:23', '2015-03-11 12:38:23', '2015-03-11 12:38:23', 0);
 
 -- --------------------------------------------------------
@@ -532,7 +543,7 @@ CREATE TABLE IF NOT EXISTS `vehicle_contrace_vehs` (
   `update_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
   `vehicle_price` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '车购价，用来计算本次合同车辆总价，决定是否需要市门店经理审核',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='合同对应车辆详细表' AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='合同对应车辆详细表' AUTO_INCREMENT=5 ;
 
 --
 -- 转存表中的数据 `vehicle_contrace_vehs`
@@ -540,7 +551,9 @@ CREATE TABLE IF NOT EXISTS `vehicle_contrace_vehs` (
 
 INSERT INTO `vehicle_contrace_vehs` (`id`, `contrace_id`, `vehicle_id`, `license_plate`, `model`, `company`, `isother`, `driving_user_id`, `driving_user_name`, `create_by`, `create_at`, `update_by`, `update_at`, `vehicle_price`) VALUES
 (1, 100015, 2, NULL, NULL, NULL, 0, '0', NULL, 100015, '2015-03-11 13:57:04', 0, '2015-03-11 13:57:04', '678954.00'),
-(2, 100015, 2, NULL, NULL, NULL, 0, '0', NULL, 100015, '2015-03-11 13:58:40', 0, '2015-03-11 13:58:40', '678954.00');
+(2, 100015, 2, NULL, NULL, NULL, 0, '0', NULL, 100015, '2015-03-11 13:58:40', 0, '2015-03-11 13:58:40', '678954.00'),
+(3, 100014, 2, NULL, NULL, NULL, 0, '0', NULL, 100015, '2015-03-12 00:27:34', 0, '2015-03-12 00:27:34', '678954.00'),
+(4, 100015, 3, '12312', 'S600', NULL, 0, '100020', '镇江配驾', 100015, '2015-03-12 04:48:02', 100015, '2015-03-12 04:48:02', '1233212.00');
 
 -- --------------------------------------------------------
 
@@ -593,7 +606,7 @@ CREATE TABLE IF NOT EXISTS `vehicle_info` (
   `original_org` int(11) NOT NULL COMMENT '归属门店',
   `next_main_km` int(11) NOT NULL DEFAULT '0' COMMENT '下次保养公里数',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='车辆信息表' AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='车辆信息表' AUTO_INCREMENT=4 ;
 
 --
 -- 转存表中的数据 `vehicle_info`
@@ -601,7 +614,8 @@ CREATE TABLE IF NOT EXISTS `vehicle_info` (
 
 INSERT INTO `vehicle_info` (`id`, `brand`, `model`, `color`, `carframe_no`, `engine_no`, `buy_at`, `supplier`, `license_plate`, `card_at`, `limited_at`, `guide_price`, `vehicle_price`, `vehicle_tax`, `insurance_company`, `strong_insurance`, `strong_insurance_expire_at`, `vehicle_vessel_tax`, `business_insurance`, `business_insurance_expire_at`, `km`, `maintian_on_km`, `gps`, `current_city`, `current_shop`, `lease_status`, `peccancy_status`, `archive_no`, `inventory_no`, `registry_certificate`, `certificate_direction`, `loan_bank`, `consistency_cer`, `check_list`, `duty_paid_proof`, `record`, `remark`, `update_at`, `update_by`, `create_by`, `create_at`, `original_org`, `next_main_km`) VALUES
 (1, '奔驰', 's600', '黑色', '1231sdfs23424', '3432424wefwef', '2015-03-15 16:00:00', '12121', '苏ad12345', '2015-03-08 16:00:00', '2015-03-08 16:00:00', '12121.00', '12121.00', '121212.00', '1212', '1212.00', '2015-03-23 16:00:00', '1212.00', '121.00', '2015-03-23 16:00:00', 11111, 22222, '正常', 512, 100006, '在库', 0, '', '121212', '12121', '12121', '21212', '12121', '12121', '12121', '12121', '12121', '2015-03-09 12:24:14', 0, 100000, '2015-03-09 12:24:14', 1, 33333),
-(2, '宝马', '535', '黑色', '234werw2342', '343424wewff', '2015-03-11 13:58:40', '1213', 'ad12345', '2015-03-16 16:00:00', '2015-03-17 16:00:00', '678954.00', '678954.00', '12313.00', '123', '1123.00', '2015-03-24 16:00:00', '123.00', '1231.00', '2015-03-17 16:00:00', 11111, 22222, '正常', 511, 100009, '出库中', 0, '', '12313', '12313', '12313', '12321', '123213', '12313', '13213', '12313', '12313', '2015-03-11 13:20:23', 0, 100015, '2015-03-11 13:20:23', 100009, 33333);
+(2, '宝马', '535', '黑色', '234werw2342', '343424wewff', '2015-03-12 00:27:34', '1213', 'ad12345', '2015-03-16 16:00:00', '2015-03-17 16:00:00', '678954.00', '678954.00', '12313.00', '123', '1123.00', '2015-03-24 16:00:00', '123.00', '1231.00', '2015-03-17 16:00:00', 11111, 22222, '正常', 511, 100009, '出库中', 0, '', '12313', '12313', '12313', '12321', '123213', '12313', '13213', '12313', '12313', '2015-03-11 13:20:23', 0, 100015, '2015-03-11 13:20:23', 100009, 33333),
+(3, '奔驰', 'S600', '黑色', '213213', '23213', '2015-03-12 04:48:02', '1231', '12312', '2015-03-16 16:00:00', '2015-03-16 16:00:00', '123131.00', '1233212.00', '12313.00', '123213', '1321.00', '2015-03-16 16:00:00', '123213.00', '123213.00', '2015-03-16 16:00:00', 123213, 123213, '正常', 25, 100009, '出库中', 0, '', '12313', '123213', '123213', '123213', '132213', '123213', '123213', '123213', '1232131', '2015-03-12 04:47:51', 0, 100015, '2015-03-12 04:47:51', 100009, 1232131);
 
 -- --------------------------------------------------------
 
@@ -628,7 +642,7 @@ CREATE TABLE IF NOT EXISTS `vehicle_insurance` (
   PRIMARY KEY (`id`),
   KEY `carframe_no` (`carframe_no`,`engine_no`),
   KEY `license_plate` (`license_plate`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='车辆保险' AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='车辆保险' AUTO_INCREMENT=4 ;
 
 --
 -- 转存表中的数据 `vehicle_insurance`
@@ -636,7 +650,8 @@ CREATE TABLE IF NOT EXISTS `vehicle_insurance` (
 
 INSERT INTO `vehicle_insurance` (`id`, `carframe_no`, `engine_no`, `license_plate`, `insurance_company`, `strong_insurance`, `strong_insurance_expire_at`, `vehicle_vessel_tax`, `business_insurance`, `business_insurance_expire_at`, `remark`, `create_by`, `create_at`, `update_by`, `update_at`) VALUES
 (1, '1231sdfs23424', '3432424wefwef', '苏ad12345', '1212', 1212, '2015-03-23 16:00:00', 1212, 121, '2015-03-23 16:00:00', '12121', 100000, '2015-03-09 12:24:14', 0, '2015-03-09 12:24:14'),
-(2, '234werw2342', '343424wewff', 'ad12345', '123', 1123, '2015-03-24 16:00:00', 123, 1231, '2015-03-17 16:00:00', '12313', 100015, '2015-03-11 13:20:23', 0, '2015-03-11 13:20:23');
+(2, '234werw2342', '343424wewff', 'ad12345', '123', 1123, '2015-03-24 16:00:00', 123, 1231, '2015-03-17 16:00:00', '12313', 100015, '2015-03-11 13:20:23', 0, '2015-03-11 13:20:23'),
+(3, '213213', '23213', '12312', '123213', 1321, '2015-03-16 16:00:00', 123213, 123213, '2015-03-16 16:00:00', '1232131', 100015, '2015-03-12 04:47:51', 0, '2015-03-12 04:47:51');
 
 -- --------------------------------------------------------
 
