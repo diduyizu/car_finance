@@ -41,21 +41,21 @@
             $('#customer_name').typeahead({
                 source: customer_name_json
             });
-//            $('#customer_name').typeahead({
-//                source: function(query, process) {
-//                    var parameter = {query: query};
-//                    $.ajax({
-//                        url: '/mirage/index.php?it=barservice&op=get-receiptno',
-//                        type: 'POST',
-//                        dataType: 'JSON',
-//                        data: query,
-//                        success: function(data) {
-//                            console.log(data);
-//                            process(data);
-//                        }
-//                    });
-//                }
-//            });
+            <%--$('#customer_name').typeahead({--%>
+                <%--source: function(query, process) {--%>
+                    <%--var parameter = {query: query};--%>
+                    <%--$.ajax({--%>
+                        <%--url: '${ctx}/common/getcustomer',--%>
+                        <%--type: 'POST',--%>
+                        <%--dataType: 'JSON',--%>
+                        <%--data: query,--%>
+                        <%--success: function(data) {--%>
+                            <%--console.log(data);--%>
+                            <%--process(data);--%>
+                        <%--}--%>
+                    <%--});--%>
+                <%--}--%>
+            <%--});--%>
         })
     </script>
 </head>
