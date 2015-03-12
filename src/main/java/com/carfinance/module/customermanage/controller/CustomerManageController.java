@@ -59,6 +59,8 @@ public class CustomerManageController {
         String certificate_no = request.getParameter("certificate_no");
         Map<String , Object> map = this.customerManageService.getCustomerList(customer_name , dn , certificate_no, start, size);
 
+        String customer_name_json = this.commonService.getAllCustomerName();
+
         long total = (Long)map.get("total");;
         List<CustomerInfo> customer_list = (List<CustomerInfo>)map.get("customer_list");
 
@@ -77,6 +79,7 @@ public class CustomerManageController {
         model.addAttribute("dn" , dn);
         model.addAttribute("certificate_no" , certificate_no);
         model.addAttribute("customer_list" , customer_list);
+        model.addAttribute("customer_name_json" , customer_name_json);
         return "/module/customermanage/index";
     }
 

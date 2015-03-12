@@ -1,8 +1,12 @@
 package com.carfinance.module.common.dao;
 
 import com.carfinance.module.common.domain.*;
+import com.carfinance.module.customermanage.domain.CustomerInfo;
+import com.carfinance.module.customermanage.domain.CustomerInfoRowMapper;
 import com.carfinance.module.login.domain.User;
 import com.carfinance.module.login.domain.UserRowMapper;
+import com.carfinance.module.vehiclemanage.domain.VehicleInfo;
+import com.carfinance.module.vehiclemanage.domain.VehicleInfoRowMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -157,5 +161,19 @@ public class CommonDao extends BaseJdbcDaoImpl{
         Object[] o = new Object[] { user_id , role_id };
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().query(sql , o  , new OrgRowMapper());
+    }
+
+    public List<CustomerInfo> getAllCustomerInfo() {
+        String sql="select * from customer_info ";
+        Object[] o = new Object[] { };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().query(sql , o  , new CustomerInfoRowMapper());
+    }
+
+    public List<VehicleInfo> getAllVehicles() {
+        String sql="select * from vehicle_info ";
+        Object[] o = new Object[] { };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().query(sql , o  , new VehicleInfoRowMapper());
     }
 }

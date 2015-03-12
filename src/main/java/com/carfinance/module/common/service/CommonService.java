@@ -6,8 +6,11 @@ import java.util.*;
 import com.carfinance.module.common.domain.*;
 import com.carfinance.module.common.domain.Enum;
 import com.carfinance.module.common.vo.MenuVo;
+import com.carfinance.module.customermanage.domain.CustomerInfo;
 import com.carfinance.module.init.service.InitService;
 import com.carfinance.module.login.domain.User;
+import com.carfinance.module.vehiclemanage.domain.VehicleInfo;
+import net.sf.json.JSONArray;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -313,4 +316,32 @@ public class CommonService {
         }
         return isSysadmin;
     }
+
+    public List<CustomerInfo> getAllCustomerInfo() {
+        return this.commonDao.getAllCustomerInfo();
+    }
+
+    public List<VehicleInfo> getAllVehicles() {
+        return this.commonDao.getAllVehicles();
+    }
+
+    public String getAllCustomerName() {
+        List<CustomerInfo> customer_info_list = this.getAllCustomerInfo();
+        List<String> result = new ArrayList<String>();
+        for(CustomerInfo customerInfo : customer_info_list) {
+            result.add(customerInfo.getCustomer_name());
+        }
+        return JSONArray.fromObject(result).toString();
+    }
+
+    public String getAllCustomerDn() {
+        List<CustomerInfo> customer_info_list = this.getAllCustomerInfo();
+        List<String> result = new ArrayList<String>();
+        for(CustomerInfo customerInfo : customer_info_list) {
+            result.add(customerInfo.getCustomer_dn());
+        }
+        return JSONArray.fromObject(result).toString();
+    }
+
+
 }

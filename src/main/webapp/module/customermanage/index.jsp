@@ -7,12 +7,13 @@
     <link rel="stylesheet" type="text/css" href="<c:url value="/resources/Css/bootstrap.css" />" />
     <link rel="stylesheet" type="text/css" href="<c:url value="/resources/Css/bootstrap-responsive.css" />" />
     <link rel="stylesheet" type="text/css" href="<c:url value="/resources/Css/style.css" />" />
-    <script type="text/javascript" src="<c:url value="/resources/Js/jquery.js" />"></script>
 
+    <%--<script type="text/javascript" src="<c:url value="/resources/Js/jquery.js" />"></script>--%>
+    <script type="text/javascript" src="<c:url value="/resources/Js/jquery-1.7.1.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/Js/bootstrap.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/Js/ckform.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/Js/common.js" />"></script>
-
+    <script type="text/javascript" src="<c:url value="/resources/Js/bootstrap-typeahead.js" />"></script>
     <style type="text/css">
         body {
             padding-bottom: 40px;
@@ -32,11 +33,36 @@
 
 
     </style>
+
+    <script type="text/javascript">
+        $().ready(function() {
+            var customer_name_json = ${customer_name_json};
+            console.info(customer_name_json);
+            $('#customer_name').typeahead({
+                source: customer_name_json
+            });
+//            $('#customer_name').typeahead({
+//                source: function(query, process) {
+//                    var parameter = {query: query};
+//                    $.ajax({
+//                        url: '/mirage/index.php?it=barservice&op=get-receiptno',
+//                        type: 'POST',
+//                        dataType: 'JSON',
+//                        data: query,
+//                        success: function(data) {
+//                            console.log(data);
+//                            process(data);
+//                        }
+//                    });
+//                }
+//            });
+        })
+    </script>
 </head>
 <body>
 <form class="form-inline definewidth m20" action="${ctx}/customer/info/index" method="post">
     姓名：
-    <input type="text" name="customer_name" id="customer_name"class="abc input-default" placeholder="" value="${customer_name}">&nbsp;&nbsp;
+    <input type="text" data-provide="typeahead" name="customer_name" id="customer_name"class="abc input-default" placeholder="" value="${customer_name}">&nbsp;&nbsp;
     手机号码：
     <input type="text" name="dn" id="dn"class="abc input-default" placeholder="" value="${dn}">&nbsp;&nbsp;
     证件号码：
@@ -81,4 +107,5 @@
     $('#addnew').click(function(){
         window.location.href="${ctx}/customer/info/add";
     });
+
 </script>
