@@ -9,12 +9,14 @@
     <link rel="stylesheet" type="text/css" href="<c:url value="/resources/Css/datetimepicker.css" />" />
     <link rel="stylesheet" type="text/css" href="<c:url value="/resources/Css/style.css" />" />
 
-    <script type="text/javascript" src="<c:url value="/resources/Js/jquery.js" />"></script>
+    <%--<script type="text/javascript" src="<c:url value="/resources/Js/jquery.js" />"></script>--%>
+    <script type="text/javascript" src="<c:url value="/resources/Js/jquery-1.7.1.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/Js/bootstrap.min.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/Js/bootstrap-datetimepicker.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/Js/bootstrap-datetimepicker.zh-CN.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/Js/ckform.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/Js/common.js" />"></script>
+    <script type="text/javascript" src="<c:url value="/resources/Js/bootstrap-typeahead.js" />"></script>
 
     <style type="text/css">
         body {
@@ -35,6 +37,15 @@
 
 
     </style>
+    <script type="text/javascript">
+        $().ready(function() {
+            var customer_name_json = ${customer_name_json};
+            console.info(customer_name_json);
+            $('#customer_name').typeahead({
+                source: customer_name_json
+            });
+        })
+    </script>
 </head>
 <body>
     <form class="definewidth m20">
@@ -51,7 +62,7 @@
             </tr>
             <tr>
                 <td class="tableleft">客户姓名</td>
-                <td><input type="text" name="customer_name" id="customer_name" value="${vehicleReservationInfo.customer_name}" required="true"/></td>
+                <td><input type="text" data-provide="typeahead" name="customer_name" id="customer_name" value="${vehicleReservationInfo.customer_name}" required="true"/></td>
                 <td class="tableleft">客户类型</td>
                 <td>
                     <select id="customer_type" name="customer_type">

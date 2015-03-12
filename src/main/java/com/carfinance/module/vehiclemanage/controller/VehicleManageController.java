@@ -86,6 +86,14 @@ public class VehicleManageController {
         int prepages = (page_index - 1) <= 0 ? 1 : (page_index - 1);
         int nextpages = (page_index + 1) >= pages ? pages : (page_index + 1);
 
+        String vehicle_brand_json = this.commonService.getAllVehicleBrand();
+        String vehicle_model_json = this.commonService.getAllVehicleModel();
+        String vehicle_licene_plate_json = this.commonService.getAllVehicleLicensePlate();
+        model.addAttribute("vehicle_brand_json" , vehicle_brand_json);
+        model.addAttribute("vehicle_model_json" , vehicle_model_json);
+        model.addAttribute("vehicle_licene_plate_json" , vehicle_licene_plate_json);
+
+
         model.addAttribute("current_page" , page_index);
         model.addAttribute("pages" , pages);
         model.addAttribute("prepage" , prepages);
@@ -124,6 +132,13 @@ public class VehicleManageController {
         //获取用户角色列表
         List<Org> user_all_org_list = this.commonService.getUserAllOrgList(user.getUser_id());
         List<City> city_list = this.commonService.getSysUsedCityList();
+
+        String vehicle_brand_json = this.commonService.getAllVehicleBrand();
+        String vehicle_model_json = this.commonService.getAllVehicleModel();
+        String vehicle_licene_plate_json = this.commonService.getAllVehicleLicensePlate();
+        model.addAttribute("vehicle_brand_json" , vehicle_brand_json);
+        model.addAttribute("vehicle_model_json" , vehicle_model_json);
+        model.addAttribute("vehicle_licene_plate_json" , vehicle_licene_plate_json);
 
         model.addAttribute("city_list" , city_list);
         model.addAttribute("user_all_org_list" , user_all_org_list);
@@ -232,6 +247,13 @@ public class VehicleManageController {
         int pages = Integer.parseInt(Long.toString(temp / size)) + 1;
         int prepages = (page_index - 1) <= 0 ? 1 : (page_index - 1);
         int nextpages = (page_index + 1) >= pages ? pages : (page_index + 1);
+
+//        String vehicle_brand_json = this.commonService.getAllVehicleBrand();
+//        String vehicle_model_json = this.commonService.getAllVehicleModel();
+        String vehicle_licene_plate_json = this.commonService.getAllVehicleLicensePlate();
+//        model.addAttribute("vehicle_brand_json" , vehicle_brand_json);
+//        model.addAttribute("vehicle_model_json" , vehicle_model_json);
+        model.addAttribute("vehicle_licene_plate_json" , vehicle_licene_plate_json);
 
         model.addAttribute("current_page" , page_index);
         model.addAttribute("pages" , pages);
@@ -375,6 +397,13 @@ public class VehicleManageController {
         int pages = Integer.parseInt(Long.toString(temp / size)) + 1;
         int prepages = (page_index - 1) <= 0 ? 1 : (page_index - 1);
         int nextpages = (page_index + 1) >= pages ? pages : (page_index + 1);
+
+        //        String vehicle_brand_json = this.commonService.getAllVehicleBrand();
+//        String vehicle_model_json = this.commonService.getAllVehicleModel();
+        String vehicle_licene_plate_json = this.commonService.getAllVehicleLicensePlate();
+//        model.addAttribute("vehicle_brand_json" , vehicle_brand_json);
+//        model.addAttribute("vehicle_model_json" , vehicle_model_json);
+        model.addAttribute("vehicle_licene_plate_json" , vehicle_licene_plate_json);
 
         model.addAttribute("current_page" , page_index);
         model.addAttribute("pages" , pages);
@@ -527,6 +556,13 @@ public class VehicleManageController {
         int prepages = (page_index - 1) <= 0 ? 1 : (page_index - 1);
         int nextpages = (page_index + 1) >= pages ? pages : (page_index + 1);
 
+        //        String vehicle_brand_json = this.commonService.getAllVehicleBrand();
+//        String vehicle_model_json = this.commonService.getAllVehicleModel();
+        String vehicle_licene_plate_json = this.commonService.getAllVehicleLicensePlate();
+//        model.addAttribute("vehicle_brand_json" , vehicle_brand_json);
+//        model.addAttribute("vehicle_model_json" , vehicle_model_json);
+        model.addAttribute("vehicle_licene_plate_json" , vehicle_licene_plate_json);
+
         model.addAttribute("current_page" , page_index);
         model.addAttribute("pages" , pages);
         model.addAttribute("prepage" , prepages);
@@ -575,6 +611,13 @@ public class VehicleManageController {
         int pages = Integer.parseInt(Long.toString(temp / size)) + 1;
         int prepages = (page_index - 1) <= 0 ? 1 : (page_index - 1);
         int nextpages = (page_index + 1) >= pages ? pages : (page_index + 1);
+
+        //        String vehicle_brand_json = this.commonService.getAllVehicleBrand();
+//        String vehicle_model_json = this.commonService.getAllVehicleModel();
+        String vehicle_licene_plate_json = this.commonService.getAllVehicleLicensePlate();
+//        model.addAttribute("vehicle_brand_json" , vehicle_brand_json);
+//        model.addAttribute("vehicle_model_json" , vehicle_model_json);
+        model.addAttribute("vehicle_licene_plate_json" , vehicle_licene_plate_json);
 
         model.addAttribute("current_page" , page_index);
         model.addAttribute("pages" , pages);
@@ -721,6 +764,13 @@ public class VehicleManageController {
         int pages = Integer.parseInt(Long.toString(temp / size)) + 1;
         int prepages = (page_index - 1) <= 0 ? 1 : (page_index - 1);
         int nextpages = (page_index + 1) >= pages ? pages : (page_index + 1);
+
+        //        String vehicle_brand_json = this.commonService.getAllVehicleBrand();
+//        String vehicle_model_json = this.commonService.getAllVehicleModel();
+        String vehicle_licene_plate_json = this.commonService.getAllVehicleLicensePlate();
+//        model.addAttribute("vehicle_brand_json" , vehicle_brand_json);
+//        model.addAttribute("vehicle_model_json" , vehicle_model_json);
+        model.addAttribute("vehicle_licene_plate_json" , vehicle_licene_plate_json);
 
         model.addAttribute("current_page" , page_index);
         model.addAttribute("pages" , pages);

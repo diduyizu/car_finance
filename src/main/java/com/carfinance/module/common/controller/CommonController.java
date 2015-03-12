@@ -48,17 +48,17 @@ public class CommonController {
      * @param response
      * @return
      */
-    @RequestMapping(value = "/getcustomer" , method = RequestMethod.POST)
-    @ResponseBody
-    public ResponseEntity<String> getAllCustomerInfo(Model model , HttpServletRequest request , HttpServletResponse response) {
-        HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.set("Content-Type", "text/plain;charset=utf-8");
-        User user = (User)request.getSession().getAttribute("user");
-
-        List<CustomerInfo> customer_list = this.commonService.getAllCustomerInfo();
-        String json = JSONArray.fromObject(customer_list).toString();
-        return new ResponseEntity<String>(json , responseHeaders, HttpStatus.OK);
-    }
+//    @RequestMapping(value = "/getcustomer" , method = RequestMethod.POST)
+//    @ResponseBody
+//    public ResponseEntity<String> getAllCustomerInfo(Model model , HttpServletRequest request , HttpServletResponse response) {
+//        HttpHeaders responseHeaders = new HttpHeaders();
+//        responseHeaders.set("Content-Type", "text/plain;charset=utf-8");
+//        User user = (User)request.getSession().getAttribute("user");
+//
+//        List<CustomerInfo> customer_list = this.commonService.getAllCustomerInfo();
+//        String json = JSONArray.fromObject(customer_list).toString();
+//        return new ResponseEntity<String>(json , responseHeaders, HttpStatus.OK);
+//    }
 
     /**
      * jquery Autocomplete
@@ -68,17 +68,17 @@ public class CommonController {
      * @param response
      * @return
      */
-    @RequestMapping(value = "/getvehicle" , method = RequestMethod.POST)
-    @ResponseBody
-    public ResponseEntity<String> allVehicles(Model model , HttpServletRequest request , HttpServletResponse response) {
-        HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.set("Content-Type", "text/plain;charset=utf-8");
-        User user = (User)request.getSession().getAttribute("user");
-
-        List<VehicleInfo> customer_list = this.commonService.getAllVehicles();
-        String json = JSONArray.fromObject(customer_list).toString();
-        return new ResponseEntity<String>(json , responseHeaders, HttpStatus.OK);
-    }
+//    @RequestMapping(value = "/getvehicle" , method = RequestMethod.POST)
+//    @ResponseBody
+//    public ResponseEntity<String> allVehicles(Model model , HttpServletRequest request , HttpServletResponse response) {
+//        HttpHeaders responseHeaders = new HttpHeaders();
+//        responseHeaders.set("Content-Type", "text/plain;charset=utf-8");
+//        User user = (User)request.getSession().getAttribute("user");
+//
+//        List<VehicleInfo> customer_list = this.commonService.getAllVehicles();
+//        String json = JSONArray.fromObject(customer_list).toString();
+//        return new ResponseEntity<String>(json , responseHeaders, HttpStatus.OK);
+//    }
 
 
 }

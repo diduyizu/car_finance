@@ -7,11 +7,13 @@
     <link rel="stylesheet" type="text/css" href="<c:url value="/resources/Css/bootstrap.css" />" />
     <link rel="stylesheet" type="text/css" href="<c:url value="/resources/Css/bootstrap-responsive.css" />" />
     <link rel="stylesheet" type="text/css" href="<c:url value="/resources/Css/style.css" />" />
-    <script type="text/javascript" src="<c:url value="/resources/Js/jquery.js" />"></script>
+    <%--<script type="text/javascript" src="<c:url value="/resources/Js/jquery.js" />"></script>--%>
 
+    <script type="text/javascript" src="<c:url value="/resources/Js/jquery-1.7.1.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/Js/bootstrap.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/Js/ckform.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/Js/common.js" />"></script>
+    <script type="text/javascript" src="<c:url value="/resources/Js/bootstrap-typeahead.js" />"></script>
 
     <style type="text/css">
         body {
@@ -32,6 +34,25 @@
 
 
     </style>
+
+    <script type="text/javascript">
+        $().ready(function() {
+            var vehicle_brand_json = ${vehicle_brand_json};
+            $('#brand').typeahead({
+                source: vehicle_brand_json
+            });
+
+            var vehicle_model_json = ${vehicle_model_json};
+            $('#model').typeahead({
+                source: vehicle_model_json
+            });
+
+            var vehicle_licene_plate_json = ${vehicle_licene_plate_json};
+            $('#license_plate').typeahead({
+                source: vehicle_licene_plate_json
+            });
+        })
+    </script>
 </head>
 <body>
 <form class="form-inline definewidth m20" action="${ctx}/vehicle/register/index" method="post">
@@ -87,15 +108,15 @@
         <tr>
             <td>
                 品牌：
-                <input type="text" name="brand" id="brand"class="abc input-default" placeholder="" value="${brand}">&nbsp;&nbsp;
+                <input type="text" data-provide="typeahead" name="brand" id="brand"class="abc input-default" placeholder="" value="${brand}">&nbsp;&nbsp;
             </td>
             <td>
                 车辆型号：
-                <input type="text" name="model" id="model"class="abc input-default" placeholder="" value="${model}">&nbsp;&nbsp;
+                <input type="text" data-provide="typeahead" name="model" id="model"class="abc input-default" placeholder="" value="${model}">&nbsp;&nbsp;
             </td>
             <td>
                 车牌号：
-                <input type="text" name="license_plate" id="license_plate"class="abc input-default" placeholder="" value="${license_plate}">&nbsp;&nbsp;
+                <input type="text" data-provide="typeahead" name="license_plate" id="license_plate"class="abc input-default" placeholder="" value="${license_plate}">&nbsp;&nbsp;
             </td>
             <td>
                 <button type="submit" class="btn btn-primary">查询</button>&nbsp;&nbsp;

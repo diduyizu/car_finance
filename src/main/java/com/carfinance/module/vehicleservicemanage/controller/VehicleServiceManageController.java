@@ -77,6 +77,9 @@ public class VehicleServiceManageController {
         int prepages = (page_index - 1) <= 0 ? 1 : (page_index - 1);
         int nextpages = (page_index + 1) >= pages ? pages : (page_index + 1);
 
+        String customer_name_json = this.commonService.getAllCustomerName();
+        model.addAttribute("customer_name_json" , customer_name_json);
+
         model.addAttribute("current_page" , page_index);
         model.addAttribute("pages" , pages);
         model.addAttribute("prepage" , prepages);
@@ -129,6 +132,9 @@ public class VehicleServiceManageController {
         int prepages = (page_index - 1) <= 0 ? 1 : (page_index - 1);
         int nextpages = (page_index + 1) >= pages ? pages : (page_index + 1);
 
+        String customer_name_json = this.commonService.getAllCustomerName();
+        model.addAttribute("customer_name_json" , customer_name_json);
+
         model.addAttribute("current_page" , page_index);
         model.addAttribute("pages" , pages);
         model.addAttribute("prepage" , prepages);
@@ -160,8 +166,11 @@ public class VehicleServiceManageController {
         List<Org> user_all_org_list = this.commonService.getUserAllOrgList(user.getUser_id());
         List<City> city_list = this.commonService.getSysUsedCityList();
 
+        String customer_name_json = this.commonService.getAllCustomerName();
+
         model.addAttribute("city_list" , city_list);
         model.addAttribute("user_all_org_list" , user_all_org_list);
+        model.addAttribute("customer_name_json" , customer_name_json);
         return "/module/vehicleservicemanage/reservation/add";
     }
 
@@ -239,7 +248,7 @@ public class VehicleServiceManageController {
         List<City> sys_used_city_list = this.commonService.getSysUsedCityList();
         Map<String , Object> map = this.vehicleServiceManageService.getOrgContraceList(original_org, null , start, size , false);
 
-        long total = (Long)map.get("total");;
+        long total = (Long)map.get("total");
         List<VehicleContraceInfo> contrace_list = (List<VehicleContraceInfo>)map.get("contrace_list");
 
         long temp = (total - 1) <= 0 ? 0 : (total - 1);
@@ -288,6 +297,9 @@ public class VehicleServiceManageController {
         long contrace_id = this.vehicleServiceManageService.addContrace(reservation_id, org_id, user.getUser_id());
         VehicleReservationInfo vehicleReservationInfo = this.vehicleServiceManageService.getVehicleReservationInfoById(reservation_id);
 
+        String customer_name_json = this.commonService.getAllCustomerName();
+
+        model.addAttribute("customer_name_json" , customer_name_json);
         model.addAttribute("contrace_id" , contrace_id);
         model.addAttribute("city_list" , city_list);
         model.addAttribute("user_all_org_list" , user_all_org_list);
@@ -341,6 +353,9 @@ public class VehicleServiceManageController {
         List<City> city_list = this.commonService.getSysUsedCityList();
 
         VehicleContraceInfo vehicleContraceInfo = this.vehicleServiceManageService.getVehicleContraceInfoById(contrace_id);//获取合同详情
+
+        String customer_name_json = this.commonService.getAllCustomerName();
+        model.addAttribute("customer_name_json" , customer_name_json);
 
         model.addAttribute("contrace_id" , contrace_id);
         model.addAttribute("city_list" , city_list);

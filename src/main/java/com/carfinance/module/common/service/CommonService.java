@@ -317,11 +317,13 @@ public class CommonService {
         return isSysadmin;
     }
 
-    public List<CustomerInfo> getAllCustomerInfo() {
+    //TODO 需要修改为从缓存中获取，同时客户资料增加、修改、删除时，需要删除
+    private List<CustomerInfo> getAllCustomerInfo() {
         return this.commonDao.getAllCustomerInfo();
     }
 
-    public List<VehicleInfo> getAllVehicles() {
+    //TODO 需要修改为从缓存中获取，同时车辆资料增加、修改、删除时，需要删除缓存
+    private List<VehicleInfo> getAllVehicles() {
         return this.commonDao.getAllVehicles();
     }
 
@@ -329,7 +331,7 @@ public class CommonService {
         List<CustomerInfo> customer_info_list = this.getAllCustomerInfo();
         List<String> result = new ArrayList<String>();
         for(CustomerInfo customerInfo : customer_info_list) {
-            result.add(customerInfo.getCustomer_name());
+            if(result.contains(customerInfo.getCustomer_name())) result.add(customerInfo.getCustomer_name());
         }
         return JSONArray.fromObject(result).toString();
     }
@@ -338,7 +340,34 @@ public class CommonService {
         List<CustomerInfo> customer_info_list = this.getAllCustomerInfo();
         List<String> result = new ArrayList<String>();
         for(CustomerInfo customerInfo : customer_info_list) {
-            result.add(customerInfo.getCustomer_dn());
+            if(result.contains(customerInfo.getCustomer_dn())) result.add(customerInfo.getCustomer_dn());
+        }
+        return JSONArray.fromObject(result).toString();
+    }
+
+    public String getAllVehicleBrand() {
+        List<VehicleInfo> vehicle_list = this.getAllVehicles();
+        List<String> result = new ArrayList<String>();
+        for(VehicleInfo vehicleInfo : vehicle_list) {
+            if(!result.contains(vehicleInfo.getBrand())) result.add(vehicleInfo.getBrand());
+        }
+        return JSONArray.fromObject(result).toString();
+    }
+
+    public String getAllVehicleModel() {
+        List<VehicleInfo> vehicle_list = this.getAllVehicles();
+        List<String> result = new ArrayList<String>();
+        for(VehicleInfo vehicleInfo : vehicle_list) {
+            if(!result.contains(vehicleInfo.getModel())) result.add(vehicleInfo.getModel());
+        }
+        return JSONArray.fromObject(result).toString();
+    }
+
+    public String getAllVehicleLicensePlate() {
+        List<VehicleInfo> vehicle_list = this.getAllVehicles();
+        List<String> result = new ArrayList<String>();
+        for(VehicleInfo vehicleInfo : vehicle_list) {
+            if(!result.contains(vehicleInfo.getLicense_plate())) result.add(vehicleInfo.getLicense_plate());
         }
         return JSONArray.fromObject(result).toString();
     }

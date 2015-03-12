@@ -9,11 +9,13 @@
     <link rel="stylesheet" type="text/css" href="<c:url value="/resources/Css/style.css" />" />
     <link rel="stylesheet" type="text/css" href="<c:url value="/resources/Css/datepicker.css" />" />
 
-    <script type="text/javascript" src="<c:url value="/resources/Js/jquery.js" />"></script>
+    <%--<script type="text/javascript" src="<c:url value="/resources/Js/jquery.js" />"></script>--%>
+    <script type="text/javascript" src="<c:url value="/resources/Js/jquery-1.7.1.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/Js/bootstrap.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/Js/ckform.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/Js/common.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/Js/bootstrap-datepicker.js" />"></script>
+    <script type="text/javascript" src="<c:url value="/resources/Js/bootstrap-typeahead.js" />"></script>
 
  
 
@@ -36,6 +38,25 @@
 
 
     </style>
+
+    <script type="text/javascript">
+        $().ready(function() {
+            var vehicle_brand_json = ${vehicle_brand_json};
+            $('#brand').typeahead({
+                source: vehicle_brand_json
+            });
+
+            var vehicle_model_json = ${vehicle_model_json};
+            $('#model').typeahead({
+                source: vehicle_model_json
+            });
+
+            var vehicle_licene_plate_json = ${vehicle_licene_plate_json};
+            $('#license_plate').typeahead({
+                source: vehicle_licene_plate_json
+            });
+        })
+    </script>
 </head>
 <body>
     <form class="definewidth m20">
@@ -52,15 +73,15 @@
             </tr>
             <tr>
                 <td class="tableleft">品牌</td>
-                <td><input type="text" name="brand" id="brand" required="true"/></td>
+                <td><input type="text" data-provide="typeahead" name="brand" id="brand" required="true"/></td>
                 <td class="tableleft">车型</td>
-                <td><input type="text" name="model" id="model" required="true"/></td>
+                <td><input type="text" data-provide="typeahead" name="model" id="model" required="true"/></td>
                 <td class="tableleft">颜色</td>
                 <td><input type="text" name="color" id="color" required="true"/></td>
             </tr>
             <tr>
                 <td class="tableleft">车牌号</td>
-                <td><input type="text" name="license_plate" id="license_plate" required="true"/></td>
+                <td><input type="text" data-provide="typeahead" name="license_plate" id="license_plate" required="true"/></td>
                 <td class="tableleft">车架号</td>
                 <td><input type="text" name="carframe_no" id="carframe_no" required="true"/></td>
                 <td width="10%" class="tableleft">发动机号</td>

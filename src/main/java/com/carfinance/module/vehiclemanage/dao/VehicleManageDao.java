@@ -43,37 +43,37 @@ public class VehicleManageDao extends BaseJdbcDaoImpl {
         }
         if(brand != null && !"".equals(brand.trim())) {
             sql = sql + " and brand like ? ";
-            param.add("%"+brand+"%");
+            param.add("%"+brand.trim()+"%");
         }
         if(vehicle_model != null && !"".equals(vehicle_model.trim())) {
             sql = sql + " and model like ? ";
-            param.add("%"+vehicle_model+"%");
+            param.add("%"+vehicle_model.trim()+"%");
         }
         if(license_plate != null && !"".equals(license_plate.trim())) {
-            sql = sql + " and license_plate = ? ";
-            param.add(license_plate);
+            sql = sql + " and license_plate like ? ";
+            param.add("%"+license_plate.trim()+"%");
         }
         if(gps != null && !"".equals(gps.trim())) {
             sql = sql + " and gps = ? ";
             param.add(gps);
         }
-        if(km_begin != null && !"".equals(km_begin.trim()) && km_end != null && !"".equals(km_end)) {
-            sql = sql + " and km between ? and ? ";
-            param.add(km_begin);
-            param.add(km_end);
-        } else {
-            if(km_begin != null && !"".equals(km_begin.trim())) {
-                sql = sql + " and km > ? ";
-                param.add(km_begin);
-            }
-            if(km_end != null && !"".equals(km_end)) {
-                sql = sql + " and km < ? ";
-                param.add(km_end);
-            }
-        }
+//        if(km_begin != null && !"".equals(km_begin.trim()) && km_end != null && !"".equals(km_end)) {
+//            sql = sql + " and km between ? and ? ";
+//            param.add(km_begin);
+//            param.add(km_end);
+//        } else {
+//            if(km_begin != null && !"".equals(km_begin.trim())) {
+//                sql = sql + " and km > ? ";
+//                param.add(km_begin);
+//            }
+//            if(km_end != null && !"".equals(km_end)) {
+//                sql = sql + " and km < ? ";
+//                param.add(km_end);
+//            }
+//        }
         if(lease_status != null && !"".equals(lease_status.trim())) {
             sql = sql + " and lease_status = ? ";
-            param.add(lease_status);
+            param.add(lease_status.trim());
         }
 
         Object[] o = new Object[param.size()];
@@ -103,37 +103,37 @@ public class VehicleManageDao extends BaseJdbcDaoImpl {
         }
         if(brand != null && !"".equals(brand.trim())) {
             sql = sql + " and brand like ? ";
-            param.add("%"+brand+"%");
+            param.add("%"+brand.trim()+"%");
         }
         if(vehicle_model != null && !"".equals(vehicle_model.trim())) {
             sql = sql + " and model like ? ";
-            param.add("%"+vehicle_model+"%");
+            param.add("%"+vehicle_model.trim()+"%");
         }
         if(license_plate != null && !"".equals(license_plate.trim())) {
-            sql = sql + " and license_plate = ? ";
-            param.add(license_plate);
+            sql = sql + " and license_plate like ? ";
+            param.add("%"+license_plate.trim()+"%");
         }
         if(gps != null && !"".equals(gps.trim())) {
             sql = sql + " and gps = ? ";
             param.add(gps);
         }
-        if(km_begin != null && !"".equals(km_begin.trim()) && km_end != null && !"".equals(km_end)) {
-            sql = sql + " and km between ? and ? ";
-            param.add(km_begin);
-            param.add(km_end);
-        } else {
-            if(km_begin != null && !"".equals(km_begin.trim())) {
-                sql = sql + " and km > ? ";
-                param.add(km_begin);
-            }
-            if(km_end != null && !"".equals(km_end)) {
-                sql = sql + " and km < ? ";
-                param.add(km_end);
-            }
-        }
+//        if(km_begin != null && !"".equals(km_begin.trim()) && km_end != null && !"".equals(km_end)) {
+//            sql = sql + " and km between ? and ? ";
+//            param.add(km_begin);
+//            param.add(km_end);
+//        } else {
+//            if(km_begin != null && !"".equals(km_begin.trim())) {
+//                sql = sql + " and km > ? ";
+//                param.add(km_begin);
+//            }
+//            if(km_end != null && !"".equals(km_end)) {
+//                sql = sql + " and km < ? ";
+//                param.add(km_end);
+//            }
+//        }
         if(lease_status != null && !"".equals(lease_status.trim())) {
             sql = sql + " and lease_status = ? ";
-            param.add(lease_status);
+            param.add(lease_status.trim());
         }
         sql = sql + " order by id desc limit ?,?";
         param.add(start);
