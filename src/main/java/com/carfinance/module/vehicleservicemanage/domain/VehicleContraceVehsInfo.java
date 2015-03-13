@@ -15,11 +15,20 @@ public class VehicleContraceVehsInfo implements Serializable{
     private int isother;
     private long driving_user_id;
     private String driving_user_name;
+    private String driving_user_license_no;
     private double vehicle_price;
     private long create_by;
     private Date create_at;
     private long update_by;
     private Date update_at;
+
+    public String getDriving_user_license_no() {
+        return driving_user_license_no;
+    }
+
+    public void setDriving_user_license_no(String driving_user_license_no) {
+        this.driving_user_license_no = driving_user_license_no;
+    }
 
     public long getVehicle_id() {
         return vehicle_id;

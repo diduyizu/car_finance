@@ -91,9 +91,9 @@ public class PeopleManageDao extends BaseJdbcDaoImpl {
      * @param create_at
      * @return
      */
-    public int inertUser(long userid , String login_name , String login_pwd , String user_name , String nick_name , long create_by , String create_at , String employee_id) {
-        String sql = "insert into users (user_id , login_name , login_pwd , user_name , nick_name , create_by , create_at , employee_id) values (?,?,?,?,?,?,?,?)";
-        Object[] o = new Object[] { userid , login_name , login_pwd , user_name , nick_name , create_by , create_at , employee_id };
+    public int inertUser(long userid , String login_name , String login_pwd , String user_name , String nick_name , long create_by , String create_at , String employee_id , String driver_license_no) {
+        String sql = "insert into users (user_id , login_name , login_pwd , user_name , nick_name , create_by , create_at , employee_id , driver_license_no) values (?,?,?,?,?,?,?,?,?)";
+        Object[] o = new Object[] { userid , login_name , login_pwd , user_name , nick_name , create_by , create_at , employee_id , driver_license_no };
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().update(sql, o);
     }

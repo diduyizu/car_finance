@@ -7,6 +7,7 @@ public class VehicleContraceInfo implements Serializable{
 	private static final long serialVersionUID = -1450900287435164266L;
 	
 	private long id;
+    private String contrace_no;
     private String customer_name;
     private String customer_type;
     private String customer_dn;
@@ -33,6 +34,14 @@ public class VehicleContraceInfo implements Serializable{
     private String use_begin;
     private String use_end;
     private int isovertop;//是否超额，如果超额，需要市门店经理及以上审核
+
+    public String getContrace_no() {
+        return contrace_no;
+    }
+
+    public void setContrace_no(String contrace_no) {
+        this.contrace_no = contrace_no;
+    }
 
     public int getIsovertop() {
         return isovertop;

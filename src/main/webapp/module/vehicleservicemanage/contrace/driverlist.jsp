@@ -44,6 +44,7 @@
             <th>配驾员id</th>
             <th>配驾员工号</th>
             <th>配驾员姓名</th>
+            <th>配驾员驾照</th>
             <th>操作</th>
         </tr>
     </thead>
@@ -52,6 +53,7 @@
             <td>${driver.user_id}</td>
             <td>${driver.employee_id}</td>
             <td>${driver.user_name}</td>
+            <td>${driver.driver_license_no}</td>
             <td>
                 <button type="button" class="btn btn-success addpeijia" value="${driver.user_id}">选择</button>
             </td>

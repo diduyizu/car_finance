@@ -11,6 +11,7 @@ public class VehicleContraceInfoRowMapper implements RowMapper<VehicleContraceIn
         VehicleContraceInfo vehicleContraceInfo=new VehicleContraceInfo();
 
         vehicleContraceInfo.setId(rs.getLong("id"));
+        vehicleContraceInfo.setContrace_no(rs.getString("contrace_no"));
         vehicleContraceInfo.setCustomer_name(rs.getString("customer_name"));
         vehicleContraceInfo.setCustomer_type(rs.getString("customer_type"));
         vehicleContraceInfo.setCustomer_dn(rs.getString("customer_dn"));

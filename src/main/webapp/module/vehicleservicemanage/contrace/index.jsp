@@ -72,7 +72,7 @@
     </thead>
     <c:forEach var="contrace" items="${contrace_list}" varStatus="status">
         <tr>
-            <td><a href="${ctx}/vehicleservice/contrace/vech/list?contrace_id=${contrace.id}">${contrace.id}</a></td>
+            <td><a href="${ctx}/vehicleservice/contrace/vech/list?contrace_id=${contrace.id}">${contrace.contrace_no}</a></td>
             <td>${contrace.customer_name}</td>
             <td>${contrace.customer_type}</td>
             <td>${contrace.customer_dn}</td>

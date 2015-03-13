@@ -634,7 +634,7 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
     }
 
     public List<UserDriver> getcontraceVechDriverList(long original_org , int start , int size) {
-        String sql = "select a.user_id , a.user_name , a.employee_id , a.driver_status " +
+        String sql = "select a.user_id , a.user_name , a.employee_id , a.driver_status , a.driver_license_no " +
                 "from users a , user_role b " +
                 "where a.user_id = b.user_id and b.org_id = ? and a.driver_status = 0 and b.role_id = 20007 ";
         List<Object> param = new ArrayList<Object>();

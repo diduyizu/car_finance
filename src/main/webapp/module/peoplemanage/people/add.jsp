@@ -55,6 +55,10 @@
                 <td><input type="text" name="employee_id" id="employee_id" value=""/></td>
             </tr>
             <tr>
+                <td class="tableleft">驾驶证号</td>
+                <td><input type="text" name="driver_license_no" id="driver_license_no" placeholder="配驾员必填"/></td>
+            </tr>
+            <tr>
                 <td class="tableleft">昵称</td>
                 <td><input type="text" name="nice_name" id="nice_name"/></td>
             </tr>
@@ -105,6 +109,8 @@
             var nice_name = $.trim($('#nice_name').val());
             var org_id = $('#org_id').val();
             var role_id = $('#role_id').val();
+            var driver_license_no = $('#driver_license_no').val();
+
 
             if(login_name == '') {
                 alert("请输入登录名");
@@ -122,7 +128,7 @@
             $.ajax({
                 url:"${ctx}/people/people/doadd",
                 type: "post",
-                data:{login_name:login_name,login_pwd:login_pwd,user_name:user_name,nick_name:nice_name,org_id:org_id,role_id:role_id,employee_id:employee_id},
+                data:{login_name:login_name,login_pwd:login_pwd,user_name:user_name,nick_name:nice_name,org_id:org_id,role_id:role_id,employee_id:employee_id,driver_license_no:driver_license_no},
 //                dataType:"json",
                 success:function(data){
                     if(data == 1){

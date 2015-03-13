@@ -10,6 +10,15 @@ public class UserDriver implements Serializable{
     private String user_name;
     private String employee_id;
     private int status;
+    private String driver_license_no;
+
+    public String getDriver_license_no() {
+        return driver_license_no;
+    }
+
+    public void setDriver_license_no(String driver_license_no) {
+        this.driver_license_no = driver_license_no;
+    }
 
     public static long getSerialVersionUID() {
         return serialVersionUID;

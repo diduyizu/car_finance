@@ -148,11 +148,12 @@ public class PeopleManageController {
         String user_name = request.getParameter("user_name");
         String nick_name = request.getParameter("nick_name");
         String employee_id = request.getParameter("employee_id");//员工工号/id
+        String driver_license_no = request.getParameter("driver_license_no");//员工工号/id
 
         String org_id = request.getParameter("org_id");
         String role_id = request.getParameter("role_id");
 
-        return this.peopleManageService.peopleDoAdd(user.getUser_id(), login_name, login_pwd, user_name, nick_name , org_id , role_id , employee_id);
+        return this.peopleManageService.peopleDoAdd(user.getUser_id(), login_name, login_pwd, user_name, nick_name , org_id , role_id , employee_id , driver_license_no);
     }
 
     /**

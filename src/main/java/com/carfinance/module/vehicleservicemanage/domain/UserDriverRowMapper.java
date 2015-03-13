@@ -13,6 +13,7 @@ public class UserDriverRowMapper implements RowMapper<UserDriver>{
         userDriver.setUser_name(rs.getString("user_name"));
         userDriver.setEmployee_id(rs.getString("employee_id"));
         userDriver.setStatus(rs.getInt("driver_status"));
+        userDriver.setDriver_license_no(rs.getString("driver_license_no"));
 
         return userDriver;
 	}

@@ -18,6 +18,7 @@ public class VehicleContraceVehsInfoRowMapper implements RowMapper<VehicleContra
         vehicleContraceVehsInfo.setIsother(rs.getInt("isother"));
         vehicleContraceVehsInfo.setDriving_user_id(rs.getLong("driving_user_id"));
         vehicleContraceVehsInfo.setDriving_user_name(rs.getString("driving_user_name"));
+        vehicleContraceVehsInfo.setDriving_user_license_no(rs.getString("driving_user_license_no"));
         vehicleContraceVehsInfo.setVehicle_price(rs.getDouble("vehicle_price"));
         vehicleContraceVehsInfo.setCreate_by(rs.getLong("create_by"));
         vehicleContraceVehsInfo.setCreate_at(rs.getDate("create_at"));
