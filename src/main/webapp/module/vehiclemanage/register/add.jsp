@@ -1,3 +1,4 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/resources/jstl_contexpath.jsp"%>
 <!DOCTYPE html>
@@ -16,6 +17,8 @@
     <script type="text/javascript" src="<c:url value="/resources/Js/common.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/Js/bootstrap-datepicker.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/Js/bootstrap-typeahead.js" />"></script>
+    <script type="text/javascript" src="<c:url value="/resources/Js/jquery.validate.min.js" />"></script>
+    <script type="text/javascript" src="<c:url value="/resources/Js/validation-init.js" />"></script>
 
  
 
@@ -59,7 +62,8 @@
     </script>
 </head>
 <body>
-    <form class="definewidth m20">
+    <%--<form class="definewidth m20">--%>
+    <form class="cmxform form-horizontal">
         <table class="table table-bordered table-hover definewidth m10">
             <tr>
                 <td width="10%" class="tableleft">所属门店</td>
@@ -73,58 +77,58 @@
             </tr>
             <tr>
                 <td class="tableleft">品牌</td>
-                <td><input type="text" data-provide="typeahead" name="brand" id="brand" required="true"/></td>
+                <td><input type="text" data-provide="typeahead" name="brand" id="brand" placeholder="必填" required /></td>
                 <td class="tableleft">车型</td>
-                <td><input type="text" data-provide="typeahead" name="model" id="model" required="true"/></td>
+                <td><input type="text" data-provide="typeahead" name="model" id="model" placeholder="必填" required="true"/></td>
                 <td class="tableleft">颜色</td>
-                <td><input type="text" name="color" id="color" required="true"/></td>
+                <td><input type="text" name="color" id="color" placeholder="必填" required="true"/></td>
             </tr>
             <tr>
                 <td class="tableleft">车牌号</td>
-                <td><input type="text" data-provide="typeahead" name="license_plate" id="license_plate" required="true"/></td>
+                <td><input type="text" data-provide="typeahead" name="license_plate" id="license_plate" placeholder="必填" required="true"/></td>
                 <td class="tableleft">车架号</td>
-                <td><input type="text" name="carframe_no" id="carframe_no" required="true"/></td>
+                <td><input type="text" name="carframe_no" id="carframe_no" placeholder="必填" required="true"/></td>
                 <td width="10%" class="tableleft">发动机号</td>
-                <td><input type="text" name="engine_no" id="engine_no" required="true"/></td>
+                <td><input type="text" name="engine_no" id="engine_no" placeholder="必填" required="true"/></td>
             </tr>
             <tr>
                 <td class="tableleft">购买日期</td>
                 <td>
                     <div class="input-append date" id="buy_at" data-date-format="yyyy-mm-dd">
-                        <input class="span2" size="16" type="text" id="buy_at_date" name="buy_at" required="true" readonly>
+                        <input class="span2" size="16" type="text" id="buy_at_date" name="buy_at" required="true" placeholder="必填" readonly>
                         <span class="add-on"><i class="icon-th"></i></span>
                     </div>
                 </td>
                 <td class="tableleft">上牌登记日期</td>
                 <td>
                     <div class="input-append date" id="card_at" data-date-format="yyyy-mm-dd">
-                        <input class="span2" size="16" type="text" id="card_at_date" name="card_at" required="true" readonly>
+                        <input class="span2" size="16" type="text" id="card_at_date" name="card_at" required="true" placeholder="必填" readonly>
                         <span class="add-on"><i class="icon-th"></i></span>
                     </div>
                 </td>
                 <td class="tableleft">市场指导价</td>
-                <td><input type="text" name="guide_price" id="guide_price" required="true"/></td>
+                <td><input type="text" name="guide_price" id="guide_price" placeholder="必填" required="true"/></td>
             </tr>
             <tr>
                 <td class="tableleft">供应商名称</td>
-                <td><input type="text" name="supplier" id="supplier" required="true"/></td>
+                <td><input type="text" name="supplier" id="supplier" /></td>
                 <td width="10%" class="tableleft">年审日期</td>
                 <td>
                     <div class="input-append date" id="limited_at" data-date-format="yyyy-mm-dd">
-                        <input class="span2" size="16" type="text" id="limited_at_date" name="limited_at" required="true" readonly>
+                        <input class="span2" size="16" type="text" id="limited_at_date" name="limited_at" required="true" placeholder="必填" readonly>
                         <span class="add-on"><i class="icon-th"></i></span>
                     </div>
                 </td>
                 <td class="tableleft">车购价</td>
-                <td><input type="text" name="vehicle_price" id="vehicle_price" required="true"/></td>
+                <td><input type="text" name="vehicle_price" id="vehicle_price" placeholder="必填" required="true"/></td>
             </tr>
             <tr>
                 <td class="tableleft">交强险</td>
-                <td><input type="text" name="strong_insurance" id="strong_insurance" required="true"/></td>
+                <td><input type="text" name="strong_insurance" id="strong_insurance" placeholder="必填" required="true"/></td>
                 <td class="tableleft">交强险到期日期</td>
                 <td>
                     <div class="input-append date" id="strong_insurance_expire_at" data-date-format="yyyy-mm-dd">
-                        <input class="span2" size="16" type="text" id="strong_insurance_expire_at_date" name="strong_insurance_expire_at" required="true" readonly>
+                        <input class="span2" size="16" type="text" id="strong_insurance_expire_at_date" name="strong_insurance_expire_at" placeholder="必填" required="true" readonly>
                         <span class="add-on"><i class="icon-th"></i></span>
                     </div>
                 </td>
@@ -140,32 +144,32 @@
             </tr>
             <tr>
                 <td class="tableleft">商业险</td>
-                <td><input type="text" name="business_insurance" id="business_insurance" required="true"/></td>
+                <td><input type="text" name="business_insurance" id="business_insurance" placeholder="必填" required="true"/></td>
                 <td class="tableleft">商业险到期日期</td>
                 <td>
                     <div class="input-append date" id="business_insurance_expire_at" data-date-format="yyyy-mm-dd">
-                        <input class="span2" size="16" type="text" id="business_insurance_expire_at_date" name="business_insurance_expire_at" required="true" readonly>
+                        <input class="span2" size="16" type="text" id="business_insurance_expire_at_date" name="business_insurance_expire_at" placeholder="必填" required="true" readonly>
                         <span class="add-on"><i class="icon-th"></i></span>
                     </div>
                 </td>
                 <td class="tableleft">贷款银行</td>
-                <td><input type="text" name="loan_bank" id="loan_bank" required="true"/></td>
+                <td><input type="text" name="loan_bank" id="loan_bank"/></td>
             </tr>
             <tr>
                 <td class="tableleft">车购税</td>
-                <td><input type="text" name="vehicle_tax" id="vehicle_tax" required="true"/></td>
+                <td><input type="text" name="vehicle_tax" id="vehicle_tax" placeholder="必填" required="true"/></td>
                 <td class="tableleft">车船税</td>
-                <td><input type="text" name="vehicle_vessel_tax" id="vehicle_vessel_tax" required="true"/></td>
+                <td><input type="text" name="vehicle_vessel_tax" id="vehicle_vessel_tax" placeholder="必填" required="true"/></td>
                 <td class="tableleft">保险公司</td>
-                <td><input type="text" name="insurance_company" id="insurance_company" required="true"/></td>
+                <td><input type="text" name="insurance_company" id="insurance_company" placeholder="必填" required="true"/></td>
             </tr>
             <tr>
                 <td width="10%" class="tableleft">公里数</td>
-                <td><input type="text" name="km" id="km" required="true"/></td>
+                <td><input type="text" name="km" id="km" placeholder="必填" required="true"/></td>
                 <td class="tableleft">保养剩余公里数</td>
-                <td><input type="text" name="maintian_on_km" id="maintian_on_km" required="true"/></td>
+                <td><input type="text" name="maintian_on_km" id="maintian_on_km" placeholder="必填" required="true"/></td>
                 <td class="tableleft">下次保养公里数</td>
-                <td><input type="text" name="next_main_km" id="next_main_km" required="true"/></td>
+                <td><input type="text" name="next_main_km" id="next_main_km" placeholder="必填" required="true"/></td>
             </tr>
             <tr>
                 <td class="tableleft">GPS状态</td>
@@ -204,9 +208,9 @@
                     </select>
                 </td>
                 <td class="tableleft">存货编码</td>
-                <td><input type="text" name="inventory_no" id="inventory_no" required="true"/></td>
+                <td><input type="text" name="inventory_no" id="inventory_no" /></td>
                 <td class="tableleft">检验单</td>
-                <td><input type="text" name="check_list" id="check_list" required="true"/></td>
+                <td><input type="text" name="check_list" id="check_list" /></td>
             </tr>
             <tr>
                 <td class="tableleft">登记证书</td>

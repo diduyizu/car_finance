@@ -52,14 +52,14 @@
                 <td class="tableleft">违章时间</td>
                 <td>
                     <div class="input-append date" id="peccancy_at" data-date-format="yyyy-mm-dd">
-                        <input class="span2" size="16" type="text" id="peccancy_at_date" name="peccancy_at_date" required="true" readonly>
+                        <input class="span2" size="16" type="text" id="peccancy_at_date" name="peccancy_at_date" placeholder="必填" required="true" readonly>
                         <span class="add-on"><i class="icon-th"></i></span>
                     </div>
                 </td>
                 <td class="tableleft">违章地点</td>
-                <td><input type="text" name="peccancy_place" id="peccancy_place"/></td>
+                <td><input type="text" name="peccancy_place" id="peccancy_place" placeholder="必填" required/></td>
                 <td class="tableleft">违章原因</td>
-                <td><input type="text" name="peccancy_reason" id="peccancy_reason"/></td>
+                <td><input type="text" name="peccancy_reason" id="peccancy_reason" placeholder="必填" required/></td>
             </tr>
             <tr>
                 <td class="tableleft">罚款金额</td>

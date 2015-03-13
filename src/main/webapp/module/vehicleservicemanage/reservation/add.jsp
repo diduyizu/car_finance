@@ -63,29 +63,29 @@
             </tr>
             <tr>
                 <td class="tableleft">客户姓名</td>
-                <td><input type="text" data-provide="typeahead" name="customer_name" id="customer_name" required="true"/></td>
+                <td><input type="text" data-provide="typeahead" name="customer_name" id="customer_name" placeholder="必填" required="true"/></td>
                 <td class="tableleft">客户手机</td>
-                <td><input type="text" name="customer_dn" id="customer_dn" required="true"/></td>
+                <td><input type="text" name="customer_dn" id="customer_dn" placeholder="必填" required="true"/></td>
             </tr>
             <tr>
                 <td class="tableleft">用车开始时间</td>
                 <td>
-                    <input class="form_datetime" size="16" type="text" id="use_begin_date" name="use_begin_date" value="" required="true" readonly>
+                    <input class="form_datetime" size="16" type="text" id="use_begin_date" name="use_begin_date" value="" placeholder="必填" required="true" readonly>
                 </td>
                 <td class="tableleft">用车结束时间</td>
                 <td>
-                    <input class="form_datetime" size="16" type="text" id="use_end_date" name="use_end_date" value="" required="true" readonly>
+                    <input class="form_datetime" size="16" type="text" id="use_end_date" name="use_end_date" value="" placeholder="必填" required="true" readonly>
                 </td>
             </tr>
             <tr>
                 <td class="tableleft">业务员id</td>
-                <td><input type="text" name="employee_id" id="employee_id" value="0" required="true"/></td>
+                <td><input type="text" name="employee_id" id="employee_id" value="0" /></td>
                 <td class="tableleft">业务员姓名</td>
-                <td><input type="text" name="employee_name" id="employee_name" required="true"/></td>
+                <td><input type="text" name="employee_name" id="employee_name" /></td>
             </tr>
             <tr>
                 <td class="tableleft">描述</td>
-                <td colspan="3"><textarea id="remark" rows="6" style="margin: 0px 0px 10px; width: 766px; height: 140px;" ></textarea></td>
+                <td colspan="3"><textarea id="remark" rows="6" placeholder="备注、描述，填写客户所需车辆型号、价格、是否配驾、是否自理油费等信息" style="margin: 0px 0px 10px; width: 766px; height: 140px;" ></textarea></td>
             </tr>
             <tr>
                 <td class="tableleft"></td>

@@ -40,15 +40,15 @@
         <table class="table table-bordered table-hover definewidth m10">
             <tr>
                 <td width="10%" class="tableleft">登录名</td>
-                <td><input type="text" name="login_name" id="login_name" required="true"/></td>
+                <td><input type="text" name="login_name" id="login_name" placeholder="必填" required="true"/></td>
             </tr>
             <tr>
                 <td class="tableleft">密码</td>
-                <td><input type="password" name="login_pwd" id="login_pwd" required="true"/></td>
+                <td><input type="password" name="login_pwd" id="login_pwd" placeholder="必填" required="true"/></td>
             </tr>
             <tr>
                 <td class="tableleft">真实姓名</td>
-                <td><input type="text" name="user_name" id="user_name" required="true"/></td>
+                <td><input type="text" name="user_name" id="user_name" placeholder="必填" required="true"/></td>
             </tr>
             <tr>
                 <td class="tableleft">员工工号/id</td>

@@ -42,7 +42,7 @@
         <table class="table table-bordered table-hover definewidth m10">
             <tr>
                 <td width="10%" class="tableleft">姓名</td>
-                <td><input type="text" name="customer_name" id="customer_name" required="true"/></td>
+                <td><input type="text" name="customer_name" id="customer_name" placeholder="必填" required="true"/></td>
             </tr>
             <tr>
                 <td class="tableleft">证件类型</td>
@@ -57,15 +57,15 @@
             </tr>
             <tr>
                 <td class="tableleft">证件号码</td>
-                <td><input type="text" name="certificate_no" id="certificate_no" required="true"/></td>
+                <td><input type="text" name="certificate_no" id="certificate_no" placeholder="必填" required="true"/></td>
             </tr>
             <tr>
                 <td class="tableleft">手机号</td>
-                <td><input type="text" name="customer_dn" id="customer_dn" required="true"/></td>
+                <td><input type="text" name="customer_dn" id="customer_dn" placeholder="必填" required="true"/></td>
             </tr>
             <tr>
                 <td class="tableleft">邮箱</td>
-                <td><input type="text" name="customer_email" id="customer_email" required="true"/></td>
+                <td><input type="text" name="customer_email" id="customer_email" /></td>
             </tr>
             <tr>
                 <td class="tableleft">客户类型</td>

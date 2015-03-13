@@ -52,20 +52,20 @@
                 <td class="tableleft">保养时间</td>
                 <td>
                     <div class="input-append date" id="maintain_at" data-date-format="yyyy-mm-dd">
-                        <input class="span2" size="16" type="text" id="maintain_at_date" name="maintain_at_date" required="true" readonly>
+                        <input class="span2" size="16" type="text" id="maintain_at_date" name="maintain_at_date" placeholder="必填" required="true" readonly>
                         <span class="add-on"><i class="icon-th"></i></span>
                     </div>
                 </td>
                 <td class="tableleft">保养内容</td>
-                <td><input type="text" name="maintain_content" id="maintain_content" required/></td>
+                <td><input type="text" name="maintain_content" id="maintain_content" placeholder="必填" required/></td>
                 <td class="tableleft">保养金额</td>
-                <td><input type="text" name="maintain_price" id="maintain_price" required/></td>
+                <td><input type="text" name="maintain_price" id="maintain_price" placeholder="必填" required/></td>
             </tr>
             <tr>
                 <td class="tableleft">公里数</td>
-                <td><input type="text" name="current_km" id="current_km" required/></td>
+                <td><input type="text" name="current_km" id="current_km" placeholder="必填" required/></td>
                 <td class="tableleft">下次保养公里数</td>
-                <td colspan="3"><input type="text" name="next_maintain_km" id="next_maintain_km" required/></td>
+                <td colspan="3"><input type="text" name="next_maintain_km" id="next_maintain_km" placeholder="必填" required/></td>
             </tr>
             <tr>
                 <td class="tableleft">处理员工ID</td>

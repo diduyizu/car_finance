@@ -54,36 +54,36 @@
             </tr>
             <tr>
                 <td class="tableleft">保险公司</td>
-                <td><input type="text" name="insurance_company" id="insurance_company" required="true"/></td>
+                <td><input type="text" name="insurance_company" id="insurance_company" placeholder="必填" required="true"/></td>
             </tr>
             <tr>
                 <td class="tableleft">交强险</td>
-                <td><input type="text" name="strong_insurance" id="strong_insurance"/></td>
+                <td><input type="text" name="strong_insurance" id="strong_insurance" placeholder="必填" required/></td>
             </tr>
 
             <tr>
                 <td class="tableleft">车船税</td>
-                <td><input type="text" name="vehicle_vessel_tax" id="vehicle_vessel_tax"/></td>
+                <td><input type="text" name="vehicle_vessel_tax" id="vehicle_vessel_tax" placeholder="必填" required/></td>
             </tr>
             <tr>
                 <td class="tableleft">交强险到期日期</td>
                 <td>
                     <div class="input-append date" id="strong_insurance_expire_at" data-date-format="yyyy-mm-dd">
-                        <input class="span2" size="16" type="text" id="strong_insurance_expire_at_date" name="strong_insurance_expire_at" required="true" readonly>
+                        <input class="span2" size="16" type="text" id="strong_insurance_expire_at_date" name="strong_insurance_expire_at" placeholder="必填" required="true" readonly>
                         <span class="add-on"><i class="icon-th"></i></span>
                     </div>
                 </td>
             </tr>
             <tr>
                 <td class="tableleft">商业险</td>
-                <td><input type="text" name="business_insurance" id="business_insurance"/></td>
+                <td><input type="text" name="business_insurance" id="business_insurance" placeholder="必填" required/></td>
             </tr>
 
             <tr>
                 <td class="tableleft">商业险到期日期</td>
                 <td>
                     <div class="input-append date" id="business_insurance_expire_at" data-date-format="yyyy-mm-dd">
-                        <input class="span2" size="16" type="text" id="business_insurance_expire_at_date" name="business_insurance_expire_at" required="true" readonly>
+                        <input class="span2" size="16" type="text" id="business_insurance_expire_at_date" name="business_insurance_expire_at" placeholder="必填" required="true" readonly>
                         <span class="add-on"><i class="icon-th"></i></span>
                     </div>
                 </td>

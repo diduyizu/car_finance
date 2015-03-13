@@ -45,7 +45,7 @@
                 </tr>
                 <tr>
                     <td class="tableleft">真实姓名</td>
-                    <td><input type="text" name="user_name" id="user_name" value="${edited_user.user_name}"/></td>
+                    <td><input type="text" name="user_name" id="user_name" placeholder="必填" value="${edited_user.user_name}"/></td>
                 </tr>
                 <tr>
                     <td class="tableleft"></td>

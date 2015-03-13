@@ -77,11 +77,11 @@
             </tr>
             <tr>
                 <td width="10%" class="tableleft">门店名称</td>
-                <td><input type="text" name="store_name" id="store_name" required="true"/></td>
+                <td><input type="text" name="store_name" id="store_name" placeholder="必填" required="true"/></td>
             </tr>
             <tr>
                 <td class="tableleft">门店地址</td>
-                <td><input type="text" name="store_address" id="store_address" required="true"/></td>
+                <td><input type="text" name="store_address" id="store_address" placeholder="必填" required="true"/></td>
             </tr>
             <tr>
                 <td class="tableleft"></td>
