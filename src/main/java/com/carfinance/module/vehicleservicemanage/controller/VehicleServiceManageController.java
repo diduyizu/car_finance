@@ -332,8 +332,23 @@ public class VehicleServiceManageController {
         String employee_name= request.getParameter("employee_name");
         String remark= request.getParameter("remark");
 
+        double daily_price = Double.valueOf(request.getParameter("daily_price"));
+        long daily_available_km = Long.valueOf(request.getParameter("daily_available_km"));
+        double over_km_price = Double.valueOf(request.getParameter("over_km_price"));
+        double over_hour_price = Double.valueOf(request.getParameter("over_hour_price"));
+        String month_price_str = request.getParameter("month_price");
+        double month_price = (month_price_str == null || "".equals(month_price_str.trim())) ? 0 : Double.valueOf(month_price_str.trim());
+        String month_available_km_str = request.getParameter("month_available_km");
+        long month_available_km = (month_available_km_str == null || "".equals(month_available_km_str.trim())) ? 0 : Long.valueOf(month_available_km_str.trim());
+        String monthly_day_date = request.getParameter("monthly_day_date");
+        double pre_payment = Double.valueOf(request.getParameter("pre_payment"));
+        double deposit = Double.valueOf(request.getParameter("deposit"));
+        double peccancy_deposit = Double.valueOf(request.getParameter("peccancy_deposit"));
+
         return this.vehicleServiceManageService.modifycontrace(contrace_id, original_org, customer_name, customer_type, customer_dn,
-               certificate_type, certificate_no, use_begin, use_end, employee_id, employee_name, remark, user.getUser_id());
+                certificate_type, certificate_no, use_begin, use_end, employee_id, employee_name, remark, user.getUser_id() ,
+                daily_price , daily_available_km , over_km_price , over_hour_price , month_price , month_available_km , monthly_day_date ,
+                pre_payment , deposit , peccancy_deposit);
     }
 
     /**

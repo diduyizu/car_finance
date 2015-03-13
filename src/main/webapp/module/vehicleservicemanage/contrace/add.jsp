@@ -17,6 +17,7 @@
     <script type="text/javascript" src="<c:url value="/resources/Js/ckform.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/Js/common.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/Js/bootstrap-typeahead.js" />"></script>
+    <script type="text/javascript" src="<c:url value="/resources/Js/bootstrap-datepicker.js" />"></script>
 
     <style type="text/css">
         body {
@@ -89,13 +90,48 @@
             <tr>
                 <td class="tableleft">用车开始时间</td>
                 <td>
-                    <input class="form_datetime" size="16" type="text" id="use_begin_date" name="use_begin_date" placeholder="必填" value="${vehicleReservationInfo.use_begin}" required="true" readonly>
+                    <input class="form_datetime" size="16" type="text" id="use_begin_date" name="use_begin_date" placeholder="必填" value="${vehicleReservationInfo.use_begin}" required="true">
                 </td>
                 <td class="tableleft">用车结束时间</td>
                 <td colspan="3">
-                    <input class="form_datetime" size="16" type="text" id="use_end_date" name="use_end_date" placeholder="必填" value="${vehicleReservationInfo.use_end}" required="true" readonly>
+                    <input class="form_datetime" size="16" type="text" id="use_end_date" name="use_end_date" placeholder="必填" value="${vehicleReservationInfo.use_end}" required="true">
                 </td>
             </tr>
+
+            <tr>
+                <td class="tableleft">日单价</td>
+                <td><input type="text" name="daily_price" id="daily_price" placeholder="必填" required="true"/></td>
+                <td class="tableleft">日公里数</td>
+                <td colspan="3"><input type="text" name="daily_available_km" id="daily_available_km" placeholder="必填" required="true"/></td>
+            </tr>
+            <tr>
+                <td class="tableleft">超公里金额</td>
+                <td><input type="text" name="over_km_price" id="over_km_price" placeholder="必填" required="true"/></td>
+                <td class="tableleft">超小时金额</td>
+                <td colspan="3"><input type="text" name="over_hour_price" id="over_hour_price" placeholder="必填" required="true"/></td>
+            </tr>
+            <tr>
+                <td class="tableleft">月结日</td>
+                <td>
+                    <div class="input-append date" id="monthly_day" data-date-format="yyyy-mm-dd">
+                        <input class="span2" size="16" type="text" id="monthly_day_date" name="monthly_day_date">
+                        <span class="add-on"><i class="icon-th"></i></span>
+                    </div>
+                </td>
+                <td class="tableleft">包月单价</td>
+                <td><input type="text" name="month_price" id="month_price" /></td>
+                <td class="tableleft">包月公里数</td>
+                <td><input type="text" name="month_available_km" id="month_available_km" /></td>
+            </tr>
+            <tr>
+                <td class="tableleft">预付款</td>
+                <td><input type="text" name="pre_payment" id="pre_payment" placeholder="必填" required="true"/></td>
+                <td class="tableleft">总押金</td>
+                <td><input type="text" name="deposit" id="deposit" placeholder="必填" required="true"/></td>
+                <td class="tableleft">违章押金</td>
+                <td><input type="text" name="peccancy_deposit" id="peccancy_deposit" placeholder="必填" required="true"/></td>
+            </tr>
+
             <tr>
                 <td class="tableleft">业务员id</td>
                 <td><input type="text" name="employee_id" id="employee_id" value="${vehicleReservationInfo.employee_id}"/></td>
@@ -121,26 +157,7 @@
 <script>
     $(function () {
         window.prettyPrint && prettyPrint();
-//        $('#use_begin').datetimepicker({
-//            format: 'yyyy-mm-dd hh:ii',
-//            language: 'zh-CN',
-//            pickDate: true,
-//            pickTime: true,
-//            hourStep: 1,
-//            minuteStep: 15,
-//            secondStep: 30,
-//            inputMask: true
-//        });
-//        $('#use_end').datetimepicker({
-//            format: 'yyyy-mm-dd hh:ii',
-//            language: 'en',
-//            pickDate: true,
-//            pickTime: true,
-//            hourStep: 1,
-//            minuteStep: 15,
-//            secondStep: 30,
-//            inputMask: true
-//        });
+        $('#monthly_day').datepicker();
 
         $('.form_datetime').datetimepicker({
             format: 'yyyy-mm-dd hh:ii',
@@ -172,12 +189,24 @@
             var employee_name=$.trim($('#employee_name').val());
             var remark=$.trim($('#remark').val());
 
+            var daily_price=$.trim($('#daily_price').val());
+            var daily_available_km=$.trim($('#daily_available_km').val());
+            var over_km_price=$.trim($('#over_km_price').val());
+            var over_hour_price=$.trim($('#over_hour_price').val());
+            var month_price=$.trim($('#month_price').val());
+            var month_available_km=$.trim($('#month_available_km').val());
+            var monthly_day_date=$.trim($('#monthly_day_date').val());
+            var pre_payment=$.trim($('#pre_payment').val());
+            var deposit=$.trim($('#deposit').val());
+            var peccancy_deposit=$.trim($('#peccancy_deposit').val());
+
             $.ajax({
                 url:"${ctx}/vehicleservice/contrace/domodify",
                 type: "post",
                 data:{contrace_id:contrace_id,original_org:original_org,customer_name:customer_name,customer_type:customer_type,customer_dn:customer_dn,
                     certificate_type:certificate_type,certificate_no:certificate_no,use_begin:use_begin_date,use_end:use_end_date,employee_id:employee_id,
-                    employee_name:employee_name,remark:remark},
+                    employee_name:employee_name,remark:remark,daily_price:daily_price,daily_available_km:daily_available_km,over_km_price:over_km_price,over_hour_price:over_hour_price,
+                    month_price:month_price,month_available_km:month_available_km,monthly_day_date:monthly_day_date,pre_payment:pre_payment,deposit:deposit,peccancy_deposit:peccancy_deposit},
                 success:function(data){
                     if(data > 0){
                         alert("成功");

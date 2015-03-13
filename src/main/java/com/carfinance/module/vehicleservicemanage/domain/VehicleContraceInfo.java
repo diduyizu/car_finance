@@ -35,6 +35,10 @@ public class VehicleContraceInfo implements Serializable{
     private String use_end;
     private int isovertop;//是否超额，如果超额，需要市门店经理及以上审核
 
+
+
+
+
     public String getContrace_no() {
         return contrace_no;
     }
