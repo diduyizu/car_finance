@@ -50,7 +50,7 @@
     </script>
 </head>
 <body>
-    <form class="definewidth m20">
+    <form class="cmxform form-horizontal">
         <table class="table table-bordered table-hover definewidth m10">
             <tr>
                 <td class="tableleft">所属门店</td>
