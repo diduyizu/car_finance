@@ -43,7 +43,7 @@
             <tr>
                 <td class="tableleft">车架号</td>
                 <td><input type="text" name="carframe_no" id="carframe_no" value="${vehicle_info.carframe_no}" readonly/></td>
-                <td width="10%" class="tableleft">发动机号</td>
+                <td class="tableleft">发动机号</td>
                 <td><input type="text" name="engine_no" id="engine_no" value="${vehicle_info.engine_no}" readonly/></td>
                 <td class="tableleft">车牌号</td>
                 <td><input type="text" name="license_plate" id="license_plate" value="${vehicle_info.license_plate}" readonly/></td>

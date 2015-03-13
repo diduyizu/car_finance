@@ -52,7 +52,7 @@
     <form class="definewidth m20">
         <table class="table table-bordered table-hover definewidth m10">
             <tr>
-                <td width="10%" class="tableleft">所属门店</td>
+                <td class="tableleft">所属门店</td>
                 <td colspan="3">
                     <select id="original_org" name="original_org">
                         <c:forEach var="org" items="${user_all_org_list}" varStatus="status">

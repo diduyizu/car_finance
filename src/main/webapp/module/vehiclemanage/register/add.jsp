@@ -66,7 +66,7 @@
     <form class="cmxform form-horizontal">
         <table class="table table-bordered table-hover definewidth m10">
             <tr>
-                <td width="10%" class="tableleft">所属门店</td>
+                <td class="tableleft">所属门店</td>
                 <td>
                     <select id="original_org" name="original_org">
                         <c:forEach var="org" items="${user_all_org_list}" varStatus="status">
@@ -88,7 +88,7 @@
                 <td><input type="text" data-provide="typeahead" name="license_plate" id="license_plate" placeholder="必填" required="true"/></td>
                 <td class="tableleft">车架号</td>
                 <td><input type="text" name="carframe_no" id="carframe_no" placeholder="必填" required="true"/></td>
-                <td width="10%" class="tableleft">发动机号</td>
+                <td class="tableleft">发动机号</td>
                 <td><input type="text" name="engine_no" id="engine_no" placeholder="必填" required="true"/></td>
             </tr>
             <tr>
@@ -112,7 +112,7 @@
             <tr>
                 <td class="tableleft">供应商名称</td>
                 <td><input type="text" name="supplier" id="supplier" /></td>
-                <td width="10%" class="tableleft">年审日期</td>
+                <td class="tableleft">年审日期</td>
                 <td>
                     <div class="input-append date" id="limited_at" data-date-format="yyyy-mm-dd">
                         <input class="span2" size="16" type="text" id="limited_at_date" name="limited_at" required="true" placeholder="必填" readonly>
@@ -164,7 +164,7 @@
                 <td><input type="text" name="insurance_company" id="insurance_company" placeholder="必填" required="true"/></td>
             </tr>
             <tr>
-                <td width="10%" class="tableleft">公里数</td>
+                <td class="tableleft">公里数</td>
                 <td><input type="text" name="km" id="km" placeholder="必填" required="true"/></td>
                 <td class="tableleft">保养剩余公里数</td>
                 <td><input type="text" name="maintian_on_km" id="maintian_on_km" placeholder="必填" required="true"/></td>
@@ -180,7 +180,7 @@
                         <option value="未安装">未安装</option>
                     </select>
                 </td>
-                <td width="10%" class="tableleft">当前所在城市</td>
+                <td class="tableleft">当前所在城市</td>
                 <td>
                     <select id="current_city" name="current_city">
                         <c:forEach var="city" items="${city_list}" varStatus="status">
@@ -221,7 +221,7 @@
                 <td><input type="text" name="consistency_cer" id="consistency_cer" /></td>
             </tr>
             <tr>
-                <td width="10%" class="tableleft">完税证明/小本</td>
+                <td class="tableleft">完税证明/小本</td>
                 <td><input type="text" name="duty_paid_proof" id="duty_paid_proof" /></td>
                 <td class="tableleft">记录</td>
                 <td><input type="text" name="record" id="record" /></td>

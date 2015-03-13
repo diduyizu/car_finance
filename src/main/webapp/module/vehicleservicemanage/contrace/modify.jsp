@@ -7,6 +7,7 @@
     <link rel="stylesheet" type="text/css" href="<c:url value="/resources/Css/bootstrap.min.css" />" />
     <link rel="stylesheet" type="text/css" href="<c:url value="/resources/Css/bootstrap-responsive.css" />" />
     <link rel="stylesheet" type="text/css" href="<c:url value="/resources/Css/datetimepicker.css" />" />
+    <link rel="stylesheet" type="text/css" href="<c:url value="/resources/Css/datepicker.css" />" />
     <link rel="stylesheet" type="text/css" href="<c:url value="/resources/Css/style.css" />" />
 
     <%--<script type="text/javascript" src="<c:url value="/resources/Js/jquery.js" />"></script>--%>

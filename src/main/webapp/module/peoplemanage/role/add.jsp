@@ -37,7 +37,7 @@
 <form action="index.html" method="post" class="definewidth m20">
     <table class="table table-bordered table-hover definewidth m10">
         <tr>
-            <td width="10%" class="tableleft">角色名称</td>
+            <td class="tableleft">角色名称</td>
             <td><input type="text" name="title"/></td>
         </tr>
         <tr>

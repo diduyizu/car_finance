@@ -45,7 +45,7 @@
                 <td><input type="text" name="carframe_no" id="carframe_no" value="${vehicle_peccancy.carframe_no}" readonly/></td>
             </tr>
             <tr>
-                <td width="10%" class="tableleft">发动机号</td>
+                <td class="tableleft">发动机号</td>
                 <td><input type="text" name="engine_no" id="engine_no" value="${vehicle_peccancy.engine_no}" readonly/></td>
             </tr>
             <tr>

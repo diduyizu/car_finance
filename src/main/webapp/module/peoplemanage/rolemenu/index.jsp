@@ -34,7 +34,7 @@
     <form class="definewidth m20">
         <table class="table table-bordered table-hover definewidth m10">
             <tr>
-                <td width="10%" class="tableleft">角色名称</td>
+                <td width="15%" class="tableleft">角色名称</td>
                 <td>
                     <select id="role">
                         <c:forEach var="role" items="${roleList}" varStatus="status">

@@ -206,6 +206,31 @@ public class VehicleManageController {
                 km , maintian_on_km , gps , current_city , current_shop , lease_status , peccancy_status , next_main_km);
     }
 
+    /**
+     * 车辆详细信息
+     * @param model
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/info/detail" , method = RequestMethod.GET)
+    public String InfoDetail(Model model , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+
+        long vehicle_id = Long.valueOf(request.getParameter("vehicle_id"));
+        //获取用户角色列表
+        List<Org> user_all_org_list = this.commonService.getUserAllOrgList(user.getUser_id());
+        List<City> city_list = this.commonService.getSysUsedCityList();
+
+        VehicleInfo vehicle_info = this.vehicleManageService.getVehicleInfoByid(vehicle_id);
+
+        model.addAttribute("city_list" , city_list);
+        model.addAttribute("user_all_org_list" , user_all_org_list);
+        model.addAttribute("vehicle_info" , vehicle_info);
+        return "/module/vehiclemanage/info/detail";
+    }
+
 
     /**
      * 车辆保险录入

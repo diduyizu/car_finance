@@ -76,7 +76,7 @@
                 </td>
             </tr>
             <tr>
-                <td width="10%" class="tableleft">门店名称</td>
+                <td width="15%" class="tableleft">门店名称</td>
                 <td><input type="text" name="store_name" id="store_name" placeholder="必填" required="true"/></td>
             </tr>
             <tr>

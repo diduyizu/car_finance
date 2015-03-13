@@ -144,7 +144,7 @@
     </thead>
     <c:forEach var="vehicle" items="${vehicle_list}" varStatus="status">
         <tr>
-            <td><a href="javascript:;">${vehicle.license_plate}</a></td>
+            <td><a href="${ctx}/vehicle/info/detail?vehicle_id=${vehicle.id}">${vehicle.license_plate}</a></td>
             <td>${vehicle.brand}</td>
             <td>${vehicle.model}</td>
             <td>${vehicle.current_city_name}</td>

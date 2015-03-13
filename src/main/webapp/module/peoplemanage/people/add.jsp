@@ -39,7 +39,7 @@
     <form class="definewidth m20">
         <table class="table table-bordered table-hover definewidth m10">
             <tr>
-                <td width="10%" class="tableleft">登录名</td>
+                <td width="15%" class="tableleft">登录名</td>
                 <td><input type="text" name="login_name" id="login_name" placeholder="必填" required="true"/></td>
             </tr>
             <tr>

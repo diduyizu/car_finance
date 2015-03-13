@@ -7,6 +7,7 @@
     <link rel="stylesheet" type="text/css" href="<c:url value="/resources/Css/bootstrap.min.css" />" />
     <link rel="stylesheet" type="text/css" href="<c:url value="/resources/Css/bootstrap-responsive.css" />" />
     <link rel="stylesheet" type="text/css" href="<c:url value="/resources/Css/datetimepicker.css" />" />
+    <link rel="stylesheet" type="text/css" href="<c:url value="/resources/Css/datepicker.css" />" />
     <link rel="stylesheet" type="text/css" href="<c:url value="/resources/Css/style.css" />" />
 
     <%--<script type="text/javascript" src="<c:url value="/resources/Js/jquery.js" />"></script>--%>
@@ -116,7 +117,7 @@
                 <td class="tableleft">月结日</td>
                 <td>
                     <div class="input-append date" id="monthly_day" data-date-format="yyyy-mm-dd">
-                        <input class="span2" size="16" type="text" id="monthly_day_date" name="monthly_day_date">
+                        <input class="span2" size="16" type="text" id="monthly_day_date"  name="monthly_day_date">
                         <span class="add-on"><i class="icon-th"></i></span>
                     </div>
                 </td>

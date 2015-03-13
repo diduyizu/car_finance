@@ -38,7 +38,7 @@
     <input type="hidden" name="id" value="{$role.id}" />
     <table class="table table-bordered table-hover definewidth m10">
         <tr>
-            <td width="10%" class="tableleft">标题</td>
+            <td class="tableleft">标题</td>
             <td><input type="text" name="title" value=""/></td>
         </tr>
         <tr>

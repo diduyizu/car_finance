@@ -36,7 +36,7 @@
             <input type="hidden" name="edited_user_id" id="edited_user_id" value="${edited_user.user_id}" />
             <table class="table table-bordered table-hover definewidth m10">
                 <tr>
-                    <td width="10%" class="tableleft">登录名</td>
+                    <td width="15%" class="tableleft">登录名</td>
                     <td><input type="text" name="username" value="${edited_user.login_name}" readonly/></td>
                 </tr>
                 <tr>

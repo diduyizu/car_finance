@@ -41,7 +41,7 @@
     <form class="definewidth m20">
         <table class="table table-bordered table-hover definewidth m10">
             <tr>
-                <td width="10%" class="tableleft">姓名</td>
+                <td width="15%" class="tableleft">姓名</td>
                 <td><input type="text" name="customer_name" id="customer_name" placeholder="必填" required="true"/></td>
             </tr>
             <tr>
