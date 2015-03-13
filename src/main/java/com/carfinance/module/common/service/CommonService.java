@@ -331,18 +331,22 @@ public class CommonService {
         List<CustomerInfo> customer_info_list = this.getAllCustomerInfo();
         List<String> result = new ArrayList<String>();
         for(CustomerInfo customerInfo : customer_info_list) {
-            if(result.contains(customerInfo.getCustomer_name())) result.add(customerInfo.getCustomer_name());
+            if(!result.contains(customerInfo.getCustomer_name())) result.add(customerInfo.getCustomer_name());
         }
-        return JSONArray.fromObject(result).toString();
+        String return_json = JSONArray.fromObject(result).toString();
+        logger.info("customer_name_json :" + return_json);
+        return return_json;
     }
 
     public String getAllCustomerDn() {
         List<CustomerInfo> customer_info_list = this.getAllCustomerInfo();
         List<String> result = new ArrayList<String>();
         for(CustomerInfo customerInfo : customer_info_list) {
-            if(result.contains(customerInfo.getCustomer_dn())) result.add(customerInfo.getCustomer_dn());
+            if(!result.contains(customerInfo.getCustomer_dn())) result.add(customerInfo.getCustomer_dn());
         }
-        return JSONArray.fromObject(result).toString();
+        String return_json = JSONArray.fromObject(result).toString();
+        logger.info("customer_dn_json :" + return_json);
+        return return_json;
     }
 
     public String getAllVehicleBrand() {
@@ -351,7 +355,9 @@ public class CommonService {
         for(VehicleInfo vehicleInfo : vehicle_list) {
             if(!result.contains(vehicleInfo.getBrand())) result.add(vehicleInfo.getBrand());
         }
-        return JSONArray.fromObject(result).toString();
+        String return_json = JSONArray.fromObject(result).toString();
+        logger.info("vehicle_brand_json :" + return_json);
+        return return_json;
     }
 
     public String getAllVehicleModel() {
@@ -360,7 +366,9 @@ public class CommonService {
         for(VehicleInfo vehicleInfo : vehicle_list) {
             if(!result.contains(vehicleInfo.getModel())) result.add(vehicleInfo.getModel());
         }
-        return JSONArray.fromObject(result).toString();
+        String return_json = JSONArray.fromObject(result).toString();
+        logger.info("vehicle_model_json :" + return_json);
+        return return_json;
     }
 
     public String getAllVehicleLicensePlate() {
@@ -369,7 +377,9 @@ public class CommonService {
         for(VehicleInfo vehicleInfo : vehicle_list) {
             if(!result.contains(vehicleInfo.getLicense_plate())) result.add(vehicleInfo.getLicense_plate());
         }
-        return JSONArray.fromObject(result).toString();
+        String return_json = JSONArray.fromObject(result).toString();
+        logger.info("vehicle_license_plate_json :" + return_json);
+        return return_json;
     }
 
 
