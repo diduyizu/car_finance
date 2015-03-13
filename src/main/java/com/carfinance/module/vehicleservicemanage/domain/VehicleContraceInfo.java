@@ -35,9 +35,96 @@ public class VehicleContraceInfo implements Serializable{
     private String use_end;
     private int isovertop;//是否超额，如果超额，需要市门店经理及以上审核
 
+    private double daily_price;
+    private long daily_available_km;
+    private double over_km_price;
+    private double over_hour_price;
+    private double month_price;
+    private long month_available_km;
+    private double pre_payment;
+    private Date monthly_day;
+    private double deposit;
+    private double peccancy_deposit;
 
+    public double getDaily_price() {
+        return daily_price;
+    }
 
+    public void setDaily_price(double daily_price) {
+        this.daily_price = daily_price;
+    }
 
+    public long getDaily_available_km() {
+        return daily_available_km;
+    }
+
+    public void setDaily_available_km(long daily_available_km) {
+        this.daily_available_km = daily_available_km;
+    }
+
+    public double getOver_km_price() {
+        return over_km_price;
+    }
+
+    public void setOver_km_price(double over_km_price) {
+        this.over_km_price = over_km_price;
+    }
+
+    public double getOver_hour_price() {
+        return over_hour_price;
+    }
+
+    public void setOver_hour_price(double over_hour_price) {
+        this.over_hour_price = over_hour_price;
+    }
+
+    public double getMonth_price() {
+        return month_price;
+    }
+
+    public void setMonth_price(double month_price) {
+        this.month_price = month_price;
+    }
+
+    public long getMonth_available_km() {
+        return month_available_km;
+    }
+
+    public void setMonth_available_km(long month_available_km) {
+        this.month_available_km = month_available_km;
+    }
+
+    public double getPre_payment() {
+        return pre_payment;
+    }
+
+    public void setPre_payment(double pre_payment) {
+        this.pre_payment = pre_payment;
+    }
+
+    public Date getMonthly_day() {
+        return monthly_day;
+    }
+
+    public void setMonthly_day(Date monthly_day) {
+        this.monthly_day = monthly_day;
+    }
+
+    public double getDeposit() {
+        return deposit;
+    }
+
+    public void setDeposit(double deposit) {
+        this.deposit = deposit;
+    }
+
+    public double getPeccancy_deposit() {
+        return peccancy_deposit;
+    }
+
+    public void setPeccancy_deposit(double peccancy_deposit) {
+        this.peccancy_deposit = peccancy_deposit;
+    }
 
     public String getContrace_no() {
         return contrace_no;

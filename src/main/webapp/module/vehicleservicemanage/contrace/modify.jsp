@@ -52,8 +52,8 @@
     <form class="definewidth m20">
         <table class="table table-bordered table-hover definewidth m10">
             <tr>
-                <td width="10%" class="tableleft">所属门店</td>
-                <td colspan="5">
+                <td class="tableleft">所属门店</td>
+                <td>
                     <select id="original_org" name="original_org">
                         <c:forEach var="org" items="${user_all_org_list}" varStatus="status">
                             <c:if test="${org.org_id == vehicle_contrace_info.org_id}">
@@ -65,6 +65,8 @@
                         </c:forEach>
                     </select>
                 </td>
+                <td class="tableleft">合同编号</td>
+                <td colspan="3"><input type="text" name="contrace_no" id="contrace_no" placeholder="必填" value="${vehicle_contrace_info.contrace_no}" required="true"/></td>
             </tr>
             <tr>
                 <td class="tableleft">客户姓名</td>
@@ -105,31 +107,36 @@
 
             <tr>
                 <td class="tableleft">日单价</td>
-                <td><input type="text" name="daily_price" id="daily_price" placeholder="必填" value="" required="true"/></td>
+                <td><input type="text" name="daily_price" id="daily_price" placeholder="必填" value="${vehicle_contrace_info.daily_price}" required="true"/></td>
                 <td class="tableleft">日公里数</td>
-                <td colspan="3"><input type="text" name="daily_available_km" id="daily_available_km" placeholder="必填" value="" required="true"/></td>
+                <td colspan="3"><input type="text" name="daily_available_km" id="daily_available_km" placeholder="必填" value="${vehicle_contrace_info.daily_available_km}" required="true"/></td>
             </tr>
             <tr>
                 <td class="tableleft">超公里金额</td>
-                <td><input type="text" name="over_km_price" id="over_km_price" placeholder="必填" value="" required="true"/></td>
+                <td><input type="text" name="over_km_price" id="over_km_price" placeholder="必填" value="${vehicle_contrace_info.over_km_price}" required="true"/></td>
                 <td class="tableleft">超小时金额</td>
-                <td colspan="3"><input type="text" name="over_hour_price" id="over_hour_price" placeholder="必填" value="" required="true"/></td>
+                <td colspan="3"><input type="text" name="over_hour_price" id="over_hour_price" placeholder="必填" value="${vehicle_contrace_info.over_hour_price}" required="true"/></td>
             </tr>
             <tr>
-                <td class="tableleft">包月单价</td>
-                <td><input type="text" name="month_price" id="month_price" value="" /></td>
-                <td class="tableleft">包月公里数</td>
-                <td><input type="text" name="month_available_km" id="month_available_km" value="" /></td>
                 <td class="tableleft">月结日</td>
-                <td><input type="text" name="monthly_day" id="monthly_day" value="" /></td>
+                <td>
+                    <div class="input-append date" id="monthly_day" data-date-format="yyyy-mm-dd">
+                        <input class="span2" size="16" type="text" id="monthly_day_date" name="monthly_day_date" value="${vehicle_contrace_info.monthly_day}" />
+                        <span class="add-on"><i class="icon-th"></i></span>
+                    </div>
+                </td>
+                <td class="tableleft">包月单价</td>
+                <td><input type="text" name="month_price" id="month_price" value="${vehicle_contrace_info.month_price}" /></td>
+                <td class="tableleft">包月公里数</td>
+                <td><input type="text" name="month_available_km" id="month_available_km" value="${vehicle_contrace_info.month_available_km}" /></td>
             </tr>
             <tr>
                 <td class="tableleft">预付款</td>
-                <td><input type="text" data-provide="typeahead" name="pre_payment" id="pre_payment" placeholder="必填" value="" required="true"/></td>
+                <td><input type="text" data-provide="typeahead" name="pre_payment" id="pre_payment" placeholder="必填" value="${vehicle_contrace_info.pre_payment}" required="true"/></td>
                 <td class="tableleft">总押金</td>
-                <td><input type="text" name="deposit" id="deposit" placeholder="必填" value="" required="true"/></td>
+                <td><input type="text" name="deposit" id="deposit" placeholder="必填" value="${vehicle_contrace_info.deposit}" required="true"/></td>
                 <td class="tableleft">违章押金</td>
-                <td><input type="text" data-provide="typeahead" name="peccancy_deposit" id="peccancy_deposit" placeholder="必填" value="" required="true"/></td>
+                <td><input type="text" data-provide="typeahead" name="peccancy_deposit" id="peccancy_deposit" placeholder="必填" value="${vehicle_contrace_info.peccancy_deposit}" required="true"/></td>
             </tr>
 
 
@@ -197,6 +204,7 @@
         $('#save').click(function(){
             var contrace_id=$.trim($('#contrace_id').val());
             var original_org=$.trim($('#original_org').val());
+            var contrace_no=$.trim($('#contrace_no').val());
             var customer_name=$.trim($('#customer_name').val());
             var customer_type=$.trim($('#customer_type').val());
             var customer_dn=$.trim($('#customer_dn').val());
@@ -216,13 +224,13 @@
             var month_available_km=$.trim($('#month_available_km').val());
             var monthly_day_date=$.trim($('#monthly_day_date').val());
             var pre_payment=$.trim($('#pre_payment').val());
-            var deposit=$.trim($('deposit').val());
+            var deposit=$.trim($('#deposit').val());
             var peccancy_deposit=$.trim($('#peccancy_deposit').val());
 
             $.ajax({
                 url:"${ctx}/vehicleservice/contrace/domodify",
                 type: "post",
-                data:{contrace_id:contrace_id,original_org:original_org,customer_name:customer_name,customer_type:customer_type,customer_dn:customer_dn,
+                data:{contrace_id:contrace_id,original_org:original_org,contrace_no:contrace_no,customer_name:customer_name,customer_type:customer_type,customer_dn:customer_dn,
                     certificate_type:certificate_type,certificate_no:certificate_no,use_begin:use_begin_date,use_end:use_end_date,employee_id:employee_id,
                     employee_name:employee_name,remark:remark,daily_price:daily_price,deposit:deposit,over_km_price:over_km_price,over_hour_price:over_hour_price,
                     month_price:month_price,month_available_km:month_available_km,monthly_day_date:monthly_day_date,pre_payment:pre_payment,
