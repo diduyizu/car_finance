@@ -129,7 +129,7 @@ public class VehicleServiceManageService {
         }
     }
 
-    public long modifycontrace(long contrace_id , long original_org , String customer_name , String customer_type , String customer_dn ,
+    public long modifycontrace(long contrace_id , long original_org , String contrace_no , String customer_name , String customer_type , String customer_dn ,
                                String certificate_type , String certificate_no , String use_begin , String use_end , String employee_id ,
                                String employee_name , String remark , long user_id,
                                double daily_price , long daily_available_km , double over_km_price , double over_hour_price , double month_price ,
@@ -138,7 +138,7 @@ public class VehicleServiceManageService {
             Date use_begin_date = DateUtil.string2Date(use_begin , "yyyy-MM-dd HH:mm");
             Date use_end_date = DateUtil.string2Date(use_end , "yyyy-MM-dd HH:mm");
             Date monthly_day_date = (monthly_day != null && !"".equals(monthly_day.trim())) ? DateUtil.string2Date(monthly_day.trim() , "yyyy-MM-dd") : new Date();
-            return this.vehicleServiceManageDao.modifyContrace(contrace_id , original_org , customer_name , customer_type , customer_dn ,
+            return this.vehicleServiceManageDao.modifyContrace(contrace_id , original_org , contrace_no , customer_name , customer_type , customer_dn ,
                     certificate_type , certificate_no , use_begin_date , use_end_date , employee_id , employee_name , remark , user_id ,
                     daily_price , daily_available_km , over_km_price , over_hour_price , month_price , month_available_km , monthly_day_date ,
                     pre_payment , deposit , peccancy_deposit);

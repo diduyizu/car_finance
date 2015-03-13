@@ -332,6 +332,7 @@ public class VehicleServiceManageController {
         String employee_name= request.getParameter("employee_name");
         String remark= request.getParameter("remark");
 
+        String contrace_no =  request.getParameter("contrace_no");
         double daily_price = Double.valueOf(request.getParameter("daily_price"));
         long daily_available_km = Long.valueOf(request.getParameter("daily_available_km"));
         double over_km_price = Double.valueOf(request.getParameter("over_km_price"));
@@ -345,7 +346,7 @@ public class VehicleServiceManageController {
         double deposit = Double.valueOf(request.getParameter("deposit"));
         double peccancy_deposit = Double.valueOf(request.getParameter("peccancy_deposit"));
 
-        return this.vehicleServiceManageService.modifycontrace(contrace_id, original_org, customer_name, customer_type, customer_dn,
+        return this.vehicleServiceManageService.modifycontrace(contrace_id, original_org, contrace_no , customer_name, customer_type, customer_dn,
                 certificate_type, certificate_no, use_begin, use_end, employee_id, employee_name, remark, user.getUser_id() ,
                 daily_price , daily_available_km , over_km_price , over_hour_price , month_price , month_available_km , monthly_day_date ,
                 pre_payment , deposit , peccancy_deposit);

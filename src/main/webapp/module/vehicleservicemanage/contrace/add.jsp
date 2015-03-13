@@ -52,14 +52,16 @@
     <form class="definewidth m20">
         <table class="table table-bordered table-hover definewidth m10">
             <tr>
-                <td width="10%" class="tableleft">所属门店</td>
-                <td colspan="5">
+                <td class="tableleft">所属门店</td>
+                <td>
                     <select id="original_org" name="original_org">
                         <c:forEach var="org" items="${user_all_org_list}" varStatus="status">
                             <option value="${org.org_id}">${org.org_name}</option>
                         </c:forEach>
                     </select>
                 </td>
+                <td class="tableleft">合同编号</td>
+                <td colspan="3"><input type="text" name="contrace_no" id="contrace_no" placeholder="必填" required="true"/></td>
             </tr>
             <tr>
                 <td class="tableleft">客户姓名</td>
@@ -178,6 +180,7 @@
 
             var contrace_id=$.trim($('#contrace_id').val());
             var original_org=$.trim($('#original_org').val());
+            var contrace_no=$.trim($('#contrace_no').val());
             var customer_name=$.trim($('#customer_name').val());
             var customer_type=$.trim($('#customer_type').val());
             var customer_dn=$.trim($('#customer_dn').val());
@@ -203,10 +206,11 @@
             $.ajax({
                 url:"${ctx}/vehicleservice/contrace/domodify",
                 type: "post",
-                data:{contrace_id:contrace_id,original_org:original_org,customer_name:customer_name,customer_type:customer_type,customer_dn:customer_dn,
-                    certificate_type:certificate_type,certificate_no:certificate_no,use_begin:use_begin_date,use_end:use_end_date,employee_id:employee_id,
-                    employee_name:employee_name,remark:remark,daily_price:daily_price,daily_available_km:daily_available_km,over_km_price:over_km_price,over_hour_price:over_hour_price,
-                    month_price:month_price,month_available_km:month_available_km,monthly_day_date:monthly_day_date,pre_payment:pre_payment,deposit:deposit,peccancy_deposit:peccancy_deposit},
+                data:{contrace_id:contrace_id,original_org:original_org,contrace_no:contrace_no,customer_name:customer_name,customer_type:customer_type,
+                    customer_dn:customer_dn,certificate_type:certificate_type,certificate_no:certificate_no,use_begin:use_begin_date,use_end:use_end_date,
+                    employee_id:employee_id,employee_name:employee_name,remark:remark,daily_price:daily_price,daily_available_km:daily_available_km,
+                    over_km_price:over_km_price,over_hour_price:over_hour_price,month_price:month_price,month_available_km:month_available_km,
+                    monthly_day_date:monthly_day_date,pre_payment:pre_payment,deposit:deposit,peccancy_deposit:peccancy_deposit},
                 success:function(data){
                     if(data > 0){
                         alert("成功");
