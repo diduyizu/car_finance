@@ -49,6 +49,7 @@
     状态：
     <select id="status" name="status">
         <option value="">全部</option>
+        <option value="2" <c:if test="${status == '2'}">selected="selected"</c:if>>店长审核通过</option>
         <option value="4" <c:if test="${status == '4'}">selected="selected"</c:if>>区域经理审核通过</option>
     </select>
     <%--姓名：--%>
@@ -97,7 +98,12 @@
                 <c:if test="${contrace.status == -5}">财务不通过</c:if>
             </td>
             <td>
-                <c:if test="${contrace.status == 4}">
+                <c:if test="${contrace.status == 2 && contrace.isovertop == 0}">
+                    <button type="button" class="btn btn-success pass" value="${contrace.id}">通过</button>
+                    <button type="button" class="btn btn-danger nopass" value="${contrace.id}">不通过</button>
+                </c:if>
+
+                <c:if test="${contrace.status == 4 && contrace.isovertop == 1}">
                     <button type="button" class="btn btn-success pass" value="${contrace.id}">通过</button>
                     <button type="button" class="btn btn-danger nopass" value="${contrace.id}">不通过</button>
                 </c:if>

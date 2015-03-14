@@ -374,6 +374,8 @@ public class VehicleServiceManageController {
     public String contraceModify(Model model , HttpServletRequest request , HttpServletResponse response) {
         User user = (User)request.getSession().getAttribute("user");
 
+        long current_page = Long.valueOf(request.getParameter("current_page"));
+        long original_org = Long.valueOf(request.getParameter("original_org"));
         long contrace_id = Long.valueOf(request.getParameter("contrace_id"));
         //获取用户角色列表
         List<Org> user_all_org_list = this.commonService.getUserAllOrgList(user.getUser_id());
@@ -384,6 +386,8 @@ public class VehicleServiceManageController {
         String customer_name_json = this.commonService.getAllCustomerName();
         model.addAttribute("customer_name_json" , customer_name_json);
 
+        model.addAttribute("current_page" , current_page);
+        model.addAttribute("original_org" , original_org);
         model.addAttribute("contrace_id" , contrace_id);
         model.addAttribute("city_list" , city_list);
         model.addAttribute("user_all_org_list" , user_all_org_list);
@@ -880,7 +884,10 @@ public class VehicleServiceManageController {
             }
         }
 
-        Map<String , Object> map = this.vehicleServiceManageService.getOrgContraceList(original_org, status, start, size, true);
+
+        boolean over_top = false;
+        if("4".equals(status))  over_top = true;//区域店长审核，over_top为ture
+        Map<String , Object> map = this.vehicleServiceManageService.getOrgContraceList(original_org, status, start, size, over_top  );
         long total = (Long)map.get("total");
         List<VehicleContraceInfo> contrace_list = (List<VehicleContraceInfo>)map.get("contrace_list");
 

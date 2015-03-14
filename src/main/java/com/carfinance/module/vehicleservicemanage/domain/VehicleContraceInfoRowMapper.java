@@ -42,16 +42,16 @@ public class VehicleContraceInfoRowMapper implements RowMapper<VehicleContraceIn
         vehicleContraceInfo.setFinance_update_at(rs.getDate("finance_update_at"));
         vehicleContraceInfo.setIsovertop(rs.getInt("isovertop"));
 
-//        vehicleContraceInfo.setDaily_price(rs.getDouble("daily_price"));
-//        vehicleContraceInfo.setDaily_available_km(rs.getLong("daily_available_km"));
-//        vehicleContraceInfo.setOver_km_price(rs.getDouble("over_km_price"));
-//        vehicleContraceInfo.setOver_hour_price(rs.getDouble("over_hour_price"));
-//        vehicleContraceInfo.setMonth_price(rs.getDouble("month_price"));
-//        vehicleContraceInfo.setMonth_available_km(rs.getLong("month_available_km"));
-//        vehicleContraceInfo.setPre_payment(rs.getDouble("pre_payment"));
-//        vehicleContraceInfo.setMonthly_day(rs.getDate("monthly_day"));
-//        vehicleContraceInfo.setDeposit(rs.getDouble("deposit"));
-//        vehicleContraceInfo.setPeccancy_deposit(rs.getDouble("peccancy_deposit"));
+        vehicleContraceInfo.setDaily_price(rs.getDouble("daily_price"));
+        vehicleContraceInfo.setDaily_available_km(rs.getLong("daily_available_km"));
+        vehicleContraceInfo.setOver_km_price(rs.getDouble("over_km_price"));
+        vehicleContraceInfo.setOver_hour_price(rs.getDouble("over_hour_price"));
+        vehicleContraceInfo.setMonth_price(rs.getDouble("month_price"));
+        vehicleContraceInfo.setMonth_available_km(rs.getLong("month_available_km"));
+        vehicleContraceInfo.setPre_payment(rs.getDouble("pre_payment"));
+        vehicleContraceInfo.setMonthly_day(rs.getDate("monthly_day"));
+        vehicleContraceInfo.setDeposit(rs.getDouble("deposit"));
+        vehicleContraceInfo.setPeccancy_deposit(rs.getDouble("peccancy_deposit"));
 
 
         return vehicleContraceInfo;

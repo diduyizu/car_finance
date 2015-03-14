@@ -208,7 +208,7 @@
         });
 
 		$('#backid').click(function(){
-            window.location.href="${ctx}/vehicleservice/contrace/index";
+            window.location.href="${ctx}/vehicleservice/contrace/index?page_index=${current_page}&original_org=${original_org}";
 		});
 
         $('#save').click(function(){
@@ -249,7 +249,7 @@
                 success:function(data){
                     if(data > 0){
                         alert("成功");
-                        location.reload();
+                        window.location.href="${ctx}/vehicleservice/contrace/index?page_index=${current_page}&original_org=${original_org}";
                     } else {
                         alert("失败");
                         return false;

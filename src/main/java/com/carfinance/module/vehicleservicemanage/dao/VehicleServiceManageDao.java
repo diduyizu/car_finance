@@ -230,6 +230,8 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
         }
         if(over_top) {
             sql = sql + " and isovertop = 1 ";
+        } else {
+            sql = sql + " and isovertop = 0 ";
         }
 
         Object[] o = new Object[param.size()];
@@ -264,6 +266,8 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
         }
         if(over_top) {
             sql = sql + " and isovertop = 1 ";
+        } else {
+            sql = sql + " and isovertop = 0 ";
         }
         sql = sql + " order by id desc limit ?,?";
         param.add(start);

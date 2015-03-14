@@ -36,7 +36,7 @@
 <body>
 <form class="form-inline definewidth m20" action="${ctx}/vehicleservice/contrace/index" method="post">
     <input type="hidden" id="veh_contrace_vehs_id" name="veh_contrace_vehs_id" value="${veh_contrace_vehs_id}">
-    <button type="submit" class="btn btn-primary">查询</button>&nbsp;&nbsp;
+    <%--<button type="submit" class="btn btn-primary">查询</button>&nbsp;&nbsp;--%>
 </form>
 <table class="table table-bordered table-hover definewidth m10">
     <thead>

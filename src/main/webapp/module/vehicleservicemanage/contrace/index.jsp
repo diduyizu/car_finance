@@ -114,7 +114,7 @@
 <script>
     $('.modify').click(function(){
         var contrace_id = $(this).val();
-        window.location.href="${ctx}/vehicleservice/contrace/modify?contrace_id="+contrace_id;
+        window.location.href="${ctx}/vehicleservice/contrace/modify?contrace_id="+contrace_id+"&current_page=${current_page}&original_org=${original_org}";
     });
 
     $('.addvehicle').click(function(){
