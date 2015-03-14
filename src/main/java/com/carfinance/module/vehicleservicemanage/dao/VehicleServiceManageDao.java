@@ -712,4 +712,11 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().update(sql, o);
     }
+
+    public List<VehicleContraceVehsInfo> getVehicleContraceVehsListByContraceId(long contrace_id) {
+        String sql = "select a.* from  vehicle_contrace_vehs a , vehicle_info b where a.vehicle_id = b.id and a.contrace_id = ?";
+        Object[] o = new Object[] { contrace_id };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().query(sql, o , new VehicleContraceVehsInfoRowMapper());
+    }
 }

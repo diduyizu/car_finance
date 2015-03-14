@@ -930,20 +930,24 @@ public class VehicleServiceManageController {
     }
 
     /**
-     * 业务员结单
-     * @param model1
+     * 业务员结单，跳转至结单页面，录入必要信息
      * @param request
      * @param response
      * @return
      */
-    @RequestMapping(value = "/contrace/dofinish" , method = RequestMethod.POST)
-    @ResponseBody
-    public int contraceDoFinish(Model model1 , HttpServletRequest request , HttpServletResponse response) {
+    @RequestMapping(value = "/contrace/finish" , method = RequestMethod.GET)
+    public String contraceDoFinish(Model model , HttpServletRequest request , HttpServletResponse response) {
         User user = (User)request.getSession().getAttribute("user");
 
-        long id = Long.valueOf(request.getParameter("id"));
-        String status = request.getParameter("status");
+        List<Org> user_all_org_list = this.commonService.getUserAllOrgList(user.getUser_id());
 
-        return this.vehicleServiceManageService.contraceDoFinish(id, status, user.getUser_id());
+        long contrace_id = Long.valueOf(request.getParameter("contrace_id"));
+        VehicleContraceInfo vehicleContraceInfo = this.vehicleServiceManageService.getVehicleContraceInfoById(contrace_id);
+        List<VehicleContraceVehsInfo> vehicleContraceVehsInfoList = this.vehicleServiceManageService.getVehicleContraceVehsListByContraceId(contrace_id);
+
+        model.addAttribute("user_all_org_list" , user_all_org_list);
+        model.addAttribute("vehicle_contrace_info" , vehicleContraceInfo);
+        model.addAttribute("vehicle_contrace_vehs_list" , vehicleContraceVehsInfoList);
+        return "/module/vehicleservicemanage/contrace/finish";
     }
 }

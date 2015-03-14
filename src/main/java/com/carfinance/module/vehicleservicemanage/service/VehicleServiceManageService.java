@@ -152,7 +152,7 @@ public class VehicleServiceManageService {
 
             return result;
         } catch(Exception e) {
-            logger.error(e.getMessage() , e);
+            logger.error(e.getMessage(), e);
             return 0;
         }
     }
@@ -337,5 +337,9 @@ public class VehicleServiceManageService {
             }
         }
         return result;
+    }
+
+    public List<VehicleContraceVehsInfo> getVehicleContraceVehsListByContraceId(long contrace_id) {
+        return this.vehicleServiceManageDao.getVehicleContraceVehsListByContraceId(contrace_id);
     }
 }

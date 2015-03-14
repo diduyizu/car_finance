@@ -147,21 +147,22 @@
     });
 
     $('.over').click(function(){
-        var id = $(this).val();
-        $.ajax({
-            url:"${ctx}/vehicleservice/contrace/dofinish",
-            type: "post",
-            data:{id:id,status:6},
-            dataType:"json",
-            success:function(data){
-                if(data > 0){
-                    alert("成功");
-                    location.reload();
-                } else {
-                    alert("失败");
-                    return false;
-                }
-            }
-        })
+        var contrace_id = $(this).val();
+        window.location.href="${ctx}/vehicleservice/contrace/finish?contrace_id="+contrace_id;
+        <%--$.ajax({--%>
+            <%--url:"${ctx}/vehicleservice/contrace/dofinish",--%>
+            <%--type: "post",--%>
+            <%--data:{id:id,status:6},--%>
+            <%--dataType:"json",--%>
+            <%--success:function(data){--%>
+                <%--if(data > 0){--%>
+                    <%--alert("成功");--%>
+                    <%--location.reload();--%>
+                <%--} else {--%>
+                    <%--alert("失败");--%>
+                    <%--return false;--%>
+                <%--}--%>
+            <%--}--%>
+        <%--})--%>
     });
 </script>
