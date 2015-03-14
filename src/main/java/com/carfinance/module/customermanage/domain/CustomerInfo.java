@@ -24,7 +24,7 @@ public class CustomerInfo implements Serializable{
     private String vip_no;
     private String house_pic;
     private String vehicle_pic;
-    private String yingyezhizhao_pic;
+    private String business_licence_pic;
     private String other_pic;
 
 
@@ -52,12 +52,12 @@ public class CustomerInfo implements Serializable{
         this.vehicle_pic = vehicle_pic;
     }
 
-    public String getYingyezhizhao_pic() {
-        return yingyezhizhao_pic;
+    public String getBusiness_licence_pic() {
+        return business_licence_pic;
     }
 
-    public void setYingyezhizhao_pic(String yingyezhizhao_pic) {
-        this.yingyezhizhao_pic = yingyezhizhao_pic;
+    public void setBusiness_licence_pic(String business_licence_pic) {
+        this.business_licence_pic = business_licence_pic;
     }
 
     public String getOther_pic() {

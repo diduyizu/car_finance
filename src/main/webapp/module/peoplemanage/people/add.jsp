@@ -52,7 +52,7 @@
             </tr>
             <tr>
                 <td class="tableleft">员工工号/id</td>
-                <td><input type="text" name="employee_id" id="employee_id" value=""/></td>
+                <td><input type="text" name="employee_id" id="employee_id" placeholder="必填" required="true"/></td>
             </tr>
             <tr>
                 <td class="tableleft">驾驶证号</td>
