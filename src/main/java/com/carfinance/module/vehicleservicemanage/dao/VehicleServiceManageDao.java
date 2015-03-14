@@ -135,13 +135,13 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
         return this.getJdbcTemplate().query(sql, o, new VehicleReservationInfoRowMapper());
     }
 
-    public int addReservation(String original_org ,String customer_name , String customer_dn , Date use_begin_date , Date use_end_date ,
+    public int addReservation(String original_org , long contrace_type ,String customer_name , String customer_dn , Date use_begin_date , Date use_end_date ,
                               String employee_id , String employee_name , String remark , long user_id) {
 
         String sql = "insert into vehicle_reservation(customer_name , customer_dn , use_begin , use_end , " +
-                "employee_id , employee_name , org_id , remark , create_by) " +
-                "values (?,?,?,?,?,?,?,?,?)";
-        Object[] o = new Object[] { customer_name , customer_dn , use_begin_date , use_end_date , employee_id , employee_name , original_org , remark , user_id };
+                "employee_id , employee_name , org_id , remark , create_by , contrace_type) " +
+                "values (?,?,?,?,?,?,?,?,?,?)";
+        Object[] o = new Object[] { customer_name , customer_dn , use_begin_date , use_end_date , employee_id , employee_name , original_org , remark , user_id , contrace_type};
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().update(sql, o);
     }
@@ -315,6 +315,23 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
         try{
             String sql = "select * from vehicle_contrace where id = ?";
             Object[] o = new Object[] { contrace_id };
+            logger.info(sql.replaceAll("\\?", "{}"), o);
+            return this.getJdbcTemplate().queryForObject(sql , o , new VehicleContraceInfoRowMapper());
+        } catch (EmptyResultDataAccessException e) {
+            logger.error(e.getMessage() , e);
+            return null;
+        }
+    }
+
+    /**
+     * 根据预约单id，获取合同信息
+     * @param reservation_id
+     * @return
+     */
+    public VehicleContraceInfo getVehicleContraceInfoByReservationId(long reservation_id) {
+        try{
+            String sql = "select * from vehicle_contrace where reservation_id = ?";
+            Object[] o = new Object[] { reservation_id };
             logger.info(sql.replaceAll("\\?", "{}"), o);
             return this.getJdbcTemplate().queryForObject(sql , o , new VehicleContraceInfoRowMapper());
         } catch (EmptyResultDataAccessException e) {

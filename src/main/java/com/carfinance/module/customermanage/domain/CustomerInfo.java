@@ -21,6 +21,53 @@ public class CustomerInfo implements Serializable{
     private String customer_vehicle;
     private String customer_guarantee;
 
+    private String vip_no;
+    private String house_pic;
+    private String vehicle_pic;
+    private String yingyezhizhao_pic;
+    private String other_pic;
+
+
+    public String getVip_no() {
+        return vip_no;
+    }
+
+    public void setVip_no(String vip_no) {
+        this.vip_no = vip_no;
+    }
+
+    public String getHouse_pic() {
+        return house_pic;
+    }
+
+    public void setHouse_pic(String house_pic) {
+        this.house_pic = house_pic;
+    }
+
+    public String getVehicle_pic() {
+        return vehicle_pic;
+    }
+
+    public void setVehicle_pic(String vehicle_pic) {
+        this.vehicle_pic = vehicle_pic;
+    }
+
+    public String getYingyezhizhao_pic() {
+        return yingyezhizhao_pic;
+    }
+
+    public void setYingyezhizhao_pic(String yingyezhizhao_pic) {
+        this.yingyezhizhao_pic = yingyezhizhao_pic;
+    }
+
+    public String getOther_pic() {
+        return other_pic;
+    }
+
+    public void setOther_pic(String other_pic) {
+        this.other_pic = other_pic;
+    }
+
     public String getCustomer_house() {
         return customer_house;
     }

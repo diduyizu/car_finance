@@ -53,11 +53,18 @@
         <table class="table table-bordered table-hover definewidth m10">
             <tr>
                 <td class="tableleft">所属门店</td>
-                <td colspan="3">
+                <td>
                     <select id="original_org" name="original_org">
                         <c:forEach var="org" items="${user_all_org_list}" varStatus="status">
                             <option value="${org.org_id}">${org.org_name}</option>
                         </c:forEach>
+                    </select>
+                </td>
+                <td class="tableleft">合同类型</td>
+                <td>
+                    <select id="contrace_type" name="contrace_type">
+                        <option value="1">零租</option>
+                        <option value="2">产权租</option>
                     </select>
                 </td>
             </tr>
@@ -139,6 +146,7 @@
 
         $('#save').click(function(){
             var original_org=$.trim($('#original_org').val());
+            var contrace_type=$.trim($('#contrace_type').val());
             var customer_name=$.trim($('#customer_name').val());
             var customer_dn=$.trim($('#customer_dn').val());
             var use_begin_date=$.trim($('#use_begin_date').val());
@@ -150,8 +158,8 @@
             $.ajax({
                 url:"${ctx}/vehicleservice/reservation/doadd",
                 type: "post",
-                data:{original_org:original_org,customer_name:customer_name,customer_dn:customer_dn,use_begin:use_begin_date,
-                    use_end:use_end_date,employee_id:employee_id,employee_name:employee_name,remark:remark},
+                data:{original_org:original_org,contrace_type:contrace_type,customer_name:customer_name,customer_dn:customer_dn,
+                    use_begin:use_begin_date,use_end:use_end_date,employee_id:employee_id,employee_name:employee_name,remark:remark},
                 success:function(data){
                     if(data == 1){
                         alert("成功");

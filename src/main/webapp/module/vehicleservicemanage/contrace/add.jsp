@@ -62,7 +62,14 @@
                     </select>
                 </td>
                 <td class="tableleft">合同编号</td>
-                <td colspan="3"><input type="text" name="contrace_no" id="contrace_no" placeholder="必填" required="true"/></td>
+                <td><input type="text" name="contrace_no" id="contrace_no" placeholder="必填" required="true"/></td>
+                <td class="tableleft">合同类型</td>
+                <td>
+                    <select id="contrace_type" name="contrace_type">
+                        <option value="1" <c:if test="${vehicleReservationInfo.contrace_type == 1}">selected="selected" </c:if>>零租</option>
+                        <option value="2" <c:if test="${vehicleReservationInfo.contrace_type == 2}">selected="selected" </c:if>>产权租</option>
+                    </select>
+                </td>
             </tr>
             <tr>
                 <td class="tableleft">客户姓名</td>
@@ -149,6 +156,7 @@
                 <td class="tableleft"></td>
                 <td colspan="5">
                     <input type="hidden" id="contrace_id" value="${contrace_id}">
+                    <input type="hidden" id="reservation_id" value="${reservation_id}">
                     <button type="button" class="btn btn-primary" id="save">保存</button> &nbsp;&nbsp;
                     <button type="button" class="btn btn-success" id="backid">返回列表</button>
                 </td>
@@ -180,6 +188,7 @@
         $('#save').click(function(){
 
             var contrace_id=$.trim($('#contrace_id').val());
+            var reservation_id=$.trim($('#reservation_id').val());
             var original_org=$.trim($('#original_org').val());
             var contrace_no=$.trim($('#contrace_no').val());
             var customer_name=$.trim($('#customer_name').val());
@@ -207,7 +216,7 @@
             $.ajax({
                 url:"${ctx}/vehicleservice/contrace/domodify",
                 type: "post",
-                data:{contrace_id:contrace_id,original_org:original_org,contrace_no:contrace_no,customer_name:customer_name,customer_type:customer_type,
+                data:{contrace_id:contrace_id,reservation_id:reservation_id,original_org:original_org,contrace_no:contrace_no,customer_name:customer_name,customer_type:customer_type,
                     customer_dn:customer_dn,certificate_type:certificate_type,certificate_no:certificate_no,use_begin:use_begin_date,use_end:use_end_date,
                     employee_id:employee_id,employee_name:employee_name,remark:remark,daily_price:daily_price,daily_available_km:daily_available_km,
                     over_km_price:over_km_price,over_hour_price:over_hour_price,month_price:month_price,month_available_km:month_available_km,

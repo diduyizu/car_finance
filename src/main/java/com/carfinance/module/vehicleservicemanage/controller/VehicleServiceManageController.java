@@ -187,6 +187,7 @@ public class VehicleServiceManageController {
         User user = (User)request.getSession().getAttribute("user");
 
         String original_org = request.getParameter("original_org");
+        long contrace_type = Long.valueOf(request.getParameter("contrace_type"));
         String customer_name = request.getParameter("customer_name");
         String customer_dn= request.getParameter("customer_dn");
         String use_begin= request.getParameter("use_begin");
@@ -195,7 +196,7 @@ public class VehicleServiceManageController {
         String employee_name= request.getParameter("employee_name");
         String remark= request.getParameter("remark");
 
-        return this.vehicleServiceManageService.addReservation(original_org, customer_name, customer_dn,
+        return this.vehicleServiceManageService.addReservation(original_org,contrace_type, customer_name, customer_dn,
                 use_begin, use_end, employee_id, employee_name, remark, user.getUser_id());
     }
 
@@ -273,7 +274,6 @@ public class VehicleServiceManageController {
 
     /**
      * 预约单转正式合同，跳转至新增合同页
-     * 同时，将预约单状态，改为完结
      * @param model
      * @param request
      * @param response
@@ -291,16 +291,25 @@ public class VehicleServiceManageController {
         List<Org> user_all_org_list = this.commonService.getUserAllOrgList(user.getUser_id());
         List<City> city_list = this.commonService.getSysUsedCityList();
 
-        this.vehicleServiceManageService.reservationDoCancel(reservation_id, user.getUser_id(), 1);//将预约单状态改为完结
-        //同时，生成合同，此时合同是空合同
-        //跳转至合同页面，输入内容，点击提交，其实是对现在生成的合同内容进行更新
-        long contrace_id = this.vehicleServiceManageService.addContrace(reservation_id, org_id, user.getUser_id());
+        long contrace_id;
+        //根据预约单id，获取合同信息。如果有，则直接使用；如果没有，就新增
+        VehicleContraceInfo vehicleContraceInfo = this.vehicleServiceManageService.getVehicleContraceInfoByReservationId(reservation_id);
+        if(vehicleContraceInfo == null) {
+            //根据预约单id，获取不到合同信息，此时生成合同，此时合同是空合同
+            //跳转至合同页面，输入内容，点击提交，其实是对现在生成的合同内容进行更新
+            contrace_id = this.vehicleServiceManageService.addContrace(reservation_id, org_id, user.getUser_id());
+        } else {
+            contrace_id = vehicleContraceInfo.getId();
+        }
+
+//        this.vehicleServiceManageService.reservationDoCancel(reservation_id, user.getUser_id(), 1);//将预约单状态改为完结
         VehicleReservationInfo vehicleReservationInfo = this.vehicleServiceManageService.getVehicleReservationInfoById(reservation_id);
 
         String customer_name_json = this.commonService.getAllCustomerName();
 
         model.addAttribute("customer_name_json" , customer_name_json);
         model.addAttribute("contrace_id" , contrace_id);
+        model.addAttribute("reservation_id" , reservation_id);
         model.addAttribute("city_list" , city_list);
         model.addAttribute("user_all_org_list" , user_all_org_list);
         model.addAttribute("vehicleReservationInfo" , vehicleReservationInfo);
@@ -309,6 +318,7 @@ public class VehicleServiceManageController {
 
     /**
      * 新增合同，其实是更新、修改合同
+     * 同时，将预约单状态，修改为结单
      * @param model
      * @param request
      * @param response
@@ -320,6 +330,7 @@ public class VehicleServiceManageController {
         User user = (User)request.getSession().getAttribute("user");
 
         long contrace_id = Long.valueOf(request.getParameter("contrace_id"));
+        long reservation_id = Long.valueOf(request.getParameter("reservation_id"));
         long original_org = Long.valueOf(request.getParameter("original_org"));
         String customer_name = request.getParameter("customer_name");
         String customer_type = request.getParameter("customer_type");
@@ -346,7 +357,7 @@ public class VehicleServiceManageController {
         double deposit = Double.valueOf(request.getParameter("deposit"));
         double peccancy_deposit = Double.valueOf(request.getParameter("peccancy_deposit"));
 
-        return this.vehicleServiceManageService.modifycontrace(contrace_id, original_org, contrace_no , customer_name, customer_type, customer_dn,
+        return this.vehicleServiceManageService.modifycontrace(contrace_id, reservation_id, original_org, contrace_no , customer_name, customer_type, customer_dn,
                 certificate_type, certificate_no, use_begin, use_end, employee_id, employee_name, remark, user.getUser_id() ,
                 daily_price , daily_available_km , over_km_price , over_hour_price , month_price , month_available_km , monthly_day_date ,
                 pre_payment , deposit , peccancy_deposit);

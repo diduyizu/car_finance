@@ -63,13 +63,13 @@ public class VehicleServiceManageService {
         return map;
     }
 
-    public int addReservation(String original_org , String customer_name , String customer_dn , String use_begin , String use_end ,
+    public int addReservation(String original_org , long contrace_type , String customer_name , String customer_dn , String use_begin , String use_end ,
                              String employee_id , String employee_name , String remark , long user_id) {
         try{
             Date use_begin_date = DateUtil.string2Date(use_begin , "yyyy-MM-dd HH:mm");
             Date use_end_date = DateUtil.string2Date(use_end , "yyyy-MM-dd HH:mm");
 
-            return this.vehicleServiceManageDao.addReservation(original_org , customer_name , customer_dn , use_begin_date , use_end_date ,
+            return this.vehicleServiceManageDao.addReservation(original_org , contrace_type , customer_name , customer_dn , use_begin_date , use_end_date ,
                     employee_id , employee_name , remark , user_id);
         } catch(Exception e) {
             logger.info(e.getMessage() , e);
@@ -129,7 +129,7 @@ public class VehicleServiceManageService {
         }
     }
 
-    public long modifycontrace(long contrace_id , long original_org , String contrace_no , String customer_name , String customer_type , String customer_dn ,
+    public long modifycontrace(long contrace_id , long reservation_id , long original_org , String contrace_no , String customer_name , String customer_type , String customer_dn ,
                                String certificate_type , String certificate_no , String use_begin , String use_end , String employee_id ,
                                String employee_name , String remark , long user_id,
                                double daily_price , long daily_available_km , double over_km_price , double over_hour_price , double month_price ,
@@ -138,10 +138,19 @@ public class VehicleServiceManageService {
             Date use_begin_date = DateUtil.string2Date(use_begin , "yyyy-MM-dd HH:mm");
             Date use_end_date = DateUtil.string2Date(use_end , "yyyy-MM-dd HH:mm");
             Date monthly_day_date = (monthly_day != null && !"".equals(monthly_day.trim())) ? DateUtil.string2Date(monthly_day.trim() , "yyyy-MM-dd") : null;
-            return this.vehicleServiceManageDao.modifyContrace(contrace_id , original_org , contrace_no , customer_name , customer_type , customer_dn ,
+            long result = this.vehicleServiceManageDao.modifyContrace(contrace_id , original_org , contrace_no , customer_name , customer_type , customer_dn ,
                     certificate_type , certificate_no , use_begin_date , use_end_date , employee_id , employee_name , remark , user_id ,
                     daily_price , daily_available_km , over_km_price , over_hour_price , month_price , month_available_km , monthly_day_date ,
                     pre_payment , deposit , peccancy_deposit);
+            if(result > 0) {//更新合同成功，将预约单状态修改为完结
+                //查询预约单状态，如果是结单，则不更新
+                VehicleReservationInfo vehicleReservationInfo = this.getVehicleReservationInfoById(reservation_id);
+                if(vehicleReservationInfo.getStatus() != 1) {//预约单非完结状态
+                    this.reservationDoCancel(reservation_id, user_id, 1);//将预约单状态改为完结
+                }
+            }
+
+            return result;
         } catch(Exception e) {
             logger.error(e.getMessage() , e);
             return 0;
@@ -150,6 +159,10 @@ public class VehicleServiceManageService {
 
     public VehicleContraceInfo getVehicleContraceInfoById(long contrace_id) {
         return this.vehicleServiceManageDao.getVehicleContraceInfoById(contrace_id);
+    }
+
+    public VehicleContraceInfo getVehicleContraceInfoByReservationId(long reservation_id) {
+        return this.vehicleServiceManageDao.getVehicleContraceInfoByReservationId(reservation_id);
     }
 
     /**

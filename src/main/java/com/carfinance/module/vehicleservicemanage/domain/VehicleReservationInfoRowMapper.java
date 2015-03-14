@@ -41,6 +41,7 @@ public class VehicleReservationInfoRowMapper implements RowMapper<VehicleReserva
 //        vehicleReservationInfo.setFinance_update_at(rs.getDate("finance_update_at"));
 
         vehicleReservationInfo.setRemark(rs.getString("remark"));
+        vehicleReservationInfo.setContrace_type(rs.getLong("contrace_type"));
 
         return vehicleReservationInfo;
 	}

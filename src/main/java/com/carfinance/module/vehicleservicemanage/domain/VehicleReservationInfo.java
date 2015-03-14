@@ -30,6 +30,15 @@ public class VehicleReservationInfo implements Serializable{
     private long finance_update_by;
     private Date finance_update_at;
     private String remark;
+    private long contrace_type;//合同类型
+
+    public long getContrace_type() {
+        return contrace_type;
+    }
+
+    public void setContrace_type(long contrace_type) {
+        this.contrace_type = contrace_type;
+    }
 
     public long getCreate_by() {
         return create_by;

@@ -43,6 +43,8 @@
             <tr>
                 <td width="15%" class="tableleft">姓名</td>
                 <td><input type="text" name="customer_name" id="customer_name" placeholder="必填" required="true"/></td>
+                <td class="tableleft">手机号</td>
+                <td><input type="text" name="customer_dn" id="customer_dn" placeholder="必填" required="true"/></td>
             </tr>
             <tr>
                 <td class="tableleft">证件类型</td>
@@ -54,18 +56,8 @@
                         <option value="台胞证">台胞证</option>
                     </select>
                 </td>
-            </tr>
-            <tr>
                 <td class="tableleft">证件号码</td>
                 <td><input type="text" name="certificate_no" id="certificate_no" placeholder="必填" required="true"/></td>
-            </tr>
-            <tr>
-                <td class="tableleft">手机号</td>
-                <td><input type="text" name="customer_dn" id="customer_dn" placeholder="必填" required="true"/></td>
-            </tr>
-            <tr>
-                <td class="tableleft">邮箱</td>
-                <td><input type="text" name="customer_email" id="customer_email" /></td>
             </tr>
             <tr>
                 <td class="tableleft">客户类型</td>
@@ -75,22 +67,36 @@
                         <option value="企业用户">企业用户</option>
                     </select>
                 </td>
+                <td class="tableleft">会员号</td>
+                <td><input type="text" name="vip_no" id="vip_no" /></td>
+                <%--<td class="tableleft">邮箱</td>--%>
+                <%--<td><input type="text" name="customer_email" id="customer_email" /></td>--%>
             </tr>
             <tr>
                 <td class="tableleft">客户房产</td>
                 <td><input type="text" name="customer_house" id="customer_house" /></td>
+                <td class="tableleft">房产证明</td>
+                <td><input type="text" name="house_pic" id="house_pic"/></td>
             </tr>
             <tr>
                 <td class="tableleft">客户车辆</td>
                 <td><input type="text" name="customer_vehicle" id="customer_vehicle"/></td>
+                <td class="tableleft">车辆证明</td>
+                <td><input type="text" name="vehicle_pic" id="vehicle_pic"/></td>
             </tr>
             <tr>
                 <td class="tableleft">客户担保人/单位</td>
                 <td><input type="text" name="customer_guarantee" id="customer_guarantee"/></td>
+                <td class="tableleft">营业执照</td>
+                <td><input type="text" name="yingyezhizhao_pic" id="yingyezhizhao_pic" /></td>
+            </tr>
+            <tr>
+                <td class="tableleft">其他证明</td>
+                <td colspan="3"><input type="text" name="other_pic" id="other_pic"/></td>
             </tr>
             <tr>
                 <td class="tableleft"></td>
-                <td>
+                <td colspan="3">
                     <button type="button" class="btn btn-primary" id="save">保存</button> &nbsp;&nbsp;
                     <button type="button" class="btn btn-success" id="backid">返回列表</button>
                 </td>

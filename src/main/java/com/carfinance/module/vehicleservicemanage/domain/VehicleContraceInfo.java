@@ -8,6 +8,7 @@ public class VehicleContraceInfo implements Serializable{
 	
 	private long id;
     private String contrace_no;
+    private long contrace_type;
     private String customer_name;
     private String customer_type;
     private String customer_dn;
@@ -45,6 +46,14 @@ public class VehicleContraceInfo implements Serializable{
     private Date monthly_day;
     private double deposit;
     private double peccancy_deposit;
+
+    public long getContrace_type() {
+        return contrace_type;
+    }
+
+    public void setContrace_type(long contrace_type) {
+        this.contrace_type = contrace_type;
+    }
 
     public double getDaily_price() {
         return daily_price;

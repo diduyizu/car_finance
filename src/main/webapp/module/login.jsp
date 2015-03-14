@@ -89,7 +89,7 @@
         <h2 class="form-signin-heading">登录系统</h2>
         <input type="text" name="username" id="username" class="input-block-level" placeholder="账号">
         <input type="password" name="password" id="password" class="input-block-level" placeholder="密码">
-        <input type="text" name="verify" class="input-medium" placeholder="验证码">
+        <%--<input type="text" name="verify" class="input-medium" placeholder="验证码">--%>
        
         <p><button class="btn btn-large btn-primary" id="userlogin">登录</button></p>
     </form>
