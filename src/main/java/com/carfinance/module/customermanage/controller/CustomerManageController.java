@@ -107,8 +107,9 @@ public class CustomerManageController {
         String customer_house = request.getParameter("customer_house") == null ? "无" : request.getParameter("customer_house");
         String customer_vehicle= request.getParameter("customer_vehicle") == null ? "无" : request.getParameter("customer_vehicle");
         String customer_guarantee= request.getParameter("customer_guarantee") == null ? "无" : request.getParameter("customer_guarantee");
+        String vip_no = request.getParameter("vip_no");
 
-        return this.customerManageService.addCustomerInfo(certificate_type , certificate_no , customer_name , customer_dn , customer_email , customer_type , customer_house , customer_vehicle , customer_guarantee , user.getUser_id());
+        return this.customerManageService.addCustomerInfo(certificate_type , certificate_no , customer_name , customer_dn , customer_email , customer_type , customer_house , customer_vehicle , customer_guarantee , vip_no , user.getUser_id());
     }
 
     @RequestMapping(value = "/info/modify" , method = RequestMethod.GET)
@@ -137,8 +138,9 @@ public class CustomerManageController {
         String customer_house = request.getParameter("customer_house") == null ? "无" : request.getParameter("customer_house");
         String customer_vehicle= request.getParameter("customer_vehicle") == null ? "无" : request.getParameter("customer_vehicle");
         String customer_guarantee= request.getParameter("customer_guarantee") == null ? "无" : request.getParameter("customer_guarantee");
+        String vip_no = request.getParameter("vip_no");
 
-        return this.customerManageService.modifyCustomerInfo(id , certificate_type , certificate_no , customer_name , customer_dn , customer_email , customer_type , customer_house , customer_vehicle , customer_guarantee , user.getUser_id());
+        return this.customerManageService.modifyCustomerInfo(id , certificate_type , certificate_no , customer_name , customer_dn , customer_email , customer_type , customer_house , customer_vehicle , customer_guarantee , vip_no , user.getUser_id());
     }
 
     /**

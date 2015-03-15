@@ -105,13 +105,14 @@
             var customer_house=$.trim($('#customer_house').val());
             var customer_vehicle=$.trim($('#customer_vehicle').val());
             var customer_guarantee=$.trim($('#customer_guarantee').val());
+            var vip_no = $.trim($('#vip_no').val());
 
             $.ajax({
                 url:"${ctx}/customer/info/domodify",
                 type: "post",
                 data:{id:customer_id,certificate_type:certificate_type,certificate_no:certificate_no,customer_name:customer_name,customer_dn:customer_dn,
                     customer_email:customer_email,customer_type:customer_type,customer_house:customer_house,
-                    customer_vehicle:customer_vehicle,customer_guarantee:customer_guarantee},
+                    customer_vehicle:customer_vehicle,customer_guarantee:customer_guarantee,vip_no:vip_no},
                 success:function(data){
                     if(data == 1){
                         alert("成功");
