@@ -14,6 +14,7 @@ import com.carfinance.module.vehicleservicemanage.domain.VehicleContraceInfo;
 import com.carfinance.module.vehicleservicemanage.domain.VehicleContraceVehsInfo;
 import com.carfinance.module.vehicleservicemanage.domain.VehicleReservationInfo;
 import com.carfinance.module.vehicleservicemanage.service.VehicleServiceManageService;
+import net.sf.json.JSONArray;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -950,4 +951,34 @@ public class VehicleServiceManageController {
         model.addAttribute("vehicle_contrace_vehs_list" , vehicleContraceVehsInfoList);
         return "/module/vehicleservicemanage/contrace/finish";
     }
+
+    /**
+     * 计算超市时长
+     * @param model
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/contrace/calculateovertime" , method = RequestMethod.POST)
+    @ResponseBody
+    public String contraceCalculateOvertime(Model model , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        String use_begin = request.getParameter("use_begin");
+        String use_end = request.getParameter("use_end");
+        String return_time = request.getParameter("return_time")+":00";//还车时间
+        long return_km = Long.valueOf(request.getParameter("return_km"));//还车公里数
+
+        long daily_available_km = Long.valueOf(request.getParameter("daily_available_km"));//每天允许公里数
+        double over_km_price = Double.valueOf(request.getParameter("over_km_price"));//超里程，每公里价格
+        double over_hour_price = Double.valueOf(request.getParameter("over_hour_price"));//超时间，每小时价格
+
+        long vehicle_id = Long.valueOf(request.getParameter("vehicle_id"));//车辆id
+
+        Map<String , Object> map = this.vehicleServiceManageService.calculateOvertimeAndKm(use_begin , use_end , return_time , vehicle_id ,  return_km , daily_available_km , over_hour_price , over_km_price);
+        String return_json = JSONArray.fromObject(map).toString();
+        logger.info("over_km_hour :" + return_json);
+        return return_json;
+    }
+
 }

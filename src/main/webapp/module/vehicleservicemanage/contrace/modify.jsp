@@ -70,11 +70,14 @@
                 <td><input type="text" name="contrace_no" id="contrace_no" placeholder="必填" value="${vehicle_contrace_info.contrace_no}" required="true"/></td>
                 <td class="tableleft">合同类型</td>
                 <td>
-                    <%--<input type="text" name="contrace_type" id="contrace_type" placeholder="必填" value="${vehicle_contrace_info.contrace_no}" required="true"/>--%>
-                    <select id="contrace_type" name="contrace_type">
-                        <option value="1" <c:if test="${vehicleReservationInfo.contrace_type == 1}">selected="selected" </c:if>>零租</option>
-                        <option value="2" <c:if test="${vehicleReservationInfo.contrace_type == 2}">selected="selected" </c:if>>产权租</option>
-                    </select>
+                    <c:if test="${vehicle_contrace_info.contrace_type == 1}">
+                        零租
+                        <input type="hidden" name="contrace_type" id="contrace_type" value="1"/>
+                    </c:if>
+                    <c:if test="${vehicle_contrace_info.contrace_type == 2}">
+                        产权组
+                        <input type="hidden" name="contrace_type" id="contrace_type" value="2"/>
+                    </c:if>
                 </td>
             </tr>
             <tr>

@@ -2,6 +2,7 @@ package com.carfinance.module.common.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.Timestamp;
 import java.util.*;
 
 import com.carfinance.module.common.domain.*;
@@ -11,6 +12,7 @@ import com.carfinance.module.customermanage.domain.CustomerInfo;
 import com.carfinance.module.init.service.InitService;
 import com.carfinance.module.login.domain.User;
 import com.carfinance.module.vehiclemanage.domain.VehicleInfo;
+import com.carfinance.utils.DateUtil;
 import net.sf.json.JSONArray;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;

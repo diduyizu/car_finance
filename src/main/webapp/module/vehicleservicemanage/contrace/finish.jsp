@@ -38,16 +38,6 @@
 
 
     </style>
-
-    <script type="text/javascript">
-        $().ready(function() {
-            var customer_name_json = ${customer_name_json};
-            console.info(customer_name_json);
-            $('#customer_name').typeahead({
-                source: customer_name_json
-            });
-        })
-    </script>
 </head>
 <body>
     <form class="cmxform form-horizontal">
@@ -130,62 +120,57 @@
             </tr>
             <tr>
                 <td class="tableleft">描述</td>
-                <td colspan="5"><textarea readonly id="remark" rows="4" style="margin: 0px 0px 10px; width: 766px; height: 140px;" >${vehicle_contrace_info.remark}</textarea></td>
+                <%--<td colspan="5"><textarea readonly id="remark" rows="4" style="margin: 0px 0px 10px; width: 766px; height: 140px;" >${vehicle_contrace_info.remark}</textarea></td>--%>
+                <td colspan="5">${vehicle_contrace_info.remark}</td>
             </tr>
         </table>
     </form>
-    <table class="table table-bordered table-hover definewidth m10">
-        <thead>
+    <form class="cmxform form-horizontal">
+        <table class="table table-bordered table-hover definewidth m10">
+            <thead>
             <tr>
                 <th>车牌号</th>
                 <th>车型</th>
                 <th>还车时间</th>
                 <th>公里数</th>
-                <th>超时时间</th>
-                <th>超公里数</th>
+                <%--<th>超时时长</th>--%>
+                <%--<th>超里程数</th>--%>
                 <th>超期费用</th>
                 <th>操作</th>
             </tr>
-        </thead>
-        <c:forEach var="vehicle" items="${vehicle_contrace_vehs_list}" varStatus="status">
-            <tr>
-                <td>${vehicle.license_plate}</td>
-                <td>${vehicle.model}</td>
-                <td><input type="text" /></td>
-                <td><input type="text" /></td>
-                <td><input type="text" /></td>
-                <td><input type="text" /></td>
-                <td><input type="text" /></td>
-                <td>操作</td>
-            </tr>
-        </c:forEach>
-    </table>
+            </thead>
+            <c:forEach var="vehicle" items="${vehicle_contrace_vehs_list}" varStatus="status">
+                <tr>
+                    <td>${vehicle.license_plate}</td>
+                    <td>${vehicle.model}</td>
+                    <td>
+                        <%--<input class="form_datetime return_time" size="16" type="text" placeholder="必填" value="${vehicle_contrace_info.use_end}" required="true">--%>
+                        <input class="form_datetime return_time" size="16" type="text" placeholder="必填" required="true">
+                    </td>
+                    <td>
+                        <input type="text" class="return_km" />
+                        <input type="hidden" name="vehicle_id" value="${vehicle.vehicle_id}" />
+                    </td>
+                    <%--<td><input type="text" /></td>--%>
+                    <%--<td><input type="text" /></td>--%>
+                    <td><input type="text" /></td>
+                    <td>
+                        <button>还车</button>
+                    </td>
+                </tr>
+            </c:forEach>
+        </table>
+        <input type="hidden" id="use_begin" value="${vehicle_contrace_info.use_begin}" />
+        <input type="hidden" id="use_end" value="${vehicle_contrace_info.use_end}" />
+        <input type="hidden" id="daily_available_km" value="${vehicle_contrace_info.daily_available_km}" />
+        <input type="hidden" id="over_km_price" value="${vehicle_contrace_info.over_km_price}" />
+        <input type="hidden" id="over_hour_price" value="${vehicle_contrace_info.over_hour_price}" />
+    </form>
 </body>
 </html>
 <script>
     $(function () {
         window.prettyPrint && prettyPrint();
-//        $('#use_begin').datetimepicker({
-//            format: 'yyyy-mm-dd hh:ii',
-//            language: 'zh-CN',
-//            pickDate: true,
-//            pickTime: true,
-//            hourStep: 1,
-//            minuteStep: 15,
-//            secondStep: 30,
-//            inputMask: true
-//        });
-//        $('#use_end').datetimepicker({
-//            format: 'yyyy-mm-dd hh:ii',
-//            language: 'en',
-//            pickDate: true,
-//            pickTime: true,
-//            hourStep: 1,
-//            minuteStep: 15,
-//            secondStep: 30,
-//            inputMask: true
-//        });
-
         $('.form_datetime').datetimepicker({
             format: 'yyyy-mm-dd hh:ii',
             language: 'zh-CN',
@@ -197,55 +182,35 @@
             inputMask: true
         });
 
-		$('#backid').click(function(){
-            window.location.href="${ctx}/vehicleservice/contrace/index?page_index=${current_page}&original_org=${original_org}";
-		});
+        $(".return_km").blur(function(){
+            var return_km_this = $(this);
+            var return_time = $(this).parent('td').prev('td').children("input").val();
+            var return_km = $(this).val();
+            if(return_time != null && "" != return_time && return_km != null && "" != return_km) {
+                var use_begin=$.trim($('#use_begin').val());
+                var use_end=$.trim($('#use_end').val());
+                var daily_available_km=$.trim($('#daily_available_km').val());
+                var over_km_price=$.trim($('#over_km_price').val());
+                var over_hour_price=$.trim($('#over_hour_price').val());
+                var vehicle_id = $(this).next("input").val();
 
-        $('#save').click(function(){
-            var contrace_id=$.trim($('#contrace_id').val());
-            var reservation_id=$.trim($('#reservation_id').val());
-            var original_org=$.trim($('#original_org').val());
-            var contrace_no=$.trim($('#contrace_no').val());
-            var customer_name=$.trim($('#customer_name').val());
-            var customer_type=$.trim($('#customer_type').val());
-            var customer_dn=$.trim($('#customer_dn').val());
-            var certificate_type=$.trim($('#certificate_type').val());
-            var certificate_no=$.trim($('#certificate_no').val());
-            var use_begin_date=$.trim($('#use_begin_date').val());
-            var use_end_date=$.trim($('#use_end_date').val());
-            var employee_id=$.trim($('#employee_id').val());
-            var employee_name=$.trim($('#employee_name').val());
-            var remark=$.trim($('#remark').val());
+                $.ajax({
+                    url:"${ctx}/vehicleservice/contrace/calculateovertime",
+                    type: "post",
+                    data:{use_begin:use_begin,use_end:use_end,return_time:return_time,return_km:return_km,daily_available_km:daily_available_km,over_km_price:over_km_price,over_hour_price:over_hour_price,vehicle_id:vehicle_id},
+                    success:function(data){
+                        console.info(data);
+                        var d=eval(data);//解析
+                        console.info(data);
+                        $(d).each(function(index,entity){
+                            return_km_this.parent('td').next('td').children("input").val(entity['all_alg_money']);
+//                            $("#current_city").append($('<option value="'+entity['city_id']+'">'+entity['city_name']+'</option>'));//后台数据加到下拉框
+                        });
 
-            var daily_price=$.trim($('#daily_price').val());
-            var daily_available_km=$.trim($('#daily_available_km').val());
-            var over_km_price=$.trim($('#over_km_price').val());
-            var over_hour_price=$.trim($('#over_hour_price').val());
-            var month_price=$.trim($('#month_price').val());
-            var month_available_km=$.trim($('#month_available_km').val());
-            var monthly_day_date=$.trim($('#monthly_day_date').val());
-            var pre_payment=$.trim($('#pre_payment').val());
-            var deposit=$.trim($('#deposit').val());
-            var peccancy_deposit=$.trim($('#peccancy_deposit').val());
-
-            $.ajax({
-                url:"${ctx}/vehicleservice/contrace/domodify",
-                type: "post",
-                data:{contrace_id:contrace_id,reservation_id:reservation_id,original_org:original_org,contrace_no:contrace_no,customer_name:customer_name,
-                    customer_type:customer_type,customer_dn:customer_dn,certificate_type:certificate_type,certificate_no:certificate_no,use_begin:use_begin_date,
-                    use_end:use_end_date,employee_id:employee_id,employee_name:employee_name,remark:remark,daily_price:daily_price,deposit:deposit,
-                    over_km_price:over_km_price,over_hour_price:over_hour_price,month_price:month_price,month_available_km:month_available_km,
-                    monthly_day_date:monthly_day_date,pre_payment:pre_payment,daily_available_km:daily_available_km,peccancy_deposit:peccancy_deposit},
-                success:function(data){
-                    if(data > 0){
-                        alert("成功");
-                        window.location.href="${ctx}/vehicleservice/contrace/index?page_index=${current_page}&original_org=${original_org}";
-                    } else {
-                        alert("失败");
-                        return false;
                     }
-                }
-            })
-        })
+                })
+            }
+        });
+
     });
 </script>

@@ -505,8 +505,7 @@ public class DateTimeUtil { // 服务器的时间
 	 * @param secondString
 	 * @return int
 	 */
-	public static int nDaysBetweenTwoDate(String firstString,
-			String secondString) {
+	public static int nDaysBetweenTwoDate(String firstString, String secondString) {
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		Date firstDate = null;
 		Date secondDate = null;
@@ -530,8 +529,7 @@ public class DateTimeUtil { // 服务器的时间
 	 * @param secondString
 	 * @return int
 	 */
-	public static int nWeeksBetweenTwoDate(String firstString,
-			String secondString) {
+	public static int nWeeksBetweenTwoDate(String firstString, String secondString) {
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		Date firstDate = null;
 		Date secondDate = null;

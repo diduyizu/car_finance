@@ -1,5 +1,7 @@
 package com.carfinance.utils;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -228,5 +230,37 @@ public class DateUtil {
         java.util.Calendar c = java.util.Calendar.getInstance();
         c.setTime(date);
         return c.get(java.util.Calendar.SECOND);
+    }
+
+
+    /**
+     * 返回超时时长
+     * @param start_date_str
+     * @param end_date_str
+     * @param unit 按照什么力度返回 day/hour/min/second
+     * @return
+     */
+    public static double getTimeLag(String start_date_str , String end_date_str , String unit) {
+        SimpleDateFormat myFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        double time_lag = 0;
+        try {
+            Date start_date = myFormatter.parse(start_date_str);
+            Date end_date = myFormatter.parse(end_date_str);
+            double time_lang_tmp = end_date.getTime() - start_date.getTime();
+            if("day".equals(unit)) {
+                time_lag = Math.ceil(time_lang_tmp/(24 * 60 * 60 * 1000));
+//                time_lag = BigDecimal.valueOf((end_date.getTime() - start_date.getTime()) / (24 * 60 * 60 * 1000)).longValue();
+            } else if("hour".equals(unit)) {
+                time_lag = Math.ceil(time_lang_tmp/(60 * 60 * 1000));
+//                time_lag = BigDecimal.valueOf((end_date.getTime() - start_date.getTime()) / (60 * 60 * 1000)).longValue(); //时
+            } else if("min".equals(unit)) {
+                time_lag = time_lang_tmp / ( 60 * 1000); //分
+            } else if("second".equals(unit)) {
+                time_lag = time_lang_tmp / (1000); //秒
+            }
+        } catch (Exception e) {
+            return -1;
+        }
+        return time_lag;
     }
 }

@@ -342,4 +342,38 @@ public class VehicleServiceManageService {
     public List<VehicleContraceVehsInfo> getVehicleContraceVehsListByContraceId(long contrace_id) {
         return this.vehicleServiceManageDao.getVehicleContraceVehsListByContraceId(contrace_id);
     }
+
+    public Map<String , Object> calculateOvertimeAndKm(String use_begin , String use_end , String return_date , long vehicle_id , long return_km , long daily_available_km , double over_hour_price , double over_km_price) {
+        VehicleInfo vehicleInfo = this.vehicleManageDao.getVehicleInfoByid(vehicle_id);
+
+        //还车时，实际使用公里数
+        long km_lag_tmp = return_km-vehicleInfo.getKm();
+        //计算合同租车天数,开始——结束时间算
+        double contrace_days = DateUtil.getTimeLag(use_begin, use_end, "day");
+        //合同允许总公里数=合同允许每天公里数*合同使用天数
+        double allow_km_all = daily_available_km * contrace_days;
+
+        //实际还车时间-合同规定还车时间，不足1h按1h计算，向上取整，如果大于0，表示时间超标
+        double time_lag = DateUtil.getTimeLag(use_end, return_date, "hour");
+        //实际使用公里数-合同允许使用公里数，如果大于0，表示公里数超标
+        double km_lag = km_lag_tmp - allow_km_all;
+
+        //计算时间超标和公里数超标最终需要支付的超期费用
+        double time_lag_money = 0;//超时费
+        double km_lag_money = 0;//超公里费
+        if(time_lag > 0) {
+            time_lag_money = time_lag * over_hour_price;
+        }
+        if(km_lag > 0) {
+            km_lag_money = km_lag * over_km_price;
+        }
+        double all_alg_money = time_lag_money + km_lag_money;
+
+        Map<String , Object> map = new HashMap<String, Object>();
+        map.put("time_lag" , time_lag > 0 ? time_lag : 0);
+        map.put("km_lag" , km_lag > 0 ? km_lag : 0);
+        map.put("all_alg_money" , all_alg_money);
+        return map;
+    }
+
 }
