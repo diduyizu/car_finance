@@ -47,6 +47,52 @@ public class VehicleContraceInfo implements Serializable{
     private double deposit;
     private double peccancy_deposit;
 
+    private double system_total_price;
+    private double arrange_price;
+    private double actual_price;
+    private double late_fee;
+    private int is_arrearage;
+
+    public double getSystem_total_price() {
+        return system_total_price;
+    }
+
+    public void setSystem_total_price(double system_total_price) {
+        this.system_total_price = system_total_price;
+    }
+
+    public double getArrange_price() {
+        return arrange_price;
+    }
+
+    public void setArrange_price(double arrange_price) {
+        this.arrange_price = arrange_price;
+    }
+
+    public double getActual_price() {
+        return actual_price;
+    }
+
+    public void setActual_price(double actual_price) {
+        this.actual_price = actual_price;
+    }
+
+    public double getLate_fee() {
+        return late_fee;
+    }
+
+    public void setLate_fee(double late_fee) {
+        this.late_fee = late_fee;
+    }
+
+    public int getIs_arrearage() {
+        return is_arrearage;
+    }
+
+    public void setIs_arrearage(int is_arrearage) {
+        this.is_arrearage = is_arrearage;
+    }
+
     public long getContrace_type() {
         return contrace_type;
     }

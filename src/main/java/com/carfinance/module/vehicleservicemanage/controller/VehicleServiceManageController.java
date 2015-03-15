@@ -1024,4 +1024,19 @@ public class VehicleServiceManageController {
         return this.vehicleServiceManageService.contraceDoFinish(contrace_id , system_total_price , arrange_price , actual_price , late_fee , user.getUser_id());
     }
 
+    @RequestMapping(value = "/contrace/detail" , method = RequestMethod.GET)
+    public String contraceDetail(Model model , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        List<Org> user_all_org_list = this.commonService.getUserAllOrgList(user.getUser_id());
+
+        long contrace_id = Long.valueOf(request.getParameter("contrace_id"));
+        VehicleContraceInfo vehicleContraceInfo = this.vehicleServiceManageService.getVehicleContraceInfoById(contrace_id);
+        List<VehicleContraceVehsInfo> vehicleContraceVehsInfoList = this.vehicleServiceManageService.getVehicleContraceVehsListByContraceId(contrace_id);
+
+        model.addAttribute("user_all_org_list" , user_all_org_list);
+        model.addAttribute("vehicle_contrace_info" , vehicleContraceInfo);
+        model.addAttribute("vehicle_contrace_vehs_list" , vehicleContraceVehsInfoList);
+        return "/module/vehicleservicemanage/contrace/detail";
+    }
 }

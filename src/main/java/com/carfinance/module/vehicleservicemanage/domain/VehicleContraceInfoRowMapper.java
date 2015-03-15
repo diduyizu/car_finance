@@ -54,6 +54,12 @@ public class VehicleContraceInfoRowMapper implements RowMapper<VehicleContraceIn
         vehicleContraceInfo.setPeccancy_deposit(rs.getDouble("peccancy_deposit"));
 
 
+        vehicleContraceInfo.setSystem_total_price(rs.getDouble("system_total_price"));
+        vehicleContraceInfo.setArrange_price(rs.getDouble("arrange_price"));
+        vehicleContraceInfo.setActual_price(rs.getDouble("actual_price"));
+        vehicleContraceInfo.setLate_fee(rs.getDouble("late_fee"));
+        vehicleContraceInfo.setIs_arrearage(rs.getInt("is_arrearage"));
+
         return vehicleContraceInfo;
 	}
 }
