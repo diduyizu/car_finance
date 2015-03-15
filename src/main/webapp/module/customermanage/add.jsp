@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="<c:url value="/resources/Css/bootstrap-responsive.css" />" />
     <link rel="stylesheet" type="text/css" href="<c:url value="/resources/Css/style.css" />" />
     <link rel="stylesheet" type="text/css" href="<c:url value="/resources/Css/datepicker.css" />" />
-    <link rel="stylesheet" type="text/css" href="<c:url value="/resources/Css/bootstrap-fileupload.css" />" />
+
 
     <%--<script type="text/javascript" src="<c:url value="/resources/Js/jquery.js" />"></script>--%>
     <script type="text/javascript" src="<c:url value="/resources/Js/jquery-1.7.1.js" />"></script>
@@ -16,7 +16,7 @@
     <script type="text/javascript" src="<c:url value="/resources/Js/ckform.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/Js/common.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/Js/bootstrap-datepicker.js" />"></script>
-    <script type="text/javascript" src="<c:url value="/resources/Js/bootstrap-fileupload.js" />"></script>
+
 
 
     <style type="text/css">
@@ -44,11 +44,11 @@
         <table class="table table-bordered table-hover definewidth m10">
             <tr>
                 <td width="15%" class="tableleft">姓名</td>
-                <td><input type="text" name="customer_name" id="customer_name" placeholder="必填" required="true"/></td>
+                <td co><input type="text" name="customer_name" id="customer_name" placeholder="必填" required="true"/></td>
                 <td class="tableleft">手机号</td>
                 <td ><input type="text" name="customer_dn" id="customer_dn" placeholder="必填" required="true"/></td>
                 <td class="tableleft">会员号</td>
-                <td colspan="3"><input type="text" name="vip_no" id="vip_no" /></td>
+                <td><input type="text" name="vip_no" id="vip_no" /></td>
             </tr>
             <tr>
                 <td class="tableleft">客户类型</td>
@@ -77,78 +77,6 @@
                 <td><input type="text" name="customer_vehicle" id="customer_vehicle"/></td>
                 <td class="tableleft">客户担保人/单位</td>
                 <td><input type="text" name="customer_guarantee" id="customer_guarantee"/></td>
-            </tr>
-            <tr>
-                <td class="tableleft">房产证明</td>
-                <td>
-                    <div class="fileupload fileupload-new" data-provides="fileupload">
-                        <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
-                            <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image" alt="" />
-                        </div>
-                        <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;"></div>
-                        <div>
-                                                   <span class="btn btn-white btn-file">
-                                                   <span class="fileupload-new"><i class="fa fa-paper-clip"></i>选择图片</span>
-                                                   <span class="fileupload-exists"><i class="fa fa-undo"></i>更换</span>
-                                                   <input type="file" class="default" name="house_pic" id="house_pic" />
-                                                   </span>
-                            <a href="#" class="btn btn-danger fileupload-exists" data-dismiss="fileupload"><i class="fa fa-trash"></i>删除</a>
-                        </div>
-                    </div>
-                </td>
-                <td class="tableleft">车辆证明</td>
-                <td colspan="3">
-                    <div class="fileupload fileupload-new" data-provides="fileupload">
-                        <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
-                            <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image" alt="" />
-                        </div>
-                        <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;"></div>
-                        <div>
-                                                   <span class="btn btn-white btn-file">
-                                                   <span class="fileupload-new"><i class="fa fa-paper-clip"></i>选择图片</span>
-                                                   <span class="fileupload-exists"><i class="fa fa-undo"></i>更换</span>
-                                                   <input type="file" class="default" name="vehicle_pic" id="vehicle_pic" />
-                                                   </span>
-                            <a href="#" class="btn btn-danger fileupload-exists" data-dismiss="fileupload"><i class="fa fa-trash"></i>删除</a>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td class="tableleft">营业执照</td>
-                <td>
-                    <div class="fileupload fileupload-new" data-provides="fileupload">
-                        <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
-                            <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image" alt="" />
-                        </div>
-                        <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;"></div>
-                        <div>
-                                                   <span class="btn btn-white btn-file">
-                                                   <span class="fileupload-new"><i class="fa fa-paper-clip"></i>选择图片</span>
-                                                   <span class="fileupload-exists"><i class="fa fa-undo"></i>更换</span>
-                                                   <input type="file" class="default" name="business_licence_pic" id="business_licence_pic" />
-                                                   </span>
-                            <a href="#" class="btn btn-danger fileupload-exists" data-dismiss="fileupload"><i class="fa fa-trash"></i>删除</a>
-                        </div>
-                    </div>
-                </td>
-                <td class="tableleft">其他证明</td>
-                <td colspan="3">
-                    <div class="fileupload fileupload-new" data-provides="fileupload">
-                        <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
-                            <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image" alt="" />
-                        </div>
-                        <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;"></div>
-                        <div>
-                                                   <span class="btn btn-white btn-file">
-                                                   <span class="fileupload-new"><i class="fa fa-paper-clip"></i>选择图片</span>
-                                                   <span class="fileupload-exists"><i class="fa fa-undo"></i>更换</span>
-                                                   <input type="file" class="default" name="other_pic" id="other_pic" />
-                                                   </span>
-                            <a href="#" class="btn btn-danger fileupload-exists" data-dismiss="fileupload"><i class="fa fa-trash"></i>删除</a>
-                        </div>
-                    </div>
-                </td>
             </tr>
             <tr>
                 <td class="tableleft"></td>

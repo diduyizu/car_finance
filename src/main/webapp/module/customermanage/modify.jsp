@@ -38,34 +38,15 @@
     </style>
 </head>
 <body>
-    <form class="definewidth m20">
+    <form class="cmxform form-horizontal">
         <table class="table table-bordered table-hover definewidth m10">
             <tr>
-                <td width="15%" class="tableleft">姓名</td>
+                <td class="tableleft">姓名</td>
                 <td><input type="text" name="customer_name" id="customer_name" required="true" placeholder="必填" value="${customer_info.customer_name}"/></td>
-            </tr>
-            <tr>
-                <td class="tableleft">证件类型</td>
-                <td>
-                    <select id="certificate_type" name="certificate_type">
-                        <option value="身份证" <c:if test="${customer_info.certificate_type == '身份证'}">selected="selected"</c:if>>身份证</option>
-                        <option value="国际护照" <c:if test="${customer_info.certificate_type == '国际护照'}">selected="selected"</c:if>>国际护照</option>
-                        <option value="回乡证" <c:if test="${customer_info.certificate_type == '回乡证'}">selected="selected"</c:if>>回乡证</option>
-                        <option value="台胞证" <c:if test="${customer_info.certificate_type == '台胞证'}">selected="selected"</c:if>>台胞证</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td class="tableleft">证件号码</td>
-                <td><input type="text" name="certificate_no" id="certificate_no" required="true" placeholder="必填" value="${customer_info.certificate_no}"/></td>
-            </tr>
-            <tr>
                 <td class="tableleft">手机号</td>
                 <td><input type="text" name="customer_dn" id="customer_dn" required="true" placeholder="必填" value="${customer_info.customer_dn}"/></td>
-            </tr>
-            <tr>
-                <td class="tableleft">邮箱</td>
-                <td><input type="text" name="customer_email" id="customer_email" value="${customer_info.customer_email}"/></td>
+                <td class="tableleft">会员号</td>
+                <td><input type="text" name="vip_no" id="vip_no" value="${customer_info.vip_no}" /></td>
             </tr>
             <tr>
                 <td class="tableleft">客户类型</td>
@@ -75,22 +56,29 @@
                         <option value="企业用户" <c:if test="${customer_info.customer_type == '企业用户'}">selected="selected"</c:if>>企业用户</option>
                     </select>
                 </td>
+                <td class="tableleft">证件类型</td>
+                <td>
+                    <select id="certificate_type" name="certificate_type">
+                        <option value="身份证" <c:if test="${customer_info.certificate_type == '身份证'}">selected="selected"</c:if>>身份证</option>
+                        <option value="国际护照" <c:if test="${customer_info.certificate_type == '国际护照'}">selected="selected"</c:if>>国际护照</option>
+                        <option value="回乡证" <c:if test="${customer_info.certificate_type == '回乡证'}">selected="selected"</c:if>>回乡证</option>
+                        <option value="台胞证" <c:if test="${customer_info.certificate_type == '台胞证'}">selected="selected"</c:if>>台胞证</option>
+                    </select>
+                </td>
+                <td class="tableleft">证件号码</td>
+                <td><input type="text" name="certificate_no" id="certificate_no" required="true" placeholder="必填" value="${customer_info.certificate_no}"/></td>
             </tr>
             <tr>
                 <td class="tableleft">客户房产</td>
                 <td><input type="text" name="customer_house" id="customer_house" value="${customer_info.customer_house}" /></td>
-            </tr>
-            <tr>
                 <td class="tableleft">客户车辆</td>
                 <td><input type="text" name="customer_vehicle" id="customer_vehicle" value="${customer_info.customer_vehicle}" /></td>
-            </tr>
-            <tr>
                 <td class="tableleft">客户担保人/单位</td>
                 <td><input type="text" name="customer_guarantee" id="customer_guarantee" value="${customer_info.customer_guarantee}" /></td>
             </tr>
             <tr>
                 <td class="tableleft"></td>
-                <td>
+                <td colspan="5">
                     <button type="button" class="btn btn-primary" id="save">保存</button> &nbsp;&nbsp;
                     <button type="button" class="btn btn-success" id="backid">返回列表</button>
                     <input type="hidden" id="customer_id" name="customer_id" value="${customer_info.id}">

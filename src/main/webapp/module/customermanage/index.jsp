@@ -77,7 +77,7 @@
             <th>证件类型</th>
             <th>证件号码</th>
             <th>客户手机</th>
-            <th>客户邮箱</th>
+            <%--<th>客户邮箱</th>--%>
             <th>客户类型</th>
             <th>客户房产</th>
             <th>客户车辆</th>
@@ -87,16 +87,19 @@
     </thead>
     <c:forEach var="customer" items="${customer_list}" varStatus="status">
         <tr>
-            <td>${customer.customer_name}</td>
+            <td><a href="${ctx}/customer/info/detail?id=${customer.id}">${customer.customer_name}</a></td>
             <td>${customer.certificate_type}</td>
             <td>${customer.certificate_no}</td>
             <td>${customer.customer_dn}</td>
-            <td>${customer.customer_email}</td>
+            <%--<td>${customer.customer_email}</td>--%>
             <td>${customer.customer_type}</td>
             <td>${customer.customer_house}</td>
             <td>${customer.customer_vehicle}</td>
             <td>${customer.customer_guarantee}</td>
-            <td><a href="${ctx}/customer/info/modify?id=${customer.id}">修改</a></td>
+            <td>
+                <a href="${ctx}/customer/info/modify?id=${customer.id}">修改</a>
+                <a href="${ctx}/customer/info/modifyannex?id=${customer.id}">修改附件</a>
+            </td>
         </tr>
     </c:forEach>
 </table>

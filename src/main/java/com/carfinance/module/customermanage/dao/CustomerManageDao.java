@@ -2,6 +2,8 @@ package com.carfinance.module.customermanage.dao;
 
 import com.carfinance.core.dao.BaseJdbcDaoImpl;
 import com.carfinance.module.common.dao.CommonDao;
+import com.carfinance.module.customermanage.domain.CustomerAnnex;
+import com.carfinance.module.customermanage.domain.CustomerAnnexRowMapper;
 import com.carfinance.module.customermanage.domain.CustomerInfo;
 import com.carfinance.module.customermanage.domain.CustomerInfoRowMapper;
 import com.carfinance.module.vehiclemanage.domain.VehicleInfo;
@@ -111,6 +113,20 @@ public class CustomerManageDao extends BaseJdbcDaoImpl {
         Object[] o = new Object[] { certificate_type , certificate_no , customer_name , customer_dn , customer_email , customer_type , customer_house , customer_vehicle , customer_guarantee , update_by , id };
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().update(sql , o);
+    }
+
+    public List<CustomerAnnex> getCustomrAnnexListbyCustomerId(long customer_id) {
+        String sql = "select * from  customer_annex where customer_id = ?";
+        Object[] o = new Object[] { customer_id };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().query(sql, o, new CustomerAnnexRowMapper());
+    }
+
+    public void updateCustomerAnnex(long customer_id , String annex_name , String url) {
+        String sql = "insert into customer_annex (customer_id , annex_name , url) values (?,?,?)";
+        Object[] o = new Object[] { customer_id , annex_name , url };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        this.getJdbcTemplate().update(sql, o);
     }
 
 }

@@ -2,6 +2,7 @@ package com.carfinance.module.customermanage.controller;
 
 import com.carfinance.module.common.domain.UserRole;
 import com.carfinance.module.common.service.CommonService;
+import com.carfinance.module.customermanage.domain.CustomerAnnex;
 import com.carfinance.module.customermanage.domain.CustomerInfo;
 import com.carfinance.module.customermanage.service.CustomerManageService;
 import com.carfinance.module.init.service.InitService;
@@ -16,7 +17,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -135,5 +139,48 @@ public class CustomerManageController {
         String customer_guarantee= request.getParameter("customer_guarantee") == null ? "无" : request.getParameter("customer_guarantee");
 
         return this.customerManageService.modifyCustomerInfo(id , certificate_type , certificate_no , customer_name , customer_dn , customer_email , customer_type , customer_house , customer_vehicle , customer_guarantee , user.getUser_id());
+    }
+
+    /**
+     * 跳转至编辑附件列表页
+     * @param model
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/info/modifyannex" , method = RequestMethod.GET)
+    public String customerInfoModifyAnnex(Model model , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        long id = Long.valueOf(request.getParameter("id"));
+        List<CustomerAnnex> customer_annex_list = this.customerManageService.getCustomrAnnexListbyCustomerId(id);
+
+        model.addAttribute("customer_annex_list" , customer_annex_list);
+        model.addAttribute("customer_id" , id);
+        return "/module/customermanage/modifyannex";
+    }
+
+    @RequestMapping(value = "/annex/upload", method = RequestMethod.POST)
+    public String annexUpload(HttpServletRequest request, @RequestParam("files") CommonsMultipartFile[] file_upload) {
+        User user = (User) request.getSession().getAttribute("user");
+
+        long customer_id = Long.valueOf(request.getParameter("customer_id"));
+        this.customerManageService.annexUpload(request , file_upload , customer_id , user.getUser_id());
+
+        return "redirect:/customer/info/detail?id=" + customer_id;
+    }
+
+
+    @RequestMapping(value = "/info/detail", method = RequestMethod.GET)
+    public String annexUpload(Model model , HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+
+        long customer_id = Long.valueOf(request.getParameter("id"));
+        CustomerInfo customerInfo = this.customerManageService.getCustomrInfobyId(customer_id);
+        List<CustomerAnnex> customer_annex_list = this.customerManageService.getCustomrAnnexListbyCustomerId(customer_id);
+
+        model.addAttribute("customer_info" , customerInfo);
+        model.addAttribute("customer_annex_list" , customer_annex_list);
+        return "/module/customermanage/detail";
     }
 }

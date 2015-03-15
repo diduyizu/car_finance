@@ -1,5 +1,6 @@
 package com.carfinance.module.common.service;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -19,6 +20,8 @@ import org.springframework.stereotype.Service;
 
 import com.carfinance.core.cache.CacheKey;
 import com.carfinance.module.common.dao.CommonDao;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 @Service
 public class CommonService {
@@ -382,5 +385,37 @@ public class CommonService {
         return return_json;
     }
 
+
+    public Map<String , Object> saveFile(CommonsMultipartFile upload_file , String save_path) {
+        try{
+            File f = new File(save_path);
+            if (!f.exists()) {
+                logger.info("创建路径" + save_path);
+                f.mkdirs();
+            }
+            String name = upload_file.getFileItem().getName();
+            String extName = "";
+            String annexName = "";
+            if (name.lastIndexOf(".") >= 0) {
+                name = name.substring(name.lastIndexOf("\\") + 1);
+                extName = name.substring(name.lastIndexOf("."));
+                annexName = name.substring(0, name.lastIndexOf("."));
+            }
+            if(!"".equals(extName)) {
+                name = UUID.randomUUID().toString();
+                File file = new File(save_path + name + extName);
+                upload_file.getFileItem().write(file);
+
+                String file_name = name + extName;
+                Map<String , Object> map = new HashMap<String, Object>();
+                map.put("annexName" , annexName);
+                map.put("file_name" , file_name);
+                return map;
+            }
+        } catch (Exception e) {
+            logger.error(e.getMessage() , e);
+        }
+        return null;
+    }
 
 }

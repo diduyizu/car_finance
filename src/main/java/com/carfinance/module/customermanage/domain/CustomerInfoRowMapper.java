@@ -26,10 +26,6 @@ public class CustomerInfoRowMapper implements RowMapper<CustomerInfo>{
         customerInfo.setCustomer_guarantee(rs.getString("customer_guarantee"));
 
         customerInfo.setVip_no(rs.getString("vip_no"));
-        customerInfo.setHouse_pic(rs.getString("house_pic"));
-        customerInfo.setVehicle_pic(rs.getString("vehicle_pic"));
-        customerInfo.setBusiness_licence_pic(rs.getString("business_licence_pic"));
-        customerInfo.setOther_pic(rs.getString("other_pic"));
 
         return customerInfo;
 	}

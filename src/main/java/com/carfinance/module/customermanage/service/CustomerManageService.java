@@ -4,6 +4,7 @@ import com.carfinance.module.common.dao.CommonDao;
 import com.carfinance.module.common.service.CommonService;
 import com.carfinance.module.common.service.ManageMemcacdedClient;
 import com.carfinance.module.customermanage.dao.CustomerManageDao;
+import com.carfinance.module.customermanage.domain.CustomerAnnex;
 import com.carfinance.module.customermanage.domain.CustomerInfo;
 import com.carfinance.module.init.service.InitService;
 import com.carfinance.module.storemanage.dao.StoreManageDao;
@@ -13,11 +14,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.util.*;
 
 /**
  * 
@@ -38,6 +40,8 @@ public class CustomerManageService {
     private InitService initService;
     @Autowired
     private CommonDao commonDao;
+    @Autowired
+    private Properties appProps;
 
 
     public Map<String , Object> getCustomerList(String customer_name , String dn , String certificate_no , int start , int size) {
@@ -79,6 +83,32 @@ public class CustomerManageService {
             logger.info(e.getMessage() , e);
         }
         return 0;
+    }
+
+    public List<CustomerAnnex> getCustomrAnnexListbyCustomerId(long customer_id) {
+        return this.customerManageDao.getCustomrAnnexListbyCustomerId(customer_id);
+    }
+
+    public void annexUpload(HttpServletRequest request , CommonsMultipartFile[] file_upload , long customer_id, long user_id) {
+        if(file_upload != null && file_upload.length > 0){
+            //循环获取file数组中得文件
+            for(int i = 0;i<file_upload.length;i++){
+                CommonsMultipartFile file = file_upload[i];
+                //保存文件
+                String savePath = request.getSession().getServletContext().getRealPath("/");
+                String sharespace = appProps.getProperty("customerannex.dbpath").replace("${customer_id}", String.valueOf(customer_id));
+                savePath = savePath + sharespace;
+                logger.info("savePath=" + savePath);
+
+                Map<String , Object> map = this.commonService.saveFile(file , savePath);
+                if(map != null) {
+                    String annex_name = (String)map.get("annexName");
+                    String file_name = (String)map.get("file_name");
+                    String db_url = sharespace + file_name;
+                    this.customerManageDao.updateCustomerAnnex(customer_id , annex_name , db_url);
+                }
+            }
+        }
     }
 
 }
