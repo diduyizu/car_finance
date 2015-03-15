@@ -937,7 +937,7 @@ public class VehicleServiceManageController {
      * @return
      */
     @RequestMapping(value = "/contrace/finish" , method = RequestMethod.GET)
-    public String contraceDoFinish(Model model , HttpServletRequest request , HttpServletResponse response) {
+    public String contraceFinish(Model model , HttpServletRequest request , HttpServletResponse response) {
         User user = (User)request.getSession().getAttribute("user");
 
         List<Org> user_all_org_list = this.commonService.getUserAllOrgList(user.getUser_id());
@@ -945,7 +945,9 @@ public class VehicleServiceManageController {
         long contrace_id = Long.valueOf(request.getParameter("contrace_id"));
         VehicleContraceInfo vehicleContraceInfo = this.vehicleServiceManageService.getVehicleContraceInfoById(contrace_id);
         List<VehicleContraceVehsInfo> vehicleContraceVehsInfoList = this.vehicleServiceManageService.getVehicleContraceVehsListByContraceId(contrace_id);
+        double system_total_price = this.vehicleServiceManageService.getContraceIncom(contrace_id);
 
+        model.addAttribute("system_total_price" , system_total_price);
         model.addAttribute("user_all_org_list" , user_all_org_list);
         model.addAttribute("vehicle_contrace_info" , vehicleContraceInfo);
         model.addAttribute("vehicle_contrace_vehs_list" , vehicleContraceVehsInfoList);
@@ -979,6 +981,47 @@ public class VehicleServiceManageController {
         String return_json = JSONArray.fromObject(map).toString();
         logger.info("over_km_hour :" + return_json);
         return return_json;
+    }
+
+    /**
+     * 合同结单，还车
+     * @return
+     */
+    @RequestMapping(value = "/contrace/returnvahicle" , method = RequestMethod.POST)
+    @ResponseBody
+    public int returnVehicle(Model model , HttpServletRequest request , HttpServletResponse response) {
+
+        long contrace_id = Long.valueOf(request.getParameter("contrace_id"));
+        String return_time = request.getParameter("return_time");
+        long return_km = Long.valueOf(request.getParameter("return_km"));
+        long vehicle_id = Long.valueOf(request.getParameter("vehicle_id"));
+        double over_price = Long.valueOf(request.getParameter("over_price"));
+        long vehicle_contrace_id = Long.valueOf(request.getParameter("vehicle_contrace_id"));
+
+        int result = this.vehicleServiceManageService.returnVehicle(vehicle_contrace_id , contrace_id , return_time , return_km , vehicle_id , over_price);
+        return result;
+//        return "redirect:/vehicleservice/contrace/finish?contrace_id=" + contrace_id;
+    }
+
+    /**
+     * 最终执行合同结单
+     * @param model
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/contrace/dofinish" , method = RequestMethod.POST)
+    @ResponseBody
+    public int contraceDoFinish(Model model , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        long contrace_id = Long.valueOf(request.getParameter("contrace_id"));
+        double system_total_price = Double.valueOf(request.getParameter("system_total_price"));
+        double arrange_price = Double.valueOf(request.getParameter("arrange_price"));
+        double actual_price = Double.valueOf(request.getParameter("actual_price"));
+        double late_fee = Double.valueOf(request.getParameter("late_fee"));
+
+        return this.vehicleServiceManageService.contraceDoFinish(contrace_id , system_total_price , arrange_price , actual_price , late_fee , user.getUser_id());
     }
 
 }

@@ -42,6 +42,83 @@
 <body>
     <form class="cmxform form-horizontal">
         <table class="table table-bordered table-hover definewidth m10">
+            <thead>
+            <tr>
+                <th>车牌号</th>
+                <th>车型</th>
+                <th>当前里程</th>
+                <th>还车时间</th>
+                <th>还车里程</th>
+                <th>超期费用</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <c:forEach var="vehicle" items="${vehicle_contrace_vehs_list}" varStatus="status">
+                <tr>
+                    <td>${vehicle.license_plate}</td>
+                    <td>${vehicle.model}</td>
+                    <td>${vehicle.km}</td>
+                    <td>
+                        <c:if test="${vehicle.return_time != '' || vehicle.return_time != null}">${vehicle.return_time}</c:if>
+                        <c:if test="${vehicle.return_time == '' && vehicle.return_time == null}">
+                            <input class="form_datetime return_time" size="16" type="text" placeholder="必填" required="true" name="return_time">
+                        </c:if>
+                    </td>
+                    <td>
+                        <c:if test="${vehicle.return_km != '' || vehicle.return_km != null}">${vehicle.return_km}</c:if>
+                        <c:if test="${vehicle.return_km == '' && vehicle.return_km == null}">
+                            <input type="text" class="return_km" name="return_km" />
+                            <input type="hidden" name="vehicle_id" value="${vehicle.vehicle_id}" />
+                        </c:if>
+                    </td>
+                    <td>
+                        <c:if test="${vehicle.over_price != '' || vehicle.over_price != null}">${vehicle.over_price}</c:if>
+                        <c:if test="${vehicle.over_price == '' && vehicle.over_price == null}">
+                            <input type="text" name="over_price" />
+                        </c:if>
+                    </td>
+                    <td>
+                        <c:if test="${vehicle.return_km == '' && vehicle.return_km == null}">
+                            <button type="button" class="btn btn-success returncar">还车</button>
+                            <input type="hidden" name="vehicle_contrace_id" value="${vehicle.id}" />
+                        </c:if>
+                    </td>
+                </tr>
+            </c:forEach>
+        </table>
+        <input type="hidden" id="contrace_id" value="${vehicle_contrace_info.id}" />
+        <input type="hidden" id="use_begin" value="${vehicle_contrace_info.use_begin}" />
+        <input type="hidden" id="use_end" value="${vehicle_contrace_info.use_end}" />
+        <input type="hidden" id="daily_available_km" value="${vehicle_contrace_info.daily_available_km}" />
+        <input type="hidden" id="over_km_price" value="${vehicle_contrace_info.over_km_price}" />
+        <input type="hidden" id="over_hour_price" value="${vehicle_contrace_info.over_hour_price}" />
+    </form>
+
+    <form class="cmxform form-horizontal">
+        <table class="table table-bordered table-hover definewidth m10">
+            <tr>
+                <td class="tableleft">系统应收租金</td>
+                <td><input type="text" name="system_total_price" id="system_total_price" value="${system_total_price}" readonly/></td>
+                <td class="tableleft">约定所得租金</td>
+                <td><input type="text" name="arrange_price" id="arrange_price" placeholder="必填" required /></td>
+            </tr>
+            <tr>
+                <td class="tableleft">实际所得租金</td>
+                <td><input type="text" name="actual_price" id="actual_price" placeholder="必填" required /></td>
+                <td class="tableleft">滞纳金</td>
+                <td><input type="text" name="late_fee" id="late_fee" value="0" placeholder="必填" required /></td>
+            </tr>
+            <tr>
+                <td class="tableleft"></td>
+                <td colspan="3">
+                    <button type="button" class="btn btn-primary" id="dofinish">结单</button>&nbsp;&nbsp;结单前，请还清所有车辆
+                </td>
+            </tr>
+        </table>
+    </form>
+
+    <form class="cmxform form-horizontal">
+        <table class="table table-bordered table-hover definewidth m10">
             <tr>
                 <td class="tableleft">所属门店</td>
                 <td>
@@ -125,48 +202,6 @@
             </tr>
         </table>
     </form>
-    <form class="cmxform form-horizontal">
-        <table class="table table-bordered table-hover definewidth m10">
-            <thead>
-            <tr>
-                <th>车牌号</th>
-                <th>车型</th>
-                <th>当前里程</th>
-                <th>还车时间</th>
-                <th>还车里程</th>
-                <%--<th>超时时长</th>--%>
-                <%--<th>超里程数</th>--%>
-                <th>超期费用</th>
-                <th>操作</th>
-            </tr>
-            </thead>
-            <c:forEach var="vehicle" items="${vehicle_contrace_vehs_list}" varStatus="status">
-                <tr>
-                    <td>${vehicle.license_plate}</td>
-                    <td>${vehicle.model}</td>
-                    <td>${vehicle.km}</td>
-                    <td>
-                        <input class="form_datetime return_time" size="16" type="text" placeholder="必填" required="true">
-                    </td>
-                    <td>
-                        <input type="text" class="return_km" />
-                        <input type="hidden" name="vehicle_id" value="${vehicle.vehicle_id}" />
-                    </td>
-                    <%--<td><input type="text" /></td>--%>
-                    <%--<td><input type="text" /></td>--%>
-                    <td><input type="text" /></td>
-                    <td>
-                        <button>还车</button>
-                    </td>
-                </tr>
-            </c:forEach>
-        </table>
-        <input type="hidden" id="use_begin" value="${vehicle_contrace_info.use_begin}" />
-        <input type="hidden" id="use_end" value="${vehicle_contrace_info.use_end}" />
-        <input type="hidden" id="daily_available_km" value="${vehicle_contrace_info.daily_available_km}" />
-        <input type="hidden" id="over_km_price" value="${vehicle_contrace_info.over_km_price}" />
-        <input type="hidden" id="over_hour_price" value="${vehicle_contrace_info.over_hour_price}" />
-    </form>
 </body>
 </html>
 <script>
@@ -181,6 +216,39 @@
             minuteStep: 15,
             secondStep: 30,
             inputMask: true
+        });
+
+        $(".returncar").click(function(){
+            var contrace_id=$.trim($('#contrace_id').val());
+            var return_time = $(this).parent('td').parent('tr').find("input[name='return_time']").val();
+            var return_km = $(this).parent('td').parent('tr').find("input[name='return_km']").val();
+            var vehicle_id = $(this).parent('td').parent('tr').find("input[name='vehicle_id']").val();
+            var over_price = $(this).parent('td').parent('tr').find("input[name='over_price']").val();
+            var vehicle_contrace_id = $(this).next("input").val();
+
+            if(return_time == "" || return_time == null) {
+                alert("请选择还车时间");
+                return false;
+            }
+            if(return_km == "" || return_km == null) {
+                alert("请输入还车里程");
+                return false;
+            }
+
+            $.ajax({
+                url:"${ctx}/vehicleservice/contrace/returnvahicle",
+                type: "post",
+                data:{contrace_id:contrace_id,return_time:return_time,return_km:return_km,vehicle_id:vehicle_id,over_price:over_price,vehicle_contrace_id:vehicle_contrace_id},
+                success:function(data){
+                    if(data > 0) {
+                        alert("成功");
+                        window.location.href="${ctx}/vehicleservice/contrace/finish?contrace_id="+contrace_id;
+                    } else {
+                        alert("失败");
+                        return false;
+                    }
+                }
+            })
         });
 
         $(".return_km").blur(function(){
@@ -212,6 +280,30 @@
                 })
             }
         });
+
+        $("#dofinish").click(function(){
+            var contrace_id=$.trim($('#contrace_id').val());
+            var system_total_price=$.trim($('#system_total_price').val());
+            var arrange_price=$.trim($('#arrange_price').val());
+            var actual_price=$.trim($('#actual_price').val());
+            var late_fee=$.trim($('#late_fee').val());
+
+            $.ajax({
+                url:"${ctx}/vehicleservice/contrace/dofinish",
+                type: "post",
+                data:{contrace_id:contrace_id,system_total_price:system_total_price,arrange_price:arrange_price,actual_price:actual_price,late_fee:late_fee},
+                success:function(data){
+                    if(data > 0) {
+                        alert("成功");
+                        window.location.href="${ctx}/vehicleservice/contrace/index";
+                    } else {
+                        alert("失败");
+                        return false;
+                    }
+                }
+            })
+        });
+
 
     });
 </script>

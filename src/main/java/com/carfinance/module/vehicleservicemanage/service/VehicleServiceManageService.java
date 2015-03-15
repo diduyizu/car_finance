@@ -269,17 +269,6 @@ public class VehicleServiceManageService {
     }
 
     /**
-     * 业务员结单
-     * @param id
-     * @param status
-     * @param user_id
-     * @return
-     */
-    public int contraceDoFinish(long id , String status , long user_id) {
-        return this.vehicleServiceManageDao.contraceDoFinish(id, status, user_id);
-    }
-
-    /**
      * 业务员选择车辆，加入合同
      * @param contrace_id
      * @param vehicle_id
@@ -343,6 +332,30 @@ public class VehicleServiceManageService {
         return this.vehicleServiceManageDao.getVehicleContraceVehsListByContraceId(contrace_id);
     }
 
+    //获取合同应该收到的租金
+    //包括合同正常行驶情况下的租金；车辆超时、超里程的赔偿金
+    public double getContraceIncom(long contrace_id) {
+        VehicleContraceInfo vehicleContraceInfo = this.vehicleServiceManageDao.getVehicleContraceInfoById(contrace_id);
+
+        double contrace_days = DateUtil.getTimeLag(vehicleContraceInfo.getUse_begin(), vehicleContraceInfo.getUse_end(), "day");//合同天数
+        double daily_price = vehicleContraceInfo.getDaily_price();//合同约定每天价格
+
+        double normal_price = contrace_days * daily_price;//正常金额，按照合同约定天数，以及每日单价计算得出
+
+        double abnormal_price = 0;//不正常金额，车辆超时、超里程的赔偿金
+        List<VehicleContraceVehsInfo> vehicleContraceVehsInfoList = this.vehicleServiceManageDao.getVehicleContraceVehsListByContraceId(contrace_id);
+        for(VehicleContraceVehsInfo v : vehicleContraceVehsInfoList) {
+            abnormal_price = abnormal_price + v.getOver_price();
+        }
+
+        double system_total_price = normal_price + abnormal_price;
+        return system_total_price;
+
+
+    }
+
+
+
     public Map<String , Object> calculateOvertimeAndKm(String use_begin , String use_end , String return_date , long vehicle_id , long return_km , long daily_available_km , double over_hour_price , double over_km_price) {
         VehicleInfo vehicleInfo = this.vehicleManageDao.getVehicleInfoByid(vehicle_id);
 
@@ -374,6 +387,45 @@ public class VehicleServiceManageService {
         map.put("km_lag" , km_lag > 0 ? km_lag : 0);
         map.put("all_alg_money" , all_alg_money);
         return map;
+    }
+
+    public int returnVehicle(long vehicle_contrace_id , long contrace_id , String return_time , long return_km , long vehicle_id , double over_price) {
+        try{
+            //更新合同车辆表
+            Date return_time_date = DateUtil.string2Date(return_time , "yyyy-MM-dd HH:mm");
+            int result = this.vehicleServiceManageDao.returnVehicle(vehicle_contrace_id , return_time_date , return_km , over_price);
+            if(result > 0) {
+                //更新车辆主表当前公里数为return_km
+                this.vehicleServiceManageDao.updateVehicleKM(vehicle_id , return_km);
+            }
+            return result;
+        } catch (Exception e) {
+            logger.error(e.getMessage() , e);
+            return 0;
+        }
+    }
+
+
+    /**
+     * 业务员结单
+     * @param contrace_id
+     * @param system_total_price
+     * @param arrange_price
+     * @param actual_price
+     * @param late_fee
+     * @param user_id
+     * @return
+     */
+    public int contraceDoFinish(long contrace_id , double system_total_price , double arrange_price , double actual_price , double late_fee , long user_id) {
+        //判断合同对应的车辆是否都已经归还，如果没有全部归还，合同不能结单
+        int count = this.vehicleServiceManageDao.getVehicleReturnStatus(contrace_id);
+        if(count > 0) {
+            return -1;//还有没有归还的车辆，不能结单
+        }
+        //结单，更新合同主表状态
+        int is_arrearage = 0;
+        if((arrange_price-actual_price) > 0 ) is_arrearage = 1;
+        return this.vehicleServiceManageDao.contraceDofinish(contrace_id , system_total_price , arrange_price , actual_price , late_fee , is_arrearage , user_id);
     }
 
 }

@@ -2,6 +2,7 @@ package com.carfinance.module.vehicleservicemanage.domain;
 
 import org.springframework.jdbc.core.RowMapper;
 
+import java.security.Timestamp;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -27,6 +28,21 @@ public class VehicleContraceVehsInfoRowMapper implements RowMapper<VehicleContra
 
         try{
             vehicleContraceVehsInfo.setKm(rs.getLong("km"));
+        } catch (Exception e){}
+
+        try{
+            if(rs.getTimestamp("return_time") != null) {
+                String return_time_str = rs.getTimestamp("return_time").toString();
+                vehicleContraceVehsInfo.setReturn_time(return_time_str.substring(0 , return_time_str.length()-2));
+            }
+        } catch (Exception e){}
+
+        try{
+            vehicleContraceVehsInfo.setReturn_km(rs.getLong("return_km"));
+        } catch (Exception e){}
+
+        try{
+            vehicleContraceVehsInfo.setOver_price(rs.getDouble("over_price"));
         } catch (Exception e){}
 
         return vehicleContraceVehsInfo;

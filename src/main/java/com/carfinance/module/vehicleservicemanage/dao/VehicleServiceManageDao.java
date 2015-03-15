@@ -719,4 +719,42 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().query(sql, o , new VehicleContraceVehsInfoRowMapper());
     }
+
+    /**
+     * 更新合同车辆表
+     * @param vehicle_contrace_id
+     * @param return_time
+     * @param return_km
+     * @param over_price
+     * @return
+     */
+    public int returnVehicle(long vehicle_contrace_id , Date return_time , long return_km , double over_price) {
+        String sql = "update vehicle_contrace_vehs set return_time = ? , return_km = ? , over_price = ? where id = ? ";
+        Object[] o = new Object[] { return_time , return_km , over_price , vehicle_contrace_id  };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().update(sql , o);
+    }
+
+    public int updateVehicleKM(long vehicle_id , long return_km) {
+        String sql = "update vehicle_info set km = ? , lease_status = '在库' where id = ? ";
+        Object[] o = new Object[] {  return_km , vehicle_id  };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().update(sql , o);
+    }
+
+    //根据合同id，获取该合同下所有车辆，是否都已经归还
+    public int getVehicleReturnStatus(long contrace_id) {
+        String sql = "select count(1) from vehicle_contrace_vehs where return_km is null and contrace_id = ? ";
+        Object[] o = new Object[] {  contrace_id };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().queryForInt(sql, o);
+    }
+
+    public int contraceDofinish(long contrace_id , double system_total_price , double arrange_price , double actual_price , double late_fee , int is_arrearage , long user_id) {
+        String sql = "update vehicle_contrace set system_total_price = ? , arrange_price = ? , actual_price = ? , late_fee = ? , is_arrearage = ? , status = 6 where id = ? ";
+        Object[] o = new Object[] {  system_total_price , arrange_price , actual_price , late_fee , is_arrearage , contrace_id };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().update(sql , o);
+    }
+
 }
