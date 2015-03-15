@@ -955,7 +955,7 @@ public class VehicleServiceManageController {
     }
 
     /**
-     * 计算超市时长
+     * 计算超时时长
      * @param model
      * @param request
      * @param response

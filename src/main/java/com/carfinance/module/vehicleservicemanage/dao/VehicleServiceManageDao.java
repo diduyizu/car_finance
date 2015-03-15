@@ -729,7 +729,7 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
      * @return
      */
     public int returnVehicle(long vehicle_contrace_id , Date return_time , long return_km , double over_price) {
-        String sql = "update vehicle_contrace_vehs set return_time = ? , return_km = ? , over_price = ? where id = ? ";
+        String sql = "update vehicle_contrace_vehs set return_time = ? , return_km = ? , over_price = ? , status = 1 where id = ? ";
         Object[] o = new Object[] { return_time , return_km , over_price , vehicle_contrace_id  };
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().update(sql , o);
@@ -744,7 +744,7 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
 
     //根据合同id，获取该合同下所有车辆，是否都已经归还
     public int getVehicleReturnStatus(long contrace_id) {
-        String sql = "select count(1) from vehicle_contrace_vehs where return_km is null and contrace_id = ? ";
+        String sql = "select count(1) from vehicle_contrace_vehs where status = 0 and contrace_id = ? ";
         Object[] o = new Object[] {  contrace_id };
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().queryForInt(sql, o);

@@ -59,26 +59,26 @@
                     <td>${vehicle.model}</td>
                     <td>${vehicle.km}</td>
                     <td>
-                        <c:if test="${vehicle.return_time != '' || vehicle.return_time != null}">${vehicle.return_time}</c:if>
-                        <c:if test="${vehicle.return_time == '' && vehicle.return_time == null}">
+                        <c:if test="${vehicle.status == 1}">${vehicle.return_time}</c:if>
+                        <c:if test="${vehicle.status == 0}">
                             <input class="form_datetime return_time" size="16" type="text" placeholder="必填" required="true" name="return_time">
                         </c:if>
                     </td>
                     <td>
-                        <c:if test="${vehicle.return_km != '' || vehicle.return_km != null}">${vehicle.return_km}</c:if>
-                        <c:if test="${vehicle.return_km == '' && vehicle.return_km == null}">
+                        <c:if test="${vehicle.status == 1}">${vehicle.return_km}</c:if>
+                        <c:if test="${vehicle.status == 0}">
                             <input type="text" class="return_km" name="return_km" />
                             <input type="hidden" name="vehicle_id" value="${vehicle.vehicle_id}" />
                         </c:if>
                     </td>
                     <td>
-                        <c:if test="${vehicle.over_price != '' || vehicle.over_price != null}">${vehicle.over_price}</c:if>
-                        <c:if test="${vehicle.over_price == '' && vehicle.over_price == null}">
+                        <c:if test="${vehicle.status == 1}">${vehicle.over_price}</c:if>
+                        <c:if test="${vehicle.status == 0}">
                             <input type="text" name="over_price" />
                         </c:if>
                     </td>
                     <td>
-                        <c:if test="${vehicle.return_km == '' && vehicle.return_km == null}">
+                        <c:if test="${vehicle.status == 0}">
                             <button type="button" class="btn btn-success returncar">还车</button>
                             <input type="hidden" name="vehicle_contrace_id" value="${vehicle.id}" />
                         </c:if>

@@ -45,6 +45,10 @@ public class VehicleContraceVehsInfoRowMapper implements RowMapper<VehicleContra
             vehicleContraceVehsInfo.setOver_price(rs.getDouble("over_price"));
         } catch (Exception e){}
 
+        try{
+            vehicleContraceVehsInfo.setStatus(rs.getInt("status"));
+        } catch (Exception e){}
+
         return vehicleContraceVehsInfo;
 	}
 }

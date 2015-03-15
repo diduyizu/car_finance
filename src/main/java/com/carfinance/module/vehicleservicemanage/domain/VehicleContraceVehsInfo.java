@@ -27,6 +27,15 @@ public class VehicleContraceVehsInfo implements Serializable{
     private String return_time;
     private long return_km;
     private double over_price;
+    private int status;
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
 
     public String getReturn_time() {
         return return_time;
