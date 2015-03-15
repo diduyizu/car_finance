@@ -131,8 +131,9 @@
             <tr>
                 <th>车牌号</th>
                 <th>车型</th>
+                <th>当前里程</th>
                 <th>还车时间</th>
-                <th>公里数</th>
+                <th>还车里程</th>
                 <%--<th>超时时长</th>--%>
                 <%--<th>超里程数</th>--%>
                 <th>超期费用</th>
@@ -143,8 +144,8 @@
                 <tr>
                     <td>${vehicle.license_plate}</td>
                     <td>${vehicle.model}</td>
+                    <td>${vehicle.km}</td>
                     <td>
-                        <%--<input class="form_datetime return_time" size="16" type="text" placeholder="必填" value="${vehicle_contrace_info.use_end}" required="true">--%>
                         <input class="form_datetime return_time" size="16" type="text" placeholder="必填" required="true">
                     </td>
                     <td>

@@ -22,6 +22,16 @@ public class VehicleContraceVehsInfo implements Serializable{
     private long update_by;
     private Date update_at;
 
+    private long km;
+
+    public long getKm() {
+        return km;
+    }
+
+    public void setKm(long km) {
+        this.km = km;
+    }
+
     public String getDriving_user_license_no() {
         return driving_user_license_no;
     }

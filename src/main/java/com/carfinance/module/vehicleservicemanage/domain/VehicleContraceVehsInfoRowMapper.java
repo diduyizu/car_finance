@@ -25,6 +25,10 @@ public class VehicleContraceVehsInfoRowMapper implements RowMapper<VehicleContra
         vehicleContraceVehsInfo.setUpdate_by(rs.getLong("update_by"));
         vehicleContraceVehsInfo.setUpdate_at(rs.getDate("update_at"));
 
+        try{
+            vehicleContraceVehsInfo.setKm(rs.getLong("km"));
+        } catch (Exception e){}
+
         return vehicleContraceVehsInfo;
 	}
 }
