@@ -114,4 +114,15 @@ public class StoreManageService {
         return JSONArray.fromObject(map).toString();
     }
 
+    public int deleteStore(long org_id) {
+        return this.storeManageDao.deleteStore(org_id);
+    }
+
+    public Store getStoreById(long org_id) {
+        return this.storeManageDao.getStoreById(org_id);
+    }
+
+    public int doModify(long org_id , String store_name , String store_address) {
+        return this.storeManageDao.doModify(org_id , store_name , store_address);
+    }
 }

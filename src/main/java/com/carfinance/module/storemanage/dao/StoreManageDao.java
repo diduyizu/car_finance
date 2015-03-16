@@ -36,10 +36,10 @@ public class StoreManageDao extends BaseJdbcDaoImpl {
         String sql;
         Object[] o;
         if(store_name != null && !"".equals(store_name.trim())) {
-            sql = "select count(1) from sys_org where org_name = ?";
+            sql = "select count(1) from sys_org where org_name = ? and status = 0";
             o = new Object[] { store_name };
         } else {
-            sql = "select count(1) from sys_org";
+            sql = "select count(1) from sys_org where status = 0";
             o = new Object[] { };
         }
 
@@ -51,10 +51,10 @@ public class StoreManageDao extends BaseJdbcDaoImpl {
         String sql;
         Object[] o;
         if(store_name != null && !"".equals(store_name.trim())) {
-            sql = "select * from sys_org where org_name = ? order by org_type , org_id limit ?,?";
+            sql = "select * from sys_org where org_name = ?  and status = 0 order by org_type , org_id limit ?,?";
             o = new Object[] { store_name , start , size };
         } else {
-            sql = "select * from sys_org order by org_type , org_id limit ?,?";
+            sql = "select * from sys_org where status = 0 order by org_type , org_id limit ?,?";
             o = new Object[] { start , size };
         }
 
@@ -73,7 +73,7 @@ public class StoreManageDao extends BaseJdbcDaoImpl {
 
     public Org getCityOrgInfo(long city_id) {
         try{
-            String sql = "select * from sys_org where org_city = ? and org_type = 13";
+            String sql = "select * from sys_org where org_city = ? and org_type = 13  and status = 0";
             Object[] o = new Object[] { city_id };
             logger.info(sql.replaceAll("\\?", "{}"), o);
             return this.getJdbcTemplate().queryForObject(sql, o, new OrgRowMapper());
@@ -84,7 +84,7 @@ public class StoreManageDao extends BaseJdbcDaoImpl {
 
     public Org getProvinceOrgInfo(long province_id) {
         try{
-            String sql = "select * from sys_org where org_province = ? and org_type = 12";
+            String sql = "select * from sys_org where org_province = ? and org_type = 12  and status = 0";
             Object[] o = new Object[] { province_id };
             logger.info(sql.replaceAll("\\?", "{}"), o);
             return this.getJdbcTemplate().queryForObject(sql, o, new OrgRowMapper());
@@ -98,6 +98,32 @@ public class StoreManageDao extends BaseJdbcDaoImpl {
         Object[] o = new Object[] { city_id , province_id };
         logger.info(sql.replaceAll("\\?", "{}"), o);
         this.getJdbcTemplate().update(sql, o);
+    }
+
+    public int deleteStore(long org_id) {
+        String sql = "update sys_org set status = 1 where org_id = ?";
+        Object[] o = new Object[] { org_id };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().update(sql, o);
+    }
+
+    public Store getStoreById(long org_id) {
+        try{
+            String sql = "select * from sys_org where status = 0 and org_id = ?";
+            Object[] o = new Object[] { org_id };
+            logger.info(sql.replaceAll("\\?", "{}"), o);
+            return this.getJdbcTemplate().queryForObject(sql , o , new StoreRowMapper());
+        } catch(EmptyResultDataAccessException e) {
+            logger.error(e.getMessage() , e);
+            return null;
+        }
+    }
+
+    public int doModify(long org_id , String store_name , String store_address) {
+        String sql = "update sys_org set org_name = ? , org_address = ? where org_id = ?";
+        Object[] o = new Object[] { store_name , store_address , org_id };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().update(sql, o);
     }
 
 }

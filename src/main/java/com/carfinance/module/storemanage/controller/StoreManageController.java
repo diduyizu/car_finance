@@ -176,4 +176,133 @@ public class StoreManageController {
 
         return this.storeManageService.createStore(province_id , city_id , store_type , store_name , store_address);
     }
+
+    /**
+     * 跳转至门店删除页面
+     * @param model
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/delete/index" , method = {RequestMethod.GET , RequestMethod.POST})
+    public String deleteStroe(Model model , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        String pageindexStr = request.getParameter("page_index");//第几页
+        int page_index = Integer.parseInt(StringUtils.isBlank(pageindexStr) || "0".equals(pageindexStr) ? "1" : pageindexStr);
+        int size = Integer.valueOf(appProps.get("store.query.size").toString());//每页显示条数
+        int start = (page_index - 1) * size;
+
+        String store_name = request.getParameter("store_name");
+        Map<String , Object> map = this.storeManageService.getStoreList(store_name , start , size);
+
+        long total = (Long)map.get("total");;
+        List<Store> store_List = (List<Store>)map.get("store_list");
+
+        long temp = (total - 1) <= 0 ? 0 : (total - 1);
+        int pages = Integer.parseInt(Long.toString(temp / size)) + 1;
+        int prepages = (page_index - 1) <= 0 ? 1 : (page_index - 1);
+        int nextpages = (page_index + 1) >= pages ? pages : (page_index + 1);
+
+        model.addAttribute("current_page" , page_index);
+        model.addAttribute("pages" , pages);
+        model.addAttribute("prepage" , prepages);
+        model.addAttribute("nextpage" , nextpages);
+        model.addAttribute("page_url" , request.getRequestURI());
+
+        model.addAttribute("store_name" , store_name);
+        model.addAttribute("store_List" , store_List);
+        return "/module/storemanage/delete/index";
+    }
+
+    /**
+     * 删除门店
+     * @param model
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/dodelete" , method = RequestMethod.POST)
+    @ResponseBody
+    public int addDoDelete(Model model , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        long org_id = Long.valueOf(request.getParameter("org_id"));
+        return this.storeManageService.deleteStore(org_id);
+    }
+
+    /**
+     * 跳转至修改门店首页，显示门店列表
+     * @param model
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/modify/index" , method = {RequestMethod.GET , RequestMethod.POST})
+    public String modifyStroeIndex(Model model , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        String pageindexStr = request.getParameter("page_index");//第几页
+        int page_index = Integer.parseInt(StringUtils.isBlank(pageindexStr) || "0".equals(pageindexStr) ? "1" : pageindexStr);
+        int size = Integer.valueOf(appProps.get("store.query.size").toString());//每页显示条数
+        int start = (page_index - 1) * size;
+
+        String store_name = request.getParameter("store_name");
+        Map<String , Object> map = this.storeManageService.getStoreList(store_name , start , size);
+
+        long total = (Long)map.get("total");;
+        List<Store> store_List = (List<Store>)map.get("store_list");
+
+        long temp = (total - 1) <= 0 ? 0 : (total - 1);
+        int pages = Integer.parseInt(Long.toString(temp / size)) + 1;
+        int prepages = (page_index - 1) <= 0 ? 1 : (page_index - 1);
+        int nextpages = (page_index + 1) >= pages ? pages : (page_index + 1);
+
+        model.addAttribute("current_page" , page_index);
+        model.addAttribute("pages" , pages);
+        model.addAttribute("prepage" , prepages);
+        model.addAttribute("nextpage" , nextpages);
+        model.addAttribute("page_url" , request.getRequestURI());
+
+        model.addAttribute("store_name" , store_name);
+        model.addAttribute("store_List" , store_List);
+        return "/module/storemanage/modify/index";
+    }
+
+    /**
+     * 跳转至某个门店的修改页面
+     * @param model
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/modify" , method = RequestMethod.GET)
+    public String modifyStroe(Model model , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        long org_id = Long.valueOf(request.getParameter("org_id"));
+
+        Store store = this.storeManageService.getStoreById(org_id);
+        List<Enum> province_list = this.commonService.getEnumFielList("SYS_PROVINCE");
+        List<City> city_list = this.commonService.getProvinceCityList(store.getOrg_province());
+        List<Enum> org_type_list = this.commonService.getEnumFielList("ORG_TYPE");
+
+        model.addAttribute("store" , store);
+        model.addAttribute("province_list" , province_list);
+        model.addAttribute("city_list" , city_list);
+        model.addAttribute("org_type_list" , org_type_list);
+        return "/module/storemanage/modify/modify";
+    }
+
+    @RequestMapping(value = "/domodify" , method = RequestMethod.POST)
+    @ResponseBody
+    public int doModify(Model model , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        long org_id = Long.valueOf(request.getParameter("org_id"));
+        String store_name = request.getParameter("store_name");
+        String store_address = request.getParameter("store_address");
+
+        return this.storeManageService.doModify(org_id , store_name , store_address);
+    }
 }

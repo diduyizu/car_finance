@@ -64,7 +64,7 @@ public class CommonDao extends BaseJdbcDaoImpl{
      * @return
      */
     public List<UserRole> getUserRoleList(long user_id) {
-        String sql="select a.* , b.org_name from user_role a , sys_org b where a.org_id = b.org_id and a.user_id = ? order by a.role_id";
+        String sql="select a.* , b.org_name from user_role a , sys_org b where a.org_id = b.org_id and a.user_id = ? and b.status = 0 order by a.role_id";
         Object[] o = new Object[] { user_id };
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().query(sql , o  , new UserRoleRowMapper());
@@ -120,7 +120,7 @@ public class CommonDao extends BaseJdbcDaoImpl{
     public List<Org> getUserOrgList(long user_id) {
         String sql="select distinct b.org_id ,  b.org_name , b.pid , b.org_type , b.org_province , b.org_city , b.org_country , " +
                 "b.org_address , b.org_type_name , b.org_province_name , b.org_city_name , b.org_country_name  " +
-                "from user_role a , sys_org b where a.org_id = b.org_id and a.user_id = ? order by b.pid , b.org_type";
+                "from user_role a , sys_org b where a.org_id = b.org_id and a.user_id = ? and b.status = 0 order by b.pid , b.org_type";
         Object[] o = new Object[] { user_id };
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().query(sql , o  , new OrgRowMapper());
@@ -143,7 +143,7 @@ public class CommonDao extends BaseJdbcDaoImpl{
      * @return
      */
     public List<Org> getUserSubOrgList(String parent_org_ids) {
-        String sql="SELECT b.* FROM sys_org b where pid in ("+parent_org_ids+") order by b.pid , b.org_type";
+        String sql="SELECT b.* FROM sys_org b where pid in ("+parent_org_ids+") and status = 0 order by b.pid , b.org_type";
 //        Object[] o = new Object[] { parent_org_ids };
         Object[] o = new Object[] {};
         logger.info(sql.replaceAll("\\?", "{}"), o);
@@ -157,7 +157,7 @@ public class CommonDao extends BaseJdbcDaoImpl{
      * @return
      */
     public List<Org> getUserRoleOrgList(long user_id , long role_id) {
-        String sql="select b.* from user_role a , sys_org b where a.org_id = b.org_id and a.user_id = ? and role_id = ? order by b.pid , b.org_type";
+        String sql="select b.* from user_role a , sys_org b where a.org_id = b.org_id and a.user_id = ? and role_id = ? and b.status = 0 order by b.pid , b.org_type";
         Object[] o = new Object[] { user_id , role_id };
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().query(sql , o  , new OrgRowMapper());
