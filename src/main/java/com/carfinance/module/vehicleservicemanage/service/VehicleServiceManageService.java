@@ -475,4 +475,13 @@ public class VehicleServiceManageService {
             return 0;
         }
     }
+
+
+    public PropertyContraceInfo getPropertyContraceInfoByreservationid(long reservation_id) {
+        return this.vehicleServiceManageDao.getPropertyContraceInfoByreservationid(reservation_id);
+    }
+
+    public long addPropertyContrace(long reservation_id, long org_id, long user_id) {
+        return this.vehicleServiceManageDao.addPropertyContrace(reservation_id , org_id , user_id);
+    }
 }

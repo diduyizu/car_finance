@@ -780,6 +780,28 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
 
     }
 
+    public PropertyContraceInfo getPropertyContraceInfoByreservationid(long reservation_id) {
+        try{
+            String sql = "select * from property_contrace where reservation_id = ?";
+            Object[] o = new Object[] { reservation_id };
+            logger.info(sql.replaceAll("\\?", "{}"), o);
+            return this.getJdbcTemplate().queryForObject(sql, o, new PropertyContraceInfoRowMapper());
+        } catch(EmptyResultDataAccessException e) {
+            logger.error(e.getMessage() , e);
+            return null;
+        }
+    }
 
+    public long addPropertyContrace(long reservation_id, long org_id, long user_id) {
+        long contrace_id = this.commonDao.getNextVal("ContraceSeq");
+        String sql = "insert into property_contrace(id , reservation_id , org_id , create_by) values (?,?,?,?)";
+        Object[] o = new Object[] { contrace_id , reservation_id , org_id , user_id };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        long result = this.getJdbcTemplate().update(sql, o);
+        if(result > 0) {
+            result = contrace_id;
+        }
+        return result;
+    }
 
 }

@@ -9,10 +9,7 @@ import com.carfinance.module.login.domain.User;
 import com.carfinance.module.storemanage.service.StoreManageService;
 import com.carfinance.module.vehiclemanage.domain.VehicleInfo;
 import com.carfinance.module.vehiclemanage.service.VehicleManageService;
-import com.carfinance.module.vehicleservicemanage.domain.UserDriver;
-import com.carfinance.module.vehicleservicemanage.domain.VehicleContraceInfo;
-import com.carfinance.module.vehicleservicemanage.domain.VehicleContraceVehsInfo;
-import com.carfinance.module.vehicleservicemanage.domain.VehicleReservationInfo;
+import com.carfinance.module.vehicleservicemanage.domain.*;
 import com.carfinance.module.vehicleservicemanage.service.VehicleServiceManageService;
 import net.sf.json.JSONArray;
 import org.apache.commons.lang3.StringUtils;
@@ -275,6 +272,7 @@ public class VehicleServiceManageController {
 
     /**
      * 预约单转正式合同，跳转至新增合同页
+     * 需要根据预约单合同类型，跳转至不同合同页面
      * @param model
      * @param request
      * @param response
@@ -282,6 +280,27 @@ public class VehicleServiceManageController {
      */
     @RequestMapping(value = "/contrace/add" , method = RequestMethod.GET)
     public String contraceAdd(Model model , HttpServletRequest request , HttpServletResponse response) {
+        String reservation_org_id = request.getParameter("reservation_org_id");
+        long reservation_id = Long.valueOf(reservation_org_id.split(",")[0]);
+
+        VehicleReservationInfo reservation_info = this.vehicleServiceManageService.getVehicleReservationInfoById(reservation_id);
+        if(reservation_info.getContrace_type() == 1) {//零租
+            return "redirect:/vehicleservice/contrace/temporary/add?reservation_org_id=" + reservation_org_id;
+        } else if(reservation_info.getContrace_type() == 2) {//产权租
+            return "redirect:/vehicleservice/contrace/property/add?reservation_org_id=" + reservation_org_id;
+        }
+        return null;
+    }
+
+    /**
+     * 零租合同
+     * @param model
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/contrace/temporary/add" , method = RequestMethod.GET)
+    public String contraceTemporaryAdd(Model model , HttpServletRequest request , HttpServletResponse response) {
         User user = (User)request.getSession().getAttribute("user");
 
         String reservation_org_id = request.getParameter("reservation_org_id");
@@ -1119,8 +1138,66 @@ public class VehicleServiceManageController {
         double back_lease_price = Double.valueOf(request.getParameter("back_lease_price"));
         double back_overdue_price = Double.valueOf(request.getParameter("back_overdue_price"));
 
-        int result = this.vehicleServiceManageService.contraceDoReturnMoney(contrace_id , back_lease_price , back_overdue_price);
+        int result = this.vehicleServiceManageService.contraceDoReturnMoney(contrace_id, back_lease_price, back_overdue_price);
         return result;
 //        return "redirect:/vehicleservice/contrace/finish?contrace_id=" + contrace_id;
     }
+
+
+    /**
+     * 预约单转合同，产权租
+     * @param model
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/contrace/property/add" , method = RequestMethod.GET)
+    public String contracePropertyAdd(Model model , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        String reservation_org_id = request.getParameter("reservation_org_id");
+        long reservation_id = Long.valueOf(reservation_org_id.split(",")[0]);
+        long org_id = Long.valueOf(reservation_org_id.split(",")[1]);
+
+        //获取用户角色列表
+        List<Org> user_all_org_list = this.commonService.getUserAllOrgList(user.getUser_id());
+        List<City> city_list = this.commonService.getSysUsedCityList();
+
+        long contrace_id;
+        //根据预约单id，获取产权租合同信息。如果有，则直接使用；如果没有，就新增
+        PropertyContraceInfo propertyContraceInfo = this.vehicleServiceManageService.getPropertyContraceInfoByreservationid(reservation_id);
+        if(propertyContraceInfo == null) {
+            //根据预约单id，获取不到合同信息，此时生成合同，此时合同是空合同
+            //跳转至合同页面，输入内容，点击提交，其实是对现在生成的合同内容进行更新
+            contrace_id = this.vehicleServiceManageService.addPropertyContrace(reservation_id, org_id, user.getUser_id());
+        } else {
+            contrace_id = propertyContraceInfo.getId();
+        }
+
+        VehicleReservationInfo vehicleReservationInfo = this.vehicleServiceManageService.getVehicleReservationInfoById(reservation_id);
+        String customer_name_json = this.commonService.getAllCustomerName();
+
+        model.addAttribute("customer_name_json" , customer_name_json);
+        model.addAttribute("contrace_id" , contrace_id);
+        model.addAttribute("reservation_id" , reservation_id);
+        model.addAttribute("city_list" , city_list);
+        model.addAttribute("user_all_org_list" , user_all_org_list);
+        model.addAttribute("vehicleReservationInfo" , vehicleReservationInfo);
+        return "/module/vehicleservicemanage/propertycontrace/add";
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
