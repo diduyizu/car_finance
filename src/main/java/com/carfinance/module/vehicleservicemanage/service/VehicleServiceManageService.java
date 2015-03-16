@@ -517,4 +517,8 @@ public class VehicleServiceManageService {
             return 0;
         }
     }
+
+    public PropertyContraceInfo getPropertyContraceInfoById(long contrace_id) {
+        return this.vehicleServiceManageDao.getPropertyContraceInfoById(contrace_id);
+    }
 }

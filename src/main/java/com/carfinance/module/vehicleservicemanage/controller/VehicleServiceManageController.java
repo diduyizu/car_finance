@@ -1283,39 +1283,39 @@ public class VehicleServiceManageController {
                 certificate_type, certificate_no, sign_at_date, period_number , down_payment , lease_price , montyly_payment , arrange_payment , monthly_day ,
                 final_payment , received_periods , already_back_amount , payment_type , employee_id, employee_name, remark, user.getUser_id());
     }
-//
-//    /**
-//     * 业务员修改合同
-//     * @param model
-//     * @param request
-//     * @param response
-//     * @return
-//     */
-//    @RequestMapping(value = "/contrace/modify" , method = RequestMethod.GET)
-//    public String contraceModify(Model model , HttpServletRequest request , HttpServletResponse response) {
-//        User user = (User)request.getSession().getAttribute("user");
-//
-//        long current_page = Long.valueOf(request.getParameter("current_page"));
-//        long original_org = Long.valueOf(request.getParameter("original_org"));
-//        long contrace_id = Long.valueOf(request.getParameter("contrace_id"));
-//        //获取用户角色列表
-//        List<Org> user_all_org_list = this.commonService.getUserAllOrgList(user.getUser_id());
-//        List<City> city_list = this.commonService.getSysUsedCityList();
-//
-//        VehicleContraceInfo vehicleContraceInfo = this.vehicleServiceManageService.getVehicleContraceInfoById(contrace_id);//获取合同详情
-//
-//        String customer_name_json = this.commonService.getAllCustomerName();
-//        model.addAttribute("customer_name_json" , customer_name_json);
-//
-//        model.addAttribute("current_page" , current_page);
-//        model.addAttribute("original_org" , original_org);
-//        model.addAttribute("contrace_id" , contrace_id);
-//        model.addAttribute("city_list" , city_list);
-//        model.addAttribute("user_all_org_list" , user_all_org_list);
-//        model.addAttribute("vehicle_contrace_info" , vehicleContraceInfo);
-//        return "/module/vehicleservicemanage/contrace/modify";
-//    }
-//
+
+    /**
+     * 业务员修改合同
+     * @param model
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/contrace/property/modify" , method = RequestMethod.GET)
+    public String contracePropertyModify(Model model , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        long current_page = Long.valueOf(request.getParameter("current_page"));
+        long original_org = Long.valueOf(request.getParameter("original_org"));
+        long contrace_id = Long.valueOf(request.getParameter("contrace_id"));
+        //获取用户角色列表
+        List<Org> user_all_org_list = this.commonService.getUserAllOrgList(user.getUser_id());
+        List<City> city_list = this.commonService.getSysUsedCityList();
+
+        PropertyContraceInfo propertyContraceInfo = this.vehicleServiceManageService.getPropertyContraceInfoById(contrace_id);//获取合同详情
+
+        String customer_name_json = this.commonService.getAllCustomerName();
+        model.addAttribute("customer_name_json" , customer_name_json);
+
+        model.addAttribute("current_page" , current_page);
+        model.addAttribute("original_org" , original_org);
+        model.addAttribute("contrace_id" , contrace_id);
+        model.addAttribute("city_list" , city_list);
+        model.addAttribute("user_all_org_list" , user_all_org_list);
+        model.addAttribute("property_contrace_info" , propertyContraceInfo);
+        return "/module/vehicleservicemanage/propertycontrace/modify";
+    }
+
 
 
 

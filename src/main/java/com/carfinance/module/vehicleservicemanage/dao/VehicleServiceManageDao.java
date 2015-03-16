@@ -878,4 +878,16 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
         return result;
     }
 
+
+    public PropertyContraceInfo getPropertyContraceInfoById(long contrace_id) {
+        try{
+            String sql = "select * from property_contrace where id = ?";
+            Object[] o = new Object[] { contrace_id };
+            logger.info(sql.replaceAll("\\?", "{}"), o);
+            return this.getJdbcTemplate().queryForObject(sql , o , new PropertyContraceInfoRowMapper());
+        } catch (EmptyResultDataAccessException e) {
+            logger.error(e.getMessage() , e);
+            return null;
+        }
+    }
 }
