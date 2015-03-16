@@ -62,7 +62,8 @@ public class VehicleManageController {
         String km_end = request.getParameter("km_end");
         String lease_status = request.getParameter("lease_status");
 
-        List<Org> user_all_org_list = this.commonService.getUserAllOrgList(user.getUser_id());
+//        List<Org> user_all_org_list = this.commonService.getUserAllOrgList(user.getUser_id());
+        List<Org> user_all_org_list = this.commonService.getSysAllOrgList();
 
         //获取用户角色列表
 //        List<UserRole> user_role_list = this.commonService.getUserRoleList(user.getUser_id());

@@ -420,4 +420,8 @@ public class CommonService {
         return null;
     }
 
+    public List<Org> getSysAllOrgList() {
+        return this.commonDao.getSysAllOrgList();
+    }
+
 }
