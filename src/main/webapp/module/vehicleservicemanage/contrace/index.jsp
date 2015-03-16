@@ -100,6 +100,7 @@
                 <c:if test="${(contrace.status == 0 || contrace.status == -1) && contrace.create_by == user.user_id}">
                     <button type="button" class="btn btn-success modify" value="${contrace.id}">编辑</button>
                     <button type="button" class="btn btn-success addvehicle" value="${contrace.id}">增加车辆</button>
+                    <button type="button" class="btn btn-success adddriver" value="${contrace.id}">增加配驾</button>
                     <button type="button" class="btn btn-success audit" value="${contrace.id}">提交审核</button>
                 </c:if>
                 <c:if test="${contrace.status == 5 && contrace.create_by == user.user_id}">
@@ -121,6 +122,11 @@
     $('.addvehicle').click(function(){
         var contrace_id = $(this).val();
         window.location.href="${ctx}/vehicleservice/contrace/addvech?contrace_id="+contrace_id;
+    });
+
+    $('.adddriver').click(function(){
+        var contrace_id = $(this).val();
+        window.location.href="${ctx}/vehicleservice/contrace/vech/list?contrace_id="+contrace_id;
     });
 
     //业务员，提交合同，到门店经理审核
