@@ -65,7 +65,7 @@
                 <td><input type="text" name="contrace_no" id="contrace_no" placeholder="必填" required="true"/></td>
                 <td class="tableleft">合同类型</td>
                 <td>
-                    <input type="hidden" name="contrace_type" id="contrace_type" value="2" />
+                    <%--<input type="hidden" name="contrace_type" id="contrace_type" value="2" />--%>
                     产权租
                 </td>
             </tr>
@@ -98,7 +98,12 @@
 
             <tr>
                 <td class="tableleft">签订日期</td>
-                <td>sign_at</td>
+                <td>
+                    <div class="input-append date" id="sign_at" data-date-format="yyyy-mm-dd">
+                        <input class="span2" size="16" type="text" id="sign_at_date"  name="sign_at_date">
+                        <span class="add-on"><i class="icon-th"></i></span>
+                    </div>
+                </td>
                 <td class="tableleft">合同期限</td>
                 <td><input type="text" name="period_number" id="period_number" placeholder="必填" required="true"/></td>
                 <td class="tableleft">首付款</td>
@@ -153,7 +158,7 @@
 <script>
     $(function () {
         window.prettyPrint && prettyPrint();
-        $('#monthly_day').datepicker();
+        $('#sign_at').datepicker();
 
         $('.form_datetime').datetimepicker({
             format: 'yyyy-mm-dd hh:ii',
@@ -175,37 +180,40 @@
             var contrace_id=$.trim($('#contrace_id').val());
             var reservation_id=$.trim($('#reservation_id').val());
             var original_org=$.trim($('#original_org').val());
+
+
             var contrace_no=$.trim($('#contrace_no').val());
+//            var contrace_type=$.trim($('#contrace_type').val());
             var customer_name=$.trim($('#customer_name').val());
             var customer_type=$.trim($('#customer_type').val());
             var customer_dn=$.trim($('#customer_dn').val());
             var certificate_type=$.trim($('#certificate_type').val());
             var certificate_no=$.trim($('#certificate_no').val());
-            var use_begin_date=$.trim($('#use_begin_date').val());
-            var use_end_date=$.trim($('#use_end_date').val());
+            var sign_at_date=$.trim($('#sign_at_date').val());
+
+            var period_number=$.trim($('#period_number').val());
+            var down_payment=$.trim($('#down_payment').val());
+            var lease_price=$.trim($('#lease_price').val());
+            var montyly_payment=$.trim($('#montyly_payment').val());
+            var arrange_payment=$.trim($('#arrange_payment').val());
+            var monthly_day=$.trim($('#monthly_day').val());
+            var final_payment=$.trim($('#final_payment').val());
+            var payment_type=$.trim($('#payment_type').val());
+            var received_periods=$.trim($('#received_periods').val());
+            var already_back_amount=$.trim($('#already_back_amount').val());
+
             var employee_id=$.trim($('#employee_id').val());
             var employee_name=$.trim($('#employee_name').val());
             var remark=$.trim($('#remark').val());
 
-            var daily_price=$.trim($('#daily_price').val());
-            var daily_available_km=$.trim($('#daily_available_km').val());
-            var over_km_price=$.trim($('#over_km_price').val());
-            var over_hour_price=$.trim($('#over_hour_price').val());
-            var month_price=$.trim($('#month_price').val());
-            var month_available_km=$.trim($('#month_available_km').val());
-            var monthly_day_date=$.trim($('#monthly_day_date').val());
-            var pre_payment=$.trim($('#pre_payment').val());
-            var deposit=$.trim($('#deposit').val());
-            var peccancy_deposit=$.trim($('#peccancy_deposit').val());
-
             $.ajax({
-                url:"${ctx}/vehicleservice/contrace/domodify",
+                url:"${ctx}/vehicleservice/contrace/property/domodify",
                 type: "post",
-                data:{contrace_id:contrace_id,reservation_id:reservation_id,original_org:original_org,contrace_no:contrace_no,customer_name:customer_name,customer_type:customer_type,
-                    customer_dn:customer_dn,certificate_type:certificate_type,certificate_no:certificate_no,use_begin:use_begin_date,use_end:use_end_date,
-                    employee_id:employee_id,employee_name:employee_name,remark:remark,daily_price:daily_price,daily_available_km:daily_available_km,
-                    over_km_price:over_km_price,over_hour_price:over_hour_price,month_price:month_price,month_available_km:month_available_km,
-                    monthly_day_date:monthly_day_date,pre_payment:pre_payment,deposit:deposit,peccancy_deposit:peccancy_deposit},
+                data:{contrace_id:contrace_id,reservation_id:reservation_id,original_org:original_org,contrace_no:contrace_no,
+                    customer_name:customer_name,customer_type:customer_type,customer_dn:customer_dn,certificate_type:certificate_type,certificate_no:certificate_no,
+                    sign_at_date:sign_at_date,period_number:period_number,down_payment:down_payment,lease_price:lease_price,montyly_payment:montyly_payment,
+                    arrange_payment:arrange_payment,monthly_day:monthly_day,final_payment:final_payment,payment_type:payment_type,received_periods:received_periods,
+                    already_back_amount:already_back_amount,employee_id:employee_id,employee_name:employee_name,remark:remark},
                 success:function(data){
                     if(data > 0){
                         alert("成功");

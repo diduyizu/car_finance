@@ -1242,51 +1242,47 @@ public class VehicleServiceManageController {
     }
 
     /**
-     * 新增合同，其实是更新、修改合同
+     * 新增产权租合同，其实是更新、修改合同
      * 同时，将预约单状态，修改为结单
      * @param model
      * @param request
      * @param response
      * @return
      */
-//    @RequestMapping(value = "/contrace/domodify" , method = RequestMethod.POST)
-//    @ResponseBody
-//    public long contraceDoAdd(Model model , HttpServletRequest request , HttpServletResponse response) {
-//        User user = (User)request.getSession().getAttribute("user");
-//
-//        long contrace_id = Long.valueOf(request.getParameter("contrace_id"));
-//        long reservation_id = Long.valueOf(request.getParameter("reservation_id"));
-//        long original_org = Long.valueOf(request.getParameter("original_org"));
-//        String customer_name = request.getParameter("customer_name");
-//        String customer_type = request.getParameter("customer_type");
-//        String customer_dn= request.getParameter("customer_dn");
-//        String certificate_type= request.getParameter("certificate_type");
-//        String certificate_no= request.getParameter("certificate_no");
-//        String use_begin= request.getParameter("use_begin");
-//        String use_end= request.getParameter("use_end");
-//        String employee_id= request.getParameter("employee_id");
-//        String employee_name= request.getParameter("employee_name");
-//        String remark= request.getParameter("remark");
-//
-//        String contrace_no =  request.getParameter("contrace_no");
-//        double daily_price = Double.valueOf(request.getParameter("daily_price"));
-//        long daily_available_km = Long.valueOf(request.getParameter("daily_available_km"));
-//        double over_km_price = Double.valueOf(request.getParameter("over_km_price"));
-//        double over_hour_price = Double.valueOf(request.getParameter("over_hour_price"));
-//        String month_price_str = request.getParameter("month_price");
-//        double month_price = (month_price_str == null || "".equals(month_price_str.trim())) ? 0 : Double.valueOf(month_price_str.trim());
-//        String month_available_km_str = request.getParameter("month_available_km");
-//        long month_available_km = (month_available_km_str == null || "".equals(month_available_km_str.trim())) ? 0 : Long.valueOf(month_available_km_str.trim());
-//        String monthly_day_date = request.getParameter("monthly_day_date");
-//        double pre_payment = Double.valueOf(request.getParameter("pre_payment"));
-//        double deposit = Double.valueOf(request.getParameter("deposit"));
-//        double peccancy_deposit = Double.valueOf(request.getParameter("peccancy_deposit"));
-//
-//        return this.vehicleServiceManageService.modifycontrace(contrace_id, reservation_id, original_org, contrace_no , customer_name, customer_type, customer_dn,
-//                certificate_type, certificate_no, use_begin, use_end, employee_id, employee_name, remark, user.getUser_id() ,
-//                daily_price , daily_available_km , over_km_price , over_hour_price , month_price , month_available_km , monthly_day_date ,
-//                pre_payment , deposit , peccancy_deposit);
-//    }
+    @RequestMapping(value = "/contrace/property/domodify" , method = RequestMethod.POST)
+    @ResponseBody
+    public long contracePropertyDoModify(Model model , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        long contrace_id = Long.valueOf(request.getParameter("contrace_id"));
+        long reservation_id = Long.valueOf(request.getParameter("reservation_id"));
+        long original_org = Long.valueOf(request.getParameter("original_org"));
+        String contrace_no =  request.getParameter("contrace_no");
+        String customer_name = request.getParameter("customer_name");
+        String customer_type = request.getParameter("customer_type");
+        String customer_dn= request.getParameter("customer_dn");
+        String certificate_type= request.getParameter("certificate_type");
+        String certificate_no= request.getParameter("certificate_no");
+        String sign_at_date= request.getParameter("sign_at_date");
+        long period_number = Long.valueOf(request.getParameter("period_number"));
+        double down_payment = Double.valueOf(request.getParameter("down_payment"));
+        double lease_price = Double.valueOf(request.getParameter("lease_price"));
+        double montyly_payment = Double.valueOf(request.getParameter("montyly_payment"));
+        double arrange_payment = Double.valueOf(request.getParameter("arrange_payment"));
+        int monthly_day = Integer.valueOf(request.getParameter("monthly_day"));
+        double final_payment = Double.valueOf(request.getParameter("final_payment"));
+        long received_periods = Long.valueOf(request.getParameter("received_periods"));
+        double already_back_amount = Double.valueOf(request.getParameter("already_back_amount"));
+        String payment_type = request.getParameter("payment_type");
+        String employee_id= request.getParameter("employee_id");
+        String employee_name= request.getParameter("employee_name");
+        String remark= request.getParameter("remark");
+
+
+        return this.vehicleServiceManageService.modifyPropertyContrace(contrace_id, reservation_id, original_org, contrace_no , customer_name, customer_type, customer_dn,
+                certificate_type, certificate_no, sign_at_date, period_number , down_payment , lease_price , montyly_payment , arrange_payment , monthly_day ,
+                final_payment , received_periods , already_back_amount , payment_type , employee_id, employee_name, remark, user.getUser_id());
+    }
 //
 //    /**
 //     * 业务员修改合同
