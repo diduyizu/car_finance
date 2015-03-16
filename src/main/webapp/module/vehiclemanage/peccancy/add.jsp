@@ -63,9 +63,9 @@
             </tr>
             <tr>
                 <td class="tableleft">罚款金额</td>
-                <td><input type="text" name="peccancy_price" id="peccancy_price" value="0"/></td>
+                <td><input type="text" name="peccancy_price" id="peccancy_price" value="0" placeholder="必填" required=""/></td>
                 <td class="tableleft">扣分数</td>
-                <td><input type="text" name="score" id="score"/></td>
+                <td><input type="text" name="score" id="score" value="0"/></td>
                 <td class="tableleft">是否已处理</td>
                 <td>
                     <input type="radio" name="status" value="0" checked>未处理

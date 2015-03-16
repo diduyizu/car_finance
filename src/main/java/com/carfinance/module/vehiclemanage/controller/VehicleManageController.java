@@ -764,7 +764,7 @@ public class VehicleManageController {
      * @param response
      * @return
      */
-    @RequestMapping(value = "/maintainremind/index" , method = RequestMethod.GET)
+    @RequestMapping(value = "/maintainremind/index" , method = {RequestMethod.GET , RequestMethod.POST})
     public String maintainRemind(Model model , HttpServletRequest request , HttpServletResponse response) {
         User user = (User)request.getSession().getAttribute("user");
 
