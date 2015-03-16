@@ -60,6 +60,9 @@ public class VehicleContraceInfoRowMapper implements RowMapper<VehicleContraceIn
         vehicleContraceInfo.setLate_fee(rs.getDouble("late_fee"));
         vehicleContraceInfo.setIs_arrearage(rs.getInt("is_arrearage"));
 
+        String arrearage_date_str = rs.getTimestamp("arrearage_date").toString();
+        vehicleContraceInfo.setArrearage_date(arrearage_date_str.substring(0 , arrearage_date_str.length()-2));
+
         return vehicleContraceInfo;
 	}
 }

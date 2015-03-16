@@ -53,6 +53,25 @@ public class VehicleContraceInfo implements Serializable{
     private double late_fee;
     private int is_arrearage;
 
+    private String arrearage_date;//欠费 补缴时间
+    private long arrearage_days;//欠费天数，根据当前系统时间和欠费补缴时间，计算得出
+
+    public long getArrearage_days() {
+        return arrearage_days;
+    }
+
+    public void setArrearage_days(long arrearage_days) {
+        this.arrearage_days = arrearage_days;
+    }
+
+    public String getArrearage_date() {
+        return arrearage_date;
+    }
+
+    public void setArrearage_date(String arrearage_date) {
+        this.arrearage_date = arrearage_date;
+    }
+
     public double getSystem_total_price() {
         return system_total_price;
     }

@@ -751,10 +751,35 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
     }
 
     public int contraceDofinish(long contrace_id , double system_total_price , double arrange_price , double actual_price , double late_fee , int is_arrearage , long user_id) {
-        String sql = "update vehicle_contrace set system_total_price = ? , arrange_price = ? , actual_price = ? , late_fee = ? , is_arrearage = ? , status = 6 where id = ? ";
+        String sql = "update vehicle_contrace set system_total_price = ? , arrange_price = ? , actual_price = ? , late_fee = ? , is_arrearage = ? , status = 6 , arrearage_date = now() where id = ? ";
         Object[] o = new Object[] {  system_total_price , arrange_price , actual_price , late_fee , is_arrearage , contrace_id };
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().update(sql , o);
     }
+
+    public long getArrearageRemindContraceCount(long original_org) {
+        String sql = "select count(1) from vehicle_contrace where status = 6 and is_arrearage = 1 and org_id = ?";
+        Object[] o = new Object[] { original_org };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().queryForLong(sql , o);
+    }
+
+    public List<VehicleContraceInfo> getArrearageRemindContraceList(long original_org , int start , int size) {
+        String sql = "select * from vehicle_contrace where status = 6 and is_arrearage = 1 and org_id = ? order by id limit ? , ?";
+        Object[] o = new Object[] { original_org , start , size  };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().query(sql, o, new VehicleContraceInfoRowMapper());
+    }
+
+    public int contraceDoReturnMoney(long contrace_id , double back_lease_price , double back_overdue_price , int is_arrearage) {
+
+        String sql = "update vehicle_contrace set actual_price = actual_price+? , late_fee = late_fee-? , is_arrearage = ? , arrearage_date = now() where id = ? ";
+        Object[] o = new Object[] {  back_lease_price , back_overdue_price , is_arrearage , contrace_id };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().update(sql , o);
+
+    }
+
+
 
 }

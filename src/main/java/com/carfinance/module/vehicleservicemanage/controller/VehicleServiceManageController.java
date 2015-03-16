@@ -1039,4 +1039,88 @@ public class VehicleServiceManageController {
         model.addAttribute("vehicle_contrace_vehs_list" , vehicleContraceVehsInfoList);
         return "/module/vehicleservicemanage/contrace/detail";
     }
+
+    @RequestMapping(value = "/contrace/arrearage/remind" , method = {RequestMethod.GET , RequestMethod.POST})
+    public String arrearageRemind(Model model , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        String pageindexStr = request.getParameter("page_index");//第几页
+        int page_index = Integer.parseInt(StringUtils.isBlank(pageindexStr) || "0".equals(pageindexStr) ? "1" : pageindexStr);
+        int size = Integer.valueOf(appProps.get("vehicle.reservation.query.size").toString());//每页显示条数
+        int start = (page_index - 1) * size;
+
+        String original_org_str = request.getParameter("original_org");
+        List<Org> user_all_org_list = this.commonService.getUserAllOrgList(user.getUser_id());
+
+        //获取用户角色列表
+        long original_org = (original_org_str == null || "".equals(original_org_str.trim())) ? user_all_org_list.get(0).getOrg_id() : Long.valueOf(original_org_str);
+        String original_org_name = "";
+        for(Org org : user_all_org_list) {
+            if(org.getOrg_id() == original_org) {
+                original_org_name = org.getOrg_name();
+                break;
+            }
+        }
+
+        List<City> sys_used_city_list = this.commonService.getSysUsedCityList();
+        Map<String , Object> map = this.vehicleServiceManageService.getArrearageRemindContraceList(original_org, start, size);
+
+        long total = (Long)map.get("total");
+        List<VehicleContraceInfo> contrace_list = (List<VehicleContraceInfo>)map.get("contrace_list");
+
+        long temp = (total - 1) <= 0 ? 0 : (total - 1);
+        int pages = Integer.parseInt(Long.toString(temp / size)) + 1;
+        int prepages = (page_index - 1) <= 0 ? 1 : (page_index - 1);
+        int nextpages = (page_index + 1) >= pages ? pages : (page_index + 1);
+
+        model.addAttribute("current_page" , page_index);
+        model.addAttribute("pages" , pages);
+        model.addAttribute("prepage" , prepages);
+        model.addAttribute("nextpage" , nextpages);
+        model.addAttribute("page_url" , request.getRequestURI());
+
+        model.addAttribute("original_org" , original_org);
+        model.addAttribute("original_org_name" , original_org_name);
+
+        model.addAttribute("sys_used_city_list" , sys_used_city_list);
+        model.addAttribute("user_all_org_list" , user_all_org_list);
+        model.addAttribute("contrace_list" , contrace_list);
+        return "/module/vehicleservicemanage/contracearrearageremind/index";
+    }
+
+    /**
+     * 跳转至合同还款页
+     * @param model
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/contrace/returnmoney" , method = RequestMethod.GET)
+    public String contraceReturnMoney(Model model , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        List<Org> user_all_org_list = this.commonService.getUserAllOrgList(user.getUser_id());
+
+        long contrace_id = Long.valueOf(request.getParameter("contrace_id"));
+        VehicleContraceInfo vehicleContraceInfo = this.vehicleServiceManageService.getVehicleContraceInfoById(contrace_id);
+        List<VehicleContraceVehsInfo> vehicleContraceVehsInfoList = this.vehicleServiceManageService.getVehicleContraceVehsListByContraceId(contrace_id);
+
+        model.addAttribute("user_all_org_list" , user_all_org_list);
+        model.addAttribute("vehicle_contrace_info" , vehicleContraceInfo);
+        model.addAttribute("vehicle_contrace_vehs_list" , vehicleContraceVehsInfoList);
+        return "/module/vehicleservicemanage/contracearrearageremind/returnmoney";
+    }
+
+    @RequestMapping(value = "/contrace/doreturnmoney" , method = RequestMethod.POST)
+    @ResponseBody
+    public int contraceDoReturnMoney(Model model , HttpServletRequest request , HttpServletResponse response) {
+
+        long contrace_id = Long.valueOf(request.getParameter("contrace_id"));
+        double back_lease_price = Double.valueOf(request.getParameter("back_lease_price"));
+        double back_overdue_price = Double.valueOf(request.getParameter("back_overdue_price"));
+
+        int result = this.vehicleServiceManageService.contraceDoReturnMoney(contrace_id , back_lease_price , back_overdue_price);
+        return result;
+//        return "redirect:/vehicleservice/contrace/finish?contrace_id=" + contrace_id;
+    }
 }

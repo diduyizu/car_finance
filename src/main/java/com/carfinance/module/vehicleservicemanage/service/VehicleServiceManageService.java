@@ -428,4 +428,51 @@ public class VehicleServiceManageService {
         return this.vehicleServiceManageDao.contraceDofinish(contrace_id , system_total_price , arrange_price , actual_price , late_fee , is_arrearage , user_id);
     }
 
+    /**
+     * 获取合同欠租提醒列表
+     * @param original_org
+     * @param start
+     * @param size
+     * @return
+     */
+    public Map<String , Object> getArrearageRemindContraceList(long original_org, int start, int size) {
+        long total = this.vehicleServiceManageDao.getArrearageRemindContraceCount(original_org);
+        List<VehicleContraceInfo> contrace_list = this.vehicleServiceManageDao.getArrearageRemindContraceList(original_org, start, size);
+
+        for(VehicleContraceInfo contrace : contrace_list) {
+            String current_date = DateUtil.date2String(new Date());
+            String arrearage_date = contrace.getArrearage_date();
+            double arrearage_days = DateUtil.getTimeLag(arrearage_date , current_date , "day");//欠费天数
+            contrace.setArrearage_days((long)arrearage_days);
+        }
+
+        Map<String , Object> map = new HashMap<String, Object>();
+        map.put("total" , total);
+        map.put("contrace_list", contrace_list);
+        return map;
+    }
+
+
+    public int contraceDoReturnMoney(long contrace_id , double back_lease_price , double back_overdue_price) {
+        try{
+            //更新合同主表
+            VehicleContraceInfo contrace_info = this.vehicleServiceManageDao.getVehicleContraceInfoById(contrace_id);
+            int is_arrearage;
+
+            //约定金额 小于等于 实际付款金额+本次交欠款金额
+            //同时 滞纳金 减 本次缴纳滞纳金 小于等于 0
+            //表示该用户已经不欠款了
+            if((contrace_info.getArrange_price() <= (contrace_info.getActual_price() + back_lease_price)) && ((contrace_info.getLate_fee() - back_overdue_price) <= 0) ) {
+                is_arrearage = 0;
+            } else {
+                is_arrearage = 1;
+            }
+
+            int result = this.vehicleServiceManageDao.contraceDoReturnMoney(contrace_id, back_lease_price, back_overdue_price , is_arrearage);
+            return result;
+        } catch (Exception e) {
+            logger.error(e.getMessage() , e);
+            return 0;
+        }
+    }
 }

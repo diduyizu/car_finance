@@ -17,7 +17,7 @@ public class DateUtil {
 	 * @return
 	 */
 	public static String date2String(Date date){
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:MM:SS");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		return format.format(date);
 	}
 	
