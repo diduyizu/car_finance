@@ -43,6 +43,15 @@ public class PropertyContraceInfo implements Serializable{
     private int received_periods;
     private double already_back_amount;
     private String payment_type;
+    private int reserv_to_contrace_status;
+
+    public int getReserv_to_contrace_status() {
+        return reserv_to_contrace_status;
+    }
+
+    public void setReserv_to_contrace_status(int reserv_to_contrace_status) {
+        this.reserv_to_contrace_status = reserv_to_contrace_status;
+    }
 
     public String getPayment_type() {
         return payment_type;

@@ -49,6 +49,8 @@ public class PropertyContraceInfoRowMapper implements RowMapper<PropertyContrace
         propertyContraceInfo.setAlready_back_amount(rs.getDouble("already_back_amount"));
         propertyContraceInfo.setPayment_type(rs.getString("payment_type"));
 
+        propertyContraceInfo.setReserv_to_contrace_status(rs.getInt("reserv_to_contrace_status"));
+
         return propertyContraceInfo;
 	}
 }

@@ -220,7 +220,7 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
 //        }
 //        logger.info(sql.replaceAll("\\?", "{}"), o);
 //        return this.getJdbcTemplate().queryForLong(sql, o);
-        String sql = "select count(1) from vehicle_contrace where org_id = ? ";
+        String sql = "select count(1) from vehicle_contrace where org_id = ? and reserv_to_contrace_status = 1 ";
         List<Object> param = new ArrayList<Object>();
         param.add(org_id);
 
@@ -255,7 +255,7 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
 //
 //        logger.info(sql.replaceAll("\\?", "{}"), o);
 //        return this.getJdbcTemplate().query(sql, o, new VehicleContraceInfoRowMapper());
-        String sql = "select * from vehicle_contrace where org_id = ? ";
+        String sql = "select * from vehicle_contrace where org_id = ? and reserv_to_contrace_status = 1 ";
         List<Object> param = new ArrayList<Object>();
         param.add(org_id);
 
@@ -301,7 +301,7 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
         String sql = "update vehicle_contrace set contrace_no = ? , customer_name = ? , customer_type = ? , customer_dn = ? , customer_cer_type = ? , customer_cer_no = ? , " +
                 " remark = ? , employee_id = ? , employee_name = ? , org_id = ? , use_begin = ? , use_end = ? , daily_price = ? , daily_available_km = ? , " +
                 " over_km_price = ? , over_hour_price = ? , month_price = ? , month_available_km = ? , monthly_day = ? , pre_payment = ? , " +
-                " deposit = ? , peccancy_deposit = ? where id = ? and create_by = ?";
+                " deposit = ? , peccancy_deposit = ? , reserv_to_contrace_status = 1 where id = ? and create_by = ?";
         Object[] o = new Object[] { contrace_no , customer_name , customer_type , customer_dn , certificate_type , certificate_no ,
                 remark , employee_id , employee_name , original_org , use_begin_date , use_end_date , daily_price , daily_available_km ,
                 over_km_price , over_hour_price , month_price , month_available_km , monthly_day_date , pre_payment ,
@@ -805,7 +805,7 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
 
 
     public long getOrgPropertyContraceCount(long org_id , String status , String over_top_str) {
-        String sql = "select count(1) from property_contrace where org_id = ? ";
+        String sql = "select count(1) from property_contrace where org_id = ? and reserv_to_contrace_status = 1 ";
         List<Object> param = new ArrayList<Object>();
         param.add(org_id);
 
@@ -828,7 +828,7 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
     }
 
     public List<PropertyContraceInfo> getOrgPropertyContraceList(long org_id , String status , String over_top_str , int start, int size) {
-        String sql = "select * from property_contrace where org_id = ? ";
+        String sql = "select * from property_contrace where org_id = ? and reserv_to_contrace_status = 1 ";
         List<Object> param = new ArrayList<Object>();
         param.add(org_id);
 
