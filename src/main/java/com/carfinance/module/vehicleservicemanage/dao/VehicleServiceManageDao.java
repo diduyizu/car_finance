@@ -653,7 +653,7 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
     }
 
     public long getcontraceVechDriverCount(long original_org) {
-        String sql = "select count(1) from users a , user_role b where a.user_id = b.user_id and b.org_id = ? and a.driver_status = 0 and b.role_id = 20007 ";
+        String sql = "select count(1) from users a , user_role b where a.user_id = b.user_id and b.org_id = ? and a.driver_status = 0 and b.role_id = 20207 ";
         Object[] o = new Object[] { original_org };
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().queryForLong(sql, o);
@@ -662,7 +662,7 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
     public List<UserDriver> getcontraceVechDriverList(long original_org , int start , int size) {
         String sql = "select a.user_id , a.user_name , a.employee_id , a.driver_status , a.driver_license_no " +
                 "from users a , user_role b " +
-                "where a.user_id = b.user_id and b.org_id = ? and a.driver_status = 0 and b.role_id = 20007 ";
+                "where a.user_id = b.user_id and b.org_id = ? and a.driver_status = 0 and b.role_id = 20207 ";
         List<Object> param = new ArrayList<Object>();
         param.add(original_org);
 

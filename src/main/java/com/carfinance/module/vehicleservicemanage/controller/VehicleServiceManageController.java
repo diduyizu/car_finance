@@ -643,7 +643,7 @@ public class VehicleServiceManageController {
         if(isSysadmin) {
             user_role_org_list = this.commonService.getUserAllOrgList(user.getUser_id());
         } else {
-            user_role_org_list = this.commonService.getUserRoleOrgList(user.getUser_id() , 20008);
+            user_role_org_list = this.commonService.getUserRoleOrgList(user.getUser_id() , 20201);
         }
 
 
@@ -891,7 +891,7 @@ public class VehicleServiceManageController {
         if(isSysadmin) {
             user_role_org_list = this.commonService.getUserAllOrgList(user.getUser_id());
         } else {
-            user_role_org_list = this.commonService.getUserRoleOrgList(user.getUser_id() , 20005);
+            user_role_org_list = this.commonService.getUserRoleOrgList(user.getUser_id() , 20206);
         }
 
         //获取用户角色列表
