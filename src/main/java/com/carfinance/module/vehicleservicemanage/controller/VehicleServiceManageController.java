@@ -245,7 +245,7 @@ public class VehicleServiceManageController {
         }
 
         List<City> sys_used_city_list = this.commonService.getSysUsedCityList();
-        Map<String , Object> map = this.vehicleServiceManageService.getOrgContraceList(original_org, null , start, size , false);
+        Map<String , Object> map = this.vehicleServiceManageService.getOrgContraceList(original_org, null , start, size , null);
 
         long total = (Long)map.get("total");
         List<VehicleContraceInfo> contrace_list = (List<VehicleContraceInfo>)map.get("contrace_list");
@@ -657,7 +657,7 @@ public class VehicleServiceManageController {
             }
         }
 
-        Map<String , Object> map = this.vehicleServiceManageService.getOrgContraceList(original_org, status, start, size , false);
+        Map<String , Object> map = this.vehicleServiceManageService.getOrgContraceList(original_org, status, start, size , null);
         long total = (Long)map.get("total");
         List<VehicleContraceInfo> contrace_list = (List<VehicleContraceInfo>)map.get("contrace_list");
 
@@ -739,7 +739,7 @@ public class VehicleServiceManageController {
             }
         }
 
-        Map<String , Object> map = this.vehicleServiceManageService.getOrgContraceList(original_org, status, start, size , true);
+        Map<String , Object> map = this.vehicleServiceManageService.getOrgContraceList(original_org, status, start, size , "1");
         long total = (Long)map.get("total");
         List<VehicleContraceInfo> contrace_list = (List<VehicleContraceInfo>)map.get("contrace_list");
 
@@ -822,7 +822,7 @@ public class VehicleServiceManageController {
             }
         }
 
-        Map<String , Object> map = this.vehicleServiceManageService.getOrgContraceList(original_org, status, start, size , true);
+        Map<String , Object> map = this.vehicleServiceManageService.getOrgContraceList(original_org, status, start, size , "1");
         long total = (Long)map.get("total");
         List<VehicleContraceInfo> contrace_list = (List<VehicleContraceInfo>)map.get("contrace_list");
 
@@ -905,8 +905,8 @@ public class VehicleServiceManageController {
         }
 
 
-        boolean over_top = false;
-        if("4".equals(status))  over_top = true;//区域店长审核，over_top为ture
+        String over_top = "0";
+        if("4".equals(status))  over_top = "1";//区域店长审核，over_top为1-true
         Map<String , Object> map = this.vehicleServiceManageService.getOrgContraceList(original_org, status, start, size, over_top  );
         long total = (Long)map.get("total");
         List<VehicleContraceInfo> contrace_list = (List<VehicleContraceInfo>)map.get("contrace_list");
@@ -1186,10 +1186,140 @@ public class VehicleServiceManageController {
         return "/module/vehicleservicemanage/propertycontrace/add";
     }
 
+    /**
+     * 产权租合同管理首页，列表
+     * @param model
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/contrace/property/index" , method = {RequestMethod.GET , RequestMethod.POST})
+    public String contracePropertyIndex(Model model , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
 
+        String pageindexStr = request.getParameter("page_index");//第几页
+        int page_index = Integer.parseInt(StringUtils.isBlank(pageindexStr) || "0".equals(pageindexStr) ? "1" : pageindexStr);
+        int size = Integer.valueOf(appProps.get("vehicle.reservation.query.size").toString());//每页显示条数
+        int start = (page_index - 1) * size;
 
+        String original_org_str = request.getParameter("original_org");
+        List<Org> user_all_org_list = this.commonService.getUserAllOrgList(user.getUser_id());
 
+        //获取用户角色列表
+        long original_org = (original_org_str == null || "".equals(original_org_str.trim())) ? user_all_org_list.get(0).getOrg_id() : Long.valueOf(original_org_str);
+        String original_org_name = "";
+        for(Org org : user_all_org_list) {
+            if(org.getOrg_id() == original_org) {
+                original_org_name = org.getOrg_name();
+                break;
+            }
+        }
 
+        List<City> sys_used_city_list = this.commonService.getSysUsedCityList();
+        Map<String , Object> map = this.vehicleServiceManageService.getOrgPropertyContraceList(original_org, null , start, size , null);
+
+        long total = (Long)map.get("total");
+        List<PropertyContraceInfo> contrace_list = (List<PropertyContraceInfo>)map.get("contrace_list");
+
+        long temp = (total - 1) <= 0 ? 0 : (total - 1);
+        int pages = Integer.parseInt(Long.toString(temp / size)) + 1;
+        int prepages = (page_index - 1) <= 0 ? 1 : (page_index - 1);
+        int nextpages = (page_index + 1) >= pages ? pages : (page_index + 1);
+
+        model.addAttribute("current_page" , page_index);
+        model.addAttribute("pages" , pages);
+        model.addAttribute("prepage" , prepages);
+        model.addAttribute("nextpage" , nextpages);
+        model.addAttribute("page_url" , request.getRequestURI());
+
+        model.addAttribute("original_org" , original_org);
+        model.addAttribute("original_org_name" , original_org_name);
+
+        model.addAttribute("sys_used_city_list" , sys_used_city_list);
+        model.addAttribute("user_all_org_list" , user_all_org_list);
+        model.addAttribute("contrace_list" , contrace_list);
+        return "/module/vehicleservicemanage/propertycontrace/index";
+    }
+
+    /**
+     * 新增合同，其实是更新、修改合同
+     * 同时，将预约单状态，修改为结单
+     * @param model
+     * @param request
+     * @param response
+     * @return
+     */
+//    @RequestMapping(value = "/contrace/domodify" , method = RequestMethod.POST)
+//    @ResponseBody
+//    public long contraceDoAdd(Model model , HttpServletRequest request , HttpServletResponse response) {
+//        User user = (User)request.getSession().getAttribute("user");
+//
+//        long contrace_id = Long.valueOf(request.getParameter("contrace_id"));
+//        long reservation_id = Long.valueOf(request.getParameter("reservation_id"));
+//        long original_org = Long.valueOf(request.getParameter("original_org"));
+//        String customer_name = request.getParameter("customer_name");
+//        String customer_type = request.getParameter("customer_type");
+//        String customer_dn= request.getParameter("customer_dn");
+//        String certificate_type= request.getParameter("certificate_type");
+//        String certificate_no= request.getParameter("certificate_no");
+//        String use_begin= request.getParameter("use_begin");
+//        String use_end= request.getParameter("use_end");
+//        String employee_id= request.getParameter("employee_id");
+//        String employee_name= request.getParameter("employee_name");
+//        String remark= request.getParameter("remark");
+//
+//        String contrace_no =  request.getParameter("contrace_no");
+//        double daily_price = Double.valueOf(request.getParameter("daily_price"));
+//        long daily_available_km = Long.valueOf(request.getParameter("daily_available_km"));
+//        double over_km_price = Double.valueOf(request.getParameter("over_km_price"));
+//        double over_hour_price = Double.valueOf(request.getParameter("over_hour_price"));
+//        String month_price_str = request.getParameter("month_price");
+//        double month_price = (month_price_str == null || "".equals(month_price_str.trim())) ? 0 : Double.valueOf(month_price_str.trim());
+//        String month_available_km_str = request.getParameter("month_available_km");
+//        long month_available_km = (month_available_km_str == null || "".equals(month_available_km_str.trim())) ? 0 : Long.valueOf(month_available_km_str.trim());
+//        String monthly_day_date = request.getParameter("monthly_day_date");
+//        double pre_payment = Double.valueOf(request.getParameter("pre_payment"));
+//        double deposit = Double.valueOf(request.getParameter("deposit"));
+//        double peccancy_deposit = Double.valueOf(request.getParameter("peccancy_deposit"));
+//
+//        return this.vehicleServiceManageService.modifycontrace(contrace_id, reservation_id, original_org, contrace_no , customer_name, customer_type, customer_dn,
+//                certificate_type, certificate_no, use_begin, use_end, employee_id, employee_name, remark, user.getUser_id() ,
+//                daily_price , daily_available_km , over_km_price , over_hour_price , month_price , month_available_km , monthly_day_date ,
+//                pre_payment , deposit , peccancy_deposit);
+//    }
+//
+//    /**
+//     * 业务员修改合同
+//     * @param model
+//     * @param request
+//     * @param response
+//     * @return
+//     */
+//    @RequestMapping(value = "/contrace/modify" , method = RequestMethod.GET)
+//    public String contraceModify(Model model , HttpServletRequest request , HttpServletResponse response) {
+//        User user = (User)request.getSession().getAttribute("user");
+//
+//        long current_page = Long.valueOf(request.getParameter("current_page"));
+//        long original_org = Long.valueOf(request.getParameter("original_org"));
+//        long contrace_id = Long.valueOf(request.getParameter("contrace_id"));
+//        //获取用户角色列表
+//        List<Org> user_all_org_list = this.commonService.getUserAllOrgList(user.getUser_id());
+//        List<City> city_list = this.commonService.getSysUsedCityList();
+//
+//        VehicleContraceInfo vehicleContraceInfo = this.vehicleServiceManageService.getVehicleContraceInfoById(contrace_id);//获取合同详情
+//
+//        String customer_name_json = this.commonService.getAllCustomerName();
+//        model.addAttribute("customer_name_json" , customer_name_json);
+//
+//        model.addAttribute("current_page" , current_page);
+//        model.addAttribute("original_org" , original_org);
+//        model.addAttribute("contrace_id" , contrace_id);
+//        model.addAttribute("city_list" , city_list);
+//        model.addAttribute("user_all_org_list" , user_all_org_list);
+//        model.addAttribute("vehicle_contrace_info" , vehicleContraceInfo);
+//        return "/module/vehicleservicemanage/contrace/modify";
+//    }
+//
 
 
 

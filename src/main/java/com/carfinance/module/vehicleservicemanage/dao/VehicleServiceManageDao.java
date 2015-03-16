@@ -208,7 +208,7 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
     }
 
 
-    public long getOrgContraceCount(long org_id , String status , boolean over_top) {
+    public long getOrgContraceCount(long org_id , String status , String over_top_str) {
 //        String sql;
 //        Object[] o;
 //        if(status == null || "".equals(status)) {
@@ -228,10 +228,9 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
             sql = sql + " and status = ? ";
             param.add(Long.valueOf(status));
         }
-        if(over_top) {
-            sql = sql + " and isovertop = 1 ";
-        } else {
-            sql = sql + " and isovertop = 0 ";
+        if(over_top_str != null && !"".equals(over_top_str.trim())) {
+            sql = sql + " and isovertop = ? ";
+            param.add(Long.valueOf(Long.valueOf(over_top_str)));
         }
 
         Object[] o = new Object[param.size()];
@@ -243,7 +242,7 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
         return this.getJdbcTemplate().queryForLong(sql, o);
     }
 
-    public List<VehicleContraceInfo> getOrgContraceList(long org_id , String status , boolean over_top , int start, int size) {
+    public List<VehicleContraceInfo> getOrgContraceList(long org_id , String status , String over_top_str , int start, int size) {
 //        String sql;
 //        Object[] o;
 //        if(status == null || "".equals(status)) {
@@ -264,11 +263,11 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
             sql = sql + " and status = ? ";
             param.add(Long.valueOf(status));
         }
-        if(over_top) {
-            sql = sql + " and isovertop = 1 ";
-        } else {
-            sql = sql + " and isovertop = 0 ";
+        if(over_top_str != null && !"".equals(over_top_str.trim())) {
+            sql = sql + " and isovertop = ? ";
+            param.add(Long.valueOf(Long.valueOf(over_top_str)));
         }
+
         sql = sql + " order by id desc limit ?,?";
         param.add(start);
         param.add(size);
@@ -802,6 +801,57 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
             result = contrace_id;
         }
         return result;
+    }
+
+
+    public long getOrgPropertyContraceCount(long org_id , String status , String over_top_str) {
+        String sql = "select count(1) from property_contrace where org_id = ? ";
+        List<Object> param = new ArrayList<Object>();
+        param.add(org_id);
+
+        if(status != null && !"".equals(status.trim())) {
+            sql = sql + " and status = ? ";
+            param.add(Long.valueOf(status));
+        }
+        if(over_top_str != null && !"".equals(over_top_str.trim())) {
+            sql = sql + " and isovertop = ? ";
+            param.add(Long.valueOf(Long.valueOf(over_top_str)));
+        }
+
+        Object[] o = new Object[param.size()];
+        for(int i = 0 ; i < param.size() ; i++) {
+            o[i] = param.get(i);
+        }
+
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().queryForLong(sql, o);
+    }
+
+    public List<PropertyContraceInfo> getOrgPropertyContraceList(long org_id , String status , String over_top_str , int start, int size) {
+        String sql = "select * from property_contrace where org_id = ? ";
+        List<Object> param = new ArrayList<Object>();
+        param.add(org_id);
+
+        if(status != null && !"".equals(status.trim())) {
+            sql = sql + " and status = ? ";
+            param.add(Long.valueOf(status));
+        }
+        if(over_top_str != null && !"".equals(over_top_str.trim())) {
+            sql = sql + " and isovertop = ? ";
+            param.add(Long.valueOf(Long.valueOf(over_top_str)));
+        }
+
+        sql = sql + " order by id desc limit ?,?";
+        param.add(start);
+        param.add(size);
+
+        Object[] o = new Object[param.size()];
+        for(int i = 0 ; i < param.size() ; i++) {
+            o[i] = param.get(i);
+        }
+
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().query(sql, o, new PropertyContraceInfoRowMapper());
     }
 
 }

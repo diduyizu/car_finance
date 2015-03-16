@@ -75,6 +75,7 @@
             <th>开始时间</th>
             <th>结束时间</th>
             <th>描述</th>
+            <th>合同类型</th>
             <th>状态</th>
             <th>操作</th>
         </tr>
@@ -86,6 +87,10 @@
             <td>${reservation.use_begin}</td>
             <td>${reservation.use_end}</td>
             <td>${reservation.remark}</td>
+            <td>
+                <c:if test="${reservation.contrace_type == 1}">零租</c:if>
+                <c:if test="${reservation.contrace_type == 2}">产权租</c:if>
+            </td>
             <td>
                 <c:if test="${reservation.status == 0}">初始状态</c:if>
                 <c:if test="${reservation.status == 1}">已完结</c:if>

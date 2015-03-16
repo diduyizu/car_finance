@@ -65,10 +65,12 @@
                 <td><input type="text" name="contrace_no" id="contrace_no" placeholder="必填" required="true"/></td>
                 <td class="tableleft">合同类型</td>
                 <td>
-                    <select id="contrace_type" name="contrace_type">
-                        <option value="1" <c:if test="${vehicleReservationInfo.contrace_type == 1}">selected="selected" </c:if>>零租</option>
-                        <option value="2" <c:if test="${vehicleReservationInfo.contrace_type == 2}">selected="selected" </c:if>>产权租</option>
-                    </select>
+                    <%--<select id="contrace_type" name="contrace_type">--%>
+                        <%--<option value="1" <c:if test="${vehicleReservationInfo.contrace_type == 1}">selected="selected" </c:if>>零租</option>--%>
+                        <%--<option value="2" <c:if test="${vehicleReservationInfo.contrace_type == 2}">selected="selected" </c:if>>产权租</option>--%>
+                    <%--</select>--%>
+                    <input type="hidden" name="contrace_type" id="contrace_type" value="1" />
+                    零租
                 </td>
             </tr>
             <tr>

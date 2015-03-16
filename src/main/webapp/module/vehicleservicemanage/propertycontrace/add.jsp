@@ -65,10 +65,8 @@
                 <td><input type="text" name="contrace_no" id="contrace_no" placeholder="必填" required="true"/></td>
                 <td class="tableleft">合同类型</td>
                 <td>
-                    <select id="contrace_type" name="contrace_type">
-                        <option value="1" <c:if test="${vehicleReservationInfo.contrace_type == 1}">selected="selected" </c:if>>零租</option>
-                        <option value="2" <c:if test="${vehicleReservationInfo.contrace_type == 2}">selected="selected" </c:if>>产权租</option>
-                    </select>
+                    <input type="hidden" name="contrace_type" id="contrace_type" value="2" />
+                    产权租
                 </td>
             </tr>
             <tr>
@@ -97,49 +95,36 @@
                 <td class="tableleft">证件号码</td>
                 <td colspan="3"><input type="text" name="certificate_no" id="certificate_no" placeholder="必填" required="true"/></td>
             </tr>
-            <tr>
-                <td class="tableleft">用车开始时间</td>
-                <td>
-                    <input class="form_datetime" size="16" type="text" id="use_begin_date" name="use_begin_date" placeholder="必填" value="${vehicleReservationInfo.use_begin}" required="true">
-                </td>
-                <td class="tableleft">用车结束时间</td>
-                <td colspan="3">
-                    <input class="form_datetime" size="16" type="text" id="use_end_date" name="use_end_date" placeholder="必填" value="${vehicleReservationInfo.use_end}" required="true">
-                </td>
-            </tr>
 
             <tr>
-                <td class="tableleft">日单价</td>
-                <td><input type="text" name="daily_price" id="daily_price" placeholder="必填" required="true"/></td>
-                <td class="tableleft">日公里数</td>
-                <td colspan="3"><input type="text" name="daily_available_km" id="daily_available_km" placeholder="必填" required="true"/></td>
+                <td class="tableleft">签订日期</td>
+                <td>sign_at</td>
+                <td class="tableleft">合同期限</td>
+                <td><input type="text" name="period_number" id="period_number" placeholder="必填" required="true"/></td>
+                <td class="tableleft">首付款</td>
+                <td><input type="text" name="down_payment" id="down_payment" placeholder="必填" required="true"/></td>
             </tr>
             <tr>
-                <td class="tableleft">超公里金额</td>
-                <td><input type="text" name="over_km_price" id="over_km_price" placeholder="必填" required="true"/></td>
-                <td class="tableleft">超小时金额</td>
-                <td colspan="3"><input type="text" name="over_hour_price" id="over_hour_price" placeholder="必填" required="true"/></td>
+                <td class="tableleft">合同租赁价格</td>
+                <td><input type="text" name="lease_price" id="lease_price" placeholder="必填" required="true"/></td>
+                <td class="tableleft">月付款</td>
+                <td><input type="text" name="montyly_payment" id="montyly_payment" placeholder="必填" required="true"/></td>
+                <td class="tableleft">协商月付</td>
+                <td><input type="text" name="arrange_payment" id="arrange_payment" placeholder="必填" required="true"/></td>
             </tr>
             <tr>
-                <td class="tableleft">月结日</td>
-                <td>
-                    <div class="input-append date" id="monthly_day" data-date-format="yyyy-mm-dd">
-                        <input class="span2" size="16" type="text" id="monthly_day_date"  name="monthly_day_date">
-                        <span class="add-on"><i class="icon-th"></i></span>
-                    </div>
-                </td>
-                <td class="tableleft">包月单价</td>
-                <td><input type="text" name="month_price" id="month_price" /></td>
-                <td class="tableleft">包月公里数</td>
-                <td><input type="text" name="month_available_km" id="month_available_km" /></td>
+                <td class="tableleft">月付款日</td>
+                <td><input type="text" name="monthly_day" id="monthly_day" placeholder="必填" required="true"/></td>
+                <td class="tableleft">尾款</td>
+                <td><input type="text" name="final_payment" id="final_payment" placeholder="必填" required="true"/></td>
+                <td class="tableleft">付款方式</td>
+                <td colspan="3"><input type="text" name="payment_type" id="payment_type" placeholder="必填" required="true"/></td>
             </tr>
             <tr>
-                <td class="tableleft">预付款</td>
-                <td><input type="text" name="pre_payment" id="pre_payment" placeholder="必填" required="true"/></td>
-                <td class="tableleft">总押金</td>
-                <td><input type="text" name="deposit" id="deposit" placeholder="必填" required="true"/></td>
-                <td class="tableleft">违章押金</td>
-                <td><input type="text" name="peccancy_deposit" id="peccancy_deposit" placeholder="必填" required="true"/></td>
+                <td class="tableleft">已收回期数</td>
+                <td><input type="text" name="received_periods" id="received_periods" placeholder="必填" required="true"/></td>
+                <td class="tableleft">已收回金额</td>
+                <td colspan="3"><input type="text" name="already_back_amount" id="already_back_amount" placeholder="必填" required="true"/></td>
             </tr>
 
             <tr>

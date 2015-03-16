@@ -106,7 +106,7 @@ public class VehicleServiceManageService {
 //        map.put("contrace_list", contrace_list);
 //        return map;
 //    }
-    public Map<String , Object> getOrgContraceList(long original_org, String status, int start, int size , boolean over_top) {
+    public Map<String , Object> getOrgContraceList(long original_org, String status, int start, int size , String over_top) {
         long total = this.vehicleServiceManageDao.getOrgContraceCount(original_org, status , over_top);
         List<VehicleContraceInfo> contrace_list = this.vehicleServiceManageDao.getOrgContraceList(original_org, status, over_top , start, size);
         Map<String , Object> map = new HashMap<String, Object>();
@@ -483,5 +483,14 @@ public class VehicleServiceManageService {
 
     public long addPropertyContrace(long reservation_id, long org_id, long user_id) {
         return this.vehicleServiceManageDao.addPropertyContrace(reservation_id , org_id , user_id);
+    }
+
+    public Map<String , Object> getOrgPropertyContraceList(long original_org, String status, int start, int size , String over_top) {
+        long total = this.vehicleServiceManageDao.getOrgPropertyContraceCount(original_org, status , over_top);
+        List<PropertyContraceInfo> contrace_list = this.vehicleServiceManageDao.getOrgPropertyContraceList(original_org, status, over_top , start, size);
+        Map<String , Object> map = new HashMap<String, Object>();
+        map.put("total" , total);
+        map.put("contrace_list", contrace_list);
+        return map;
     }
 }

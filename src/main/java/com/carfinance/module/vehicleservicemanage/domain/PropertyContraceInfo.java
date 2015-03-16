@@ -42,6 +42,15 @@ public class PropertyContraceInfo implements Serializable{
     private double final_payment;
     private int received_periods;
     private double already_back_amount;
+    private String payment_type;
+
+    public String getPayment_type() {
+        return payment_type;
+    }
+
+    public void setPayment_type(String payment_type) {
+        this.payment_type = payment_type;
+    }
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
