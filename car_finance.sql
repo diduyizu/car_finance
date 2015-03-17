@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.1.4
+-- version 4.1.6
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: 2015-03-17 10:54:07
--- 服务器版本： 5.6.11
--- PHP Version: 5.5.1
+-- Generation Time: 2015-03-17 14:41:44
+-- 服务器版本： 5.6.16
+-- PHP Version: 5.5.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -348,7 +348,6 @@ INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `menu_url`, `pid`, `level`, `men
 (50000, '财务管理', '', 0, 0, '财务管理', 'page', 'nav-cost', 1, 0),
 (60000, '客户管理', '', 0, 0, '客户管理', 'page', 'nav-user', 1, 0),
 (60001, '客户资料维护', 'carfinance/customer/info/index', 60000, 0, '客户录入登记', 'page', NULL, 1, 0),
-(60002, '客户业务开通查询', 'http://www.xici.net', 60000, 0, '客户业务开通查询', 'page', NULL, 1, 0),
 (70000, '统计模块', '', 0, 0, '统计模块', 'page', 'nav-monitor', 1, 0),
 (70001, '台帐', 'http://www.xici.net', 70000, 0, '台帐', 'page', NULL, 1, 0);
 
@@ -490,7 +489,6 @@ INSERT INTO `sys_role_menu` (`role_id`, `menu_id`, `status`) VALUES
 (10000, 40008, 1),
 (10000, 40009, 1),
 (10000, 60001, 1),
-(10000, 60002, 1),
 (10000, 70001, 1),
 (10000, 10000, 1),
 (10000, 20000, 1),
@@ -530,7 +528,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`user_id`, `login_name`, `login_pwd`, `user_name`, `nick_name`, `employee_id`, `head_url`, `birthday`, `address`, `email`, `create_by`, `create_at`, `status`, `driver_status`, `driver_license_no`) VALUES
-(100000, 'sysadmin', '8DDCFF3A80F4189CA1C9D4D902C3C909', '系统管理员a', '系统管理员', NULL, NULL, NULL, NULL, NULL, 10000, '', 1, 0, NULL),
+(100000, 'sysadmin', '96E79218965EB72C92A549DD5A330112', '系统管理员a', '系统管理员', NULL, NULL, NULL, NULL, NULL, 10000, '', 1, 0, NULL),
 (100021, '111111', '96E79218965EB72C92A549DD5A330112', '111111', '', '111111', NULL, NULL, NULL, NULL, 100000, '2015-03-16 10:03:583', 1, 0, '111111');
 
 -- --------------------------------------------------------
@@ -634,6 +632,7 @@ CREATE TABLE IF NOT EXISTS `vehicle_contrace_vehs` (
   `license_plate` varchar(128) DEFAULT NULL COMMENT '车牌',
   `model` varchar(128) DEFAULT NULL COMMENT '车型',
   `company` varchar(64) DEFAULT NULL COMMENT '外借公司名',
+  `other_vehicle_km` int(11) DEFAULT NULL COMMENT '外援车辆里程数',
   `isother` int(11) NOT NULL DEFAULT '0' COMMENT '是否是外借车辆：0-不是；1-是',
   `driving_user_id` varchar(128) DEFAULT '0' COMMENT '配驾员工号/id',
   `driving_user_name` varchar(64) DEFAULT NULL COMMENT '配驾员姓名',
@@ -648,17 +647,19 @@ CREATE TABLE IF NOT EXISTS `vehicle_contrace_vehs` (
   `over_price` decimal(10,2) DEFAULT NULL COMMENT '超额费用（根据还车时间、还车里程以及合同规定还车时间、还车里程计算得出）',
   `status` int(11) DEFAULT '0' COMMENT '车辆状态0-未还；1-已还',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='合同对应车辆详细表' AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='合同对应车辆详细表' AUTO_INCREMENT=11 ;
 
 --
 -- 转存表中的数据 `vehicle_contrace_vehs`
 --
 
-INSERT INTO `vehicle_contrace_vehs` (`id`, `contrace_id`, `vehicle_id`, `license_plate`, `model`, `company`, `isother`, `driving_user_id`, `driving_user_name`, `driving_user_license_no`, `create_by`, `create_at`, `update_by`, `update_at`, `vehicle_price`, `return_time`, `return_km`, `over_price`, `status`) VALUES
-(5, 100038, 4, '苏KEY991', 'GL8商务', NULL, 0, '0', NULL, NULL, 100000, '2015-03-14 12:16:33', 0, '2015-03-14 12:16:33', '160000.00', '2015-03-01 16:00:00', 14444, '27730.00', 0),
-(6, 100039, 4, '苏KEY991', 'GL8商务', NULL, 0, '0', NULL, NULL, 100000, '2015-03-16 01:44:28', 0, '2015-03-16 01:44:28', '160000.00', NULL, NULL, NULL, 0),
-(7, 100041, 4, '苏KEY991', 'GL8商务', NULL, 0, '0', NULL, NULL, 100000, '2015-03-16 03:35:23', 0, '2015-03-16 03:35:23', '160000.00', '2015-03-19 03:00:00', 12345, '240.00', 1),
-(8, 100044, 4, '苏KEY991', 'GL8商务', NULL, 0, '0', NULL, NULL, 100000, '2015-03-17 01:02:12', 0, '2015-03-17 01:02:12', '160000.00', NULL, NULL, NULL, 0);
+INSERT INTO `vehicle_contrace_vehs` (`id`, `contrace_id`, `vehicle_id`, `license_plate`, `model`, `company`, `other_vehicle_km`, `isother`, `driving_user_id`, `driving_user_name`, `driving_user_license_no`, `create_by`, `create_at`, `update_by`, `update_at`, `vehicle_price`, `return_time`, `return_km`, `over_price`, `status`) VALUES
+(5, 100038, 4, '苏KEY991', 'GL8商务', NULL, NULL, 0, '0', NULL, NULL, 100000, '2015-03-14 12:16:33', 0, '2015-03-14 12:16:33', '160000.00', '2015-03-01 16:00:00', 14444, '27730.00', 0),
+(6, 100039, 4, '苏KEY991', 'GL8商务', NULL, NULL, 0, '0', NULL, NULL, 100000, '2015-03-16 01:44:28', 0, '2015-03-16 01:44:28', '160000.00', NULL, NULL, NULL, 0),
+(7, 100041, 4, '苏KEY991', 'GL8商务', NULL, NULL, 0, '0', NULL, NULL, 100000, '2015-03-16 03:35:23', 0, '2015-03-16 03:35:23', '160000.00', '2015-03-19 03:00:00', 12345, '240.00', 1),
+(8, 100044, 4, '苏KEY991', 'GL8商务', NULL, NULL, 0, '0', NULL, NULL, 100000, '2015-03-17 01:02:12', 0, '2015-03-17 01:02:12', '160000.00', NULL, NULL, NULL, 0),
+(9, 100039, 0, '苏K23D23', '宝马', '扬州公司', 34215, 1, '0', NULL, NULL, 100000, '2015-03-17 12:48:33', 0, '2015-03-17 12:48:33', '650430.00', NULL, NULL, NULL, 0),
+(10, 100039, 0, '苏A321DF', '宝马750', '你好', 34567, 1, '0', NULL, NULL, 100000, '2015-03-17 13:07:36', 0, '2015-03-17 13:07:36', '908765.00', NULL, NULL, NULL, 0);
 
 -- --------------------------------------------------------
 
