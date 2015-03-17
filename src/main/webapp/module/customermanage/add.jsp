@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="<c:url value="/resources/Css/bootstrap-responsive.css" />" />
     <link rel="stylesheet" type="text/css" href="<c:url value="/resources/Css/style.css" />" />
     <link rel="stylesheet" type="text/css" href="<c:url value="/resources/Css/datepicker.css" />" />
+    <link rel="stylesheet" type="text/css" href="<c:url value="/resources/Css/bootstrap-fileupload.css" />" />
 
 
     <%--<script type="text/javascript" src="<c:url value="/resources/Js/jquery.js" />"></script>--%>
@@ -16,6 +17,7 @@
     <script type="text/javascript" src="<c:url value="/resources/Js/ckform.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/Js/common.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/Js/bootstrap-datepicker.js" />"></script>
+    <script type="text/javascript" src="<c:url value="/resources/Js/bootstrap-fileupload.js" />"></script>
 
 
 
@@ -78,6 +80,25 @@
                 <td><input type="text" name="customer_vehicle" id="customer_vehicle"/></td>
                 <td class="tableleft">客户担保人/单位</td>
                 <td><input type="text" name="customer_guarantee" id="customer_guarantee"/></td>
+            </tr>
+            <tr>
+                <td class="tableleft">证件图片</td>
+                <td colspan="5">
+                    <div class="fileupload fileupload-new" data-provides="fileupload">
+                        <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
+                            <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image" alt="" />
+                        </div>
+                        <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;"></div>
+                        <div>
+                                                   <span class="btn btn-white btn-file">
+                                                   <span class="fileupload-new"><i class="fa fa-paper-clip"></i>选择图片</span>
+                                                   <span class="fileupload-exists"><i class="fa fa-undo"></i>更换</span>
+                                                   <input type="file" class="default" name="files" />
+                                                   </span>
+                            <a href="#" class="btn btn-danger fileupload-exists" data-dismiss="fileupload"><i class="fa fa-trash"></i>删除</a>
+                        </div>
+                    </div>
+                </td>
             </tr>
             <tr>
                 <td class="tableleft"></td>
