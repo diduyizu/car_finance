@@ -43,6 +43,8 @@ public class PeopleManageService {
     private InitService initService;
     @Autowired
     private CommonDao commonDao;
+    @Autowired
+    private Properties appProps;
 
     public Role roleQuery(String role_name) {
         return this.peopleManageDao.roleQuery(role_name);
@@ -252,5 +254,30 @@ public class PeopleManageService {
         map.put("total" , total);
         map.put("user_org_role_list" , user_org_role_list);
         return map;
+    }
+
+    public int doResetPassword(long modify_user_id) {
+        String password = appProps.get("people.password").toString();//系统默认用户密码
+        String password_md5 = MD5Util.MD5Encrypt(password);
+        return this.peopleManageDao.doResetPassword(modify_user_id, password_md5);
+    }
+
+    /**
+     * @param old_password 用户输入原密码
+     * @param new_password 用户输入新密码
+     * @param confirm_password 用户输入确认新密码
+     * @param user_current_password 用户当前密码
+     * @return
+     */
+    public int doModifyPassword(String old_password , String new_password , String confirm_password , String user_current_password , long user_id) {
+        if(!old_password.equals(user_current_password)) {
+            return -1;
+        }
+        if(!new_password.equals(confirm_password)) {
+            return -2;
+        }
+
+        String password_md5 = MD5Util.MD5Encrypt(new_password);
+        return this.peopleManageDao.doResetPassword(user_id , password_md5);
     }
 }

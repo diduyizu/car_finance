@@ -416,4 +416,82 @@ public class PeopleManageController {
 
         return this.peopleManageService.roleMenuDoConfig(sub_menu_ids , role_id);
     }
+
+    /**
+     * 重置密码
+     * @param model
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/password/reset" , method = RequestMethod.GET)
+    public String resetPassword(Model model , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        String pageindexStr = request.getParameter("page_index");//第几页
+        int page_index = Integer.parseInt(StringUtils.isBlank(pageindexStr) || "0".equals(pageindexStr) ? "1" : pageindexStr);
+        int size = Integer.valueOf(appProps.get("people.people.size").toString());//每页显示条数
+        int start = (page_index - 1) * size;
+
+        String org_id_str = request.getParameter("choose_org_id");
+        String user_name = request.getParameter("username");
+        List<Org> user_org_list = this.commonService.getUserAllOrgList(user.getUser_id());//获取用户所在组织
+        long org_id = (org_id_str == null || "".equals(org_id_str.trim())) ? user_org_list.get(0).getOrg_id() : Long.valueOf(org_id_str);
+        Map<String , Object> map = this.peopleManageService.getOrgUserlist(org_id , user_name , start , size);//获取某一组织用户列表以及用户总数
+        long total = (Long)map.get("total");;
+        List<User> user_list = (List<User>)map.get("org_user_list");
+
+        long temp = (total - 1) <= 0 ? 0 : (total - 1);
+        int pages = Integer.parseInt(Long.toString(temp / size)) + 1;
+        int prepages = (page_index - 1) <= 0 ? 1 : (page_index - 1);
+        int nextpages = (page_index + 1) >= pages ? pages : (page_index + 1);
+
+        model.addAttribute("current_page" , page_index);
+        model.addAttribute("pages" , pages);
+        model.addAttribute("prepage" , prepages);
+        model.addAttribute("nextpage" , nextpages);
+        model.addAttribute("page_url" , request.getRequestURI());
+
+        model.addAttribute("choose_org_id" , org_id);
+        model.addAttribute("user_name" , user_name);
+        model.addAttribute("user_org_list" , user_org_list);
+        model.addAttribute("user_list" , user_list);
+        return "/module/peoplemanage/password/resetindex";
+    }
+
+    @RequestMapping(value = "/password/doreset" , method = RequestMethod.POST)
+    @ResponseBody
+    public int doResetPassword(Model model , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+        long modify_user_id = Long.valueOf(request.getParameter("modify_user_id"));//角色id
+
+        return this.peopleManageService.doResetPassword(modify_user_id);
+    }
+
+    /**
+     * 修改密码
+     * @param model
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/password/modify" , method = RequestMethod.GET)
+    public String modifyPassword(Model model , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        return "/module/peoplemanage/password/modifyindex";
+    }
+
+    @RequestMapping(value = "/password/domodify" , method = RequestMethod.POST)
+    @ResponseBody
+    public int doModifyPassword(Model model , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        String old_password = request.getParameter("old_password");
+        String new_password = request.getParameter("new_password");
+        String confirm_password = request.getParameter("confirm_password");
+
+        return this.peopleManageService.doModifyPassword(old_password , new_password , confirm_password , user.getLogin_pwd() , user.getUser_id());
+    }
+
 }

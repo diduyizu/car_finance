@@ -336,4 +336,11 @@ public class PeopleManageDao extends BaseJdbcDaoImpl {
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().queryForLong(sql , o);
     }
+
+    public int doResetPassword(long modify_user_id , String password) {
+        String sql = "update users set  login_pwd = ? where user_id = ? ";
+        Object[] o = new Object[] { password ,  modify_user_id};
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().update(sql , o);
+    }
 }

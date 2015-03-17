@@ -45,7 +45,7 @@
     </script>
 </head>
 <body>
-<form class="form-inline definewidth m20" action="${ctx}/vehicle/insuranceremind/index" method="post">
+<form class="form-inline definewidth m20" action="${ctx}/vehicle/peccancyremind/index" method="post">
     所在门店：
     <select id="original_org" name="original_org">
         <c:forEach var="org" items="${user_all_org_list}" varStatus="status">
