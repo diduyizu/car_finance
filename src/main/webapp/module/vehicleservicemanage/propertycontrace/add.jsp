@@ -217,7 +217,7 @@
                 success:function(data){
                     if(data > 0){
                         alert("成功");
-                        window.location.href="${ctx}/vehicleservice/contrace/index";
+                        window.location.href="${ctx}/vehicleservice/contrace/property/index";
                     } else {
                         alert("失败");
                         return false;

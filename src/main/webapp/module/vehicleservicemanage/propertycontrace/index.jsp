@@ -70,7 +70,7 @@
     </thead>
     <c:forEach var="contrace" items="${contrace_list}" varStatus="status">
         <tr>
-            <td><a href="${ctx}/vehicleservice/contrace/detail?contrace_id=${contrace.id}">${contrace.contrace_no}</a></td>
+            <td><a href="${ctx}/vehicleservice/contrace/property/detail?contrace_id=${contrace.id}">${contrace.contrace_no}</a></td>
             <td>${contrace.customer_name}</td>
             <td>${contrace.customer_type}</td>
             <td>${contrace.customer_dn}</td>
@@ -95,7 +95,7 @@
                 <c:if test="${(contrace.status == 0 || contrace.status == -1) && contrace.create_by == user.user_id}">
                     <button type="button" class="btn btn-success modify" value="${contrace.id}">编辑</button>
                     <button type="button" class="btn btn-success addvehicle" value="${contrace.id}">增加车辆</button>
-                    <button type="button" class="btn btn-success adddriver" value="${contrace.id}">增加配驾</button>
+                    <%--<button type="button" class="btn btn-success adddriver" value="${contrace.id}">增加配驾</button>--%>
                     <button type="button" class="btn btn-success audit" value="${contrace.id}">提交审核</button>
                 </c:if>
                 <c:if test="${contrace.status == 5 && contrace.create_by == user.user_id}">
@@ -111,25 +111,25 @@
 <script>
     $('.modify').click(function(){
         var contrace_id = $(this).val();
-        window.location.href="${ctx}/vehicleservice/contrace/modify?contrace_id="+contrace_id+"&current_page=${current_page}&original_org=${original_org}";
+        window.location.href="${ctx}/vehicleservice/contrace/property/modify?contrace_id="+contrace_id+"&current_page=${current_page}&original_org=${original_org}";
     });
 
     $('.addvehicle').click(function(){
         var contrace_id = $(this).val();
-        window.location.href="${ctx}/vehicleservice/contrace/addvech?contrace_id="+contrace_id;
+        window.location.href="${ctx}/vehicleservice/contrace/property/addvech?contrace_id="+contrace_id;
     });
 
-    $('.adddriver').click(function(){
-        var contrace_id = $(this).val();
-        window.location.href="${ctx}/vehicleservice/contrace/vech/list?contrace_id="+contrace_id;
-    });
+    <%--$('.adddriver').click(function(){--%>
+        <%--var contrace_id = $(this).val();--%>
+        <%--window.location.href="${ctx}/vehicleservice/contrace/property/vech/list?contrace_id="+contrace_id;--%>
+    <%--});--%>
 
     //业务员，提交合同，到门店经理审核
     //需要判断该合同中的车辆总金额，是否超过一定数额（可配，比如30W），如果超过，则需要一类门店店长审核
     $('.audit').click(function(){
         var contrace_id = $(this).val();
         $.ajax({
-            url:"${ctx}/vehicleservice/contrace/toshopaudit",
+            url:"${ctx}/vehicleservice/contrace/property/toshopaudit",
             type: "get",
             data:{contrace_id:contrace_id},
             dataType:"json",

@@ -34,7 +34,7 @@
     </style>
 </head>
 <body>
-<form class="form-inline definewidth m20" action="${ctx}/vehicleservice/contrace/shopowner/audit" method="post">
+<form class="form-inline definewidth m20" action="${ctx}/vehicleservice/contrace/property/finance/audit" method="post">
     门店：
     <select id="original_org" name="original_org">
         <c:forEach var="org" items="${user_role_org_list}" varStatus="status">
@@ -49,10 +49,8 @@
     状态：
     <select id="status" name="status">
         <option value="-99">全部</option>
-        <option value="1" <c:if test="${status == '1'}">selected="selected"</c:if>>待审核</option>
         <option value="2" <c:if test="${status == '2'}">selected="selected"</c:if>>店长审核通过</option>
-        <option value="-1" <c:if test="${status == '-1'}">selected="selected"</c:if>>店长驳回</option>
-        <option value="-2" <c:if test="${status == '-2'}">selected="selected"</c:if>>店长审核不通过</option>
+        <option value="4" <c:if test="${status == '4'}">selected="selected"</c:if>>区域经理审核通过</option>
     </select>&nbsp;&nbsp;
     合同类型：
     <select id="contrace_type" name="contrace_type">
@@ -73,9 +71,12 @@
             <th>手机号码</th>
             <th>证件类型</th>
             <th>证件号码</th>
-            <th>开始时间</th>
-            <th>结束时间</th>
-            <th>描述</th>
+            <th>合同期限</th>
+            <th>首付款</th>
+            <th>合同租赁价格</th>
+            <th>月付款</th>
+            <th>协商月付</th>
+            <th>月付款日</th>
             <th>状态</th>
             <th>操作</th>
         </tr>
@@ -87,9 +88,12 @@
             <td>${contrace.customer_dn}</td>
             <td>${contrace.customer_cer_type}</td>
             <td>${contrace.customer_cer_no}</td>
-            <td>${contrace.use_begin}</td>
-            <td>${contrace.use_end}</td>
-            <td>${contrace.remark}</td>
+            <td>${contrace.period_number}</td>
+            <td>${contrace.down_payment}</td>
+            <td>${contrace.lease_price}</td>
+            <td>${contrace.monthly_payment}</td>
+            <td>${contrace.arrange_payment}</td>
+            <td>${contrace.monthly_day}</td>
             <td>
                 <c:if test="${contrace.status == 0}">初始状态</c:if>
                 <c:if test="${contrace.status == 1}">待审核</c:if>
@@ -105,9 +109,13 @@
                 <c:if test="${contrace.status == -5}">财务不通过</c:if>
             </td>
             <td>
-                <c:if test="${contrace.status == 1}">
+                <c:if test="${contrace.status == 2 && contrace.isovertop == 0}">
                     <button type="button" class="btn btn-success pass" value="${contrace.id}">通过</button>
-                    <button type="button" class="btn btn-danger rewrite" value="${contrace.id}">驳回</button>
+                    <button type="button" class="btn btn-danger nopass" value="${contrace.id}">不通过</button>
+                </c:if>
+
+                <c:if test="${contrace.status == 4 && contrace.isovertop == 1}">
+                    <button type="button" class="btn btn-success pass" value="${contrace.id}">通过</button>
                     <button type="button" class="btn btn-danger nopass" value="${contrace.id}">不通过</button>
                 </c:if>
             </td>
@@ -122,9 +130,9 @@
         $('.pass').click(function(){
             var id = $(this).val();
             $.ajax({
-                url:"${ctx}/vehicleservice/contrace/shopowner/doaudit",
+                url:"${ctx}/vehicleservice/contrace/property/finance/doaudit",
                 type: "post",
-                data:{id:id,status:2},
+                data:{id:id,status:5},
                 success:function(data){
                     if(data > 0){
                         alert("成功");
@@ -141,9 +149,9 @@
             if(confirm("确定不通过吗？")) {
                 var id = $(this).val();
                 $.ajax({
-                    url:"${ctx}/vehicleservice/contrace/shopowner/doaudit",
+                    url:"${ctx}/vehicleservice/contrace/property/finance/doaudit",
                     type: "post",
-                    data:{id:id,status:-2},
+                    data:{id:id,status:-5},
                     success:function(data){
                         if(data > 0){
                             alert("成功");
@@ -155,26 +163,7 @@
                     }
                 })
             }
-        })
 
-        $('.rewrite').click(function(){
-            if(confirm("确定驳回吗？")) {
-                var id = $(this).val();
-                $.ajax({
-                    url:"${ctx}/vehicleservice/contrace/shopowner/doaudit",
-                    type: "post",
-                    data:{id:id,status:-1},
-                    success:function(data){
-                        if(data > 0){
-                            alert("成功");
-                            location.reload();
-                        } else {
-                            alert("失败");
-                            return false;
-                        }
-                    }
-                })
-            }
         })
     });
 

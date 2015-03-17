@@ -387,13 +387,13 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
     public int contraceToShopAudit(long contrace_id , long user_id , boolean isSysadmin) {
         String sql;
         Object[] o;
-        if(isSysadmin) {
-            sql = "update vehicle_contrace set status = 1 where id = ? and status in (0,-1) ";
-            o = new Object[] { contrace_id };
-        } else {
+//        if(isSysadmin) {
+//            sql = "update vehicle_contrace set status = 1 where id = ? and status in (0,-1) ";
+//            o = new Object[] { contrace_id };
+//        } else {
             sql = "update vehicle_contrace set status = 1 where id = ? and create_by = ? and status in (0,-1) ";
             o = new Object[] { contrace_id , user_id };
-        }
+//        }
 
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().update(sql, o);
@@ -889,5 +889,105 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
             logger.error(e.getMessage() , e);
             return null;
         }
+    }
+
+    public int contracePropertyToShopAudit(long contrace_id , long user_id , boolean isSysadmin) {
+        String sql;
+        Object[] o;
+//        if(isSysadmin) {
+//            sql = "update property_contrace set status = 1 where id = ? and status in (0,-1) ";
+//            o = new Object[] { contrace_id };
+//        } else {
+            sql = "update property_contrace set status = 1 where id = ? and create_by = ? and status in (0,-1) ";
+            o = new Object[] { contrace_id , user_id };
+//        }
+
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().update(sql, o);
+    }
+
+    public int contracePropertyNeedCityAudit(long contrace_id , long user_id) {
+        String sql = "update property_contrace set isovertop = 1 where id = ? and create_by = ?";
+        Object[] o = new Object[] { contrace_id , user_id };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().update(sql, o);
+    }
+
+    public long getOrgContracePropertyCount(long org_id , String status , String over_top_str) {
+        String sql = "select count(1) from property_contrace where org_id = ? and reserv_to_contrace_status = 1 ";
+        List<Object> param = new ArrayList<Object>();
+        param.add(org_id);
+
+        if(status != null && !"".equals(status.trim())) {
+            sql = sql + " and status = ? ";
+            param.add(Long.valueOf(status));
+        }
+        if(over_top_str != null && !"".equals(over_top_str.trim())) {
+            sql = sql + " and isovertop = ? ";
+            param.add(Long.valueOf(Long.valueOf(over_top_str)));
+        }
+
+        Object[] o = new Object[param.size()];
+        for(int i = 0 ; i < param.size() ; i++) {
+            o[i] = param.get(i);
+        }
+
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().queryForLong(sql, o);
+    }
+
+    public List<PropertyContraceInfo> getOrgContracePropertyList(long org_id , String status , String over_top_str , int start, int size) {
+        String sql = "select * from property_contrace where org_id = ? and reserv_to_contrace_status = 1 ";
+        List<Object> param = new ArrayList<Object>();
+        param.add(org_id);
+
+        if(status != null && !"".equals(status.trim())) {
+            sql = sql + " and status = ? ";
+            param.add(Long.valueOf(status));
+        }
+        if(over_top_str != null && !"".equals(over_top_str.trim())) {
+            sql = sql + " and isovertop = ? ";
+            param.add(Long.valueOf(Long.valueOf(over_top_str)));
+        }
+
+        sql = sql + " order by id desc limit ?,?";
+        param.add(start);
+        param.add(size);
+
+        Object[] o = new Object[param.size()];
+        for(int i = 0 ; i < param.size() ; i++) {
+            o[i] = param.get(i);
+        }
+
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().query(sql, o, new PropertyContraceInfoRowMapper());
+    }
+
+    public int shopownerDoAuditProperty(long id , String status , long user_id) {
+        String sql = "update property_contrace set status = ? , shopowner_update_by = ? , shopowner_update_at = now() where id = ?";
+        Object[] o = new Object[] { status , user_id , id };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().update(sql, o);
+    }
+
+    public int cityShopownerDoAuditProperty(long id , String status , long user_id) {
+        String sql = "update property_contrace set status = ? , city_shopowner_update_by = ? , city_shopowner_update_at = now() where id = ?";
+        Object[] o = new Object[] { status , user_id , id };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().update(sql, o);
+    }
+
+    public int regionalManagerDoAuditProperty(long id , String status , long user_id) {
+        String sql = "update property_contrace set status = ? , regional_manager_update_by = ? , regional_manager_update_at = now() where id = ?";
+        Object[] o = new Object[] { status , user_id , id };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().update(sql, o);
+    }
+
+    public int financeDoAuditProperty(long id , String status , long user_id) {
+        String sql = "update property_contrace set status = ? , finance_update_by = ? , finance_update_at = now() where id = ?";
+        Object[] o = new Object[] { status , user_id , id };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().update(sql, o);
     }
 }

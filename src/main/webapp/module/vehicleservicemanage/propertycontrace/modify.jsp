@@ -18,6 +18,7 @@
     <script type="text/javascript" src="<c:url value="/resources/Js/ckform.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/Js/common.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/Js/bootstrap-typeahead.js" />"></script>
+    <script type="text/javascript" src="<c:url value="/resources/Js/bootstrap-datepicker.js" />"></script>
 
     <style type="text/css">
         body {
@@ -57,116 +58,98 @@
                 <td>
                     <select id="original_org" name="original_org">
                         <c:forEach var="org" items="${user_all_org_list}" varStatus="status">
-                            <c:if test="${org.org_id == vehicle_contrace_info.org_id}">
+                            <c:if test="${org.org_id == property_contrace_info.org_id}">
                                 <option value="${org.org_id}" selected="selected">${org.org_name}</option>
                             </c:if>
-                            <c:if test="${org.org_id != vehicle_contrace_info.org_id}">
+                            <c:if test="${org.org_id != property_contrace_info.org_id}">
                                 <option value="${org.org_id}">${org.org_name}</option>
                             </c:if>
                         </c:forEach>
                     </select>
                 </td>
                 <td class="tableleft">合同编号</td>
-                <td><input type="text" name="contrace_no" id="contrace_no" placeholder="必填" value="${vehicle_contrace_info.contrace_no}" required="true"/></td>
+                <td><input type="text" name="contrace_no" id="contrace_no" placeholder="必填" value="${property_contrace_info.contrace_no}" required="true"/></td>
                 <td class="tableleft">合同类型</td>
-                <td>
-                    <c:if test="${vehicle_contrace_info.contrace_type == 1}">
-                        零租
-                        <input type="hidden" name="contrace_type" id="contrace_type" value="1"/>
-                    </c:if>
-                    <c:if test="${vehicle_contrace_info.contrace_type == 2}">
-                        产权组
-                        <input type="hidden" name="contrace_type" id="contrace_type" value="2"/>
-                    </c:if>
-                </td>
+                <td>产权租</td>
             </tr>
             <tr>
                 <td class="tableleft">客户姓名</td>
-                <td><input type="text" data-provide="typeahead" name="customer_name" id="customer_name" required="true" placeholder="必填" value="${vehicle_contrace_info.customer_name}"/></td>
+                <td><input type="text" data-provide="typeahead" name="customer_name" id="customer_name" required="true" placeholder="必填" value="${property_contrace_info.customer_name}"/></td>
                 <td class="tableleft">客户类型</td>
                 <td>
                     <select id="customer_type" name="customer_type">
-                        <option value="个人用户" <c:if test="${vehicle_contrace_info.customer_type == '个人用户'}"> selected="selected" </c:if>>个人用户</option>
-                        <option value="企业用户" <c:if test="${vehicle_contrace_info.customer_type == '企业用户'}"> selected="selected" </c:if>>企业用户</option>
+                        <option value="个人用户" <c:if test="${property_contrace_info.customer_type == '个人用户'}"> selected="selected" </c:if>>个人用户</option>
+                        <option value="企业用户" <c:if test="${property_contrace_info.customer_type == '企业用户'}"> selected="selected" </c:if>>企业用户</option>
                     </select>
                 </td>
                 <td class="tableleft">客户手机</td>
-                <td><input type="text" name="customer_dn" id="customer_dn" required="true" placeholder="必填" value="${vehicle_contrace_info.customer_dn}"/></td>
+                <td><input type="text" name="customer_dn" id="customer_dn" required="true" placeholder="必填" value="${property_contrace_info.customer_dn}"/></td>
             </tr>
             <tr>
                 <td class="tableleft">证件类型</td>
                 <td>
                     <select id="certificate_type" name="certificate_type">
-                        <option value="身份证" <c:if test="${vehicle_contrace_info.customer_cer_type == '身份证'}"> selected="selected" </c:if>>身份证</option>
-                        <option value="国际护照" <c:if test="${vehicle_contrace_info.customer_cer_type == '国际护照'}"> selected="selected" </c:if>>国际护照</option>
-                        <option value="回乡证" <c:if test="${vehicle_contrace_info.customer_cer_type == '回乡证'}"> selected="selected" </c:if>>回乡证</option>
-                        <option value="台胞证" <c:if test="${vehicle_contrace_info.customer_cer_type == '台胞证'}"> selected="selected" </c:if>>台胞证</option>
+                        <option value="身份证" <c:if test="${property_contrace_info.customer_cer_type == '身份证'}"> selected="selected" </c:if>>身份证</option>
+                        <option value="国际护照" <c:if test="${property_contrace_info.customer_cer_type == '国际护照'}"> selected="selected" </c:if>>国际护照</option>
+                        <option value="回乡证" <c:if test="${property_contrace_info.customer_cer_type == '回乡证'}"> selected="selected" </c:if>>回乡证</option>
+                        <option value="台胞证" <c:if test="${property_contrace_info.customer_cer_type == '台胞证'}"> selected="selected" </c:if>>台胞证</option>
                     </select>
                 </td>
                 <td class="tableleft">证件号码</td>
-                <td colspan="3"><input type="text" name="certificate_no" id="certificate_no" required="true" placeholder="必填" value="${vehicle_contrace_info.customer_cer_no}"/></td>
-            </tr>
-            <tr>
-                <td class="tableleft">用车开始时间</td>
-                <td>
-                    <input class="form_datetime" size="16" type="text" id="use_begin_date" name="use_begin_date" placeholder="必填" value="${vehicle_contrace_info.use_begin}" required="true" readonly>
-                </td>
-                <td class="tableleft">用车结束时间</td>
-                <td colspan="3">
-                    <input class="form_datetime" size="16" type="text" id="use_end_date" name="use_end_date" placeholder="必填" value="${vehicle_contrace_info.use_end}" required="true" readonly>
-                </td>
+                <td colspan="3"><input type="text" name="certificate_no" id="certificate_no" required="true" placeholder="必填" value="${property_contrace_info.customer_cer_no}"/></td>
             </tr>
 
             <tr>
-                <td class="tableleft">日单价</td>
-                <td><input type="text" name="daily_price" id="daily_price" placeholder="必填" value="${vehicle_contrace_info.daily_price}" required="true"/></td>
-                <td class="tableleft">日公里数</td>
-                <td colspan="3"><input type="text" name="daily_available_km" id="daily_available_km" placeholder="必填" value="${vehicle_contrace_info.daily_available_km}" required="true"/></td>
-            </tr>
-            <tr>
-                <td class="tableleft">超公里金额</td>
-                <td><input type="text" name="over_km_price" id="over_km_price" placeholder="必填" value="${vehicle_contrace_info.over_km_price}" required="true"/></td>
-                <td class="tableleft">超小时金额</td>
-                <td colspan="3"><input type="text" name="over_hour_price" id="over_hour_price" placeholder="必填" value="${vehicle_contrace_info.over_hour_price}" required="true"/></td>
-            </tr>
-            <tr>
-                <td class="tableleft">月结日</td>
+                <td class="tableleft">签订日期</td>
                 <td>
-                    <div class="input-append date" id="monthly_day" data-date-format="yyyy-mm-dd">
-                        <input class="span2" size="16" type="text" id="monthly_day_date" name="monthly_day_date" value="${vehicle_contrace_info.monthly_day}" />
+                    <div class="input-append date" id="sign_at" data-date-format="yyyy-mm-dd">
+                        <input class="span2" size="16" type="text" id="sign_at_date"  name="sign_at_date" placeholder="必填"  value="${property_contrace_info.sign_at}" required />
                         <span class="add-on"><i class="icon-th"></i></span>
                     </div>
                 </td>
-                <td class="tableleft">包月单价</td>
-                <td><input type="text" name="month_price" id="month_price" value="${vehicle_contrace_info.month_price}" /></td>
-                <td class="tableleft">包月公里数</td>
-                <td><input type="text" name="month_available_km" id="month_available_km" value="${vehicle_contrace_info.month_available_km}" /></td>
+                <td class="tableleft">合同期限</td>
+                <td><input type="text" name="period_number" id="period_number" placeholder="必填" required="true" value="${property_contrace_info.period_number}"/></td>
+                <td class="tableleft">首付款</td>
+                <td><input type="text" name="down_payment" id="down_payment" placeholder="必填" required="true" value="${property_contrace_info.down_payment}"/></td>
             </tr>
             <tr>
-                <td class="tableleft">预付款</td>
-                <td><input type="text" data-provide="typeahead" name="pre_payment" id="pre_payment" placeholder="必填" value="${vehicle_contrace_info.pre_payment}" required="true"/></td>
-                <td class="tableleft">总押金</td>
-                <td><input type="text" name="deposit" id="deposit" placeholder="必填" value="${vehicle_contrace_info.deposit}" required="true"/></td>
-                <td class="tableleft">违章押金</td>
-                <td><input type="text" data-provide="typeahead" name="peccancy_deposit" id="peccancy_deposit" placeholder="必填" value="${vehicle_contrace_info.peccancy_deposit}" required="true"/></td>
+                <td class="tableleft">合同租赁价格</td>
+                <td><input type="text" name="lease_price" id="lease_price" placeholder="必填" required="true" value="${property_contrace_info.lease_price}"/></td>
+                <td class="tableleft">月付款</td>
+                <td><input type="text" name="montyly_payment" id="montyly_payment" placeholder="必填" required="true" value="${property_contrace_info.monthly_payment}"/></td>
+                <td class="tableleft">协商月付</td>
+                <td><input type="text" name="arrange_payment" id="arrange_payment" placeholder="必填" required="true" value="${property_contrace_info.arrange_payment}"/></td>
             </tr>
-
+            <tr>
+                <td class="tableleft">月付款日</td>
+                <td><input type="text" name="monthly_day" id="monthly_day" placeholder="必填" required="true" value="${property_contrace_info.monthly_day}"/></td>
+                <td class="tableleft">尾款</td>
+                <td><input type="text" name="final_payment" id="final_payment" placeholder="必填" required="true" value="${property_contrace_info.final_payment}"/></td>
+                <td class="tableleft">付款方式</td>
+                <td colspan="3"><input type="text" name="payment_type" id="payment_type" placeholder="必填" required="true" value="${property_contrace_info.payment_type}"/></td>
+            </tr>
+            <tr>
+                <td class="tableleft">已收回期数</td>
+                <td><input type="text" name="received_periods" id="received_periods" placeholder="必填" required="true" value="${property_contrace_info.received_periods}"/></td>
+                <td class="tableleft">已收回金额</td>
+                <td colspan="3"><input type="text" name="already_back_amount" id="already_back_amount" placeholder="必填" required="true" value="${property_contrace_info.already_back_amount}"/></td>
+            </tr>
 
             <tr>
                 <td class="tableleft">业务员id</td>
-                <td><input type="text" name="employee_id" id="employee_id" value="${vehicle_contrace_info.employee_id}"/></td>
+                <td><input type="text" name="employee_id" id="employee_id" value="${property_contrace_info.employee_id}"/></td>
                 <td class="tableleft">业务员姓名</td>
-                <td colspan="3"><input type="text" name="employee_name" id="employee_name" value="${vehicle_contrace_info.employee_name}"/></td>
+                <td colspan="3"><input type="text" name="employee_name" id="employee_name" value="${property_contrace_info.employee_name}"/></td>
             </tr>
             <tr>
                 <td class="tableleft">描述</td>
-                <td colspan="5"><textarea id="remark" rows="4" style="margin: 0px 0px 10px; width: 766px; height: 140px;" >${vehicle_contrace_info.remark}</textarea></td>
+                <td colspan="5"><textarea id="remark" rows="4" style="margin: 0px 0px 10px; width: 766px; height: 140px;" >${property_contrace_info.remark}</textarea></td>
             </tr>
             <tr>
                 <td class="tableleft"></td>
                 <td colspan="5">
-                    <input type="hidden" id="contrace_id" value="${vehicle_contrace_info.id}">
-                    <input type="hidden" id="reservation_id" value="${vehicle_contrace_info.reservation_id}">
+                    <input type="hidden" id="contrace_id" value="${property_contrace_info.id}">
+                    <input type="hidden" id="reservation_id" value="${property_contrace_info.reservation_id}">
                     <button type="button" class="btn btn-primary" id="save">保存</button> &nbsp;&nbsp;
                     <button type="button" class="btn btn-success" id="backid">返回列表</button>
                 </td>
@@ -178,37 +161,7 @@
 <script>
     $(function () {
         window.prettyPrint && prettyPrint();
-//        $('#use_begin').datetimepicker({
-//            format: 'yyyy-mm-dd hh:ii',
-//            language: 'zh-CN',
-//            pickDate: true,
-//            pickTime: true,
-//            hourStep: 1,
-//            minuteStep: 15,
-//            secondStep: 30,
-//            inputMask: true
-//        });
-//        $('#use_end').datetimepicker({
-//            format: 'yyyy-mm-dd hh:ii',
-//            language: 'en',
-//            pickDate: true,
-//            pickTime: true,
-//            hourStep: 1,
-//            minuteStep: 15,
-//            secondStep: 30,
-//            inputMask: true
-//        });
-
-        $('.form_datetime').datetimepicker({
-            format: 'yyyy-mm-dd hh:ii',
-            language: 'zh-CN',
-            pickDate: true,
-            pickTime: true,
-            hourStep: 1,
-            minuteStep: 15,
-            secondStep: 30,
-            inputMask: true
-        });
+        $('#sign_at').datepicker();
 
 		$('#backid').click(function(){
             window.location.href="${ctx}/vehicleservice/contrace/index?page_index=${current_page}&original_org=${original_org}";
@@ -218,41 +171,44 @@
             var contrace_id=$.trim($('#contrace_id').val());
             var reservation_id=$.trim($('#reservation_id').val());
             var original_org=$.trim($('#original_org').val());
+
+
             var contrace_no=$.trim($('#contrace_no').val());
+//            var contrace_type=$.trim($('#contrace_type').val());
             var customer_name=$.trim($('#customer_name').val());
             var customer_type=$.trim($('#customer_type').val());
             var customer_dn=$.trim($('#customer_dn').val());
             var certificate_type=$.trim($('#certificate_type').val());
             var certificate_no=$.trim($('#certificate_no').val());
-            var use_begin_date=$.trim($('#use_begin_date').val());
-            var use_end_date=$.trim($('#use_end_date').val());
+            var sign_at_date=$.trim($('#sign_at_date').val());
+
+            var period_number=$.trim($('#period_number').val());
+            var down_payment=$.trim($('#down_payment').val());
+            var lease_price=$.trim($('#lease_price').val());
+            var montyly_payment=$.trim($('#montyly_payment').val());
+            var arrange_payment=$.trim($('#arrange_payment').val());
+            var monthly_day=$.trim($('#monthly_day').val());
+            var final_payment=$.trim($('#final_payment').val());
+            var payment_type=$.trim($('#payment_type').val());
+            var received_periods=$.trim($('#received_periods').val());
+            var already_back_amount=$.trim($('#already_back_amount').val());
+
             var employee_id=$.trim($('#employee_id').val());
             var employee_name=$.trim($('#employee_name').val());
             var remark=$.trim($('#remark').val());
 
-            var daily_price=$.trim($('#daily_price').val());
-            var daily_available_km=$.trim($('#daily_available_km').val());
-            var over_km_price=$.trim($('#over_km_price').val());
-            var over_hour_price=$.trim($('#over_hour_price').val());
-            var month_price=$.trim($('#month_price').val());
-            var month_available_km=$.trim($('#month_available_km').val());
-            var monthly_day_date=$.trim($('#monthly_day_date').val());
-            var pre_payment=$.trim($('#pre_payment').val());
-            var deposit=$.trim($('#deposit').val());
-            var peccancy_deposit=$.trim($('#peccancy_deposit').val());
-
             $.ajax({
-                url:"${ctx}/vehicleservice/contrace/domodify",
+                url:"${ctx}/vehicleservice/contrace/property/domodify",
                 type: "post",
-                data:{contrace_id:contrace_id,reservation_id:reservation_id,original_org:original_org,contrace_no:contrace_no,customer_name:customer_name,
-                    customer_type:customer_type,customer_dn:customer_dn,certificate_type:certificate_type,certificate_no:certificate_no,use_begin:use_begin_date,
-                    use_end:use_end_date,employee_id:employee_id,employee_name:employee_name,remark:remark,daily_price:daily_price,deposit:deposit,
-                    over_km_price:over_km_price,over_hour_price:over_hour_price,month_price:month_price,month_available_km:month_available_km,
-                    monthly_day_date:monthly_day_date,pre_payment:pre_payment,daily_available_km:daily_available_km,peccancy_deposit:peccancy_deposit},
+                data:{contrace_id:contrace_id,reservation_id:reservation_id,original_org:original_org,contrace_no:contrace_no,
+                    customer_name:customer_name,customer_type:customer_type,customer_dn:customer_dn,certificate_type:certificate_type,certificate_no:certificate_no,
+                    sign_at_date:sign_at_date,period_number:period_number,down_payment:down_payment,lease_price:lease_price,montyly_payment:montyly_payment,
+                    arrange_payment:arrange_payment,monthly_day:monthly_day,final_payment:final_payment,payment_type:payment_type,received_periods:received_periods,
+                    already_back_amount:already_back_amount,employee_id:employee_id,employee_name:employee_name,remark:remark},
                 success:function(data){
                     if(data > 0){
                         alert("成功");
-                        window.location.href="${ctx}/vehicleservice/contrace/index?page_index=${current_page}&original_org=${original_org}";
+                        window.location.href="${ctx}/vehicleservice/contrace/property/index";
                     } else {
                         alert("失败");
                         return false;

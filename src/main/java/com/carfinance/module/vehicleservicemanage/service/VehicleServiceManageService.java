@@ -521,4 +521,64 @@ public class VehicleServiceManageService {
     public PropertyContraceInfo getPropertyContraceInfoById(long contrace_id) {
         return this.vehicleServiceManageDao.getPropertyContraceInfoById(contrace_id);
     }
+
+    public int contracePropertyDoChooseVech(long contrace_id , long vehicle_id , long user_id) {
+        VehicleInfo vehicleInfo = this.vehicleManageDao.getVehicleInfoByid(vehicle_id);
+        int result = this.vehicleServiceManageDao.contraceDoChooseVech(contrace_id , vehicle_id , user_id , vehicleInfo.getVehicle_price() , vehicleInfo.getLicense_plate() , vehicleInfo.getModel());
+        if(result > 0) {//插入成功，更新该车辆状态为出库中
+            this.vehicleServiceManageDao.updateVehicleStatus(vehicle_id , "出库中");
+        }
+        return result;
+    }
+
+    public long contracePropertyToShopAudit(long contrace_id , long user_id) {
+        //首先判断该合同，是否存在对应的车辆关系；如果不存在，直接返回，提示业务员先要录入车辆
+        long contraceVehsCount = this.vehicleServiceManageDao.getContraceVehsCount(contrace_id);
+        if(contraceVehsCount == 0) {
+            return -1;//该合同没有录入车辆，请先增加车辆
+        }
+        //如果有车辆，那么更新合同表状态为待审核
+        //判断是否是系统管理员，如果是，则不需要匹配create_by
+        boolean isSysadmin = this.commonService.isSysadmin(user_id);
+        int result = this.vehicleServiceManageDao.contracePropertyToShopAudit(contrace_id , user_id , isSysadmin);
+        if(result > 0) {
+            //判断该合同下所属车辆，是否超过一定金额，如果超过，则需要市店长、区域经理审核
+            //获取该合同对应车辆，算出总价
+            double total_price = this.vehicleServiceManageDao.getContraceVehicleTotalPrice(contrace_id);
+            //需要市门店经理审批的限额
+            double top = Double.valueOf(appProps.get("city.shopowner.audit.top").toString());
+            if(total_price >= top) {//车辆总价，大于限额，则需要更新合同主表，市公司经理审核状态为：1-需要审核
+                this.vehicleServiceManageDao.contracePropertyNeedCityAudit(contrace_id , user_id);
+            }
+        }
+
+        return result;
+    }
+
+
+    public Map<String , Object> getOrgContracePropertyList(long original_org, String status, int start, int size , String over_top) {
+        long total = this.vehicleServiceManageDao.getOrgContracePropertyCount(original_org, status , over_top);
+        List<PropertyContraceInfo> contrace_list = this.vehicleServiceManageDao.getOrgContracePropertyList(original_org, status, over_top , start, size);
+        Map<String , Object> map = new HashMap<String, Object>();
+        map.put("total" , total);
+        map.put("contrace_list", contrace_list);
+        return map;
+    }
+
+    public int shopownerDoAuditProperty(long id , String status , long user_id) {
+        return this.vehicleServiceManageDao.shopownerDoAuditProperty(id , status , user_id);
+    }
+
+    public int cityShopownerDoAuditProperty(long id , String status , long user_id) {
+        return this.vehicleServiceManageDao.cityShopownerDoAuditProperty(id , status , user_id);
+    }
+
+    public int regionalManagerDoAuditProperty(long id , String status , long user_id) {
+        return this.vehicleServiceManageDao.regionalManagerDoAuditProperty(id , status , user_id);
+    }
+
+    public int financeDoAuditProperty(long id , String status , long user_id) {
+        return this.vehicleServiceManageDao.financeDoAuditProperty(id , status , user_id);
+    }
+
 }

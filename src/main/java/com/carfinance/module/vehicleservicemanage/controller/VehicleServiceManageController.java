@@ -629,12 +629,23 @@ public class VehicleServiceManageController {
         User user = (User)request.getSession().getAttribute("user");
 
         String pageindexStr = request.getParameter("page_index");//第几页
+        String original_org_str = request.getParameter("original_org");
+        String status_str = request.getParameter("status");
+
         int page_index = Integer.parseInt(StringUtils.isBlank(pageindexStr) || "0".equals(pageindexStr) ? "1" : pageindexStr);
         int size = Integer.valueOf(appProps.get("vehicle.reservation.query.size").toString());//每页显示条数
         int start = (page_index - 1) * size;
 
-        String original_org_str = request.getParameter("original_org");
-        String status = request.getParameter("status") == null ? "1" : request.getParameter("status");//店长默认查看待审核状态的列表
+        String status = status_str == null ? "1" : status_str;//店长默认查看待审核状态的列表
+//        if("-99".equals(status)) status = null;//-99表示查看全部
+
+        //判断如果是产权租，跳转至产权租的控制器
+        String contrace_type_str = request.getParameter("contrace_type");
+        int contrace_type = (contrace_type_str == null || "".equals(contrace_type_str.trim())) ? 1 : Integer.valueOf(contrace_type_str);//合同类型：1-零租；2-产权租
+        if(contrace_type == 2) {
+            return "redirect:/vehicleservice/contrace/property/shopowner/audit?original_org="+original_org_str+"&status="+status;
+        }
+        if("-99".equals(status)) status = null;//-99表示查看全部
 
         //TODO 管理员获取全部组织列表
         //获取当前用户存在店长角色的组织列表，角色表中20008对应店长
@@ -678,6 +689,7 @@ public class VehicleServiceManageController {
 
         model.addAttribute("user_role_org_list" , user_role_org_list);
         model.addAttribute("contrace_list" , contrace_list);
+        model.addAttribute("contrace_type" , contrace_type);
         return "/module/vehicleservicemanage/contrace/shopownerauditlist";
     }
 
@@ -717,7 +729,15 @@ public class VehicleServiceManageController {
         int start = (page_index - 1) * size;
 
         String original_org_str = request.getParameter("original_org");
-        String status = request.getParameter("status") == null ? "2" : request.getParameter("status");//市店长默认查看店长审核通过的列表
+        String status = (request.getParameter("status") == null || "".equals(request.getParameter("status").trim())) ? "2" : request.getParameter("status");//市店长默认查看店长审核通过的列表
+//        if("-99".equals(status)) status = null;//-99表示查看全部
+
+        String contrace_type_str = request.getParameter("contrace_type");
+        int contrace_type = (contrace_type_str == null || "".equals(contrace_type_str.trim())) ? 1 : Integer.valueOf(contrace_type_str);//合同类型：1-零租；2-产权租
+        if(contrace_type == 2) {
+            return "redirect:/vehicleservice/contrace/property/cityshopowner/audit?original_org="+original_org_str+"&status="+status;
+        }
+        if("-99".equals(status)) status = null;//-99表示查看全部
 
         //获取当前用户存在市门店的组织列表，管理员获取全部组织列表
         //TODO 管理员获取全部组织列表
@@ -760,6 +780,7 @@ public class VehicleServiceManageController {
 
         model.addAttribute("user_role_org_list" , user_role_org_list);
         model.addAttribute("contrace_list" , contrace_list);
+        model.addAttribute("contrace_type" , contrace_type);
         return "/module/vehicleservicemanage/contrace/cityshopownerauditlist";
     }
 
@@ -800,7 +821,15 @@ public class VehicleServiceManageController {
         int start = (page_index - 1) * size;
 
         String original_org_str = request.getParameter("original_org");
-        String status = request.getParameter("status") == null ? "3" : request.getParameter("status");//区域经理默认查看市店长审核通过的列表
+        String status = (request.getParameter("status") == null || "".equals(request.getParameter("status").trim())) ? "3" : request.getParameter("status");//区域经理默认查看市店长审核通过的列表
+//        if("-99".equals(status)) status = null;//-99表示查看全部
+
+        String contrace_type_str = request.getParameter("contrace_type");
+        int contrace_type = (contrace_type_str == null || "".equals(contrace_type_str.trim())) ? 1 : Integer.valueOf(contrace_type_str);//合同类型：1-零租；2-产权租
+        if(contrace_type == 2) {
+            return "redirect:/vehicleservice/contrace/property/regionalmanager/audit?original_org="+original_org_str+"&status="+status;
+        }
+        if("-99".equals(status)) status = null;//-99表示查看全部
 
         //TODO 管理员获取全部组织列表
         //获取当前用户存在区域经理的组织列表，管理员获取全部组织列表
@@ -843,6 +872,7 @@ public class VehicleServiceManageController {
 
         model.addAttribute("user_role_org_list" , user_role_org_list);
         model.addAttribute("contrace_list" , contrace_list);
+        model.addAttribute("contrace_type" , contrace_type);
         return "/module/vehicleservicemanage/contrace/regionalmanagerauditlist";
     }
 
@@ -882,7 +912,15 @@ public class VehicleServiceManageController {
         int start = (page_index - 1) * size;
 
         String original_org_str = request.getParameter("original_org");
-        String status = request.getParameter("status") == null ? "4" : request.getParameter("status");//财务默认查看区域经理审核通过的列表
+        String status = (request.getParameter("status") == null || "".equals(request.getParameter("status").trim())) ? "4" : request.getParameter("status");//财务默认查看区域经理审核通过的列表
+//        if("-99".equals(status)) status = null;//-99表示查看全部
+
+        String contrace_type_str = request.getParameter("contrace_type");
+        int contrace_type = (contrace_type_str == null || "".equals(contrace_type_str.trim())) ? 1 : Integer.valueOf(contrace_type_str);//合同类型：1-零租；2-产权租
+        if(contrace_type == 2) {
+            return "redirect:/vehicleservice/contrace/property/finance/audit?original_org="+original_org_str+"&status="+status;
+        }
+        if("-99".equals(status)) status = null;//-99表示查看全部
 
         //获取当前用户存在风控的组织列表，管理员获取全部组织列表
         //TODO 管理员获取全部组织列表
@@ -928,6 +966,7 @@ public class VehicleServiceManageController {
 
         model.addAttribute("user_role_org_list" , user_role_org_list);
         model.addAttribute("contrace_list" , contrace_list);
+        model.addAttribute("contrace_type" , contrace_type);
         return "/module/vehicleservicemanage/contrace/financeauditlist";
     }
 
@@ -1316,14 +1355,416 @@ public class VehicleServiceManageController {
         return "/module/vehicleservicemanage/propertycontrace/modify";
     }
 
+    @RequestMapping(value = "/contrace/property/detail" , method = RequestMethod.GET)
+    public String contracePropertyDetail(Model model , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        List<Org> user_all_org_list = this.commonService.getUserAllOrgList(user.getUser_id());
+
+        long contrace_id = Long.valueOf(request.getParameter("contrace_id"));
+        PropertyContraceInfo propertyContraceInfo = this.vehicleServiceManageService.getPropertyContraceInfoById(contrace_id);
+        List<VehicleContraceVehsInfo> vehicleContraceVehsInfoList = this.vehicleServiceManageService.getVehicleContraceVehsListByContraceId(contrace_id);
+
+        model.addAttribute("user_all_org_list" , user_all_org_list);
+        model.addAttribute("property_contrace_info" , propertyContraceInfo);
+        model.addAttribute("vehicle_contrace_vehs_list" , vehicleContraceVehsInfoList);
+        return "/module/vehicleservicemanage/propertycontrace/detail";
+    }
+
+    /**
+     * 产权租，分配车辆
+     * @param model
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/contrace/property/addvech" , method = {RequestMethod.GET , RequestMethod.POST})
+    public String contraceAddPropertyVech(Model model , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        long contrace_id = Long.valueOf(request.getParameter("contrace_id"));
+        String original_org_str = request.getParameter("original_org");
+        String current_city = request.getParameter("current_city");
+        String brand = request.getParameter("brand");
+        String vehicle_model = request.getParameter("model");
+        String license_plate = request.getParameter("license_plate");
+
+        String pageindexStr = request.getParameter("page_index");//第几页
+        int page_index = Integer.parseInt(StringUtils.isBlank(pageindexStr) || "0".equals(pageindexStr) ? "1" : pageindexStr);
+        int size = Integer.valueOf(appProps.get("store.query.size").toString());//每页显示条数
+        int start = (page_index - 1) * size;
+
+        //获取用户角色列表
+        List<Org> user_all_org_list = this.commonService.getUserAllOrgList(user.getUser_id());
+        List<City> city_list = this.commonService.getSysUsedCityList();
+        long original_org = (original_org_str == null || "".equals(original_org_str.trim())) ? user_all_org_list.get(0).getOrg_id() : Long.valueOf(original_org_str);
+
+        Map<String , Object> map = this.vehicleServiceManageService.getContraceCanUseVehicleList(original_org , current_city , brand , vehicle_model , license_plate , start , size);
+
+        long total = (Long)map.get("total");;
+        List<VehicleInfo> vehicle_list = (List<VehicleInfo>)map.get("vehicle_list");
+
+        long temp = (total - 1) <= 0 ? 0 : (total - 1);
+        int pages = Integer.parseInt(Long.toString(temp / size)) + 1;
+        int prepages = (page_index - 1) <= 0 ? 1 : (page_index - 1);
+        int nextpages = (page_index + 1) >= pages ? pages : (page_index + 1);
+
+        model.addAttribute("current_page" , page_index);
+        model.addAttribute("pages" , pages);
+        model.addAttribute("prepage" , prepages);
+        model.addAttribute("nextpage" , nextpages);
+        model.addAttribute("page_url" , request.getRequestURI());
+
+        model.addAttribute("contrace_id" , contrace_id);
+        model.addAttribute("city_list" , city_list);
+        model.addAttribute("user_all_org_list" , user_all_org_list);
+        model.addAttribute("vehicle_list" , vehicle_list);
 
 
+        model.addAttribute("original_org" , original_org);
+        model.addAttribute("current_city" , current_city);
+        model.addAttribute("brand" , brand);
+        model.addAttribute("vehicle_model" , vehicle_model);
+        model.addAttribute("license_plate" , license_plate);
+        return "/module/vehicleservicemanage/propertycontrace/addvech";
+    }
+
+    @RequestMapping(value = "/contrace/property/dochoosevech" , method = RequestMethod.POST)
+    @ResponseBody
+    public long contracePropertyDoChooseVech(Model model , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        long contrace_id = Long.valueOf(request.getParameter("contrace_id"));
+        long vehicle_id = Long.valueOf(request.getParameter("vehicle_id"));
+        return this.vehicleServiceManageService.contracePropertyDoChooseVech(contrace_id, vehicle_id, user.getUser_id());
+    }
+
+    @RequestMapping(value = "/contrace/property/toshopaudit" , method = RequestMethod.GET)
+    @ResponseBody
+    public long contracePropertyToShopAudit(Model model , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        long contrace_id = Long.valueOf(request.getParameter("contrace_id"));
+        return this.vehicleServiceManageService.contracePropertyToShopAudit(contrace_id, user.getUser_id());
+    }
+
+    @RequestMapping(value = "/contrace/property/shopowner/audit" , method = {RequestMethod.GET , RequestMethod.POST})
+    public String contracePropertyShopownerAudit(Model model , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        String pageindexStr = request.getParameter("page_index");//第几页
+        String original_org_str = request.getParameter("original_org");
+        String status_str = request.getParameter("status");
+
+        int page_index = Integer.parseInt(StringUtils.isBlank(pageindexStr) || "0".equals(pageindexStr) ? "1" : pageindexStr);
+        int size = Integer.valueOf(appProps.get("vehicle.reservation.query.size").toString());//每页显示条数
+        int start = (page_index - 1) * size;
+
+        String status = (status_str == null || "".equals(status_str.trim())) ? "1" : status_str;//店长默认查看待审核状态的列表
+//        if("-99".equals(status)) status = null;//-99表示查看全部
+
+        //判断如果是零租租，跳转至零租租的控制器
+        String contrace_type_str = request.getParameter("contrace_type");
+        int contrace_type = (contrace_type_str == null || "".equals(contrace_type_str.trim())) ? 2 : Integer.valueOf(contrace_type_str);//合同类型：1-零租；2-产权租
+        if(contrace_type == 1) {
+            return "redirect:/vehicleservice/contrace/shopowner/audit?original_org="+original_org_str+"&status="+status;
+        }
+        if("-99".equals(status)) status = null;//-99表示查看全部
+
+        //TODO 管理员获取全部组织列表
+        //获取当前用户存在店长角色的组织列表，角色表中20008对应店长
+        boolean isSysadmin = this.commonService.isSysadmin(user.getUser_id());
+        List<Org> user_role_org_list;
+        if(isSysadmin) {
+            user_role_org_list = this.commonService.getUserAllOrgList(user.getUser_id());
+        } else {
+            user_role_org_list = this.commonService.getUserRoleOrgList(user.getUser_id() , 20201);
+        }
 
 
+        //获取用户角色列表
+        long original_org = (original_org_str == null || "".equals(original_org_str.trim())) ? user_role_org_list.get(0).getOrg_id() : Long.valueOf(original_org_str);
+        String original_org_name = "";
+        for(Org org : user_role_org_list) {
+            if(org.getOrg_id() == original_org) {
+                original_org_name = org.getOrg_name();
+                break;
+            }
+        }
+
+        Map<String , Object> map = this.vehicleServiceManageService.getOrgContracePropertyList(original_org, status, start, size, null);
+        long total = (Long)map.get("total");
+        List<PropertyContraceInfo> contrace_list = (List<PropertyContraceInfo>)map.get("contrace_list");
+
+        long temp = (total - 1) <= 0 ? 0 : (total - 1);
+        int pages = Integer.parseInt(Long.toString(temp / size)) + 1;
+        int prepages = (page_index - 1) <= 0 ? 1 : (page_index - 1);
+        int nextpages = (page_index + 1) >= pages ? pages : (page_index + 1);
+
+        model.addAttribute("current_page" , page_index);
+        model.addAttribute("pages" , pages);
+        model.addAttribute("prepage" , prepages);
+        model.addAttribute("nextpage" , nextpages);
+        model.addAttribute("page_url" , request.getRequestURI());
+
+        model.addAttribute("status" , status);
+        model.addAttribute("original_org" , original_org);
+        model.addAttribute("original_org_name" , original_org_name);
+
+        model.addAttribute("user_role_org_list" , user_role_org_list);
+        model.addAttribute("contrace_list" , contrace_list);
+        model.addAttribute("contrace_type" , contrace_type);
+        return "/module/vehicleservicemanage/propertycontrace/shopownerauditlist";
+    }
+
+    @RequestMapping(value = "/contrace/property/shopowner/doaudit" , method = RequestMethod.POST)
+    @ResponseBody
+    public int shopownerDoAuditProperty(Model model1 , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        long id = Long.valueOf(request.getParameter("id"));
+        String status = request.getParameter("status");
+
+        return this.vehicleServiceManageService.shopownerDoAuditProperty(id, status, user.getUser_id());
+    }
 
 
+    @RequestMapping(value = "/contrace/property/cityshopowner/audit" , method = {RequestMethod.GET , RequestMethod.POST})
+    public String serviceManagerAuditProperty(Model model , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        String pageindexStr = request.getParameter("page_index");//第几页
+        int page_index = Integer.parseInt(StringUtils.isBlank(pageindexStr) || "0".equals(pageindexStr) ? "1" : pageindexStr);
+        int size = Integer.valueOf(appProps.get("vehicle.reservation.query.size").toString());//每页显示条数
+        int start = (page_index - 1) * size;
+
+        String original_org_str = request.getParameter("original_org");
+        String status = (request.getParameter("status") == null || "".equals(request.getParameter("status").trim())) ? "2" : request.getParameter("status");//市店长默认查看店长审核通过的列表
+
+        String contrace_type_str = request.getParameter("contrace_type");
+        int contrace_type = (contrace_type_str == null || "".equals(contrace_type_str.trim())) ? 2 : Integer.valueOf(contrace_type_str);//合同类型：1-零租；2-产权租
+        if(contrace_type == 1) {
+            return "redirect:/vehicleservice/contrace/cityshopowner/audit?original_org="+original_org_str+"&status="+status;
+        }
+        if("-99".equals(status)) status = null;//-99表示查看全部
+
+        //获取当前用户存在市门店的组织列表，管理员获取全部组织列表
+        //TODO 管理员获取全部组织列表
+        boolean isSysadmin = this.commonService.isSysadmin(user.getUser_id());
+        List<Org> user_role_org_list;
+//        if(isSysadmin) {
+        user_role_org_list = this.commonService.getUserAllOrgList(user.getUser_id());
+//        } else {
+//            user_role_org_list = this.commonService.getUserRoleOrgList(user.getUser_id() , 20009);
+//        }
+
+        //获取用户角色列表
+        long original_org = (original_org_str == null || "".equals(original_org_str.trim())) ? user_role_org_list.get(0).getOrg_id() : Long.valueOf(original_org_str);
+        String original_org_name = "";
+        for(Org org : user_role_org_list) {
+            if(org.getOrg_id() == original_org) {
+                original_org_name = org.getOrg_name();
+                break;
+            }
+        }
+
+        Map<String , Object> map = this.vehicleServiceManageService.getOrgContracePropertyList(original_org, status, start, size, null);
+        long total = (Long)map.get("total");
+        List<PropertyContraceInfo> contrace_list = (List<PropertyContraceInfo>)map.get("contrace_list");
+
+        long temp = (total - 1) <= 0 ? 0 : (total - 1);
+        int pages = Integer.parseInt(Long.toString(temp / size)) + 1;
+        int prepages = (page_index - 1) <= 0 ? 1 : (page_index - 1);
+        int nextpages = (page_index + 1) >= pages ? pages : (page_index + 1);
+
+        model.addAttribute("current_page" , page_index);
+        model.addAttribute("pages" , pages);
+        model.addAttribute("prepage" , prepages);
+        model.addAttribute("nextpage" , nextpages);
+        model.addAttribute("page_url" , request.getRequestURI());
+
+        model.addAttribute("status" , status);
+        model.addAttribute("original_org" , original_org);
+        model.addAttribute("original_org_name" , original_org_name);
+
+        model.addAttribute("user_role_org_list" , user_role_org_list);
+        model.addAttribute("contrace_list" , contrace_list);
+        model.addAttribute("contrace_type" , contrace_type);
+        return "/module/vehicleservicemanage/propertycontrace/cityshopownerauditlist";
+    }
+
+    @RequestMapping(value = "/contrace/property/cityshopowner/doaudit" , method = RequestMethod.POST)
+    @ResponseBody
+    public int serviceManagerDoAuditProperty(Model model1 , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        long id = Long.valueOf(request.getParameter("id"));
+        String status = request.getParameter("status");
+
+        return this.vehicleServiceManageService.cityShopownerDoAuditProperty(id, status, user.getUser_id());
+    }
 
 
+    /**
+     * 区域经理审核列表
+     * 同时，系统管理员能够查看到全部
+     * @param model
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/contrace/property/regionalmanager/audit" , method = {RequestMethod.GET , RequestMethod.POST})
+    public String regionalManagerAuditProperty(Model model , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        String pageindexStr = request.getParameter("page_index");//第几页
+        int page_index = Integer.parseInt(StringUtils.isBlank(pageindexStr) || "0".equals(pageindexStr) ? "1" : pageindexStr);
+        int size = Integer.valueOf(appProps.get("vehicle.reservation.query.size").toString());//每页显示条数
+        int start = (page_index - 1) * size;
+
+        String original_org_str = request.getParameter("original_org");
+        String status = (request.getParameter("status") == null || "".equals(request.getParameter("status").trim())) ? "3" : request.getParameter("status");//区域经理默认查看市店长审核通过的列表
+//        if("-99".equals(status)) status = null;//-99表示查看全部
+
+        String contrace_type_str = request.getParameter("contrace_type");
+        int contrace_type = (contrace_type_str == null || "".equals(contrace_type_str.trim())) ? 2 : Integer.valueOf(contrace_type_str);//合同类型：1-零租；2-产权租
+        if(contrace_type == 1) {
+            return "redirect:/vehicleservice/contrace/regionalmanager/audit?original_org="+original_org_str+"&status="+status;
+        }
+        if("-99".equals(status)) status = null;//-99表示查看全部
+
+        //TODO 管理员获取全部组织列表
+        //获取当前用户存在区域经理的组织列表，管理员获取全部组织列表
+        boolean isSysadmin = this.commonService.isSysadmin(user.getUser_id());
+        List<Org> user_role_org_list;
+//        if(isSysadmin) {
+        user_role_org_list = this.commonService.getUserAllOrgList(user.getUser_id());
+//        } else {
+//            user_role_org_list = this.commonService.getUserRoleOrgList(user.getUser_id() , 20010);
+//        }
+
+        //获取用户角色列表
+        long original_org = (original_org_str == null || "".equals(original_org_str.trim())) ? user_role_org_list.get(0).getOrg_id() : Long.valueOf(original_org_str);
+        String original_org_name = "";
+        for(Org org : user_role_org_list) {
+            if(org.getOrg_id() == original_org) {
+                original_org_name = org.getOrg_name();
+                break;
+            }
+        }
+
+        Map<String , Object> map = this.vehicleServiceManageService.getOrgContracePropertyList(original_org, status, start, size, null);
+        long total = (Long)map.get("total");
+        List<PropertyContraceInfo> contrace_list = (List<PropertyContraceInfo>)map.get("contrace_list");
+
+        long temp = (total - 1) <= 0 ? 0 : (total - 1);
+        int pages = Integer.parseInt(Long.toString(temp / size)) + 1;
+        int prepages = (page_index - 1) <= 0 ? 1 : (page_index - 1);
+        int nextpages = (page_index + 1) >= pages ? pages : (page_index + 1);
+
+        model.addAttribute("current_page" , page_index);
+        model.addAttribute("pages" , pages);
+        model.addAttribute("prepage" , prepages);
+        model.addAttribute("nextpage" , nextpages);
+        model.addAttribute("page_url" , request.getRequestURI());
+
+        model.addAttribute("status" , status);
+        model.addAttribute("original_org" , original_org);
+        model.addAttribute("original_org_name" , original_org_name);
+
+        model.addAttribute("user_role_org_list" , user_role_org_list);
+        model.addAttribute("contrace_list" , contrace_list);
+        model.addAttribute("contrace_type" , contrace_type);
+        return "/module/vehicleservicemanage/propertycontrace/regionalmanagerauditlist";
+    }
+
+    @RequestMapping(value = "/contrace/property/regionalmanager/doaudit" , method = RequestMethod.POST)
+    @ResponseBody
+    public int regionalManagerDoAuditProperty(Model model1 , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        long id = Long.valueOf(request.getParameter("id"));
+        String status = request.getParameter("status");
+
+        return this.vehicleServiceManageService.regionalManagerDoAuditProperty(id, status, user.getUser_id());
+    }
+
+    @RequestMapping(value = "/contrace/property/finance/audit" , method = {RequestMethod.GET , RequestMethod.POST})
+    public String financeAuditProperty(Model model , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        String pageindexStr = request.getParameter("page_index");//第几页
+        int page_index = Integer.parseInt(StringUtils.isBlank(pageindexStr) || "0".equals(pageindexStr) ? "1" : pageindexStr);
+        int size = Integer.valueOf(appProps.get("vehicle.reservation.query.size").toString());//每页显示条数
+        int start = (page_index - 1) * size;
+
+        String original_org_str = request.getParameter("original_org");
+        String status = (request.getParameter("status") == null || "".equals(request.getParameter("status").trim())) ? "4" : request.getParameter("status");//财务默认查看区域经理审核通过的列表
+//        if("-99".equals(status)) status = null;//-99表示查看全部
+
+        String contrace_type_str = request.getParameter("contrace_type");
+        int contrace_type = (contrace_type_str == null || "".equals(contrace_type_str.trim())) ? 2 : Integer.valueOf(contrace_type_str);//合同类型：1-零租；2-产权租
+        if(contrace_type == 1) {
+            return "redirect:/vehicleservice/contrace/finance/audit?original_org="+original_org_str+"&status="+status;
+        }
+        if("-99".equals(status)) status = null;//-99表示查看全部
+
+        //获取当前用户存在风控的组织列表，管理员获取全部组织列表
+        //TODO 管理员获取全部组织列表
+        boolean isSysadmin = this.commonService.isSysadmin(user.getUser_id());
+        List<Org> user_role_org_list;
+        if(isSysadmin) {
+            user_role_org_list = this.commonService.getUserAllOrgList(user.getUser_id());
+        } else {
+            user_role_org_list = this.commonService.getUserRoleOrgList(user.getUser_id() , 20206);
+        }
+
+        //获取用户角色列表
+        long original_org = (original_org_str == null || "".equals(original_org_str.trim())) ? user_role_org_list.get(0).getOrg_id() : Long.valueOf(original_org_str);
+        String original_org_name = "";
+        for(Org org : user_role_org_list) {
+            if(org.getOrg_id() == original_org) {
+                original_org_name = org.getOrg_name();
+                break;
+            }
+        }
 
 
+        String over_top = "0";
+        if("4".equals(status))  over_top = "1";//区域店长审核，over_top为1-true
+        Map<String , Object> map = this.vehicleServiceManageService.getOrgContracePropertyList(original_org, status, start, size, over_top);
+        long total = (Long)map.get("total");
+        List<PropertyContraceInfo> contrace_list = (List<PropertyContraceInfo>)map.get("contrace_list");
+
+        long temp = (total - 1) <= 0 ? 0 : (total - 1);
+        int pages = Integer.parseInt(Long.toString(temp / size)) + 1;
+        int prepages = (page_index - 1) <= 0 ? 1 : (page_index - 1);
+        int nextpages = (page_index + 1) >= pages ? pages : (page_index + 1);
+
+        model.addAttribute("current_page" , page_index);
+        model.addAttribute("pages" , pages);
+        model.addAttribute("prepage" , prepages);
+        model.addAttribute("nextpage" , nextpages);
+        model.addAttribute("page_url" , request.getRequestURI());
+
+        model.addAttribute("status" , status);
+        model.addAttribute("original_org" , original_org);
+        model.addAttribute("original_org_name" , original_org_name);
+
+        model.addAttribute("user_role_org_list" , user_role_org_list);
+        model.addAttribute("contrace_list" , contrace_list);
+        model.addAttribute("contrace_type" , contrace_type);
+        return "/module/vehicleservicemanage/propertycontrace/financeauditlist";
+    }
+
+    @RequestMapping(value = "/contrace/property/finance/doaudit" , method = RequestMethod.POST)
+    @ResponseBody
+    public int financeDoAuditProperty(Model model1 , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        long id = Long.valueOf(request.getParameter("id"));
+        String status = request.getParameter("status");
+
+        return this.vehicleServiceManageService.financeDoAuditProperty(id, status, user.getUser_id());
+    }
 }

@@ -48,8 +48,13 @@
     </select>&nbsp;&nbsp;
     状态：
     <select id="status" name="status">
-        <option value="">全部</option>
+        <option value="-99">全部</option>
         <option value="2" <c:if test="${status == '2'}">selected="selected"</c:if>>店长审核通过</option>
+    </select>&nbsp;&nbsp;
+    合同类型：
+    <select id="contrace_type" name="contrace_type">
+        <option value="1" <c:if test="${contrace_type == '1'}">selected="selected"</c:if>>零租</option>
+        <option value="2" <c:if test="${contrace_type == '2'}">selected="selected"</c:if>>产权租</option>
     </select>
     <%--姓名：--%>
     <%--<input type="text" name="customer_name" id="customer_name"class="abc input-default" placeholder="" value="${customer_name}">&nbsp;&nbsp;--%>
