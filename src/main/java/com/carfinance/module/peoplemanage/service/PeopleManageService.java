@@ -270,7 +270,7 @@ public class PeopleManageService {
      * @return
      */
     public int doModifyPassword(String old_password , String new_password , String confirm_password , String user_current_password , long user_id) {
-        if(!old_password.equals(user_current_password)) {
+        if(!MD5Util.MD5Encrypt(old_password).equals(user_current_password)) {
             return -1;
         }
         if(!new_password.equals(confirm_password)) {

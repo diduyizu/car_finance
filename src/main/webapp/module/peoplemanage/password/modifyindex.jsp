@@ -35,8 +35,8 @@
         <form class="definewidth m20">
             <table class="table table-bordered table-hover definewidth m10">
                 <tr>
-                    <td class="tableleft">原密码</td>
-                    <td><input type="old_password" name="old_password" placeholder="必填" required/></td>
+                    <td width="15%" class="tableleft">原密码</td>
+                    <td><input type="text" name="old_password" id="old_password" placeholder="必填" required/></td>
                 </tr>
                 <tr>
                     <td class="tableleft">新密码</td>
@@ -65,21 +65,24 @@
 
             if(old_password == null || '' == old_password) {
                 alert("请输入原密码");
+                return false;
             }
             if(new_password == null || '' == new_password) {
                 alert("请输入新密码");
+                return false;
             }
             if(confirm_password == null || '' == confirm_password) {
                 alert("请输入确认密码");
+                return false;
             }
 
-            if(new_password != new_password) {
+            if(new_password != confirm_password) {
                 alert("请输入相同新密码！");
                 return false;
             }
             $.ajax({
                 type:'POST',
-                url:'${ctx}/people/people/domodify',
+                url:'${ctx}/people/password/domodify',
                 data:{old_password:old_password,new_password:new_password,confirm_password:confirm_password},
                 success: function(data){
                     if(data == -1) {
