@@ -94,6 +94,7 @@
                         <option value="国际护照">国际护照</option>
                         <option value="回乡证">回乡证</option>
                         <option value="台胞证">台胞证</option>
+                        <option value="其他">其他</option>
                     </select>
                 </td>
                 <td class="tableleft">证件号码</td>

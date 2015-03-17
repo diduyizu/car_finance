@@ -63,6 +63,7 @@
                         <option value="国际护照" <c:if test="${customer_info.certificate_type == '国际护照'}">selected="selected"</c:if>>国际护照</option>
                         <option value="回乡证" <c:if test="${customer_info.certificate_type == '回乡证'}">selected="selected"</c:if>>回乡证</option>
                         <option value="台胞证" <c:if test="${customer_info.certificate_type == '台胞证'}">selected="selected"</c:if>>台胞证</option>
+                        <option value="其他" <c:if test="${customer_info.certificate_type == '其他'}">selected="selected"</c:if>>其他</option>
                     </select>
                 </td>
                 <td class="tableleft">证件号码</td>
