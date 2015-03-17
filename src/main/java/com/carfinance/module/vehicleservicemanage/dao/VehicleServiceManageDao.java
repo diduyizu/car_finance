@@ -582,6 +582,13 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
         return this.getJdbcTemplate().update(sql, o);
     }
 
+    public int contraceDoAddForeignVehicle(long contrace_id, String license_plate , String vehicle_model , double vehicle_price , String company , long other_vehicle_km , long user_id) {
+        String sql = "insert into vehicle_contrace_vehs (contrace_id , license_plate , model , company , isother ,  create_by , vehicle_price , other_vehicle_km) values (?,?,?,?,1,?,?,?)";
+        Object[] o = new Object[] { contrace_id , license_plate , vehicle_model , company  , user_id , vehicle_price , other_vehicle_km };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().update(sql, o);
+    }
+
     /**
      * 更新车辆状态
      * @param vehicle_id
@@ -718,6 +725,20 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().query(sql, o , new VehicleContraceVehsInfoRowMapper());
     }
+
+    /**
+     * 获取外援车辆列表
+     * @param contrace_id
+     * @return
+     */
+    public List<VehicleContraceVehsInfo> getVehicleContraceOtherVehsListByContraceId(long contrace_id) {
+        String sql = "select * from vehicle_contrace_vehs where contrace_id = ? and isother = 1";
+        Object[] o = new Object[] { contrace_id };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().query(sql, o , new VehicleContraceVehsInfoRowMapper());
+    }
+
+
 
     /**
      * 更新合同车辆表

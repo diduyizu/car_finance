@@ -31,6 +31,10 @@ public class VehicleContraceVehsInfoRowMapper implements RowMapper<VehicleContra
         } catch (Exception e){}
 
         try{
+            vehicleContraceVehsInfo.setOther_vehicle_km(rs.getLong("other_vehicle_km"));
+        } catch (Exception e){}
+
+        try{
             if(rs.getTimestamp("return_time") != null) {
                 String return_time_str = rs.getTimestamp("return_time").toString();
                 vehicleContraceVehsInfo.setReturn_time(return_time_str.substring(0 , return_time_str.length()-2));

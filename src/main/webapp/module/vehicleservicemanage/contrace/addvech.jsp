@@ -81,6 +81,7 @@
             <td>
                 <input type="hidden" id="contrace_id" name="contrace_id" value="${contrace_id}">
                 <button type="submit" class="btn btn-primary">查询</button>&nbsp;&nbsp;
+                <button type="button" class="btn btn-primary" id="addforeignvehicle">外援车辆</button>&nbsp;&nbsp;
             </td>
         </tr>
     </table>
@@ -116,6 +117,11 @@
 </body>
 </html>
 <script>
+
+    $('#addforeignvehicle').click(function(){
+        var contrace_id = $.trim($('#contrace_id').val());
+        window.location.href="${ctx}/vehicleservice/contrace/addforeignvehicle?contrace_id="+contrace_id;
+    });
 
     $('.choosevehi').click(function(){
         var contrace_id = $.trim($('#contrace_id').val());

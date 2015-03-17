@@ -56,7 +56,10 @@
                 <tr>
                     <td>${vehicle.license_plate}</td>
                     <td>${vehicle.model}</td>
-                    <td>${vehicle.km}</td>
+                    <td>
+                        <c:if test="${vehicle.isother == 0}">${vehicle.km}</c:if>
+                        <c:if test="${vehicle.isother == 1}">${vehicle.other_vehicle_km}</c:if>
+                    </td>
                     <td>${vehicle.return_time}</td>
                     <td>${vehicle.return_km}</td>
                     <td>${vehicle.over_price}</td>

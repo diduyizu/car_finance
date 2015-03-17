@@ -491,6 +491,43 @@ public class VehicleServiceManageController {
         return this.vehicleServiceManageService.contraceDoChooseVech(contrace_id, vehicle_id , user.getUser_id());
     }
 
+    /**
+     * 新增外援车辆
+     * @param model
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/contrace/addforeignvehicle" , method = RequestMethod.GET)
+    public String contraceAddForeignVehicle(Model model , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        long contrace_id = Long.valueOf(request.getParameter("contrace_id"));
+
+        model.addAttribute("contrace_id" , contrace_id);
+        return "/module/vehicleservicemanage/contrace/addforeignvehicle";
+    }
+
+    @RequestMapping(value = "/contrace/doaddforeignvehicle" , method = RequestMethod.POST)
+    @ResponseBody
+    public long contraceDoAddForeignVehicle(Model model , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        long contrace_id = Long.valueOf(request.getParameter("contrace_id"));
+        String license_plate = request.getParameter("license_plate");
+        String vehicle_model = request.getParameter("model");
+        double vehicle_price = Double.valueOf(request.getParameter("vehicle_price"));
+        String company = request.getParameter("company");
+        long other_vehicle_km = Long.valueOf(request.getParameter("other_vehicle_km"));
+        return this.vehicleServiceManageService.contraceDoAddForeignVehicle(contrace_id, license_plate , vehicle_model , vehicle_price , company , other_vehicle_km , user.getUser_id());
+    }
+
+
+
+
+
+
+
     //TODO 业务员查看合同车辆信息
     @RequestMapping(value = "/contrace/vech/list" , method = {RequestMethod.GET , RequestMethod.POST})
     public String contraceVechList(Model model , HttpServletRequest request , HttpServletResponse response) {

@@ -23,11 +23,20 @@ public class VehicleContraceVehsInfo implements Serializable{
     private Date update_at;
 
     private long km;
+    private long other_vehicle_km;
 
     private String return_time;
     private long return_km;
     private double over_price;
     private int status;
+
+    public long getOther_vehicle_km() {
+        return other_vehicle_km;
+    }
+
+    public void setOther_vehicle_km(long other_vehicle_km) {
+        this.other_vehicle_km = other_vehicle_km;
+    }
 
     public int getStatus() {
         return status;

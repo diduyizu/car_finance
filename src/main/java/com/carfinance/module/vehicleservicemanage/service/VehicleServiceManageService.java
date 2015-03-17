@@ -284,6 +284,11 @@ public class VehicleServiceManageService {
         return result;
     }
 
+    public int contraceDoAddForeignVehicle(long contrace_id, String license_plate , String vehicle_model , double vehicle_price , String company , long other_vehicle_km , long user_id) {
+        int result = this.vehicleServiceManageDao.contraceDoAddForeignVehicle(contrace_id, license_plate , vehicle_model , vehicle_price , company , other_vehicle_km , user_id);
+        return result;
+    }
+
     public Map<String , Object> getContraceVechList(long contrace_id , String brand , String vehicle_model , String license_plate , int start , int size) {
         long total = this.vehicleServiceManageDao.getContraceVechCount(contrace_id, brand, vehicle_model, license_plate);
         List<VehicleContraceVehsInfo> vehicle_list = this.vehicleServiceManageDao.getContraceVech(contrace_id, brand, vehicle_model, license_plate, start, size);
@@ -329,7 +334,14 @@ public class VehicleServiceManageService {
     }
 
     public List<VehicleContraceVehsInfo> getVehicleContraceVehsListByContraceId(long contrace_id) {
-        return this.vehicleServiceManageDao.getVehicleContraceVehsListByContraceId(contrace_id);
+        List<VehicleContraceVehsInfo> result = new ArrayList<VehicleContraceVehsInfo>();
+        List<VehicleContraceVehsInfo> vehicleContraceVehsInfoList = this.vehicleServiceManageDao.getVehicleContraceVehsListByContraceId(contrace_id);
+        List<VehicleContraceVehsInfo> vehicleContraceOtherVehsInfoList = this.vehicleServiceManageDao.getVehicleContraceOtherVehsListByContraceId(contrace_id);
+
+        result.addAll(vehicleContraceVehsInfoList);
+        result.addAll(vehicleContraceOtherVehsInfoList);
+
+        return result;
     }
 
     //获取合同应该收到的租金
