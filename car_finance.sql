@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: 2015-03-17 08:22:19
+-- Generation Time: 2015-03-17 10:54:07
 -- 服务器版本： 5.6.11
 -- PHP Version: 5.5.1
 
@@ -319,6 +319,8 @@ INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `menu_url`, `pid`, `level`, `men
 (10002, '人员管理', 'carfinance/people/people/index', 10000, 0, '人员管理', 'page', NULL, 1, 0),
 (10003, '人员角色配置', 'carfinance/people/peoplerole/index', 10000, 0, '人员角色配置', 'page', NULL, 1, 0),
 (10004, '角色权限配置', 'carfinance/people/rolemenu/index', 10000, 0, '角色权限配置', 'page', NULL, 1, 0),
+(10005, '重置密码', 'carfinance/people/password/reset', 10000, 0, '重置密码', 'page', NULL, 1, 0),
+(10006, '修改密码', 'carfinance/people/password/modify', 10000, 0, '修改密码', 'page', NULL, 1, 0),
 (20000, '门店管理', '', 0, 0, '门店管理', 'page', 'nav-order', 1, 0),
 (20001, '门店查询', 'carfinance/store/query/index', 20000, 0, '门店查询', 'page', NULL, 1, 0),
 (20002, '门店新增', 'carfinance/store/add/index', 20000, 0, '门店新增', 'page', NULL, 1, 0),
@@ -466,6 +468,8 @@ INSERT INTO `sys_role_menu` (`role_id`, `menu_id`, `status`) VALUES
 (10000, 10002, 1),
 (10000, 10003, 1),
 (10000, 10004, 1),
+(10000, 10005, 1),
+(10000, 10006, 1),
 (10000, 20001, 1),
 (10000, 20002, 1),
 (10000, 20003, 1),
@@ -526,7 +530,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`user_id`, `login_name`, `login_pwd`, `user_name`, `nick_name`, `employee_id`, `head_url`, `birthday`, `address`, `email`, `create_by`, `create_at`, `status`, `driver_status`, `driver_license_no`) VALUES
-(100000, 'sysadmin', '96E79218965EB72C92A549DD5A330112', '系统管理员a', '系统管理员', NULL, NULL, NULL, NULL, NULL, 10000, '', 1, 0, NULL),
+(100000, 'sysadmin', '8DDCFF3A80F4189CA1C9D4D902C3C909', '系统管理员a', '系统管理员', NULL, NULL, NULL, NULL, NULL, 10000, '', 1, 0, NULL),
 (100021, '111111', '96E79218965EB72C92A549DD5A330112', '111111', '', '111111', NULL, NULL, NULL, NULL, 100000, '2015-03-16 10:03:583', 1, 0, '111111');
 
 -- --------------------------------------------------------
@@ -714,7 +718,7 @@ CREATE TABLE IF NOT EXISTS `vehicle_info` (
 --
 
 INSERT INTO `vehicle_info` (`id`, `brand`, `model`, `color`, `carframe_no`, `engine_no`, `buy_at`, `supplier`, `license_plate`, `card_at`, `limited_at`, `guide_price`, `vehicle_price`, `vehicle_tax`, `insurance_company`, `strong_insurance`, `strong_insurance_expire_at`, `vehicle_vessel_tax`, `business_insurance`, `business_insurance_expire_at`, `km`, `maintian_on_km`, `gps`, `current_city`, `current_shop`, `lease_status`, `peccancy_status`, `archive_no`, `inventory_no`, `registry_certificate`, `certificate_direction`, `loan_bank`, `consistency_cer`, `check_list`, `duty_paid_proof`, `record`, `remark`, `update_at`, `update_by`, `create_by`, `create_at`, `original_org`, `next_main_km`) VALUES
-(4, '别克', 'GL8商务', '蓝色', 'LSGUD82C07E028992', '77310255', '2015-03-17 02:26:28', '孙涛（男）', '苏KEY991', '2007-10-31 16:00:00', '2014-10-31 16:00:00', '160000.00', '350000.00', '0.00', '人保', '791.00', '2015-09-12 16:00:00', '1200.00', '5239.89', '2015-09-14 16:00:00', 12345, 22222, '正常', 514, 100011, '出库中', 0, '', '020080', '', '', '', '', '', '', '', '', '2015-03-14 11:52:24', 0, 100000, '2015-03-14 11:52:24', 1, 33333);
+(4, '别克', 'GL8商务', '蓝色', 'LSGUD82C07E028992', '77310255', '2015-03-17 08:32:34', '孙涛（男）', '苏KEY991', '2007-10-31 16:00:00', '2014-10-31 16:00:00', '160000.00', '350000.00', '0.00', '人保', '791.00', '2015-09-12 16:00:00', '1200.00', '5239.89', '2015-09-14 16:00:00', 12345, 22222, '正常', 514, 100011, '出库中', 1, '', '020080', '', '', '', '', '', '', '', '', '2015-03-14 11:52:24', 0, 100000, '2015-03-14 11:52:24', 1, 33333);
 
 -- --------------------------------------------------------
 
@@ -803,7 +807,14 @@ CREATE TABLE IF NOT EXISTS `vehicle_peccancy` (
   `customer_name` varchar(64) DEFAULT NULL COMMENT '客户姓名（客户造成违章时录入）',
   PRIMARY KEY (`id`),
   KEY `carframe_no` (`carframe_no`,`engine_no`,`license_plate`,`status`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='车辆违章表' AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='车辆违章表' AUTO_INCREMENT=2 ;
+
+--
+-- 转存表中的数据 `vehicle_peccancy`
+--
+
+INSERT INTO `vehicle_peccancy` (`id`, `carframe_no`, `engine_no`, `license_plate`, `peccancy_at`, `peccancy_place`, `peccancy_reason`, `peccancy_price`, `score`, `status`, `arbitration`, `create_at`, `create_by`, `update_at`, `update_by`, `employee_id`, `employee_name`, `customer_id`, `customer_name`) VALUES
+(1, 'LSGUD82C07E028992', '77310255', '苏KEY991', '2015-03-16 16:00:00', '213', '123132', '200.00', 0, 0, '123', '2015-03-17 08:32:34', 100000, '2015-03-17 08:32:34', 0, '123', '123', 123, '123');
 
 -- --------------------------------------------------------
 
