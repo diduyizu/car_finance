@@ -540,7 +540,7 @@ public class VehicleServiceManageService {
         //如果有车辆，那么更新合同表状态为待审核
         //判断是否是系统管理员，如果是，则不需要匹配create_by
         boolean isSysadmin = this.commonService.isSysadmin(user_id);
-        int result = this.vehicleServiceManageDao.contracePropertyToShopAudit(contrace_id , user_id , isSysadmin);
+        int result = this.vehicleServiceManageDao.contracePropertyToShopAudit(contrace_id, user_id, isSysadmin);
         if(result > 0) {
             //判断该合同下所属车辆，是否超过一定金额，如果超过，则需要市店长、区域经理审核
             //获取该合同对应车辆，算出总价
@@ -557,8 +557,8 @@ public class VehicleServiceManageService {
 
 
     public Map<String , Object> getOrgContracePropertyList(long original_org, String status, int start, int size , String over_top) {
-        long total = this.vehicleServiceManageDao.getOrgContracePropertyCount(original_org, status , over_top);
-        List<PropertyContraceInfo> contrace_list = this.vehicleServiceManageDao.getOrgContracePropertyList(original_org, status, over_top , start, size);
+        long total = this.vehicleServiceManageDao.getOrgContracePropertyCount(original_org, status, over_top);
+        List<PropertyContraceInfo> contrace_list = this.vehicleServiceManageDao.getOrgContracePropertyList(original_org, status, over_top, start, size);
         Map<String , Object> map = new HashMap<String, Object>();
         map.put("total" , total);
         map.put("contrace_list", contrace_list);
@@ -566,19 +566,37 @@ public class VehicleServiceManageService {
     }
 
     public int shopownerDoAuditProperty(long id , String status , long user_id) {
-        return this.vehicleServiceManageDao.shopownerDoAuditProperty(id , status , user_id);
+        return this.vehicleServiceManageDao.shopownerDoAuditProperty(id, status, user_id);
     }
 
     public int cityShopownerDoAuditProperty(long id , String status , long user_id) {
-        return this.vehicleServiceManageDao.cityShopownerDoAuditProperty(id , status , user_id);
+        return this.vehicleServiceManageDao.cityShopownerDoAuditProperty(id, status, user_id);
     }
 
     public int regionalManagerDoAuditProperty(long id , String status , long user_id) {
-        return this.vehicleServiceManageDao.regionalManagerDoAuditProperty(id , status , user_id);
+        return this.vehicleServiceManageDao.regionalManagerDoAuditProperty(id, status, user_id);
     }
 
     public int financeDoAuditProperty(long id , String status , long user_id) {
-        return this.vehicleServiceManageDao.financeDoAuditProperty(id , status , user_id);
+        return this.vehicleServiceManageDao.financeDoAuditProperty(id, status, user_id);
     }
 
+    public int PropertyContraceDoRepayment(long contrace_id , double should_payment , double actual_payment , long user_id) {
+        //更新产权租合同已收回期数、已收回租金、尾款金额
+        int result = this.vehicleServiceManageDao.updatePropertyContracePayment(contrace_id , actual_payment , user_id);
+        if(result > 0) {
+            //将本次还款，写入产权租还款明细表
+            this.vehicleServiceManageDao.addPropertyContraceRepaymentLog(contrace_id , should_payment , actual_payment , user_id);
+        }
+        return result;
+    }
+
+    public Map<String , Object> getContracePropertyPaymentDetail(long contrace_id, int start, int size) {
+        long total = this.vehicleServiceManageDao.getContracePropertyPaymentDetailCount(contrace_id);
+        List<PropertyPaymentDetail> detail_list = this.vehicleServiceManageDao.getContracePropertyPaymentDetail(contrace_id, start, size);
+        Map<String , Object> map = new HashMap<String, Object>();
+        map.put("total" , total);
+        map.put("detail_list", detail_list);
+        return map;
+    }
 }

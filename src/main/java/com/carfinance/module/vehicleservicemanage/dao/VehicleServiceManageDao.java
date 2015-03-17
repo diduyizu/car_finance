@@ -990,4 +990,42 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().update(sql, o);
     }
+
+    /**
+     * 业务员对产权租合同进行还款
+     * @return
+     */
+    public int updatePropertyContracePayment(long contrace_id , double actual_payment , long user_id) {
+
+        String sql = "update property_contrace " +
+                " set final_payment = final_payment-? , received_periods = received_periods+1 , already_back_amount = already_back_amount+? " +
+                " where id = ? and create_by = ? ";
+        Object[] o = new Object[] { actual_payment , actual_payment , contrace_id , user_id };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().update(sql, o);
+
+    }
+
+    public int addPropertyContraceRepaymentLog(long contrace_id , double should_payment , double actual_payment , long user_id) {
+        String sql = "insert into property_contrace_repayment_log (contrace_id , should_payment , actual_payment , create_at , create_by) values (?,?,?,now(),?)";
+        Object[] o = new Object[] { contrace_id , should_payment , actual_payment , user_id };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().update(sql, o);
+    }
+
+
+
+    public long getContracePropertyPaymentDetailCount(long contrace_id) {
+        String sql = "select count(1) from property_contrace_repayment_log where contrace_id = ? ";
+        Object[] o = new Object[] { contrace_id };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().queryForLong(sql, o);
+    }
+
+    public List<PropertyPaymentDetail> getContracePropertyPaymentDetail(long contrace_id , int start, int size) {
+        String sql = "select a.* , b.user_name from property_contrace_repayment_log a , users b where contrace_id = ? and a.create_by = b.user_id order by id limit ?,? ";
+        Object[] o = new Object[] { contrace_id , start , size };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().query(sql, o, new PropertyPaymentDetailRowMapper());
+    }
 }

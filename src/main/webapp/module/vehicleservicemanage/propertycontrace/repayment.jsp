@@ -135,10 +135,21 @@
             <tr>
                 <td class="tableleft">描述</td>
                 <%--<td colspan="5"><textarea readonly id="remark" rows="4" style="margin: 0px 0px 10px; width: 766px; height: 140px;" >${vehicle_contrace_info.remark}</textarea></td>--%>
-                <td colspan="4">${property_contrace_info.remark}</td>
-                <td colspan="5">
-                    <input type="hidden" id="contrace_id" value="${property_contrace_info.id}"/>
-                    <button type="button" class="btn btn-primary" id="paymentdetail">还款明细</button>
+                <td colspan="5">${property_contrace_info.remark}</td>
+            </tr>
+        </table>
+    </form>
+    <form class="cmxform form-horizontal">
+        <table class="table table-bordered table-hover definewidth m10">
+            <tr>
+                <td class="tableleft">应付租金</td>
+                <td>${property_contrace_info.arrange_payment}</td>
+                <td class="tableleft">实付租金</td>
+                <td><input type="text" id="actual_payment" name="actual_payment" placeholder="必填" required /></td>
+                <td>
+                    <input type="hidden" id="contrace_id" name="contrace_id" value="${property_contrace_info.id}" />
+                    <input type="hidden" id="should_payment" name="should_payment" value="${property_contrace_info.arrange_payment}" />
+                    <button type="button" class="btn btn-primary" id="dorepayment">还款</button>&nbsp;&nbsp;结单前，请注意车辆租金是否已还清
                 </td>
             </tr>
         </table>
@@ -146,8 +157,24 @@
 </body>
 </html>
 <script>
-    $("#paymentdetail").click(function(){
+    $("#dorepayment").click(function(){
         var contrace_id=$.trim($('#contrace_id').val());
-        window.location.href="${ctx}/vehicleservice/contrace/property/paymentdetail?contrace_id="+contrace_id;
+        var should_payment=$.trim($('#should_payment').val());
+        var actual_payment=$.trim($('#actual_payment').val());
+
+        $.ajax({
+            url:"${ctx}/vehicleservice/contrace/property/dorepayment",
+            type: "post",
+            data:{contrace_id:contrace_id,should_payment:should_payment,actual_payment:actual_payment},
+            success:function(data){
+                if(data > 0) {
+                    alert("成功");
+                    location.reload();
+                } else {
+                    alert("失败");
+                    return false;
+                }
+            }
+        })
     });
 </script>

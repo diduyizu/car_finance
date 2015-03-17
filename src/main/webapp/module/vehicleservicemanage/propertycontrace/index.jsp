@@ -99,6 +99,7 @@
                     <button type="button" class="btn btn-success audit" value="${contrace.id}">提交审核</button>
                 </c:if>
                 <c:if test="${contrace.status == 5 && contrace.create_by == user.user_id}">
+                    <button type="button" class="btn btn-success repayment" value="${contrace.id}">还款</button>
                     <button type="button" class="btn btn-success over" value="${contrace.id}">结单</button>
                 </c:if>
             </td>
@@ -119,10 +120,10 @@
         window.location.href="${ctx}/vehicleservice/contrace/property/addvech?contrace_id="+contrace_id;
     });
 
-    <%--$('.adddriver').click(function(){--%>
-        <%--var contrace_id = $(this).val();--%>
-        <%--window.location.href="${ctx}/vehicleservice/contrace/property/vech/list?contrace_id="+contrace_id;--%>
-    <%--});--%>
+    $('.repayment').click(function(){
+        var contrace_id = $(this).val();
+        window.location.href="${ctx}/vehicleservice/contrace/property/repayment?contrace_id="+contrace_id;
+    });
 
     //业务员，提交合同，到门店经理审核
     //需要判断该合同中的车辆总金额，是否超过一定数额（可配，比如30W），如果超过，则需要一类门店店长审核
@@ -150,7 +151,7 @@
 
     $('.over').click(function(){
         var contrace_id = $(this).val();
-        window.location.href="${ctx}/vehicleservice/contrace/finish?contrace_id="+contrace_id;
+        window.location.href="${ctx}/vehicleservice/contrace/property/finish?contrace_id="+contrace_id;
         <%--$.ajax({--%>
             <%--url:"${ctx}/vehicleservice/contrace/dofinish",--%>
             <%--type: "post",--%>

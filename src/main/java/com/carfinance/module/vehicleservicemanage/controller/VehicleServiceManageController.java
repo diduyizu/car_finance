@@ -1767,4 +1767,68 @@ public class VehicleServiceManageController {
 
         return this.vehicleServiceManageService.financeDoAuditProperty(id, status, user.getUser_id());
     }
+
+    /**
+     * 产权租车辆，还款，跳转至还款页面
+     * @param model
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/contrace/property/repayment" , method = RequestMethod.GET)
+    public String PropertyContraceRepayment(Model model , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        List<Org> user_all_org_list = this.commonService.getUserAllOrgList(user.getUser_id());
+
+        long contrace_id = Long.valueOf(request.getParameter("contrace_id"));
+        PropertyContraceInfo propertyContraceInfo = this.vehicleServiceManageService.getPropertyContraceInfoById(contrace_id);
+        List<VehicleContraceVehsInfo> vehicleContraceVehsInfoList = this.vehicleServiceManageService.getVehicleContraceVehsListByContraceId(contrace_id);
+
+        model.addAttribute("user_all_org_list" , user_all_org_list);
+        model.addAttribute("property_contrace_info" , propertyContraceInfo);
+        model.addAttribute("vehicle_contrace_vehs_list" , vehicleContraceVehsInfoList);
+        return "/module/vehicleservicemanage/propertycontrace/repayment";
+    }
+
+    @RequestMapping(value = "/contrace/property/dorepayment" , method = RequestMethod.POST)
+    @ResponseBody
+    public int PropertyContraceDoRepayment(Model model , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        long contrace_id = Long.valueOf(request.getParameter("contrace_id"));
+        double should_payment = Double.valueOf(request.getParameter("should_payment"));
+        double actual_payment = Double.valueOf(request.getParameter("actual_payment"));
+
+        return this.vehicleServiceManageService.PropertyContraceDoRepayment(contrace_id , should_payment , actual_payment , user.getUser_id());
+    }
+
+    @RequestMapping(value = "/contrace/property/paymentdetail" , method = {RequestMethod.GET , RequestMethod.POST})
+    public String contracePropertyPaymentDetail(Model model , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        String pageindexStr = request.getParameter("page_index");//第几页
+        int page_index = Integer.parseInt(StringUtils.isBlank(pageindexStr) || "0".equals(pageindexStr) ? "1" : pageindexStr);
+        int size = Integer.valueOf(appProps.get("vehicle.reservation.query.size").toString());//每页显示条数
+        int start = (page_index - 1) * size;
+
+        long contrace_id = Long.valueOf(request.getParameter("contrace_id"));
+        Map<String , Object> map = this.vehicleServiceManageService.getContracePropertyPaymentDetail(contrace_id, start, size);
+        long total = (Long)map.get("total");
+        List<PropertyPaymentDetail> detail_list = (List<PropertyPaymentDetail>)map.get("detail_list");
+
+        long temp = (total - 1) <= 0 ? 0 : (total - 1);
+        int pages = Integer.parseInt(Long.toString(temp / size)) + 1;
+        int prepages = (page_index - 1) <= 0 ? 1 : (page_index - 1);
+        int nextpages = (page_index + 1) >= pages ? pages : (page_index + 1);
+
+        model.addAttribute("current_page" , page_index);
+        model.addAttribute("pages" , pages);
+        model.addAttribute("prepage" , prepages);
+        model.addAttribute("nextpage" , nextpages);
+        model.addAttribute("page_url" , request.getRequestURI());
+
+        model.addAttribute("detail_list" , detail_list);
+        return "/module/vehicleservicemanage/propertycontrace/paymentdetail";
+    }
 }
