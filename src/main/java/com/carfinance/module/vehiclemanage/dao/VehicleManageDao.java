@@ -32,7 +32,7 @@ public class VehicleManageDao extends BaseJdbcDaoImpl {
      * @param brand
      * @return
      */
-    public long getVehicleCount(long original_org , String current_city , String brand , String vehicle_model , String license_plate , String gps , String km_begin , String km_end , String lease_status) {
+    public long getVehicleCount(long original_org , String current_city , String brand , String vehicle_model , String license_plate , String gps , String km_begin , String km_end , String lease_status , String color) {
         String sql = "select count(1) from vehicle_info where original_org = ? ";
         List<Object> param = new ArrayList<Object>();
         param.add(original_org);
@@ -75,6 +75,10 @@ public class VehicleManageDao extends BaseJdbcDaoImpl {
             sql = sql + " and lease_status = ? ";
             param.add(lease_status.trim());
         }
+        if(color != null && !"".equals(color.trim())) {
+            sql = sql + " and color like ? ";
+            param.add("%"+color.trim()+"%");
+        }
 
         Object[] o = new Object[param.size()];
         for(int i = 0 ; i < param.size() ; i++) {
@@ -92,7 +96,7 @@ public class VehicleManageDao extends BaseJdbcDaoImpl {
      * @param size
      * @return
      */
-    public List<VehicleInfo> getVehicleList(long original_org , String current_city , String brand , String vehicle_model , String license_plate , String gps , String km_begin , String km_end , String lease_status ,  int start , int size) {
+    public List<VehicleInfo> getVehicleList(long original_org , String current_city , String brand , String vehicle_model , String license_plate , String gps , String km_begin , String km_end , String lease_status , String color ,  int start , int size) {
         String sql = "select * from vehicle_info where original_org = ? ";
         List<Object> param = new ArrayList<Object>();
         param.add(original_org);
@@ -134,6 +138,10 @@ public class VehicleManageDao extends BaseJdbcDaoImpl {
         if(lease_status != null && !"".equals(lease_status.trim())) {
             sql = sql + " and lease_status = ? ";
             param.add(lease_status.trim());
+        }
+        if(color != null && !"".equals(color.trim())) {
+            sql = sql + " and color like ? ";
+            param.add("%"+color.trim()+"%");
         }
         sql = sql + " order by id desc limit ?,?";
         param.add(start);

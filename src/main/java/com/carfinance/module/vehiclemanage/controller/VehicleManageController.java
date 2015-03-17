@@ -61,6 +61,7 @@ public class VehicleManageController {
         String km_begin = request.getParameter("km_begin");
         String km_end = request.getParameter("km_end");
         String lease_status = request.getParameter("lease_status");
+        String color = request.getParameter("color");
 
 //        List<Org> user_all_org_list = this.commonService.getUserAllOrgList(user.getUser_id());
         List<Org> user_all_org_list = this.commonService.getSysAllOrgList();
@@ -77,7 +78,7 @@ public class VehicleManageController {
         }
 
         List<City> sys_used_city_list = this.commonService.getSysUsedCityList();
-        Map<String , Object> map = this.vehicleManageService.getVehicleList(original_org , current_city , brand , vehicle_model , license_plate , gps , km_begin , km_end , lease_status , start , size);
+        Map<String , Object> map = this.vehicleManageService.getVehicleList(original_org , current_city , brand , vehicle_model , license_plate , gps , km_begin , km_end , lease_status , color  , start , size);
 
         long total = (Long)map.get("total");;
         List<VehicleInfo> vehicle_list = (List<VehicleInfo>)map.get("vehicle_list");
@@ -110,6 +111,7 @@ public class VehicleManageController {
         model.addAttribute("gps" , gps);
         model.addAttribute("km_begin" , km_begin);
         model.addAttribute("km_end" , km_end);
+        model.addAttribute("color" , color);
 
         model.addAttribute("sys_used_city_list" , sys_used_city_list);
 //        model.addAttribute("user_role_list" , user_role_list);
@@ -264,7 +266,7 @@ public class VehicleManageController {
         List<Org> user_all_org_list = this.commonService.getUserAllOrgList(user.getUser_id());
         long original_org = (original_org_str == null || "".equals(original_org_str.trim())) ? user_all_org_list.get(0).getOrg_id() : Long.valueOf(original_org_str);
 
-        Map<String , Object> map = this.vehicleManageService.getVehicleList(original_org , null , brand , null , license_plate , null , null , null , null , start , size);
+        Map<String , Object> map = this.vehicleManageService.getVehicleList(original_org , null , brand , null , license_plate , null , null , null , null , null , start , size);
 
         long total = (Long)map.get("total");;
         List<VehicleInfo> vehicle_list = (List<VehicleInfo>)map.get("vehicle_list");
@@ -414,7 +416,7 @@ public class VehicleManageController {
         List<Org> user_all_org_list = this.commonService.getUserAllOrgList(user.getUser_id());
         long original_org = (original_org_str == null || "".equals(original_org_str.trim())) ? user_all_org_list.get(0).getOrg_id() : Long.valueOf(original_org_str);
 
-        Map<String , Object> map = this.vehicleManageService.getVehicleList(original_org , null , brand , null , license_plate , null , null , null , null , start , size);
+        Map<String , Object> map = this.vehicleManageService.getVehicleList(original_org , null , brand , null , license_plate , null , null , null , null , null , start , size);
 
         long total = (Long)map.get("total");;
         List<VehicleInfo> vehicle_list = (List<VehicleInfo>)map.get("vehicle_list");

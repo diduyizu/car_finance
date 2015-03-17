@@ -48,9 +48,9 @@ public class VehicleManageService {
      * @param size
      * @return
      */
-    public Map<String , Object> getVehicleList(long original_org , String current_city , String brand , String vehicle_model , String license_plate , String gps , String km_begin , String km_end , String lease_status ,  int start , int size) {
-        long total = this.vehicleManageDao.getVehicleCount(original_org , current_city , brand , vehicle_model , license_plate , gps , km_begin , km_end , lease_status);//门店品牌车辆总数
-        List<VehicleInfo> vehicle_list = this.vehicleManageDao.getVehicleList(original_org , current_city , brand , vehicle_model , license_plate , gps , km_begin , km_end , lease_status , start , size);
+    public Map<String , Object> getVehicleList(long original_org , String current_city , String brand , String vehicle_model , String license_plate , String gps , String km_begin , String km_end , String lease_status , String color  , int start , int size) {
+        long total = this.vehicleManageDao.getVehicleCount(original_org , current_city , brand , vehicle_model , license_plate , gps , km_begin , km_end , lease_status , color);//门店品牌车辆总数
+        List<VehicleInfo> vehicle_list = this.vehicleManageDao.getVehicleList(original_org , current_city , brand , vehicle_model , license_plate , gps , km_begin , km_end , lease_status , color  , start , size);
         List<City> sys_used_city_list = this.commonService.getSysUsedCityList();
         for(VehicleInfo vehicleInfo : vehicle_list) {
             for(City city : sys_used_city_list) {

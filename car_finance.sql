@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: 2015-03-16 10:36:45
+-- Generation Time: 2015-03-17 08:22:19
 -- 服务器版本： 5.6.11
 -- PHP Version: 5.5.1
 
@@ -156,7 +156,30 @@ CREATE TABLE IF NOT EXISTS `property_contrace` (
 --
 
 INSERT INTO `property_contrace` (`id`, `contrace_no`, `customer_name`, `customer_type`, `customer_dn`, `customer_cer_type`, `customer_cer_no`, `remark`, `employee_id`, `employee_name`, `create_at`, `create_by`, `update_at`, `update_by`, `status`, `shopowner_update_by`, `shopowner_update_at`, `city_shopowner_update_by`, `city_shopowner_update_at`, `finance_update_by`, `finance_update_at`, `org_id`, `reservation_id`, `regional_manager_update_by`, `regional_manager_update_at`, `isovertop`, `sign_at`, `period_number`, `down_payment`, `lease_price`, `montyly_payment`, `arrange_payment`, `monthly_day`, `final_payment`, `received_periods`, `already_back_amount`, `payment_type`, `reserv_to_contrace_status`) VALUES
-(100044, NULL, NULL, '个人用户', NULL, '身份证', NULL, NULL, '0', NULL, '2015-03-16 08:21:59', 100000, '2015-03-16 08:21:59', 0, 0, 0, '2015-03-16 08:21:59', 0, '2015-03-16 08:21:59', 0, '2015-03-16 08:21:59', 1, 34, 0, '2015-03-16 08:21:59', 0, NULL, 1, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, 0);
+(100044, '00123213', '22131', '个人用户', '12313', '身份证', '12321313', '132213aaa', '012313', '123213', '2015-03-16 08:21:59', 100000, '2015-03-16 08:21:59', 0, 5, 100000, '2015-03-17 01:50:27', 100000, '2015-03-17 02:37:00', 100000, '2015-03-17 02:40:17', 1, 34, 100000, '2015-03-17 02:40:06', 1, '2015-03-17', 1231231, '12313.00', '123213.00', '1231.00', '123213.00', 123213, '-123213.00', 123215, '369639.00', '123213', 1);
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `property_contrace_repayment_log`
+--
+
+CREATE TABLE IF NOT EXISTS `property_contrace_repayment_log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
+  `contrace_id` int(11) NOT NULL COMMENT '合同id',
+  `should_payment` decimal(10,2) NOT NULL COMMENT '应付月租',
+  `actual_payment` decimal(10,2) NOT NULL COMMENT '实付月租',
+  `create_at` date NOT NULL COMMENT '创建时间',
+  `create_by` int(11) NOT NULL COMMENT '创建人',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='产权租月还款详细表' AUTO_INCREMENT=2 ;
+
+--
+-- 转存表中的数据 `property_contrace_repayment_log`
+--
+
+INSERT INTO `property_contrace_repayment_log` (`id`, `contrace_id`, `should_payment`, `actual_payment`, `create_at`, `create_by`) VALUES
+(1, 100044, '123213.00', '123213.00', '2015-03-17', 100000);
 
 -- --------------------------------------------------------
 
@@ -621,7 +644,7 @@ CREATE TABLE IF NOT EXISTS `vehicle_contrace_vehs` (
   `over_price` decimal(10,2) DEFAULT NULL COMMENT '超额费用（根据还车时间、还车里程以及合同规定还车时间、还车里程计算得出）',
   `status` int(11) DEFAULT '0' COMMENT '车辆状态0-未还；1-已还',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='合同对应车辆详细表' AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='合同对应车辆详细表' AUTO_INCREMENT=9 ;
 
 --
 -- 转存表中的数据 `vehicle_contrace_vehs`
@@ -630,7 +653,8 @@ CREATE TABLE IF NOT EXISTS `vehicle_contrace_vehs` (
 INSERT INTO `vehicle_contrace_vehs` (`id`, `contrace_id`, `vehicle_id`, `license_plate`, `model`, `company`, `isother`, `driving_user_id`, `driving_user_name`, `driving_user_license_no`, `create_by`, `create_at`, `update_by`, `update_at`, `vehicle_price`, `return_time`, `return_km`, `over_price`, `status`) VALUES
 (5, 100038, 4, '苏KEY991', 'GL8商务', NULL, 0, '0', NULL, NULL, 100000, '2015-03-14 12:16:33', 0, '2015-03-14 12:16:33', '160000.00', '2015-03-01 16:00:00', 14444, '27730.00', 0),
 (6, 100039, 4, '苏KEY991', 'GL8商务', NULL, 0, '0', NULL, NULL, 100000, '2015-03-16 01:44:28', 0, '2015-03-16 01:44:28', '160000.00', NULL, NULL, NULL, 0),
-(7, 100041, 4, '苏KEY991', 'GL8商务', NULL, 0, '0', NULL, NULL, 100000, '2015-03-16 03:35:23', 0, '2015-03-16 03:35:23', '160000.00', '2015-03-19 03:00:00', 12345, '240.00', 1);
+(7, 100041, 4, '苏KEY991', 'GL8商务', NULL, 0, '0', NULL, NULL, 100000, '2015-03-16 03:35:23', 0, '2015-03-16 03:35:23', '160000.00', '2015-03-19 03:00:00', 12345, '240.00', 1),
+(8, 100044, 4, '苏KEY991', 'GL8商务', NULL, 0, '0', NULL, NULL, 100000, '2015-03-17 01:02:12', 0, '2015-03-17 01:02:12', '160000.00', NULL, NULL, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -690,7 +714,7 @@ CREATE TABLE IF NOT EXISTS `vehicle_info` (
 --
 
 INSERT INTO `vehicle_info` (`id`, `brand`, `model`, `color`, `carframe_no`, `engine_no`, `buy_at`, `supplier`, `license_plate`, `card_at`, `limited_at`, `guide_price`, `vehicle_price`, `vehicle_tax`, `insurance_company`, `strong_insurance`, `strong_insurance_expire_at`, `vehicle_vessel_tax`, `business_insurance`, `business_insurance_expire_at`, `km`, `maintian_on_km`, `gps`, `current_city`, `current_shop`, `lease_status`, `peccancy_status`, `archive_no`, `inventory_no`, `registry_certificate`, `certificate_direction`, `loan_bank`, `consistency_cer`, `check_list`, `duty_paid_proof`, `record`, `remark`, `update_at`, `update_by`, `create_by`, `create_at`, `original_org`, `next_main_km`) VALUES
-(4, '别克', 'GL8商务', '蓝色', 'LSGUD82C07E028992', '77310255', '2015-03-16 03:35:59', '孙涛（男）', '苏KEY991', '2007-10-31 16:00:00', '2014-10-31 16:00:00', '160000.00', '160000.00', '0.00', '人保', '791.00', '2015-09-12 16:00:00', '1200.00', '5239.89', '2015-09-14 16:00:00', 12345, 22222, '正常', 514, 100011, '在库', 0, '', '020080', '', '', '', '', '', '', '', '', '2015-03-14 11:52:24', 0, 100000, '2015-03-14 11:52:24', 1, 33333);
+(4, '别克', 'GL8商务', '蓝色', 'LSGUD82C07E028992', '77310255', '2015-03-17 02:26:28', '孙涛（男）', '苏KEY991', '2007-10-31 16:00:00', '2014-10-31 16:00:00', '160000.00', '350000.00', '0.00', '人保', '791.00', '2015-09-12 16:00:00', '1200.00', '5239.89', '2015-09-14 16:00:00', 12345, 22222, '正常', 514, 100011, '出库中', 0, '', '020080', '', '', '', '', '', '', '', '', '2015-03-14 11:52:24', 0, 100000, '2015-03-14 11:52:24', 1, 33333);
 
 -- --------------------------------------------------------
 
@@ -825,7 +849,7 @@ INSERT INTO `vehicle_reservation` (`id`, `customer_name`, `customer_dn`, `use_be
 (31, '12312313', '1231313', '2015-03-16 03:00:00', '2015-03-18 03:00:00', NULL, NULL, NULL, NULL, NULL, '0123213', '12313', 1, 1, 100000, '2015-03-16 03:32:24', NULL, '2015-03-16 03:32:24', NULL, '2015-03-16 03:32:24', NULL, '2015-03-16 03:32:24', '123131', 1),
 (32, '123213', '123123', '2015-03-16 03:00:00', '2015-03-18 03:00:00', NULL, NULL, NULL, NULL, NULL, '0123213', '12313132213', 1, 1, 100000, '2015-03-16 03:34:17', NULL, '2015-03-16 03:34:17', NULL, '2015-03-16 03:34:17', NULL, '2015-03-16 03:34:17', '1232132132132', 1),
 (33, '12313', '123213', '2015-03-16 06:00:00', '2015-03-20 06:00:00', NULL, NULL, NULL, NULL, NULL, '01231', '1231', 1, 0, 100000, '2015-03-16 06:21:12', NULL, '2015-03-16 06:21:12', NULL, '2015-03-16 06:21:12', NULL, '2015-03-16 06:21:12', '12312321', 1),
-(34, '22131', '12313', '2015-03-15 16:00:00', '2015-03-16 04:00:00', NULL, NULL, NULL, NULL, NULL, '012313', '123213', 1, 0, 100000, '2015-03-16 08:20:25', NULL, '2015-03-16 08:20:25', NULL, '2015-03-16 08:20:25', NULL, '2015-03-16 08:20:25', '132213', 2);
+(34, '22131', '12313', '2015-03-15 16:00:00', '2015-03-16 04:00:00', NULL, NULL, NULL, NULL, NULL, '012313', '123213', 1, 1, 100000, '2015-03-16 08:20:25', NULL, '2015-03-16 08:20:25', NULL, '2015-03-16 08:20:25', NULL, '2015-03-16 08:20:25', '132213', 2);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

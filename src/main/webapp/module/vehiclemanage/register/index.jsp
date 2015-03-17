@@ -104,23 +104,29 @@
                     <option value="未安装" <c:if test="${gps == '未安装'}">selected="selected"</c:if>>未安装</option>
                 </select>&nbsp;&nbsp;
             </td>
+            <td>
+                <button type="button" class="btn btn-success" id="addnew">新增车辆</button>
+            </td>
         </tr>
         <tr>
             <td>
                 品牌：
-                <input type="text" data-provide="typeahead" name="brand" id="brand"class="abc input-default" placeholder="" value="${brand}">&nbsp;&nbsp;
+                <input type="text" data-provide="typeahead" name="brand" id="brand" class="abc input-default" placeholder="" value="${brand}">&nbsp;&nbsp;
             </td>
             <td>
                 车辆型号：
-                <input type="text" data-provide="typeahead" name="model" id="model"class="abc input-default" placeholder="" value="${model}">&nbsp;&nbsp;
+                <input type="text" data-provide="typeahead" name="model" id="model" class="abc input-default" placeholder="" value="${model}">&nbsp;&nbsp;
             </td>
             <td>
                 车牌号：
-                <input type="text" data-provide="typeahead" name="license_plate" id="license_plate"class="abc input-default" placeholder="" value="${license_plate}">&nbsp;&nbsp;
+                <input type="text" data-provide="typeahead" name="license_plate" id="license_plate" class="abc input-default" placeholder="" value="${license_plate}">&nbsp;&nbsp;
+            </td>
+            <td>
+                颜色：
+                <input type="text" data-provide="typeahead" name="color" id="color" class="abc input-default" placeholder="" value="${color}">&nbsp;&nbsp;
             </td>
             <td>
                 <button type="submit" class="btn btn-primary">查询</button>&nbsp;&nbsp;
-                <button type="button" class="btn btn-success" id="addnew">新增车辆</button>
             </td>
         </tr>
     </table>
