@@ -983,9 +983,9 @@ public class VehicleServiceManageController {
             }
         }
 
-
-        String over_top = "0";
+        String over_top = null;
         if("4".equals(status))  over_top = "1";//区域店长审核，over_top为1-true
+        if("2".equals(status))  over_top = "0";//店长审核，over_top为0-false
         Map<String , Object> map = this.vehicleServiceManageService.getOrgContraceList(original_org, status, start, size, over_top  );
         long total = (Long)map.get("total");
         List<VehicleContraceInfo> contrace_list = (List<VehicleContraceInfo>)map.get("contrace_list");
