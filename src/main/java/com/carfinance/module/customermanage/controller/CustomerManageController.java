@@ -9,6 +9,8 @@ import com.carfinance.module.init.service.InitService;
 import com.carfinance.module.login.domain.User;
 import com.carfinance.module.storemanage.service.StoreManageService;
 import com.carfinance.module.vehiclemanage.domain.VehicleInfo;
+import com.carfinance.module.vehicleservicemanage.domain.PropertyContraceInfo;
+import com.carfinance.module.vehicleservicemanage.domain.VehicleContraceInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -220,9 +222,15 @@ public class CustomerManageController {
         long customer_id = Long.valueOf(request.getParameter("id"));
         CustomerInfo customerInfo = this.customerManageService.getCustomrInfobyId(customer_id);
         List<CustomerAnnex> customer_annex_list = this.customerManageService.getCustomrAnnexListbyCustomerId(customer_id);
+        String certificate_no = customerInfo.getCertificate_no();//证件号码
+        //根据证件号码，查询该用户办理过的业务，即租过的车，需要查询零租以及产权租
+        List<VehicleContraceInfo> vehicle_contrace_list = this.customerManageService.getVehicleContraceListByCustomerCerNo(certificate_no);
+        List<PropertyContraceInfo> property_contrace_list = this.customerManageService.getPropertyContraceListByCustomerCerNo(certificate_no);
 
         model.addAttribute("customer_info" , customerInfo);
         model.addAttribute("customer_annex_list" , customer_annex_list);
+        model.addAttribute("vehicle_contrace_list" , vehicle_contrace_list);
+        model.addAttribute("property_contrace_list" , property_contrace_list);
         return "/module/customermanage/detail";
     }
 }

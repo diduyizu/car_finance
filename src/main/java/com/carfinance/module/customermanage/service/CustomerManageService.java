@@ -9,6 +9,8 @@ import com.carfinance.module.customermanage.domain.CustomerInfo;
 import com.carfinance.module.init.service.InitService;
 import com.carfinance.module.storemanage.dao.StoreManageDao;
 import com.carfinance.module.vehiclemanage.domain.VehicleInfo;
+import com.carfinance.module.vehicleservicemanage.domain.PropertyContraceInfo;
+import com.carfinance.module.vehicleservicemanage.domain.VehicleContraceInfo;
 import com.carfinance.utils.DateUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -165,6 +167,24 @@ public class CustomerManageService {
                 }
             }
         }
+    }
+
+    /**
+     * 根据客户证件号码，查询该客户办理过的零租业务
+     * @param certificate_no
+     * @return
+     */
+    public List<VehicleContraceInfo> getVehicleContraceListByCustomerCerNo(String certificate_no) {
+        return this.customerManageDao.getVehicleContraceListByCustomerCerNo(certificate_no);
+    }
+
+    /**
+     * 根据客户证件号码，查询该客户办理过的产权租业务
+     * @param certificate_no
+     * @return
+     */
+    public List<PropertyContraceInfo> getPropertyContraceListByCustomerCerNo(String certificate_no) {
+        return this.customerManageDao.getPropertyContraceListByCustomerCerNo(certificate_no);
     }
 
 }

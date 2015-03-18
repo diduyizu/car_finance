@@ -87,6 +87,34 @@
                 </td>
             </tr>
         </table>
+        <table class="table table-bordered table-hover definewidth m10">
+            <thead>
+                <tr>
+                    <th>合同编号</th>
+                    <th>租赁类型</th>
+                </tr>
+            </thead>
+            <tr>
+                <c:forEach var="contrace" items="${vehicle_contrace_list}" varStatus="status">
+                    <td>${contrace.contrace_no}</td>
+                    <td>零租</td>
+                </c:forEach>
+            </tr>
+        </table>
+        <table class="table table-bordered table-hover definewidth m10">
+            <thead>
+                <tr>
+                    <th>合同编号</th>
+                    <th>租赁类型</th>
+                </tr>
+            </thead>
+            <tr>
+                <c:forEach var="contrace" items="${property_contrace_list}" varStatus="status">
+                    <td>${contrace.contrace_no}</td>
+                    <td>产权租</td>
+                </c:forEach>
+            </tr>
+        </table>
     </form>
 </body>
 </html>

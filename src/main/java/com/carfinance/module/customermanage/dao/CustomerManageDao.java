@@ -8,6 +8,10 @@ import com.carfinance.module.customermanage.domain.CustomerInfo;
 import com.carfinance.module.customermanage.domain.CustomerInfoRowMapper;
 import com.carfinance.module.vehiclemanage.domain.VehicleInfo;
 import com.carfinance.module.vehiclemanage.domain.VehicleInfoRowMapper;
+import com.carfinance.module.vehicleservicemanage.domain.PropertyContraceInfo;
+import com.carfinance.module.vehicleservicemanage.domain.PropertyContraceInfoRowMapper;
+import com.carfinance.module.vehicleservicemanage.domain.VehicleContraceInfo;
+import com.carfinance.module.vehicleservicemanage.domain.VehicleContraceInfoRowMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -139,6 +143,30 @@ public class CustomerManageDao extends BaseJdbcDaoImpl {
         Object[] o = new Object[] { certificate_url , annex_name , customer_id };
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().update(sql, o);
+    }
+
+    /**
+     * 根据客户证件号码，查询该客户办理过的零租业务
+     * @param certificate_no
+     * @return
+     */
+    public List<VehicleContraceInfo> getVehicleContraceListByCustomerCerNo(String certificate_no) {
+        String sql = "select * from vehicle_contrace where customer_cer_no = ?";
+        Object[] o = new Object[] { certificate_no };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().query(sql, o , new VehicleContraceInfoRowMapper());
+    }
+
+    /**
+     * 根据客户证件号码，查询该客户办理过的产权租业务
+     * @param certificate_no
+     * @return
+     */
+    public List<PropertyContraceInfo> getPropertyContraceListByCustomerCerNo(String certificate_no) {
+        String sql = "select * from property_contrace where customer_cer_no = ?";
+        Object[] o = new Object[] { certificate_no };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().query(sql, o , new PropertyContraceInfoRowMapper());
     }
 
 }
