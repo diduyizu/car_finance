@@ -503,7 +503,12 @@ public class VehicleManageController {
         long vehicle_id = Long.valueOf(request.getParameter("vehicle_id"));//车辆id
         VehicleInfo vehicleInfo = this.vehicleManageService.getVehicleInfoByid(vehicle_id);
 
+        String customer_name_certification_no_json = this.commonService.getAllCustomerNameAndCertificateNo();
+        String user_employee_id_name_json = this.commonService.getAllEmployeeIdAndName();
+
         model.addAttribute("vehicle_info" , vehicleInfo);
+        model.addAttribute("customer_name_certification_no_json" , customer_name_certification_no_json);
+        model.addAttribute("user_employee_id_name_json" , user_employee_id_name_json);
         return "/module/vehiclemanage/peccancy/add";
     }
 
@@ -829,8 +834,10 @@ public class VehicleManageController {
 
         long vehicle_id = Long.valueOf(request.getParameter("vehicle_id"));
         VehicleInfo vehicleInfo = this.vehicleManageService.getVehicleInfoByid(vehicle_id);
+        String user_employee_id_name_json = this.commonService.getAllEmployeeIdAndName();
 
         model.addAttribute("vehicle_info" , vehicleInfo);
+        model.addAttribute("user_employee_id_name_json" , user_employee_id_name_json);
         return "/module/vehiclemanage/maintainremind/add";
     }
 

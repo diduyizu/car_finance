@@ -9,11 +9,13 @@
     <link rel="stylesheet" type="text/css" href="<c:url value="/resources/Css/style.css" />" />
     <link rel="stylesheet" type="text/css" href="<c:url value="/resources/Css/datepicker.css" />" />
 
-    <script type="text/javascript" src="<c:url value="/resources/Js/jquery.js" />"></script>
+    <%--<script type="text/javascript" src="<c:url value="/resources/Js/jquery.js" />"></script>--%>
+    <script type="text/javascript" src="<c:url value="/resources/Js/jquery-1.7.1.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/Js/bootstrap.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/Js/ckform.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/Js/common.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/Js/bootstrap-datepicker.js" />"></script>
+    <script type="text/javascript" src="<c:url value="/resources/Js/bootstrap-typeahead.js" />"></script>
 
  
 
@@ -36,6 +38,15 @@
 
 
     </style>
+    <script type="text/javascript">
+        $().ready(function() {
+            var user_employee_id_name_json = ${user_employee_id_name_json};
+            console.info(user_employee_id_name_json);
+            $('#employee_id_name').typeahead({
+                source: user_employee_id_name_json
+            });
+        })
+    </script>
 </head>
 <body>
     <form class="definewidth m20">
@@ -68,10 +79,12 @@
                 <td colspan="3"><input type="text" name="next_maintain_km" id="next_maintain_km" placeholder="必填" required/></td>
             </tr>
             <tr>
-                <td class="tableleft">处理员工ID</td>
-                <td><input type="text" name="user_id" id="user_id" required/></td>
-                <td class="tableleft">处理员工姓名</td>
-                <td colspan="3"><input type="text" name="user_name" id="user_name" required/></td>
+                <%--<td class="tableleft">处理员工ID</td>--%>
+                <%--<td><input type="text" name="user_id" id="user_id" required/></td>--%>
+                <%--<td class="tableleft">处理员工姓名</td>--%>
+                <%--<td colspan="3"><input type="text" name="user_name" id="user_name" required/></td>--%>
+                <td class="tableleft">处理员工姓名/工号</td>
+                <td colspan="5"><input type="text" name="employee_id_name" id="employee_id_name" placeholder="必填" required /></td>
             </tr>
             <tr>
                 <td class="tableleft"></td>
@@ -84,36 +97,6 @@
 <script>
     $(function () {
         window.prettyPrint && prettyPrint();
-//        $('#dp1').datepicker({
-//            format: 'yyyy-mm-dd'
-//        });
-//        $('#dp2').datepicker();
-//        $('#dp3').datepicker();
-//        var startDate = new Date(2012,1,20);
-//        var endDate = new Date(2012,1,25);
-//        $('#dp4').datepicker()
-//                .on('changeDate', function(ev){
-//                    if (ev.date.valueOf() > endDate.valueOf()){
-//                        $('#alert').show().find('strong').text('The start date can not be greater then the end date');
-//                    } else {
-//                        $('#alert').hide();
-//                        startDate = new Date(ev.date);
-//                        $('#startDate').text($('#dp4').data('date'));
-//                    }
-//                    $('#dp4').datepicker('hide');
-//                });
-//        $('#dp5').datepicker()
-//                .on('changeDate', function(ev){
-//                    if (ev.date.valueOf() < startDate.valueOf()){
-//                        $('#alert').show().find('strong').text('The end date can not be less then the start date');
-//                    } else {
-//                        $('#alert').hide();
-//                        endDate = new Date(ev.date);
-//                        $('#endDate').text($('#dp5').data('date'));
-//                    }
-//                    $('#dp5').datepicker('hide');
-//                });
-
         $('#maintain_at').datepicker();
 
         $('#save').click(function(){
@@ -125,8 +108,13 @@
             var maintain_price=$.trim($('#maintain_price').val());
             var current_km=$.trim($('#current_km').val());
             var next_maintain_km=$.trim($('#next_maintain_km').val());
-            var user_id=$.trim($('#user_id').val());
-            var user_name=$.trim($('#user_name').val());
+
+            var employee_id_name = $.trim($('#employee_id_name').val());
+            var user_id = employee_id_name.split("|")[0];
+            var user_name = employee_id_name.split("|")[1];
+
+//            var user_id=$.trim($('#user_id').val());
+//            var user_name=$.trim($('#user_name').val());
 
             $.ajax({
                 url:"${ctx}/vehicle/maintainremind/doadd",

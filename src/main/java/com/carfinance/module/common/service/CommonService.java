@@ -332,6 +332,10 @@ public class CommonService {
         return this.commonDao.getAllVehicles();
     }
 
+    public List<User> getAllEmployees() {
+        return this.commonDao.getAllEmployees();
+    }
+
     public String getAllCustomerName() {
         List<CustomerInfo> customer_info_list = this.getAllCustomerInfo();
         List<String> result = new ArrayList<String>();
@@ -351,6 +355,17 @@ public class CommonService {
         }
         String return_json = JSONArray.fromObject(result).toString();
         logger.info("customer_dn_json :" + return_json);
+        return return_json;
+    }
+
+    public String getAllCustomerNameAndCertificateNo() {
+        List<CustomerInfo> customer_info_list = this.getAllCustomerInfo();
+        List<String> result = new ArrayList<String>();
+        for(CustomerInfo customerInfo : customer_info_list) {
+            result.add(customerInfo.getCustomer_name() + "|" + customerInfo.getCertificate_no());
+        }
+        String return_json = JSONArray.fromObject(result).toString();
+        logger.info("customer_name_certification_no_json :" + return_json);
         return return_json;
     }
 
@@ -384,6 +399,17 @@ public class CommonService {
         }
         String return_json = JSONArray.fromObject(result).toString();
         logger.info("vehicle_license_plate_json :" + return_json);
+        return return_json;
+    }
+
+    public String getAllEmployeeIdAndName() {
+        List<User> user_list = this.getAllEmployees();
+        List<String> result = new ArrayList<String>();
+        for(User user : user_list) {
+            result.add(user.getUser_name() + "|" + user.getEmployee_id());
+        }
+        String return_json = JSONArray.fromObject(result).toString();
+        logger.info("user_employee_id_name_json :" + return_json);
         return return_json;
     }
 

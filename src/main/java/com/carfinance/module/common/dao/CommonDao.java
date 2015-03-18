@@ -177,6 +177,13 @@ public class CommonDao extends BaseJdbcDaoImpl{
         return this.getJdbcTemplate().query(sql , o  , new VehicleInfoRowMapper());
     }
 
+    public List<User> getAllEmployees() {
+        String sql="select * from users where user_id != 100000 ";
+        Object[] o = new Object[] { };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().query(sql , o  , new UserRowMapper());
+    }
+
     public List<Org> getSysAllOrgList() {
         String sql="select * from sys_org where status = 0 order by pid , org_id ";
         Object[] o = new Object[] { };

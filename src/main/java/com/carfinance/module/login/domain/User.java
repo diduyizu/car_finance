@@ -23,6 +23,15 @@ public class User implements Serializable {
 	private String address;
 	private String email;
     private List<UserRole> role_list;
+    private String employee_id;
+
+    public String getEmployee_id() {
+        return employee_id;
+    }
+
+    public void setEmployee_id(String employee_id) {
+        this.employee_id = employee_id;
+    }
 
     public List<UserRole> getRole_list() {
         return role_list;
