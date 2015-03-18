@@ -1049,4 +1049,11 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().query(sql, o, new PropertyPaymentDetailRowMapper());
     }
+
+    public int modifyCustomerInfo(long id , String certificate_type , String certificate_no , String customer_name , String customer_dn ,String customer_type) {
+        String sql = "update customer_info t set t.certificate_type = ? , t.certificate_no = ? , t.customer_name = ? , t.customer_dn = ? , t.customer_type = ? where t.id = ?";
+        Object[] o = new Object[] { certificate_type , certificate_no , customer_name , customer_dn , customer_type  , id };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().update(sql , o);
+    }
 }

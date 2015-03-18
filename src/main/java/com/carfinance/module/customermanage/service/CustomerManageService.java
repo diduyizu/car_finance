@@ -72,18 +72,20 @@ public class CustomerManageService {
             if(customer_count > 0) return -1;//表示该证件号码，已经被使用
             long customer_id = this.customerManageDao.addCustomerInfo(certificate_type , certificate_no , customer_name , customer_dn , customer_email , customer_type , customer_house , customer_vehicle , customer_guarantee , vip_no , create_by);
             if(customer_id > 0) {//插入客户表成功，进行附件操作
-                //保存文件
-                String savePath = request.getSession().getServletContext().getRealPath("/");
-                String sharespace = appProps.getProperty("customercertificate.dbpath").replace("${customer_id}", String.valueOf(customer_id));
-                savePath = savePath + sharespace;
-                logger.info("savePath=" + savePath);
+                if(file_upload != null) {
+                    //保存文件
+                    String savePath = request.getSession().getServletContext().getRealPath("/");
+                    String sharespace = appProps.getProperty("customercertificate.dbpath").replace("${customer_id}", String.valueOf(customer_id));
+                    savePath = savePath + sharespace;
+                    logger.info("savePath=" + savePath);
 
-                Map<String , Object> map = this.commonService.saveFile(file_upload , savePath);
-                if(map != null) {
-                    String annex_name = (String)map.get("annexName");
-                    String file_name = (String)map.get("file_name");
-                    String db_url = sharespace + file_name;
-                    this.customerManageDao.addCustomerCertificateUrl(customer_id, annex_name, db_url);
+                    Map<String , Object> map = this.commonService.saveFile(file_upload , savePath);
+                    if(map != null) {
+                        String annex_name = (String)map.get("annexName");
+                        String file_name = (String)map.get("file_name");
+                        String db_url = sharespace + file_name;
+                        this.customerManageDao.addCustomerCertificateUrl(customer_id, annex_name, db_url);
+                    }
                 }
             }
             return customer_id;

@@ -4,6 +4,8 @@ import com.carfinance.module.common.dao.CommonDao;
 import com.carfinance.module.common.domain.City;
 import com.carfinance.module.common.service.CommonService;
 import com.carfinance.module.common.service.ManageMemcacdedClient;
+import com.carfinance.module.customermanage.domain.CustomerInfo;
+import com.carfinance.module.customermanage.service.CustomerManageService;
 import com.carfinance.module.init.service.InitService;
 import com.carfinance.module.login.domain.User;
 import com.carfinance.module.storemanage.dao.StoreManageDao;
@@ -18,7 +20,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 /**
@@ -44,6 +48,8 @@ public class VehicleServiceManageService {
     private CommonDao commonDao;
     @Autowired
     private Properties appProps;
+    @Autowired
+    private CustomerManageService customerManageService;
 
     public Map<String , Object> getOrgReservationList(long org_id , String customer_name , String dn , int start, int size) {
         long total = this.vehicleServiceManageDao.getOrgReservationCount(org_id, customer_name, dn);
@@ -135,6 +141,11 @@ public class VehicleServiceManageService {
                                double daily_price , long daily_available_km , double over_km_price , double over_hour_price , double month_price ,
                                long month_available_km , String monthly_day , double pre_payment , double deposit , double peccancy_deposit) {
         try{
+            //根据身份证号，先判断本次录入的客户资料，在系统客户表中是否存在
+            //若存在，则更新该客户资料
+            //若不存在，则将该客户资料，写入系统客户表
+            this.checkCustomerIsExist(customer_name , customer_type , customer_dn , certificate_type , certificate_no , user_id);
+
             Date use_begin_date = DateUtil.string2Date(use_begin , "yyyy-MM-dd HH:mm");
             Date use_end_date = DateUtil.string2Date(use_end , "yyyy-MM-dd HH:mm");
             Date monthly_day_date = (monthly_day != null && !"".equals(monthly_day.trim())) ? DateUtil.string2Date(monthly_day.trim() , "yyyy-MM-dd") : null;
@@ -511,6 +522,11 @@ public class VehicleServiceManageService {
                                double arrange_payment , int monthly_day , double final_payment , long received_periods , double already_back_amount , String payment_type ,
                                String employee_id , String employee_name , String remark , long user_id) {
         try{
+            //根据身份证号，先判断本次录入的客户资料，在系统客户表中是否存在
+            //若存在，则更新该客户资料
+            //若不存在，则将该客户资料，写入系统客户表
+            this.checkCustomerIsExist(customer_name , customer_type , customer_dn , certificate_type , certificate_no , user_id);
+
             Date sign_at_date = (sign_at != null && !"".equals(sign_at.trim())) ? DateUtil.string2Date(sign_at.trim() , "yyyy-MM-dd") : null;
             long result = this.vehicleServiceManageDao.modifyPropertyContrace(contrace_id , reservation_id , original_org , contrace_no , customer_name , customer_type ,
                     customer_dn , certificate_type , certificate_no , sign_at_date , period_number , down_payment , lease_price , montyly_payment , arrange_payment ,
@@ -610,5 +626,24 @@ public class VehicleServiceManageService {
         map.put("total" , total);
         map.put("detail_list", detail_list);
         return map;
+    }
+
+    /**
+     * 预约单转合同时，判断客户资料是否存在
+     * 如果存在，则更新该客户资料；
+     * 如果不存在，则写入该客户资料
+     * @param customer_name
+     * @param customer_type
+     * @param customer_dn
+     * @param certificate_type
+     * @param certificate_no
+     */
+    public void checkCustomerIsExist(String customer_name , String customer_type , String customer_dn , String certificate_type , String certificate_no , long user_id) {
+        CustomerInfo customerInfo = this.customerManageService.getCustomrInfobyCertificateNo(certificate_no);
+        if(customerInfo == null) {
+            this.customerManageService.addCustomerInfo(null , null , certificate_type , certificate_no , customer_name , customer_dn , null , customer_type , null , null , null , null , user_id);
+        } else {
+            this.vehicleServiceManageDao.modifyCustomerInfo(customerInfo.getId() , certificate_type , certificate_no , customer_name , customer_dn , customer_type);
+        }
     }
 }
