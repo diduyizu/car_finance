@@ -330,8 +330,10 @@ public class VehicleServiceManageController {
         VehicleReservationInfo vehicleReservationInfo = this.vehicleServiceManageService.getVehicleReservationInfoById(reservation_id);
 
         String customer_name_json = this.commonService.getAllCustomerName();
+        String user_employee_id_name_json = this.commonService.getAllEmployeeIdAndName();
 
         model.addAttribute("customer_name_json" , customer_name_json);
+        model.addAttribute("user_employee_id_name_json" , user_employee_id_name_json);
         model.addAttribute("contrace_id" , contrace_id);
         model.addAttribute("reservation_id" , reservation_id);
         model.addAttribute("city_list" , city_list);
@@ -408,7 +410,9 @@ public class VehicleServiceManageController {
         VehicleContraceInfo vehicleContraceInfo = this.vehicleServiceManageService.getVehicleContraceInfoById(contrace_id);//获取合同详情
 
         String customer_name_json = this.commonService.getAllCustomerName();
+        String user_employee_id_name_json = this.commonService.getAllEmployeeIdAndName();
         model.addAttribute("customer_name_json" , customer_name_json);
+        model.addAttribute("user_employee_id_name_json" , user_employee_id_name_json);
 
         model.addAttribute("current_page" , current_page);
         model.addAttribute("original_org" , original_org);
@@ -1256,8 +1260,10 @@ public class VehicleServiceManageController {
 
         VehicleReservationInfo vehicleReservationInfo = this.vehicleServiceManageService.getVehicleReservationInfoById(reservation_id);
         String customer_name_json = this.commonService.getAllCustomerName();
+        String user_employee_id_name_json = this.commonService.getAllEmployeeIdAndName();
 
         model.addAttribute("customer_name_json" , customer_name_json);
+        model.addAttribute("user_employee_id_name_json" , user_employee_id_name_json);
         model.addAttribute("contrace_id" , contrace_id);
         model.addAttribute("reservation_id" , reservation_id);
         model.addAttribute("city_list" , city_list);
@@ -1385,7 +1391,9 @@ public class VehicleServiceManageController {
         PropertyContraceInfo propertyContraceInfo = this.vehicleServiceManageService.getPropertyContraceInfoById(contrace_id);//获取合同详情
 
         String customer_name_json = this.commonService.getAllCustomerName();
+        String user_employee_id_name_json = this.commonService.getAllEmployeeIdAndName();
         model.addAttribute("customer_name_json" , customer_name_json);
+        model.addAttribute("user_employee_id_name_json" , user_employee_id_name_json);
 
         model.addAttribute("current_page" , current_page);
         model.addAttribute("original_org" , original_org);

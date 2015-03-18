@@ -47,6 +47,12 @@
             $('#customer_name').typeahead({
                 source: customer_name_json
             });
+
+            var user_employee_id_name_json = ${user_employee_id_name_json};
+            console.info(user_employee_id_name_json);
+            $('#employee_id_name').typeahead({
+                source: user_employee_id_name_json
+            });
         })
     </script>
 </head>
@@ -137,10 +143,12 @@
             </tr>
 
             <tr>
-                <td class="tableleft">业务员id</td>
-                <td><input type="text" name="employee_id" id="employee_id" value="${property_contrace_info.employee_id}"/></td>
-                <td class="tableleft">业务员姓名</td>
-                <td colspan="3"><input type="text" name="employee_name" id="employee_name" value="${property_contrace_info.employee_name}"/></td>
+                <td class="tableleft">处理员工姓名/工号</td>
+                <td colspan="5"><input type="text" name="employee_id_name" id="employee_id_name" placeholder="必填" required value="${property_contrace_info.employee_name}|${property_contrace_info.employee_id}" /></td>
+                <%--<td class="tableleft">业务员id</td>--%>
+                <%--<td><input type="text" name="employee_id" id="employee_id" value="${property_contrace_info.employee_id}"/></td>--%>
+                <%--<td class="tableleft">业务员姓名</td>--%>
+                <%--<td colspan="3"><input type="text" name="employee_name" id="employee_name" value="${property_contrace_info.employee_name}"/></td>--%>
             </tr>
             <tr>
                 <td class="tableleft">描述</td>
@@ -194,8 +202,11 @@
             var received_periods=$.trim($('#received_periods').val());
             var already_back_amount=$.trim($('#already_back_amount').val());
 
-            var employee_id=$.trim($('#employee_id').val());
-            var employee_name=$.trim($('#employee_name').val());
+            var employee_id_name = $.trim($('#employee_id_name').val());
+            var employee_id = employee_id_name.split("|")[0];
+            var employee_name = employee_id_name.split("|")[1];
+//            var employee_id=$.trim($('#employee_id').val());
+//            var employee_name=$.trim($('#employee_name').val());
             var remark=$.trim($('#remark').val());
 
             $.ajax({
