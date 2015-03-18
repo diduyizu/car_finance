@@ -67,6 +67,12 @@
         </table>
         <table class="table table-bordered table-hover definewidth m10">
             <tr>
+                <td width="15%" class="tableleft">证件照</td>
+                <td colspan="${fn:length(customer_annex_list)}">
+                    <img src="${ctx}${customer_info.certificate_url}" alt="${customer_info.certificate_name}">
+                </td>
+            </tr>
+            <tr>
                 <td class="tableleft">资产证明</td>
                 <c:forEach var="annex" items="${customer_annex_list}" varStatus="status">
                     <td>

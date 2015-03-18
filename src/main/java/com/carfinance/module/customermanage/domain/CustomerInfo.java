@@ -22,8 +22,27 @@ public class CustomerInfo implements Serializable{
     private String customer_vehicle;
     private String customer_guarantee;
 
+    private String certificate_url;
+    private String certificate_name;
+
     private String vip_no;
     private List<CustomerAnnex> customer_annex_list;
+
+    public String getCertificate_url() {
+        return certificate_url;
+    }
+
+    public void setCertificate_url(String certificate_url) {
+        this.certificate_url = certificate_url;
+    }
+
+    public String getCertificate_name() {
+        return certificate_name;
+    }
+
+    public void setCertificate_name(String certificate_name) {
+        this.certificate_name = certificate_name;
+    }
 
     public List<CustomerAnnex> getCustomer_annex_list() {
         return customer_annex_list;

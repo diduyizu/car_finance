@@ -27,6 +27,9 @@ public class CustomerInfoRowMapper implements RowMapper<CustomerInfo>{
 
         customerInfo.setVip_no(rs.getString("vip_no"));
 
+        customerInfo.setCertificate_url(rs.getString("certificate_url"));
+        customerInfo.setCertificate_name(rs.getString("certificate_name"));
+
         return customerInfo;
 	}
 }
