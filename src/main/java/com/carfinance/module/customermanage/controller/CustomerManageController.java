@@ -143,12 +143,31 @@ public class CustomerManageController {
         return "/module/customermanage/modify";
     }
 
+//    @RequestMapping(value = "/info/domodify" , method = RequestMethod.POST)
+//    @ResponseBody
+//    public int customerInfoDoModify(Model model1 , HttpServletRequest request , HttpServletResponse response) {
+//        User user = (User)request.getSession().getAttribute("user");
+//
+//        long id = Long.valueOf(request.getParameter("id"));
+//        String certificate_type = request.getParameter("certificate_type");
+//        String certificate_no = request.getParameter("certificate_no");
+//        String customer_name = request.getParameter("customer_name");
+//        String customer_dn = request.getParameter("customer_dn");
+//        String customer_email= request.getParameter("customer_email");
+//        String customer_type= request.getParameter("customer_type");
+//        String customer_house = request.getParameter("customer_house") == null ? "无" : request.getParameter("customer_house");
+//        String customer_vehicle= request.getParameter("customer_vehicle") == null ? "无" : request.getParameter("customer_vehicle");
+//        String customer_guarantee= request.getParameter("customer_guarantee") == null ? "无" : request.getParameter("customer_guarantee");
+//        String vip_no = request.getParameter("vip_no");
+//
+//        return this.customerManageService.modifyCustomerInfo(id , certificate_type , certificate_no , customer_name , customer_dn , customer_email , customer_type , customer_house , customer_vehicle , customer_guarantee , vip_no , user.getUser_id());
+//    }
     @RequestMapping(value = "/info/domodify" , method = RequestMethod.POST)
-    @ResponseBody
-    public int customerInfoDoModify(Model model1 , HttpServletRequest request , HttpServletResponse response) {
+    public String customerInfoDoModify(Model model1 , HttpServletRequest request , HttpServletResponse response , @RequestParam("files") CommonsMultipartFile file_upload) {
         User user = (User)request.getSession().getAttribute("user");
 
-        long id = Long.valueOf(request.getParameter("id"));
+//        long id = Long.valueOf(request.getParameter("id"));
+        long id = Long.valueOf(request.getParameter("customer_id"));
         String certificate_type = request.getParameter("certificate_type");
         String certificate_no = request.getParameter("certificate_no");
         String customer_name = request.getParameter("customer_name");
@@ -160,7 +179,8 @@ public class CustomerManageController {
         String customer_guarantee= request.getParameter("customer_guarantee") == null ? "无" : request.getParameter("customer_guarantee");
         String vip_no = request.getParameter("vip_no");
 
-        return this.customerManageService.modifyCustomerInfo(id , certificate_type , certificate_no , customer_name , customer_dn , customer_email , customer_type , customer_house , customer_vehicle , customer_guarantee , vip_no , user.getUser_id());
+        this.customerManageService.modifyCustomerInfo(request , file_upload , id , certificate_type , certificate_no , customer_name , customer_dn , customer_email , customer_type , customer_house , customer_vehicle , customer_guarantee , vip_no , user.getUser_id());
+        return "redirect:/customer/info/index";
     }
 
     /**

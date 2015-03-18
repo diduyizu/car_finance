@@ -95,7 +95,22 @@ public class CustomerManageService {
         return this.customerManageDao.getCustomrInfobyId(id);
     }
 
-    public int modifyCustomerInfo(long id , String certificate_type , String certificate_no , String customer_name , String customer_dn , String customer_email , String customer_type , String customer_house , String customer_vehicle , String customer_guarantee , String vip_no , long create_by) {
+//    public int modifyCustomerInfo(long id , String certificate_type , String certificate_no , String customer_name , String customer_dn , String customer_email , String customer_type , String customer_house , String customer_vehicle , String customer_guarantee , String vip_no , long create_by) {
+//        try{
+//            CustomerInfo customerInfo = this.customerManageDao.getCustomrInfobyId(id);
+//            if(customerInfo != null) {
+//                if(!certificate_no.equals(customerInfo.getCertificate_no())) {
+//                    long customer_count = this.customerManageDao.getCustomerCount(null , null , certificate_no);//根据身份证件号码，查询是否有重复
+//                    if(customer_count > 0) return -1;//表示该证件号码，已经被使用
+//                }
+//                return this.customerManageDao.modifyCustomerInfo(id , certificate_type , certificate_no , customer_name , customer_dn , customer_email , customer_type , customer_house , customer_vehicle , customer_guarantee , vip_no , create_by);
+//            }
+//        } catch (Exception e) {
+//            logger.info(e.getMessage() , e);
+//        }
+//        return 0;
+//    }
+    public int modifyCustomerInfo(HttpServletRequest request , CommonsMultipartFile file_upload , long id , String certificate_type , String certificate_no , String customer_name , String customer_dn , String customer_email , String customer_type , String customer_house , String customer_vehicle , String customer_guarantee , String vip_no , long create_by) {
         try{
             CustomerInfo customerInfo = this.customerManageDao.getCustomrInfobyId(id);
             if(customerInfo != null) {
@@ -103,6 +118,21 @@ public class CustomerManageService {
                     long customer_count = this.customerManageDao.getCustomerCount(null , null , certificate_no);//根据身份证件号码，查询是否有重复
                     if(customer_count > 0) return -1;//表示该证件号码，已经被使用
                 }
+
+                //保存文件
+                String savePath = request.getSession().getServletContext().getRealPath("/");
+                String sharespace = appProps.getProperty("customercertificate.dbpath").replace("${customer_id}", String.valueOf(id));
+                savePath = savePath + sharespace;
+                logger.info("savePath=" + savePath);
+
+                Map<String , Object> map = this.commonService.saveFile(file_upload , savePath);
+                if(map != null) {
+                    String annex_name = (String)map.get("annexName");
+                    String file_name = (String)map.get("file_name");
+                    String db_url = sharespace + file_name;
+                    this.customerManageDao.addCustomerCertificateUrl(id, annex_name, db_url);
+                }
+
                 return this.customerManageDao.modifyCustomerInfo(id , certificate_type , certificate_no , customer_name , customer_dn , customer_email , customer_type , customer_house , customer_vehicle , customer_guarantee , vip_no , create_by);
             }
         } catch (Exception e) {

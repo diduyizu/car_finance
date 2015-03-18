@@ -41,7 +41,8 @@
     </style>
 </head>
 <body>
-    <form class="cmxform form-horizontal">
+    <%--<form class="cmxform form-horizontal">--%>
+    <form class="cmxform form-horizontal" action="${ctx}/customer/info/domodify" id="uploadannex" enctype="multipart/form-data" method="post">
         <table class="table table-bordered table-hover definewidth m10">
             <tr>
                 <td class="tableleft">姓名</td>
@@ -107,7 +108,7 @@
             <tr>
                 <td class="tableleft"></td>
                 <td colspan="5">
-                    <button type="button" class="btn btn-primary" id="save">保存</button> &nbsp;&nbsp;
+                    <button type="submit" class="btn btn-primary" id="save">保存</button> &nbsp;&nbsp;
                     <button type="button" class="btn btn-success" id="backid">返回列表</button>
                     <input type="hidden" id="customer_id" name="customer_id" value="${customer_info.id}">
                 </td>
@@ -122,38 +123,38 @@
             window.location.href="${ctx}/customer/info/index";
 		});
 
-        $('#save').click(function(){
-            var customer_id=$.trim($('#customer_id').val());
-            var certificate_type=$.trim($('#certificate_type').val());
-            var certificate_no=$.trim($('#certificate_no').val());
-            var customer_name=$.trim($('#customer_name').val());
-            var customer_dn=$.trim($('#customer_dn').val());
-            var customer_email=$.trim($('#customer_email').val());
-            var customer_type=$.trim($('#customer_type').val());
-            var customer_house=$.trim($('#customer_house').val());
-            var customer_vehicle=$.trim($('#customer_vehicle').val());
-            var customer_guarantee=$.trim($('#customer_guarantee').val());
-            var vip_no = $.trim($('#vip_no').val());
+        <%--$('#save').click(function(){--%>
+            <%--var customer_id=$.trim($('#customer_id').val());--%>
+            <%--var certificate_type=$.trim($('#certificate_type').val());--%>
+            <%--var certificate_no=$.trim($('#certificate_no').val());--%>
+            <%--var customer_name=$.trim($('#customer_name').val());--%>
+            <%--var customer_dn=$.trim($('#customer_dn').val());--%>
+            <%--var customer_email=$.trim($('#customer_email').val());--%>
+            <%--var customer_type=$.trim($('#customer_type').val());--%>
+            <%--var customer_house=$.trim($('#customer_house').val());--%>
+            <%--var customer_vehicle=$.trim($('#customer_vehicle').val());--%>
+            <%--var customer_guarantee=$.trim($('#customer_guarantee').val());--%>
+            <%--var vip_no = $.trim($('#vip_no').val());--%>
 
-            $.ajax({
-                url:"${ctx}/customer/info/domodify",
-                type: "post",
-                data:{id:customer_id,certificate_type:certificate_type,certificate_no:certificate_no,customer_name:customer_name,customer_dn:customer_dn,
-                    customer_email:customer_email,customer_type:customer_type,customer_house:customer_house,
-                    customer_vehicle:customer_vehicle,customer_guarantee:customer_guarantee,vip_no:vip_no},
-                success:function(data){
-                    if(data == 1){
-                        alert("成功");
-                        location.reload();
-                    } else if(data = -1) {
-                        alert("证件号码重复");
-                        return false;
-                    } else {
-                        alert("失败");
-                        return false;
-                    }
-                }
-            })
-        })
+            <%--$.ajax({--%>
+                <%--url:"${ctx}/customer/info/domodify",--%>
+                <%--type: "post",--%>
+                <%--data:{id:customer_id,certificate_type:certificate_type,certificate_no:certificate_no,customer_name:customer_name,customer_dn:customer_dn,--%>
+                    <%--customer_email:customer_email,customer_type:customer_type,customer_house:customer_house,--%>
+                    <%--customer_vehicle:customer_vehicle,customer_guarantee:customer_guarantee,vip_no:vip_no},--%>
+                <%--success:function(data){--%>
+                    <%--if(data == 1){--%>
+                        <%--alert("成功");--%>
+                        <%--location.reload();--%>
+                    <%--} else if(data = -1) {--%>
+                        <%--alert("证件号码重复");--%>
+                        <%--return false;--%>
+                    <%--} else {--%>
+                        <%--alert("失败");--%>
+                        <%--return false;--%>
+                    <%--}--%>
+                <%--}--%>
+            <%--})--%>
+        <%--})--%>
     });
 </script>
