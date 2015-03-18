@@ -90,11 +90,16 @@ public class CustomerManageDao extends BaseJdbcDaoImpl {
         return this.getJdbcTemplate().query(sql, o, new CustomerInfoRowMapper());
     }
 
-    public int addCustomerInfo(String certificate_type , String certificate_no , String customer_name , String customer_dn , String customer_email , String customer_type , String customer_house , String customer_vehicle , String customer_guarantee , String vip_no , long create_by) {
-        String sql = "insert into customer_info(certificate_type , certificate_no , customer_name , customer_dn , customer_email , customer_type , customer_house , customer_vehicle , customer_guarantee , vip_no , create_by) values (?,?,?,?,?,?,?,?,?,?,?)";
-        Object[] o = new Object[] { certificate_type , certificate_no , customer_name , customer_dn , customer_email , customer_type , customer_house , customer_vehicle , customer_guarantee , vip_no , create_by };
+    public long addCustomerInfo(String certificate_type , String certificate_no , String customer_name , String customer_dn , String customer_email , String customer_type , String customer_house , String customer_vehicle , String customer_guarantee , String vip_no , long create_by) {
+        long customer_id = this.commonDao.getNextVal("CustomerSeq");
+        String sql = "insert into customer_info(id , certificate_type , certificate_no , customer_name , customer_dn , customer_email , customer_type , customer_house , customer_vehicle , customer_guarantee , vip_no , create_by) values (?,?,?,?,?,?,?,?,?,?,?,?)";
+        Object[] o = new Object[] { customer_id , certificate_type , certificate_no , customer_name , customer_dn , customer_email , customer_type , customer_house , customer_vehicle , customer_guarantee , vip_no , create_by };
         logger.info(sql.replaceAll("\\?", "{}"), o);
-        return this.getJdbcTemplate().update(sql , o);
+        long result = this.getJdbcTemplate().update(sql , o);
+        if(result > 0) {
+            result = customer_id;
+        }
+        return result;
     }
 
     public CustomerInfo getCustomrInfobyId(long id) {
@@ -127,6 +132,13 @@ public class CustomerManageDao extends BaseJdbcDaoImpl {
         Object[] o = new Object[] { customer_id , annex_name , url };
         logger.info(sql.replaceAll("\\?", "{}"), o);
         this.getJdbcTemplate().update(sql, o);
+    }
+
+    public int addCustomerCertificateUrl(long customer_id , String annex_name , String certificate_url) {
+        String sql = "update customer_info set certificate_url = ? , certificate_name = ?  where id = ?";
+        Object[] o = new Object[] { certificate_url , annex_name , customer_id };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().update(sql, o);
     }
 
 }

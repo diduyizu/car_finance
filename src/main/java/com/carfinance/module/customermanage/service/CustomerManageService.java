@@ -54,15 +54,41 @@ public class CustomerManageService {
     }
 
 
-    public int addCustomerInfo(String certificate_type , String certificate_no , String customer_name , String customer_dn , String customer_email , String customer_type , String customer_house , String customer_vehicle , String customer_guarantee , String vip_no , long create_by) {
+//    public int addCustomerInfo(String certificate_type , String certificate_no , String customer_name , String customer_dn , String customer_email , String customer_type , String customer_house , String customer_vehicle , String customer_guarantee , String vip_no , long create_by) {
+//        try{
+//            long customer_count = this.customerManageDao.getCustomerCount(null , null , certificate_no);//根据身份证件号码，查询是否有重复
+//            if(customer_count > 0) return -1;//表示该证件号码，已经被使用
+//            return this.customerManageDao.addCustomerInfo(certificate_type , certificate_no , customer_name , customer_dn , customer_email , customer_type , customer_house , customer_vehicle , customer_guarantee , vip_no , create_by);
+//        } catch (Exception e) {
+//            logger.info(e.getMessage() , e);
+//            return 0;
+//        }
+//    }
+    public long addCustomerInfo(HttpServletRequest request , CommonsMultipartFile file_upload , String certificate_type , String certificate_no , String customer_name , String customer_dn , String customer_email , String customer_type , String customer_house , String customer_vehicle , String customer_guarantee , String vip_no , long create_by) {
         try{
             long customer_count = this.customerManageDao.getCustomerCount(null , null , certificate_no);//根据身份证件号码，查询是否有重复
             if(customer_count > 0) return -1;//表示该证件号码，已经被使用
-            return this.customerManageDao.addCustomerInfo(certificate_type , certificate_no , customer_name , customer_dn , customer_email , customer_type , customer_house , customer_vehicle , customer_guarantee , vip_no , create_by);
-        } catch (Exception e) {
+            long customer_id = this.customerManageDao.addCustomerInfo(certificate_type , certificate_no , customer_name , customer_dn , customer_email , customer_type , customer_house , customer_vehicle , customer_guarantee , vip_no , create_by);
+            if(customer_id > 0) {//插入客户表成功，进行附件操作
+                //保存文件
+                String savePath = request.getSession().getServletContext().getRealPath("/");
+                String sharespace = appProps.getProperty("customercertificate.dbpath").replace("${customer_id}", String.valueOf(customer_id));
+                savePath = savePath + sharespace;
+                logger.info("savePath=" + savePath);
+
+                Map<String , Object> map = this.commonService.saveFile(file_upload , savePath);
+                if(map != null) {
+                    String annex_name = (String)map.get("annexName");
+                    String file_name = (String)map.get("file_name");
+                    String db_url = sharespace + file_name;
+                    this.customerManageDao.addCustomerCertificateUrl(customer_id, annex_name, db_url);
+                }
+            }
+            return customer_id;
+       } catch (Exception e) {
             logger.info(e.getMessage() , e);
-            return 0;
-        }
+       }
+       return 0;
     }
 
     public CustomerInfo getCustomrInfobyId(long id) {
