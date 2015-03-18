@@ -4,6 +4,8 @@ import com.carfinance.module.common.domain.City;
 import com.carfinance.module.common.domain.Org;
 import com.carfinance.module.common.domain.UserRole;
 import com.carfinance.module.common.service.CommonService;
+import com.carfinance.module.customermanage.domain.CustomerInfo;
+import com.carfinance.module.customermanage.service.CustomerManageService;
 import com.carfinance.module.init.service.InitService;
 import com.carfinance.module.login.domain.User;
 import com.carfinance.module.storemanage.service.StoreManageService;
@@ -39,6 +41,8 @@ public class VehicleServiceManageController {
     private VehicleServiceManageService vehicleServiceManageService;
 	@Autowired
 	private Properties appProps;
+    @Autowired
+    private CustomerManageService customerManageService;
 
     /**
      * 车辆预约单列表首页
@@ -1867,5 +1871,16 @@ public class VehicleServiceManageController {
 
         model.addAttribute("detail_list" , detail_list);
         return "/module/vehicleservicemanage/propertycontrace/paymentdetail";
+    }
+
+    @RequestMapping(value = "/contrace/audit/tocustomerdetail" , method = RequestMethod.GET)
+    public String contraceAuditToCustomerDetail(Model model , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        String customer_cer_no = request.getParameter("customer_cer_no");
+        CustomerInfo customerInfo = this.customerManageService.getCustomrInfobyCertificateNo(customer_cer_no);
+
+        long id = customerInfo == null ? 0 : customerInfo.getId();
+        return "redirect:/customer/info/detail?id=" + id;
     }
 }

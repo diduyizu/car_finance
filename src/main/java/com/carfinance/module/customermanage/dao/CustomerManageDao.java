@@ -117,6 +117,17 @@ public class CustomerManageDao extends BaseJdbcDaoImpl {
         }
     }
 
+    public CustomerInfo getCustomrInfobyCertificateNo(String certificate_no) {
+        try{
+            String sql = "select * from customer_info where certificate_no = ?";
+            Object[] o = new Object[] { certificate_no };
+            logger.info(sql.replaceAll("\\?", "{}"), o);
+            return this.getJdbcTemplate().queryForObject(sql , o , new CustomerInfoRowMapper());
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
+    }
+
     public int modifyCustomerInfo(long id , String certificate_type , String certificate_no , String customer_name , String customer_dn , String customer_email , String customer_type , String customer_house , String customer_vehicle , String customer_guarantee , String vip_no , long update_by) {
         String sql = "update customer_info t set t.certificate_type = ? , t.certificate_no = ? , t.customer_name = ? , t.customer_dn = ? , t.customer_email = ? , t.customer_type = ? , customer_house = ? , customer_vehicle = ? , customer_guarantee = ? , t.update_by = ? , t.vip_no = ? where t.id = ?";
         Object[] o = new Object[] { certificate_type , certificate_no , customer_name , customer_dn , customer_email , customer_type , customer_house , customer_vehicle , customer_guarantee , update_by , vip_no , id };

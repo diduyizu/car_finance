@@ -97,6 +97,10 @@ public class CustomerManageService {
         return this.customerManageDao.getCustomrInfobyId(id);
     }
 
+    public CustomerInfo getCustomrInfobyCertificateNo(String certificate_no) {
+        return this.customerManageDao.getCustomrInfobyCertificateNo(certificate_no);
+    }
+
 //    public int modifyCustomerInfo(long id , String certificate_type , String certificate_no , String customer_name , String customer_dn , String customer_email , String customer_type , String customer_house , String customer_vehicle , String customer_guarantee , String vip_no , long create_by) {
 //        try{
 //            CustomerInfo customerInfo = this.customerManageDao.getCustomrInfobyId(id);

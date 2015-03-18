@@ -222,7 +222,7 @@ public class CustomerManageController {
         long customer_id = Long.valueOf(request.getParameter("id"));
         CustomerInfo customerInfo = this.customerManageService.getCustomrInfobyId(customer_id);
         List<CustomerAnnex> customer_annex_list = this.customerManageService.getCustomrAnnexListbyCustomerId(customer_id);
-        String certificate_no = customerInfo.getCertificate_no();//证件号码
+        String certificate_no = customerInfo == null ? "" : customerInfo.getCertificate_no();//证件号码
         //根据证件号码，查询该用户办理过的业务，即租过的车，需要查询零租以及产权租
         List<VehicleContraceInfo> vehicle_contrace_list = this.customerManageService.getVehicleContraceListByCustomerCerNo(certificate_no);
         List<PropertyContraceInfo> property_contrace_list = this.customerManageService.getPropertyContraceListByCustomerCerNo(certificate_no);
