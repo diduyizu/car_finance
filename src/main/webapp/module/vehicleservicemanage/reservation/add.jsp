@@ -45,6 +45,12 @@
             $('#customer_name').typeahead({
                 source: customer_name_json
             });
+
+            var user_employee_id_name_json = ${user_employee_id_name_json};
+            console.info(user_employee_id_name_json);
+            $('#employee_id_name').typeahead({
+                source: user_employee_id_name_json
+            });
         })
     </script>
 </head>
@@ -85,10 +91,12 @@
                 </td>
             </tr>
             <tr>
-                <td class="tableleft">业务员id</td>
-                <td><input type="text" name="employee_id" id="employee_id" value="0" /></td>
-                <td class="tableleft">业务员姓名</td>
-                <td><input type="text" name="employee_name" id="employee_name" /></td>
+                <td class="tableleft">业务员姓名/工号</td>
+                <td colspan="5"><input type="text" name="employee_id_name" id="employee_id_name" placeholder="必填" required /></td>
+                <%--<td class="tableleft">业务员id</td>--%>
+                <%--<td><input type="text" name="employee_id" id="employee_id" value="0" /></td>--%>
+                <%--<td class="tableleft">业务员姓名</td>--%>
+                <%--<td><input type="text" name="employee_name" id="employee_name" /></td>--%>
             </tr>
             <tr>
                 <td class="tableleft">描述</td>
@@ -151,8 +159,12 @@
             var customer_dn=$.trim($('#customer_dn').val());
             var use_begin_date=$.trim($('#use_begin_date').val());
             var use_end_date=$.trim($('#use_end_date').val());
-            var employee_id=$.trim($('#employee_id').val());
-            var employee_name=$.trim($('#employee_name').val());
+
+            var employee_id_name = $.trim($('#employee_id_name').val());
+            var employee_id = employee_id_name.split("|")[0];
+            var employee_name = employee_id_name.split("|")[1];
+//            var employee_id=$.trim($('#employee_id').val());
+//            var employee_name=$.trim($('#employee_name').val());
             var remark=$.trim($('#remark').val());
 
             $.ajax({

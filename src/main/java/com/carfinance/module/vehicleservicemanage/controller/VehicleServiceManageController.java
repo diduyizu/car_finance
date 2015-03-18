@@ -169,10 +169,12 @@ public class VehicleServiceManageController {
         List<City> city_list = this.commonService.getSysUsedCityList();
 
         String customer_name_json = this.commonService.getAllCustomerName();
+        String user_employee_id_name_json = this.commonService.getAllEmployeeIdAndName();
 
         model.addAttribute("city_list" , city_list);
         model.addAttribute("user_all_org_list" , user_all_org_list);
         model.addAttribute("customer_name_json" , customer_name_json);
+        model.addAttribute("user_employee_id_name_json" , user_employee_id_name_json);
         return "/module/vehicleservicemanage/reservation/add";
     }
 
