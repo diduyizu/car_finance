@@ -66,8 +66,11 @@
     <form class="cmxform form-horizontal">
         <table class="table table-bordered table-hover definewidth m10">
             <tr>
+                <td class="tableleft" colspan="6">车辆基本信息</td>
+            </tr>
+            <tr>
                 <td class="tableleft">所属门店</td>
-                <td>
+                <td colspan="5">
                     <select id="original_org" name="original_org">
                         <c:forEach var="org" items="${user_all_org_list}" varStatus="status">
                             <option value="${org.org_id}">${org.org_name}</option>
@@ -90,6 +93,35 @@
                 <td><input type="text" name="carframe_no" id="carframe_no" placeholder="必填" required="true"/></td>
                 <td class="tableleft">发动机号</td>
                 <td><input type="text" name="engine_no" id="engine_no" placeholder="必填" required="true"/></td>
+            </tr>
+            <tr>
+                <td class="tableleft">公里数</td>
+                <td><input type="text" name="km" id="km" placeholder="必填" required="true"/></td>
+                <td class="tableleft">存货编码</td>
+                <td><input type="text" name="inventory_no" id="inventory_no" /></td>
+                <td class="tableleft">检验单</td>
+                <td><input type="text" name="check_list" id="check_list" /></td>
+            </tr>
+            <tr>
+                <td class="tableleft">登记证书</td>
+                <td><input type="text" name="registry_certificate" id="registry_certificate" /></td>
+                <td class="tableleft">登记证书去向</td>
+                <td><input type="text" name="certificate_direction" id="certificate_direction" /></td>
+                <td class="tableleft">关单/合格/一致性证书</td>
+                <td><input type="text" name="consistency_cer" id="consistency_cer" /></td>
+            </tr>
+            <tr>
+                <td class="tableleft">完税证明/小本</td>
+                <td><input type="text" name="duty_paid_proof" id="duty_paid_proof" /></td>
+                <td class="tableleft">记录</td>
+                <td><input type="text" name="record" id="record" /></td>
+                <td class="tableleft">备注</td>
+                <td><input type="text" name="remark" id="remark"/></td>
+            </tr>
+        </table>
+        <table class="table table-bordered table-hover definewidth m10">
+            <tr>
+                <td class="tableleft" colspan="6">车辆购买信息</td>
             </tr>
             <tr>
                 <td class="tableleft">购买日期</td>
@@ -121,6 +153,11 @@
                 </td>
                 <td class="tableleft">车购价</td>
                 <td><input type="text" name="vehicle_price" id="vehicle_price" placeholder="必填" required="true"/></td>
+            </tr>
+        </table>
+        <table class="table table-bordered table-hover definewidth m10">
+            <tr>
+                <td class="tableleft" colspan="6">车辆保险信息</td>
             </tr>
             <tr>
                 <td class="tableleft">交强险</td>
@@ -163,13 +200,23 @@
                 <td class="tableleft">保险公司</td>
                 <td><input type="text" name="insurance_company" id="insurance_company" placeholder="必填" required="true"/></td>
             </tr>
+        </table>
+        <table class="table table-bordered table-hover definewidth m10">
             <tr>
-                <td class="tableleft">公里数</td>
-                <td><input type="text" name="km" id="km" placeholder="必填" required="true"/></td>
+                <td class="tableleft" colspan="6">车辆使用情况</td>
+            </tr>
+            <tr>
                 <td class="tableleft">保养剩余公里数</td>
                 <td><input type="text" name="maintian_on_km" id="maintian_on_km" placeholder="必填" required="true"/></td>
                 <td class="tableleft">下次保养公里数</td>
                 <td><input type="text" name="next_main_km" id="next_main_km" placeholder="必填" required="true"/></td>
+                <td class="tableleft">是否有违章待处理</td>
+                <td>
+                    <select id="peccancy_status" name="peccancy_status">
+                        <option value="0">无</option>
+                        <option value="1">有</option>
+                    </select>
+                </td>
             </tr>
             <tr>
                 <td class="tableleft">GPS状态</td>
@@ -196,37 +243,6 @@
                         </c:forEach>
                     </select>
                 </td>
-            </tr>
-            <tr>
-                <%--<td width="10%" class="tableleft">档案编号</td>--%>
-                <%--<td><input type="text" name="archive_no" id="archive_no" required="true"/></td>--%>
-                <td class="tableleft">是否有违章待处理</td>
-                <td>
-                    <select id="peccancy_status" name="peccancy_status">
-                        <option value="0">无</option>
-                        <option value="1">有</option>
-                    </select>
-                </td>
-                <td class="tableleft">存货编码</td>
-                <td><input type="text" name="inventory_no" id="inventory_no" /></td>
-                <td class="tableleft">检验单</td>
-                <td><input type="text" name="check_list" id="check_list" /></td>
-            </tr>
-            <tr>
-                <td class="tableleft">登记证书</td>
-                <td><input type="text" name="registry_certificate" id="registry_certificate" /></td>
-                <td class="tableleft">登记证书去向</td>
-                <td><input type="text" name="certificate_direction" id="certificate_direction" /></td>
-                <td class="tableleft">关单/合格/一致性证书</td>
-                <td><input type="text" name="consistency_cer" id="consistency_cer" /></td>
-            </tr>
-            <tr>
-                <td class="tableleft">完税证明/小本</td>
-                <td><input type="text" name="duty_paid_proof" id="duty_paid_proof" /></td>
-                <td class="tableleft">记录</td>
-                <td><input type="text" name="record" id="record" /></td>
-                <td class="tableleft">备注</td>
-                <td><input type="text" name="remark" id="remark"/></td>
             </tr>
             <tr>
                 <td class="tableleft"></td>
