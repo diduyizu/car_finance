@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="<c:url value="/resources/Css/bootstrap-responsive.css" />" />
     <link rel="stylesheet" type="text/css" href="<c:url value="/resources/Css/style.css" />" />
     <link rel="stylesheet" type="text/css" href="<c:url value="/resources/Css/datepicker.css" />" />
+    <link rel="stylesheet" type="text/css" href="<c:url value="/resources/Css/datetimepicker.css" />" />
 
     <%--<script type="text/javascript" src="<c:url value="/resources/Js/jquery.js" />"></script>--%>
     <script type="text/javascript" src="<c:url value="/resources/Js/jquery-1.7.1.js" />"></script>
@@ -16,6 +17,8 @@
     <script type="text/javascript" src="<c:url value="/resources/Js/common.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/Js/bootstrap-datepicker.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/Js/bootstrap-typeahead.js" />"></script>
+    <script type="text/javascript" src="<c:url value="/resources/Js/bootstrap-datetimepicker.js" />"></script>
+    <script type="text/javascript" src="<c:url value="/resources/Js/bootstrap-datetimepicker.zh-CN.js" />"></script>
 
  
 
@@ -68,10 +71,11 @@
             <tr>
                 <td class="tableleft">违章时间</td>
                 <td>
-                    <div class="input-append date" id="peccancy_at" data-date-format="yyyy-mm-dd">
-                        <input class="span2" size="16" type="text" id="peccancy_at_date" name="peccancy_at_date" placeholder="必填" required="true" readonly>
-                        <span class="add-on"><i class="icon-th"></i></span>
-                    </div>
+                    <%--<div class="input-append date" id="peccancy_at" data-date-format="yyyy-mm-dd">--%>
+                        <%--<input class="span2" size="16" type="text" id="peccancy_at_date" name="peccancy_at_date" placeholder="必填" required="true" readonly>--%>
+                        <%--<span class="add-on"><i class="icon-th"></i></span>--%>
+                    <%--</div>--%>
+                    <input class="form_datetime" size="16" type="text" id="peccancy_at_date" name="peccancy_at_date" placeholder="必填" value="${vehicleReservationInfo.use_begin}" required="true" readonly>
                 </td>
                 <td class="tableleft">违章地点</td>
                 <td><input type="text" name="peccancy_place" id="peccancy_place" placeholder="必填" required/></td>
@@ -129,9 +133,37 @@
         window.prettyPrint && prettyPrint();
         $('#peccancy_at').datepicker();
 
+        $('.form_datetime').datetimepicker({
+            format: 'yyyy-mm-dd hh:ii',
+            language: 'zh-CN',
+            pickDate: true,
+            pickTime: true,
+            hourStep: 1,
+            minuteStep: 15,
+            secondStep: 30,
+            inputMask: true
+        });
+
 		$('#backid').click(function(){
             window.location.href="${ctx}/vehicle/peccancy/index";
 		});
+
+        $('#peccancy_place').focus(function(){
+            var license_plate=$.trim($('#license_plate').val());
+            var peccancy_at_date=$.trim($('#peccancy_at_date').val());
+
+            $.ajax({
+                url:"${ctx}/vehicle/peccancy/timegetcustomer",
+                type: "post",
+                data:{license_plate:license_plate,peccancy_at_date:peccancy_at_date},
+                success:function(data){
+                    $('#customer_id_name').val(data);
+                }
+            })
+
+        });
+
+
 
         $('#save').click(function(){
             var carframe_no=$.trim($('#carframe_no').val());

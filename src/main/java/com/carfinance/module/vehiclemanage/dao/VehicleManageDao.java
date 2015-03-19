@@ -8,6 +8,8 @@ import com.carfinance.module.vehiclemanage.domain.VehicleInsurance;
 import com.carfinance.module.vehiclemanage.domain.VehicleInsuranceRowMapper;
 import com.carfinance.module.vehiclemanage.domain.VehiclePeccancy;
 import com.carfinance.module.vehiclemanage.domain.VehiclePeccancyRowMapper;
+import com.carfinance.module.vehicleservicemanage.domain.VehicleContraceVehsInfo;
+import com.carfinance.module.vehicleservicemanage.domain.VehicleContraceVehsInfoRowMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -670,4 +672,10 @@ public class VehicleManageDao extends BaseJdbcDaoImpl {
         return this.getJdbcTemplate().update(sql, o);
     }
 
+    public List<VehicleContraceVehsInfo> getContraceVehicles(String license_plate , String peccancy_at) {
+        String sql = "select * from vehicle_contrace_vehs where create_at < date_format(?,'%Y-%m-%d %H:%i') and date_format(?,'%Y-%m-%d %H:%i') < return_time and license_plate = ? ";
+        Object[] o = new Object[] { peccancy_at , peccancy_at , license_plate };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().query(sql, o , new VehicleContraceVehsInfoRowMapper());
+    }
 }

@@ -861,4 +861,22 @@ public class VehicleManageController {
                 maintain_content, maintain_price, current_km, next_maintain_km, user_id, user_name, user.getUser_id());
     }
 
+    /**
+     * 根据录入违章时间，获取该时间段租赁合同的客户姓名/证件号
+     * @param model
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/peccancy/timegetcustomer" , method = RequestMethod.POST)
+    @ResponseBody
+    public String peccancyTimeGetCustomer(Model model , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        String license_plate = request.getParameter("license_plate");
+        String peccancy_at = request.getParameter("peccancy_at_date");
+
+        return this.vehicleManageService.peccancyTimeGetCustomer(license_plate, peccancy_at);
+    }
+
 }

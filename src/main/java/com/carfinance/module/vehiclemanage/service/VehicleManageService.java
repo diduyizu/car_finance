@@ -9,6 +9,9 @@ import com.carfinance.module.vehiclemanage.dao.VehicleManageDao;
 import com.carfinance.module.vehiclemanage.domain.VehicleInfo;
 import com.carfinance.module.vehiclemanage.domain.VehicleInsurance;
 import com.carfinance.module.vehiclemanage.domain.VehiclePeccancy;
+import com.carfinance.module.vehicleservicemanage.dao.VehicleServiceManageDao;
+import com.carfinance.module.vehicleservicemanage.domain.VehicleContraceInfo;
+import com.carfinance.module.vehicleservicemanage.domain.VehicleContraceVehsInfo;
 import com.carfinance.utils.DateUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,6 +41,8 @@ public class VehicleManageService {
     private CommonDao commonDao;
     @Autowired
     private Properties appProps;
+    @Autowired
+    private VehicleServiceManageDao vehicleServiceManageDao;
 
     /**
      * 获取某组织下车辆列表
@@ -177,7 +182,7 @@ public class VehicleManageService {
                                   String employee_id , String employee_name , long customer_id , String customer_name) {
 
         try{
-            Date peccancy_at_date = DateUtil.string2Date(peccancy_at , "yyyy-MM-dd");
+            Date peccancy_at_date = DateUtil.string2Date(peccancy_at , "yyyy-MM-dd HH:mm");
             int result = this.vehicleManageDao.addVehiclePeccancy(carframe_no , engine_no , license_plate , peccancy_at_date ,
                     peccancy_place , peccancy_reason , score , status , create_by , peccancy_price , arbitration ,
                     employee_id , employee_name , customer_id , customer_name);
@@ -320,6 +325,25 @@ public class VehicleManageService {
             logger.info(e.getMessage() , e);
             return 0;
         }
+    }
+
+    public String peccancyTimeGetCustomer(String license_plate , String peccancy_at) {
+        String customer_name_cer_no = "";
+        try{
+//            Date peccancy_at_date = DateUtil.string2Date(peccancy_at , "yyyy-MM-dd HH:mm");
+            //根据车牌，违章时间，查询合同车辆表，得到违章时间所属的合同id
+            //然后再根据合同id，到合同主表中查询客户姓名和客户证件号码
+            List<VehicleContraceVehsInfo> vehicleContraceVehsInfoList = this.vehicleManageDao.getContraceVehicles(license_plate , peccancy_at);
+            VehicleContraceVehsInfo vehicleContraceVehsInfo = vehicleContraceVehsInfoList.get(0);
+            if(vehicleContraceVehsInfo != null) {
+                long contrace_id = vehicleContraceVehsInfo.getContrace_id();
+                VehicleContraceInfo vehicleContraceInfo = this.vehicleServiceManageDao.getVehicleContraceInfoById(contrace_id);
+                customer_name_cer_no = vehicleContraceInfo.getCustomer_name() + "|" + vehicleContraceInfo.getCustomer_cer_no();
+            }
+        } catch(Exception e) {
+            logger.error(e.getMessage() , e);
+        }
+        return customer_name_cer_no;
     }
 
 }
