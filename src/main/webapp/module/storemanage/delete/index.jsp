@@ -60,7 +60,9 @@
             <td>${store.org_country_name}</td>
             <td>${store.org_address}</td>
             <td>
-                <button type="button" class="btn btn-success delete" value="${store.org_id}">删除</button>
+                <c:if test="${store.org_id >= 100000}">
+                    <button type="button" class="btn btn-success delete" value="${store.org_id}">删除</button>
+                </c:if>
             </td>
         </tr>
     </c:forEach>

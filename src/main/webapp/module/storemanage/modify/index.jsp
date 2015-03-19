@@ -60,8 +60,9 @@
             <td>${store.org_country_name}</td>
             <td>${store.org_address}</td>
             <td>
-                <a href="${ctx}/store/modify?org_id=${store.org_id}">修改</a>
-                <%--<button type="button" class="btn btn-success modify" value="${store.org_id}">修改</button>--%>
+                <c:if test="${store.org_id >= 100000}">
+                    <a href="${ctx}/store/modify?org_id=${store.org_id}">修改</a>
+                </c:if>
             </td>
         </tr>
     </c:forEach>
