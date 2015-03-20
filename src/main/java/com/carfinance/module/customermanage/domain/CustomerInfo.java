@@ -28,6 +28,79 @@ public class CustomerInfo implements Serializable{
     private String vip_no;
     private List<CustomerAnnex> customer_annex_list;
 
+    private String identity_name;
+    private String identity_url;
+    private String house_property_name;
+    private String house_property_url;
+    private String driving_license_name;
+    private String driving_license_url;
+    private String other_name;
+    private String other_url;
+
+    public String getDriving_license_name() {
+        return driving_license_name;
+    }
+
+    public void setDriving_license_name(String driving_license_name) {
+        this.driving_license_name = driving_license_name;
+    }
+
+    public String getIdentity_name() {
+        return identity_name;
+    }
+
+    public void setIdentity_name(String identity_name) {
+        this.identity_name = identity_name;
+    }
+
+    public String getIdentity_url() {
+        return identity_url;
+    }
+
+    public void setIdentity_url(String identity_url) {
+        this.identity_url = identity_url;
+    }
+
+    public String getHouse_property_name() {
+        return house_property_name;
+    }
+
+    public void setHouse_property_name(String house_property_name) {
+        this.house_property_name = house_property_name;
+    }
+
+    public String getHouse_property_url() {
+        return house_property_url;
+    }
+
+    public void setHouse_property_url(String house_property_url) {
+        this.house_property_url = house_property_url;
+    }
+
+    public String getDriving_license_url() {
+        return driving_license_url;
+    }
+
+    public void setDriving_license_url(String driving_license_url) {
+        this.driving_license_url = driving_license_url;
+    }
+
+    public String getOther_name() {
+        return other_name;
+    }
+
+    public void setOther_name(String other_name) {
+        this.other_name = other_name;
+    }
+
+    public String getOther_url() {
+        return other_url;
+    }
+
+    public void setOther_url(String other_url) {
+        this.other_url = other_url;
+    }
+
     public String getCertificate_url() {
         return certificate_url;
     }

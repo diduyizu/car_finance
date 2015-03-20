@@ -142,9 +142,25 @@ public class CustomerManageDao extends BaseJdbcDaoImpl {
         return this.getJdbcTemplate().query(sql, o, new CustomerAnnexRowMapper());
     }
 
-    public void updateCustomerAnnex(long customer_id , String annex_name , String url) {
-        String sql = "insert into customer_annex (customer_id , annex_name , url) values (?,?,?)";
-        Object[] o = new Object[] { customer_id , annex_name , url };
+//    public void updateCustomerAnnex(long customer_id , String annex_name , String url) {
+//        String sql = "insert into customer_annex (customer_id , annex_name , url) values (?,?,?)";
+//        Object[] o = new Object[] { customer_id , annex_name , url };
+//        logger.info(sql.replaceAll("\\?", "{}"), o);
+//        this.getJdbcTemplate().update(sql, o);
+//    }
+    public void updateCustomerAnnex(long customer_id , String annex_name , String url , int annex_no) {
+        String sql = "";
+        if(annex_no == 0) {
+            sql = "update customer_info  set identity_name = ? , identity_url = ? where id = ?";
+        } else if(annex_no == 1) {
+            sql = "update customer_info  set house_property_name = ? , house_property_url = ? where id = ?";
+        } else if(annex_no == 2) {
+            sql = "update customer_info  set driving_license_name = ? , driving_license_url = ? where id = ?";
+        } else if(annex_no == 3) {
+            sql = "update customer_info  set other_name = ? , other_url = ? where id = ?";
+        }
+
+        Object[] o = new Object[] { annex_name , url , customer_id };
         logger.info(sql.replaceAll("\\?", "{}"), o);
         this.getJdbcTemplate().update(sql, o);
     }

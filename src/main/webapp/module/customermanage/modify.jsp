@@ -86,10 +86,10 @@
                 <td colspan="5">
                     <div class="fileupload fileupload-new" data-provides="fileupload">
                         <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
-                            <c:if test="${customer_info.certificate_url != null || '' != customer_info.certificate_url}">
+                            <c:if test="${customer_info.certificate_url != null && '' != customer_info.certificate_url}">
                                 <img src="${ctx}${customer_info.certificate_url}" alt="${customer_info.certificate_name}" />
                             </c:if>
-                            <c:if test="${customer_info.certificate_url == null && '' == customer_info.certificate_url}">
+                            <c:if test="${customer_info.certificate_url == null || '' == customer_info.certificate_url}">
                                 <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image" alt="" />
                             </c:if>
                         </div>

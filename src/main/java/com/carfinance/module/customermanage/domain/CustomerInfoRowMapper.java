@@ -30,6 +30,33 @@ public class CustomerInfoRowMapper implements RowMapper<CustomerInfo>{
         customerInfo.setCertificate_url(rs.getString("certificate_url"));
         customerInfo.setCertificate_name(rs.getString("certificate_name"));
 
+
+        try{
+            customerInfo.setIdentity_name(rs.getString("identity_name"));
+        } catch(Exception e) {}
+        try{
+            customerInfo.setIdentity_url(rs.getString("identity_url"));
+        } catch(Exception e) {}
+        try{
+            customerInfo.setHouse_property_name(rs.getString("house_property_name"));
+        } catch(Exception e) {}
+        try{
+            customerInfo.setHouse_property_url(rs.getString("house_property_url"));
+        } catch(Exception e) {}
+        try{
+            customerInfo.setDriving_license_name(rs.getString("driving_license_name"));
+        } catch(Exception e) {}
+        try{
+            customerInfo.setDriving_license_url(rs.getString("driving_license_url"));
+        } catch(Exception e) {}
+        try{
+            customerInfo.setOther_name(rs.getString("other_name"));
+        } catch(Exception e) {}
+        try{
+            customerInfo.setOther_url(rs.getString("other_url"));
+        } catch(Exception e) {}
+
+
         return customerInfo;
 	}
 }

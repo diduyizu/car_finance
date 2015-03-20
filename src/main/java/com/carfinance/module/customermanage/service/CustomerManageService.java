@@ -169,7 +169,10 @@ public class CustomerManageService {
                     String annex_name = (String)map.get("annexName");
                     String file_name = (String)map.get("file_name");
                     String db_url = sharespace + file_name;
-                    this.customerManageDao.updateCustomerAnnex(customer_id , annex_name , db_url);
+
+                    //根据i都值，确定更新哪一个字段
+                    //i从0-3，客户附件总共4个
+                    this.customerManageDao.updateCustomerAnnex(customer_id , annex_name , db_url , i);
                 }
             }
         }

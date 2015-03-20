@@ -68,37 +68,43 @@
         <table class="table table-bordered table-hover definewidth m10">
             <tr>
                 <td width="15%" class="tableleft">证件照</td>
-                <c:if test="${fn:length(customer_annex_list) == 0}">
-                    <td>
-                        <c:if test="${customer_info.certificate_url != null && '' != customer_info.certificate_url}">
-                            <img src="${ctx}${customer_info.certificate_url}" alt="${customer_info.certificate_name}">
-                        </c:if>
-                    </td>
-                </c:if>
-                <c:if test="${fn:length(customer_annex_list) != 0}">
-                    <td colspan="${fn:length(customer_annex_list)}">
-                        <c:if test="${customer_info.certificate_url != null && '' != customer_info.certificate_url}">
-                            <img src="${ctx}${customer_info.certificate_url}" alt="${customer_info.certificate_name}">
-                        </c:if>
-                    </td>
-                </c:if>
+                <td colspan="3">
+                    <c:if test="${customer_info.certificate_url != null && '' != customer_info.certificate_url}">
+                        <img src="${ctx}${customer_info.certificate_url}" alt="${customer_info.certificate_name}">
+                    </c:if>
+                </td>
             </tr>
             <tr>
-                <td class="tableleft">资产证明</td>
-                <c:if test="${fn:length(customer_annex_list) == 0}">
-                    <td></td>
-                </c:if>
-                <c:if test="${fn:length(customer_annex_list) != 0}">
-                    <c:forEach var="annex" items="${customer_annex_list}" varStatus="status">
-                        <td>
-                            <img src="${ctx}${annex.url}" alt="${annex.annex_name}">
-                        </td>
-                    </c:forEach>
-                </c:if>
+                <td class="tableleft">身份证明</td>
+                <td>
+                    <c:if test="${customer_info.identity_url != null && '' != customer_info.identity_url}">
+                        <img src="${ctx}${customer_info.identity_url}" alt="${customer_info.identity_name}">
+                    </c:if>
+                </td>
+                <td class="tableleft">房产证明</td>
+                <td>
+                    <c:if test="${customer_info.house_property_url != null && '' != customer_info.house_property_url}">
+                        <img src="${ctx}${customer_info.house_property_url}" alt="${customer_info.house_property_name}">
+                    </c:if>
+                </td>
+            </tr>
+            <tr>
+                <td class="tableleft">车辆证明</td>
+                <td>
+                    <c:if test="${customer_info.driving_license_url != null && '' != customer_info.driving_license_url}">
+                        <img src="${ctx}${customer_info.driving_license_url}" alt="${customer_info.driving_license_name}">
+                    </c:if>
+                </td>
+                <td class="tableleft">其他证明</td>
+                <td>
+                    <c:if test="${customer_info.other_url != null && '' != customer_info.other_url}">
+                        <img src="${ctx}${customer_info.other_url}" alt="${customer_info.other_name}">
+                    </c:if>
+                </td>
             </tr>
             <tr>
                 <td class="tableleft"></td>
-                <td colspan="5">
+                <td colspan="3">
                     <button type="button" class="btn btn-success" id="backid">返回列表</button>
                 </td>
             </tr>

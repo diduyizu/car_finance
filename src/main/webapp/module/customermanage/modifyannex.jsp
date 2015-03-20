@@ -47,7 +47,12 @@
                 <td>
                     <div class="fileupload fileupload-new" data-provides="fileupload">
                         <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
-                            <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image" alt="" />
+                            <c:if test="${customer_info.identity_url != null && '' != customer_info.identity_url}">
+                                <img src="${ctx}${customer_info.identity_url}" alt="${customer_info.identity_name}" />
+                            </c:if>
+                            <c:if test="${customer_info.identity_url == null || '' == customer_info.identity_url}">
+                                <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image" alt="" />
+                            </c:if>
                         </div>
                         <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;"></div>
                         <div>
@@ -63,7 +68,12 @@
                 <td>
                     <div class="fileupload fileupload-new" data-provides="fileupload">
                         <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
-                            <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image" alt="" />
+                            <c:if test="${customer_info.house_property_url != null && '' != customer_info.house_property_url}">
+                                <img src="${ctx}${customer_info.house_property_url}" alt="${customer_info.certificate_name}" />
+                            </c:if>
+                            <c:if test="${customer_info.house_property_url == null || '' == customer_info.house_property_url}">
+                                <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image" alt="" />
+                            </c:if>
                         </div>
                         <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;"></div>
                         <div>
@@ -79,7 +89,12 @@
                 <td>
                     <div class="fileupload fileupload-new" data-provides="fileupload">
                         <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
-                            <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image" alt="" />
+                            <c:if test="${customer_info.driving_license_url != null && '' != customer_info.driving_license_url}">
+                                <img src="${ctx}${customer_info.driving_license_url}" alt="${customer_info.driving_license_name}" />
+                            </c:if>
+                            <c:if test="${customer_info.driving_license_url == null || '' == customer_info.driving_license_url}">
+                                <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image" alt="" />
+                            </c:if>
                         </div>
                         <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;"></div>
                         <div>
@@ -95,7 +110,12 @@
                 <td>
                     <div class="fileupload fileupload-new" data-provides="fileupload">
                         <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
-                            <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image" alt="" />
+                            <c:if test="${customer_info.other_url != null && '' != customer_info.other_url}">
+                                <img src="${ctx}${customer_info.other_url}" alt="${customer_info.other_name}" />
+                            </c:if>
+                            <c:if test="${customer_info.other_url == null || '' == customer_info.other_url}">
+                                <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image" alt="" />
+                            </c:if>
                         </div>
                         <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;"></div>
                         <div>

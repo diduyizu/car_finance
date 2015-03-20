@@ -199,8 +199,11 @@ public class CustomerManageController {
         long id = Long.valueOf(request.getParameter("id"));
         List<CustomerAnnex> customer_annex_list = this.customerManageService.getCustomrAnnexListbyCustomerId(id);
 
+        CustomerInfo customerInfo = this.customerManageService.getCustomrInfobyId(id);
+
         model.addAttribute("customer_annex_list" , customer_annex_list);
         model.addAttribute("customer_id" , id);
+        model.addAttribute("customer_info" , customerInfo);
         return "/module/customermanage/modifyannex";
     }
 
