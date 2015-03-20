@@ -207,7 +207,7 @@ public class PeopleManageController {
         User user = (User)request.getSession().getAttribute("user");
 
         String edited_user_id = request.getParameter("edited_user_id");//被编辑的用户id
-        return this.peopleManageService.peopleDoDelete(Long.valueOf(edited_user_id), user.getUser_id());
+        return this.peopleManageService.peopleDoDelete(user.getUser_id() , Long.valueOf(edited_user_id));
     }
 
     /**

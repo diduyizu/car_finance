@@ -60,13 +60,14 @@
             <th>操作</th>
         </tr>
     </thead>
-    <c:forEach var="user" items="${user_list}" varStatus="status">
+    <c:forEach var="org_user" items="${user_list}" varStatus="status">
         <tr>
-            <td>${user.user_id}</td>
-            <td>${user.nick_name}</td>
-            <td>${user.user_name}</td>
+            <td>${org_user.user_id}</td>
+            <td>${org_user.nick_name}</td>
+            <td>${org_user.user_name}</td>
             <td>
-                <a href="${ctx}/people/people/edit?edited_user_id=${user.user_id}">编辑</a>
+                <button type="button" class="btn btn-primary modify" value="${org_user.user_id}" >编辑</button> &nbsp;&nbsp;
+                <button type="button" class="btn btn-danger delete" value="${org_user.user_id}" >删除</button>
             </td>
         </tr>
     </c:forEach>
@@ -80,4 +81,29 @@
         var choose_org_id = $('#choose_org_id').val();
         window.location.href="${ctx}/people/people/add?org_id="+choose_org_id;
     });
+
+    $('.modify').click(function(){
+        var edited_user_id = $(this).val();
+        window.location.href="${ctx}/people/people/edit?edited_user_id="+edited_user_id;
+    })
+
+    $('.delete').click(function(){
+        if(confirm("确定要删除吗？")) {
+            var edited_user_id = $(this).val();
+            $.ajax({
+                url:"${ctx}/people/people/dodelete",
+                type: "post",
+                data:{edited_user_id:edited_user_id},
+                success:function(data){
+                    if(data > 0){
+                        alert("成功");
+                        location.reload();
+                    } else {
+                        alert("失败");
+                        return false;
+                    }
+                }
+            })
+        }
+    })
 </script>

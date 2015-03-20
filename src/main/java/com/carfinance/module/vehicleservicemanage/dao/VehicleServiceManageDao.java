@@ -660,7 +660,7 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
     }
 
     public long getcontraceVechDriverCount(long original_org) {
-        String sql = "select count(1) from users a , user_role b where a.user_id = b.user_id and b.org_id = ? and a.driver_status = 0 and b.role_id = 20207 ";
+        String sql = "select count(1) from users a , user_role b where a.user_id = b.user_id and b.org_id = ? and a.status = 1 and a.driver_status = 0 and b.role_id = 20207 ";
         Object[] o = new Object[] { original_org };
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().queryForLong(sql, o);
@@ -669,7 +669,7 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
     public List<UserDriver> getcontraceVechDriverList(long original_org , int start , int size) {
         String sql = "select a.user_id , a.user_name , a.employee_id , a.driver_status , a.driver_license_no " +
                 "from users a , user_role b " +
-                "where a.user_id = b.user_id and b.org_id = ? and a.driver_status = 0 and b.role_id = 20207 ";
+                "where a.user_id = b.user_id and b.org_id = ? and a.driver_status = 0 and b.role_id = 20207 and a.status = 1 ";
         List<Object> param = new ArrayList<Object>();
         param.add(original_org);
 
@@ -706,7 +706,7 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
     }
 
     public int updateUserDriverStatus(long driver_user_id , int status) {
-        String sql = "update users set driver_status = ? where user_id = ?";
+        String sql = "update users set driver_status = ? where user_id = ? and status = 1 ";
         Object[] o = new Object[] { status , driver_user_id };
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().update(sql, o);
@@ -1044,7 +1044,7 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
     }
 
     public List<PropertyPaymentDetail> getContracePropertyPaymentDetail(long contrace_id , int start, int size) {
-        String sql = "select a.* , b.user_name from property_contrace_repayment_log a , users b where contrace_id = ? and a.create_by = b.user_id order by id limit ?,? ";
+        String sql = "select a.* , b.user_name from property_contrace_repayment_log a , users b where contrace_id = ? and a.create_by = b.user_id and b.status = 1 order by id limit ?,? ";
         Object[] o = new Object[] { contrace_id , start , size };
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().query(sql, o, new PropertyPaymentDetailRowMapper());

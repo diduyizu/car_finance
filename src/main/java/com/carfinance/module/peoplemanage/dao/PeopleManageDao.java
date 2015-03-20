@@ -58,11 +58,11 @@ public class PeopleManageDao extends BaseJdbcDaoImpl {
         Object[] o;
         if(user_name == null || "".equals(user_name.trim())) {
             sql = "select distinct c.user_id  , c.login_name , c.login_pwd , c.user_name , c.nick_name , c.head_url , c.birthday , c.address , c.email " +
-                    "from user_role a , sys_org b , users c where a.org_id = b.org_id and a.user_id = c.user_id and a.org_id = ? and b.status = 0 order by c.user_id limit ?,?";
+                    "from user_role a , sys_org b , users c where a.org_id = b.org_id and a.user_id = c.user_id and a.org_id = ? and b.status = 0 and c.status = 1 order by c.user_id limit ?,?";
             o = new Object[] { org_id , start , size };
         } else {
             sql = "select distinct c.user_id  , c.login_name , c.login_pwd , c.user_name , c.nick_name , c.head_url , c.birthday , c.address , c.email " +
-                    "from user_role a , sys_org b , users c where a.org_id = b.org_id and a.user_id = c.user_id and a.org_id = ? and c.user_name = ? and b.status = 0 order by c.user_id limit ?,?";
+                    "from user_role a , sys_org b , users c where a.org_id = b.org_id and a.user_id = c.user_id and a.org_id = ? and c.user_name = ? and b.status = 0 and c.status = 1 order by c.user_id limit ?,?";
             o = new Object[] { org_id , user_name , start , size };
         }
         logger.info(sql.replaceAll("\\?", "{}"), o);
@@ -120,7 +120,7 @@ public class PeopleManageDao extends BaseJdbcDaoImpl {
      * @return
      */
     public int editUser(long edit_user_id , String user_name , long userid) {
-        String sql = "update users t set t.user_name = ? where t.user_id = ?";
+        String sql = "update users t set t.user_name = ? where t.user_id = ? and status = 1";
         Object[] o = new Object[] { user_name , edit_user_id };
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().update(sql , o);
@@ -138,7 +138,6 @@ public class PeopleManageDao extends BaseJdbcDaoImpl {
         return this.getJdbcTemplate().update(sql , o);
     }
 
-
     /**
      * 获取某组织下用户总数
      * @param org_id
@@ -149,11 +148,11 @@ public class PeopleManageDao extends BaseJdbcDaoImpl {
         Object[] o;
         if(user_name == null || "".equals(user_name)) {
             sql = "select count(distinct a.user_id) from user_role a , users b , sys_roles c , sys_org d " +
-                    "where a.user_id = b.user_id and a.role_id = c.role_id and a.org_id = d.org_id and a.org_id = ? and a.status = 1 and d.status = 0";
+                    "where a.user_id = b.user_id and a.role_id = c.role_id and a.org_id = d.org_id and a.org_id = ? and a.status = 1 and b.status = 1 and d.status = 0";
             o = new Object[] { org_id };
         } else {
             sql = "select count(distinct a.user_id) from user_role a , users b , sys_roles c , sys_org d " +
-                    "where a.user_id = b.user_id and a.role_id = c.role_id and a.org_id = d.org_id and a.org_id = ? and b.user_name = ? and a.status = 1 and d.status = 0";
+                    "where a.user_id = b.user_id and a.role_id = c.role_id and a.org_id = d.org_id and a.org_id = ? and b.user_name = ? and a.status = 1 and b.status = 1 and d.status = 0";
             o = new Object[] { org_id };
         }
 
@@ -186,13 +185,13 @@ public class PeopleManageDao extends BaseJdbcDaoImpl {
         if(user_name == null || "".equals(user_name)) {
             sql = "select distinct a.user_id , 0 as role_id , a.org_id , b.user_name , '' as role_name , d.org_name " +
                     "from user_role a , users b , sys_roles c , sys_org d " +
-                    "where a.user_id = b.user_id and a.role_id = c.role_id and a.org_id = d.org_id and a.org_id = ? and a.status = 1 and d.status = 0 " +
+                    "where a.user_id = b.user_id and a.role_id = c.role_id and a.org_id = d.org_id and a.org_id = ? and a.status = 1 and d.status = 0 and b.status = 1 " +
                     "order by a.user_id limit ?,?";
             o = new Object[] { org_id , start , size };
         } else {
             sql = "select distinct a.user_id , 0 as role_id , a.org_id , b.user_name , '' as role_name , d.org_name " +
                     "from user_role a , users b , sys_roles c , sys_org d " +
-                    "where a.user_id = b.user_id and a.role_id = c.role_id and a.org_id = d.org_id and a.org_id = ? and b.user_name = ? and a.status = 1 and d.status = 0 " +
+                    "where a.user_id = b.user_id and a.role_id = c.role_id and a.org_id = d.org_id and a.org_id = ? and b.user_name = ? and a.status = 1 and d.status = 0 and b.status = 1 " +
                     "order by a.user_id limit ?,?";
             o = new Object[] { org_id , user_name , start , size };
         }
@@ -204,7 +203,7 @@ public class PeopleManageDao extends BaseJdbcDaoImpl {
     public List<OrgUserRole> getUserOrgRoleList(long org_id , long user_id) {
         String sql = "select a.user_id , a.role_id , a.org_id , b.user_name , c.role_name , d.org_name " +
                 "from user_role a , users b , sys_roles c , sys_org d " +
-                "where a.user_id = b.user_id and a.role_id = c.role_id and a.org_id = d.org_id and a.org_id = ? and a.user_id = ? and a.status = 1 and d.status = 0 order by a.role_id ";
+                "where a.user_id = b.user_id and a.role_id = c.role_id and a.org_id = d.org_id and a.org_id = ? and a.user_id = ? and a.status = 1 and d.status = 0 and b.status = 1 order by a.role_id ";
         Object[] o = new Object[] { org_id , user_id };
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().query(sql , o  , new OrgUserRoleRowMapper());
@@ -324,7 +323,7 @@ public class PeopleManageDao extends BaseJdbcDaoImpl {
     public List<OrgUserRole> getUserOrgRoleList(long user_id , int start, int size) {
         String sql = "select a.user_id , a.role_id , a.org_id , b.user_name , c.role_name , d.org_name " +
                 "from user_role a , users b , sys_roles c , sys_org d " +
-                "where a.user_id = b.user_id and a.role_id = c.role_id and a.org_id = d.org_id and a.user_id = ? and a.status = 1 and d.status = 0 order by a.org_id , a.role_id limit ?,? ";
+                "where a.user_id = b.user_id and a.role_id = c.role_id and a.org_id = d.org_id and a.user_id = ? and a.status = 1 and d.status = 0 and b.status = 1 order by a.org_id , a.role_id limit ?,? ";
         Object[] o = new Object[] { user_id , start , size };
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().query(sql , o  , new OrgUserRoleRowMapper());
@@ -338,7 +337,7 @@ public class PeopleManageDao extends BaseJdbcDaoImpl {
     }
 
     public int doResetPassword(long modify_user_id , String password) {
-        String sql = "update users set  login_pwd = ? where user_id = ? ";
+        String sql = "update users set  login_pwd = ? where user_id = ? and status = 1 ";
         Object[] o = new Object[] { password ,  modify_user_id};
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().update(sql , o);

@@ -101,7 +101,7 @@ public class CommonDao extends BaseJdbcDaoImpl{
      * @return
      */
     public User getUserById(long user_id) {
-        String sql = "select * from users t WHERE t.user_id = ?";
+        String sql = "select * from users t WHERE t.user_id = ? ";
         Object[] o = new Object[] { user_id };
         logger.info(sql.replaceAll("\\?", "{}"), o);
         try {
@@ -178,7 +178,7 @@ public class CommonDao extends BaseJdbcDaoImpl{
     }
 
     public List<User> getAllEmployees() {
-        String sql="select * from users where user_id != 100000 ";
+        String sql="select * from users where user_id != 100000 and status = 1 ";
         Object[] o = new Object[] { };
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().query(sql , o  , new UserRowMapper());

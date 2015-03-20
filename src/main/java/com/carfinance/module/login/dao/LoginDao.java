@@ -18,7 +18,7 @@ public class LoginDao extends BaseJdbcDaoImpl {
 	final Logger logger = LoggerFactory.getLogger(LoginDao.class);
 
 	public User getUserByName(String loginName) {
-		String sql = "select * from users t WHERE t.login_name = ?";
+		String sql = "select * from users t WHERE t.login_name = ? and status = 1";
 		Object[] o = new Object[] { loginName };
 		logger.info(sql.replaceAll("\\?", "{}"), o);
 		try {
