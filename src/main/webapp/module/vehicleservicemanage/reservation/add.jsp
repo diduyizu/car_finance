@@ -61,8 +61,17 @@
                 <td class="tableleft">所属门店</td>
                 <td>
                     <select id="original_org" name="original_org">
+                        <%--<c:forEach var="org" items="${user_all_org_list}" varStatus="status">--%>
+                            <%--<option value="${org.org_id}">${org.org_name}</option>--%>
+                        <%--</c:forEach>--%>
+
                         <c:forEach var="org" items="${user_all_org_list}" varStatus="status">
-                            <option value="${org.org_id}">${org.org_name}</option>
+                            <c:if test="${org.org_type > 12}">
+                                <option value="${org.org_id}">${org.org_city_name} ${org.org_name}</option>
+                            </c:if>
+                            <c:if test="${org.org_type < 13}">
+                                <option value="${org.org_id}">${org.org_name}</option>
+                            </c:if>
                         </c:forEach>
                     </select>
                 </td>
