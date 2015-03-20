@@ -18,6 +18,19 @@ public class OrgRowMapper implements RowMapper<Org>{
         org.setOrg_country(rs.getLong("org_country"));
         org.setOrg_address(rs.getString("org_address"));
 
+        try{
+            org.setOrg_type_name(rs.getString("org_type_name"));
+        } catch (Exception e) {}
+        try{
+            org.setOrg_province_name(rs.getString("org_province_name"));
+        } catch (Exception e) {}
+        try{
+            org.setOrg_city_name(rs.getString("org_city_name"));
+        } catch (Exception e) {}
+        try{
+            org.setOrg_country_name(rs.getString("org_country_name"));
+        } catch (Exception e) {}
+
 		return org;
 	}
 }

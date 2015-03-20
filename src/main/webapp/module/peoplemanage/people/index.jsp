@@ -38,10 +38,20 @@
     <select id="choose_org_id" name="choose_org_id">
         <c:forEach var="org" items="${user_org_list}" varStatus="status">
             <c:if test="${org.org_id == choose_org_id}">
-                <option value="${org.org_id}" selected="selected">${org.org_name}</option>
+                <c:if test="${org.org_type > 12}">
+                    <option value="${org.org_id}" selected="selected">${org.org_city_name} ${org.org_name}</option>
+                </c:if>
+                <c:if test="${org.org_type < 13}">
+                    <option value="${org.org_id}" selected="selected">${org.org_name}</option>
+                </c:if>
             </c:if>
             <c:if test="${org.org_id != choose_org_id}">
-                <option value="${org.org_id}">${org.org_name}</option>
+                <c:if test="${org.org_type > 12}">
+                    <option value="${org.org_id}"> ${org.org_city_name} ${org.org_name}</option>
+                </c:if>
+                <c:if test="${org.org_type < 13}">
+                    <option value="${org.org_id}">${org.org_name}</option>
+                </c:if>
             </c:if>
         </c:forEach>
     </select>

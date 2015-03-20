@@ -14,6 +14,43 @@ public class Org implements Serializable{
     private long org_country;
     private String org_address;
 
+    private String org_type_name;
+    private String org_province_name;
+    private String org_city_name;
+    private String org_country_name;
+
+    public String getOrg_type_name() {
+        return org_type_name;
+    }
+
+    public void setOrg_type_name(String org_type_name) {
+        this.org_type_name = org_type_name;
+    }
+
+    public String getOrg_province_name() {
+        return org_province_name;
+    }
+
+    public void setOrg_province_name(String org_province_name) {
+        this.org_province_name = org_province_name;
+    }
+
+    public String getOrg_city_name() {
+        return org_city_name;
+    }
+
+    public void setOrg_city_name(String org_city_name) {
+        this.org_city_name = org_city_name;
+    }
+
+    public String getOrg_country_name() {
+        return org_country_name;
+    }
+
+    public void setOrg_country_name(String org_country_name) {
+        this.org_country_name = org_country_name;
+    }
+
     public static long getSerialVersionUID() {
         return serialVersionUID;
     }
