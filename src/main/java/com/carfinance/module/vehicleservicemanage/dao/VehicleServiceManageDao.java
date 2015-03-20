@@ -1056,4 +1056,18 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().update(sql , o);
     }
+
+    public int updatePropertyContraceStatus(long contrace_id , int status) {
+        String sql = "update property_contrace set status = ? where id = ? ";
+        Object[] o = new Object[] { status , contrace_id };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().update(sql, o);
+    }
+
+    public int updatePropertyVehicleStatus(long vehicle_id , String vehicle_status) {
+        String sql = "update vehicle_info set lease_status = ? where id = ? ";
+        Object[] o = new Object[] {  vehicle_status , vehicle_id  };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().update(sql , o);
+    }
 }

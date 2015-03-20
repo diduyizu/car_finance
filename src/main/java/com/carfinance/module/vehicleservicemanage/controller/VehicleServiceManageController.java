@@ -1893,4 +1893,40 @@ public class VehicleServiceManageController {
         long id = customerInfo == null ? 0 : customerInfo.getId();
         return "redirect:/customer/info/detail?id=" + id;
     }
+
+    /**
+     * 产权租结单
+     * @param model
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/contrace/property/finish" , method = RequestMethod.GET)
+    public String propertyContraceFinish(Model model , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        List<Org> user_all_org_list = this.commonService.getUserAllOrgList(user.getUser_id());
+
+        long contrace_id = Long.valueOf(request.getParameter("contrace_id"));
+        PropertyContraceInfo propertyContraceInfo = this.vehicleServiceManageService.getPropertyContraceInfoById(contrace_id);
+        List<VehicleContraceVehsInfo> vehicleContraceVehsInfoList = this.vehicleServiceManageService.getVehicleContraceVehsListByContraceId(contrace_id);
+
+        model.addAttribute("user_all_org_list" , user_all_org_list);
+        model.addAttribute("property_contrace_info" , propertyContraceInfo);
+        model.addAttribute("vehicle_contrace_vehs_list" , vehicleContraceVehsInfoList);
+        return "/module/vehicleservicemanage/propertycontrace/finish";
+    }
+
+    @RequestMapping(value = "/contrace/property/dofinish" , method = RequestMethod.POST)
+    @ResponseBody
+    public int contracePropertyDoFinish(Model model , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        long contrace_id = Long.valueOf(request.getParameter("contrace_id"));
+        double should_payment = Double.valueOf(request.getParameter("should_payment"));
+        double actual_payment = Double.valueOf(request.getParameter("actual_payment"));
+        String vehicle_status = request.getParameter("vehicle_status");
+
+        return this.vehicleServiceManageService.PropertyContraceDoFinish(contrace_id , should_payment , actual_payment , vehicle_status , user.getUser_id());
+    }
 }

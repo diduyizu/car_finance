@@ -149,7 +149,7 @@
                 <td>
                     <input type="hidden" id="contrace_id" name="contrace_id" value="${property_contrace_info.id}" />
                     <input type="hidden" id="should_payment" name="should_payment" value="${property_contrace_info.arrange_payment}" />
-                    <button type="button" class="btn btn-primary" id="dorepayment">还款</button>&nbsp;&nbsp;结单前，请注意车辆租金是否已还清
+                    <button type="button" class="btn btn-primary" id="dorepayment">还款</button>
                 </td>
             </tr>
         </table>

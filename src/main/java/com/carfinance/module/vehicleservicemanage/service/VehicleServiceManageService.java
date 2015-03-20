@@ -646,4 +646,30 @@ public class VehicleServiceManageService {
             this.vehicleServiceManageDao.modifyCustomerInfo(customerInfo.getId() , certificate_type , certificate_no , customer_name , customer_dn , customer_type);
         }
     }
+
+    /**
+     * 产权租结单
+     * @param contrace_id
+     * @param should_payment
+     * @param actual_payment
+     * @param user_id
+     * @return
+     */
+    public int PropertyContraceDoFinish(long contrace_id , double should_payment , double actual_payment , String vehicle_status , long user_id) {
+        //更新产权租合同已收回期数、已收回租金、尾款金额
+        int result = this.vehicleServiceManageDao.updatePropertyContracePayment(contrace_id , actual_payment , user_id);
+        if(result > 0) {
+            //将本次还款，写入产权租还款明细表
+            this.vehicleServiceManageDao.addPropertyContraceRepaymentLog(contrace_id , should_payment , actual_payment , user_id);
+            //更新产权租合同为结单
+            this.vehicleServiceManageDao.updatePropertyContraceStatus(contrace_id , 6);
+            //更新车辆信息表
+            //根据合同ID，获取车辆列表
+            List<VehicleContraceVehsInfo> vehicleContraceVehsInfoList = this.getVehicleContraceVehsListByContraceId(contrace_id);
+            for(VehicleContraceVehsInfo vehicle : vehicleContraceVehsInfoList) {
+                this.vehicleServiceManageDao.updatePropertyVehicleStatus(vehicle.getVehicle_id() , vehicle_status);
+            }
+        }
+        return result;
+    }
 }
