@@ -43,7 +43,7 @@
     <form class="cmxform form-horizontal" action="${ctx}/customer/annex/upload" id="uploadannex" enctype="multipart/form-data" method="post">
         <table class="table table-bordered table-hover definewidth m10">
             <tr>
-                <td class="tableleft">附件</td>
+                <td class="tableleft">身份证明</td>
                 <td>
                     <div class="fileupload fileupload-new" data-provides="fileupload">
                         <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
@@ -65,6 +65,7 @@
                         </div>
                     </div>
                 </td>
+                <td class="tableleft">房产证明</td>
                 <td>
                     <div class="fileupload fileupload-new" data-provides="fileupload">
                         <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
@@ -86,6 +87,9 @@
                         </div>
                     </div>
                 </td>
+            </tr>
+            <tr>
+                <td class="tableleft">车辆证明</td>
                 <td>
                     <div class="fileupload fileupload-new" data-provides="fileupload">
                         <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
@@ -107,6 +111,7 @@
                         </div>
                     </div>
                 </td>
+                <td class="tableleft">其他证明</td>
                 <td>
                     <div class="fileupload fileupload-new" data-provides="fileupload">
                         <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
