@@ -165,6 +165,18 @@
                 <td class="tableleft">车购价</td>
                 <td><input type="text" name="vehicle_price" id="vehicle_price" placeholder="必填" required="true"/></td>
             </tr>
+            <tr>
+                <td class="tableleft">融资租赁公司</td>
+                <td><input type="text" name="financing_rent_company" id="financing_rent_company" /></td>
+                <td class="tableleft">荣祖租赁总价</td>
+                <td colspan="3"><input type="text" name="financing_rent_price" id="financing_rent_price" /></td>
+            </tr>
+            <tr>
+                <td class="tableleft">保证金</td>
+                <td><input type="text" name="bail" id="bail" /></td>
+                <td class="tableleft">月付款</td>
+                <td colspan="3"><input type="text" name="monthly_payment" id="monthly_payment" /></td>
+            </tr>
         </table>
         <table class="table table-bordered table-hover definewidth m10">
             <tr>
@@ -347,6 +359,12 @@
             var original_org=$('#original_org').val();
             var next_main_km=$.trim($('#next_main_km').val());
 
+            var financing_rent_company=$.trim($('#financing_rent_company').val());
+            var financing_rent_price=$.trim($('#financing_rent_price').val());
+            var bail=$.trim($('#bail').val());
+            var monthly_payment=$.trim($('#monthly_payment').val());
+
+
             $.ajax({
                 url:"${ctx}/vehicle/register/doadd",
                 type: "post",
@@ -358,7 +376,8 @@
                     strong_insurance:strong_insurance,vehicle_vessel_tax:vehicle_vessel_tax,strong_insurance_expire_at:strong_insurance_expire_at,
                     business_insurance:business_insurance,business_insurance_expire_at:business_insurance_expire_at,remark:remark,original_org:original_org,
                     km:km , maintian_on_km:maintian_on_km , gps:gps , current_city:current_city , current_shop:current_shop ,
-                    lease_status:lease_status , peccancy_status:peccancy_status , next_main_km:next_main_km},
+                    lease_status:lease_status , peccancy_status:peccancy_status , next_main_km:next_main_km ,
+                    financing_rent_company:financing_rent_company , financing_rent_price:financing_rent_price , bail:bail , monthly_payment:monthly_payment},
                 success:function(data){
                     if(data == 1){
                         alert("成功");

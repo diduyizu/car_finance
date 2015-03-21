@@ -199,19 +199,21 @@ public class VehicleManageDao extends BaseJdbcDaoImpl {
                           Date limited_at , double guide_price , double vehicle_price , double vehicle_tax , String insurance_company ,
                           double strong_insurance , double vehicle_vessel_tax , Date strong_insurance_expire_at , double business_insurance ,
                           Date business_insurance_expire_at , String remark , long create_by , long original_org ,
-                          long km , long maintian_on_km , String gps , long current_city , long current_shop , String lease_status , String peccancy_status , long next_main_km) {
-
+                          long km , long maintian_on_km , String gps , long current_city , long current_shop , String lease_status , String peccancy_status , long next_main_km ,
+                          String financing_rent_company , double financing_rent_price , double bail , double monthly_payment) {
         String sql = "insert into vehicle_info(archive_no , inventory_no , brand , model , color , carframe_no , engine_no , registry_certificate , " +
                 "certificate_direction , loan_bank , consistency_cer , check_list , duty_paid_proof , record , buy_at , supplier , " +
                 "license_plate , card_at , limited_at , guide_price , vehicle_price , vehicle_tax , insurance_company , strong_insurance , " +
                 "vehicle_vessel_tax , strong_insurance_expire_at , business_insurance , business_insurance_expire_at , remark , create_by , " +
-                "original_org , km , maintian_on_km , gps , current_city , current_shop , lease_status , peccancy_status , next_main_km) " +
-                "values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                "original_org , km , maintian_on_km , gps , current_city , current_shop , lease_status , peccancy_status , next_main_km , " +
+                "financing_rent_company , financing_rent_price , bail , monthly_payment) " +
+                "values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         Object[] o = new Object[] { archive_no , inventory_no , brand , model , color , carframe_no , engine_no , registry_certificate ,
                 certificate_direction , loan_bank , consistency_cer , check_list , duty_paid_proof , record , buy_at , supplier ,
                 license_plate , card_at , limited_at , guide_price , vehicle_price , vehicle_tax , insurance_company , strong_insurance ,
                 vehicle_vessel_tax , strong_insurance_expire_at , business_insurance , business_insurance_expire_at , remark , create_by , original_org ,
-                km , maintian_on_km , gps , current_city , current_shop , lease_status , peccancy_status , next_main_km };
+                km , maintian_on_km , gps , current_city , current_shop , lease_status , peccancy_status , next_main_km ,
+                financing_rent_company , financing_rent_price , bail , monthly_payment};
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().update(sql , o);
     }

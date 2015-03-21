@@ -200,13 +200,23 @@ public class VehicleManageController {
         long original_org = Long.valueOf(request.getParameter("original_org"));
         long next_main_km = Long.valueOf(request.getParameter("next_main_km"));
 
+        String financing_rent_company = request.getParameter("financing_rent_company");
+        String financing_rent_price_str = request.getParameter("financing_rent_price");
+        double financing_rent_price =  StringUtils.isBlank(financing_rent_price_str) ? 0 : Double.valueOf(financing_rent_price_str);
+        String bail_str = request.getParameter("bail");
+        double bail = StringUtils.isBlank(bail_str) ? 0 : Double.valueOf(bail_str);
+        String monthly_payment_str = request.getParameter("monthly_payment");
+        double monthly_payment = StringUtils.isBlank(monthly_payment_str) ? 0 : Double.valueOf(monthly_payment_str);
+
+
         return this.vehicleManageService.addVehicle(archive_no , inventory_no , brand , model , color , carframe_no , engine_no ,
                 registry_certificate , certificate_direction , loan_bank , consistency_cer , check_list ,
                 duty_paid_proof , record , buy_at , supplier , license_plate , card_at ,
                 limited_at , guide_price , vehicle_price , vehicle_tax , insurance_company ,
                 strong_insurance , vehicle_vessel_tax , strong_insurance_expire_at , business_insurance ,
                 business_insurance_expire_at , remark , user.getUser_id() , original_org ,
-                km , maintian_on_km , gps , current_city , current_shop , lease_status , peccancy_status , next_main_km);
+                km , maintian_on_km , gps , current_city , current_shop , lease_status , peccancy_status , next_main_km ,
+                financing_rent_company , financing_rent_price , bail , monthly_payment);
     }
 
     /**
