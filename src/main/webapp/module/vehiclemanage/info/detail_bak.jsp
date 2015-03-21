@@ -69,35 +69,6 @@
                 <td>${vehicle_info.engine_no}</td>
             </tr>
             <tr>
-                <td class="tableleft">公里数</td>
-                <td>${vehicle_info.km}</td>
-                <td class="tableleft">存货编码</td>
-                <td>${vehicle_info.inventory_no}</td>
-                <td class="tableleft">检验单</td>
-                <td>${vehicle_info.check_list}</td>
-            </tr>
-            <tr>
-                <td class="tableleft">登记证书</td>
-                <td>${vehicle_info.registry_certificate}</td>
-                <td class="tableleft">登记证书去向</td>
-                <td>${vehicle_info.certificate_direction}</td>
-                <td class="tableleft">关单/合格/一致性证书</td>
-                <td>${vehicle_info.consistency_cer}</td>
-            </tr>
-            <tr>
-                <td class="tableleft">完税证明/小本</td>
-                <td>${vehicle_info.duty_paid_proof}</td>
-                <td class="tableleft">记录</td>
-                <td>${vehicle_info.record}</td>
-                <td class="tableleft">备注</td>
-                <td>${vehicle_info.remark}</td>
-            </tr>
-        </table>
-        <table class="table table-bordered table-hover definewidth m10">
-            <tr>
-                <td class="tableleft" colspan="6">车辆购买信息</td>
-            </tr>
-            <tr>
                 <td class="tableleft">购买日期</td>
                 <td>${vehicle_info.buy_at}</td>
                 <td class="tableleft">上牌登记日期</td>
@@ -112,23 +83,6 @@
                 <td>${vehicle_info.limited_at}</td>
                 <td class="tableleft">车购价</td>
                 <td>${vehicle_info.vehicle_price}</td>
-            </tr>
-            <tr>
-                <td class="tableleft">融资租赁公司</td>
-                <td>${vehicle_info.financing_rent_company}</td>
-                <td class="tableleft">融资租赁总价</td>
-                <td colspan="3">${vehicle_info.financing_rent_price}</td>
-            </tr>
-            <tr>
-                <td class="tableleft">保证金</td>
-                <td>${vehicle_info.bail}</td>
-                <td class="tableleft">月付款</td>
-                <td colspan="3">${vehicle_info.monthly_payment}</td>
-            </tr>
-        </table>
-        <table class="table table-bordered table-hover definewidth m10">
-            <tr>
-                <td class="tableleft" colspan="6">车辆保险信息</td>
             </tr>
             <tr>
                 <td class="tableleft">交强险</td>
@@ -154,21 +108,13 @@
                 <td class="tableleft">保险公司</td>
                 <td>${vehicle_info.insurance_company}</td>
             </tr>
-        </table>
-        <table class="table table-bordered table-hover definewidth m10">
             <tr>
-                <td class="tableleft" colspan="6">车辆使用情况</td>
-            </tr>
-            <tr>
+                <td class="tableleft">公里数</td>
+                <td>${vehicle_info.km}</td>
                 <td class="tableleft">保养剩余公里数</td>
                 <td>${vehicle_info.maintian_on_km}</td>
                 <td class="tableleft">下次保养公里数</td>
                 <td>${vehicle_info.next_main_km}</td>
-                <td class="tableleft">是否有违章待处理</td>
-                <td>
-                    <c:if test="${vehicle_info.peccancy_status == 0}">无</c:if>
-                    <c:if test="${vehicle_info.peccancy_status == 1}">有</c:if>
-                </td>
             </tr>
             <tr>
                 <td class="tableleft">GPS状态</td>
@@ -182,21 +128,36 @@
                 <td class="tableleft">当前所在门店</td>
                 <td>
                     <c:forEach var="org" items="${user_all_org_list}" varStatus="status">
-
+                        <c:if test="${vehicle_info.current_shop == org.org_id}">${org.org_name}</c:if>
                     </c:forEach>
-
-                    <c:forEach var="org" items="${user_all_org_list}" varStatus="status">
-                        <c:if test="${vehicle_info.current_shop == org.org_id}">
-                            <c:if test="${org.org_type > 12}">
-                                ${org.org_city_name} ${org.org_name}
-                            </c:if>
-                            <c:if test="${org.org_type < 13}">
-                                ${org.org_name}
-                            </c:if>
-                        </c:if>
-                    </c:forEach>
-
                 </td>
+            </tr>
+            <tr>
+                <td class="tableleft">是否有违章待处理</td>
+                <td>
+                    <c:if test="${vehicle_info.peccancy_status == 0}">无</c:if>
+                    <c:if test="${vehicle_info.peccancy_status == 1}">有</c:if>
+                </td>
+                <td class="tableleft">存货编码</td>
+                <td>${vehicle_info.inventory_no}</td>
+                <td class="tableleft">检验单</td>
+                <td>${vehicle_info.check_list}</td>
+            </tr>
+            <tr>
+                <td class="tableleft">登记证书</td>
+                <td>${vehicle_info.registry_certificate}</td>
+                <td class="tableleft">登记证书去向</td>
+                <td>${vehicle_info.certificate_direction}</td>
+                <td class="tableleft">关单/合格/一致性证书</td>
+                <td>${vehicle_info.consistency_cer}</td>
+            </tr>
+            <tr>
+                <td class="tableleft">完税证明/小本</td>
+                <td>${vehicle_info.duty_paid_proof}</td>
+                <td class="tableleft">记录</td>
+                <td>${vehicle_info.record}</td>
+                <td class="tableleft">备注</td>
+                <td>${vehicle_info.remark}</td>
             </tr>
         </table>
     </form>

@@ -168,7 +168,7 @@
             <tr>
                 <td class="tableleft">融资租赁公司</td>
                 <td><input type="text" name="financing_rent_company" id="financing_rent_company" /></td>
-                <td class="tableleft">荣祖租赁总价</td>
+                <td class="tableleft">融资租赁总价</td>
                 <td colspan="3"><input type="text" name="financing_rent_price" id="financing_rent_price" /></td>
             </tr>
             <tr>

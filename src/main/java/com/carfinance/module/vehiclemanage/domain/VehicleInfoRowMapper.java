@@ -55,6 +55,19 @@ public class VehicleInfoRowMapper implements RowMapper<VehicleInfo>{
         vehicleInfo.setOriginal_org(rs.getLong("original_org"));
         vehicleInfo.setNext_main_km(rs.getLong("next_main_km"));
 
+        try{
+            vehicleInfo.setFinancing_rent_company(rs.getString("financing_rent_company"));
+        } catch (Exception e) {}
+        try{
+            vehicleInfo.setFinancing_rent_price(rs.getDouble("financing_rent_price"));
+        } catch (Exception e) {}
+        try{
+            vehicleInfo.setBail(rs.getDouble("bail"));
+        } catch (Exception e) {}
+        try{
+            vehicleInfo.setMonthly_payment(rs.getDouble("monthly_payment"));
+        } catch (Exception e) {}
+
         return vehicleInfo;
 	}
 }

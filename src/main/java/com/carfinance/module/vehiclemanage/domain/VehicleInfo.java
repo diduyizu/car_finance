@@ -50,6 +50,43 @@ public class VehicleInfo implements Serializable{
     private long original_org;
     private long next_main_km;//下次保养公里数
 
+    private String financing_rent_company;
+    private double financing_rent_price;
+    private double bail;
+    private double monthly_payment;
+
+    public String getFinancing_rent_company() {
+        return financing_rent_company;
+    }
+
+    public void setFinancing_rent_company(String financing_rent_company) {
+        this.financing_rent_company = financing_rent_company;
+    }
+
+    public double getFinancing_rent_price() {
+        return financing_rent_price;
+    }
+
+    public void setFinancing_rent_price(double financing_rent_price) {
+        this.financing_rent_price = financing_rent_price;
+    }
+
+    public double getBail() {
+        return bail;
+    }
+
+    public void setBail(double bail) {
+        this.bail = bail;
+    }
+
+    public double getMonthly_payment() {
+        return monthly_payment;
+    }
+
+    public void setMonthly_payment(double monthly_payment) {
+        this.monthly_payment = monthly_payment;
+    }
+
     public long getNext_main_km() {
         return next_main_km;
     }
