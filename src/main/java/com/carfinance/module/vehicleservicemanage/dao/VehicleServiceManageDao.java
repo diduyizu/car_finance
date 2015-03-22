@@ -522,7 +522,7 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
         }
         if(license_plate != null && !"".equals(license_plate.trim())) {
             sql = sql + " and license_plate = ? ";
-            param.add(license_plate);
+            param.add(license_plate.toUpperCase());
         }
 
         Object[] o = new Object[param.size()];
@@ -553,7 +553,7 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
         }
         if(license_plate != null && !"".equals(license_plate.trim())) {
             sql = sql + " and license_plate = ? ";
-            param.add(license_plate);
+            param.add(license_plate.toUpperCase());
         }
         sql = sql + " order by id desc limit ?,?";
         param.add(start);
@@ -577,14 +577,14 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
      */
     public int contraceDoChooseVech(long contrace_id , long vehicle_id , long user_id , double vehicle_price , String license_plate , String model) {
         String sql = "insert into vehicle_contrace_vehs (contrace_id , vehicle_id , create_by , vehicle_price , license_plate , model) values (?,?,?,?,?,?)";
-        Object[] o = new Object[] { contrace_id , vehicle_id , user_id , vehicle_price  , license_plate , model };
+        Object[] o = new Object[] { contrace_id , vehicle_id , user_id , vehicle_price  , license_plate.toUpperCase(), model };
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().update(sql, o);
     }
 
     public int contraceDoAddForeignVehicle(long contrace_id, String license_plate , String vehicle_model , double vehicle_price , String company , long other_vehicle_km , long user_id) {
         String sql = "insert into vehicle_contrace_vehs (contrace_id , license_plate , model , company , isother ,  create_by , vehicle_price , other_vehicle_km) values (?,?,?,?,1,?,?,?)";
-        Object[] o = new Object[] { contrace_id , license_plate , vehicle_model , company  , user_id , vehicle_price , other_vehicle_km };
+        Object[] o = new Object[] { contrace_id , license_plate.toUpperCase() , vehicle_model , company  , user_id , vehicle_price , other_vehicle_km };
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().update(sql, o);
     }
@@ -617,7 +617,7 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
         }
         if(license_plate != null && !"".equals(license_plate.trim())) {
             sql = sql + " and license_plate = ? ";
-            param.add(license_plate);
+            param.add(license_plate.toUpperCase());
         }
 
         Object[] o = new Object[param.size()];
@@ -644,7 +644,7 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
         }
         if(license_plate != null && !"".equals(license_plate.trim())) {
             sql = sql + " and license_plate = ? ";
-            param.add(license_plate);
+            param.add(license_plate.toUpperCase());
         }
         sql = sql + " order by id desc limit ?,?";
         param.add(start);

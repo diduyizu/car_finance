@@ -53,7 +53,7 @@ public class VehicleManageDao extends BaseJdbcDaoImpl {
         }
         if(license_plate != null && !"".equals(license_plate.trim())) {
             sql = sql + " and license_plate like ? ";
-            param.add("%"+license_plate.trim()+"%");
+            param.add("%"+license_plate.toUpperCase().trim()+"%");
         }
         if(gps != null && !"".equals(gps.trim())) {
             sql = sql + " and gps = ? ";
@@ -117,7 +117,7 @@ public class VehicleManageDao extends BaseJdbcDaoImpl {
         }
         if(license_plate != null && !"".equals(license_plate.trim())) {
             sql = sql + " and license_plate like ? ";
-            param.add("%"+license_plate.trim()+"%");
+            param.add("%"+license_plate.toUpperCase().trim()+"%");
         }
         if(gps != null && !"".equals(gps.trim())) {
             sql = sql + " and gps = ? ";
@@ -210,7 +210,7 @@ public class VehicleManageDao extends BaseJdbcDaoImpl {
                 "values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         Object[] o = new Object[] { archive_no , inventory_no , brand , model , color , carframe_no , engine_no , registry_certificate ,
                 certificate_direction , loan_bank , consistency_cer , check_list , duty_paid_proof , record , buy_at , supplier ,
-                license_plate , card_at , limited_at , guide_price , vehicle_price , vehicle_tax , insurance_company , strong_insurance ,
+                license_plate.toUpperCase() , card_at , limited_at , guide_price , vehicle_price , vehicle_tax , insurance_company , strong_insurance ,
                 vehicle_vessel_tax , strong_insurance_expire_at , business_insurance , business_insurance_expire_at , remark , create_by , original_org ,
                 km , maintian_on_km , gps , current_city , current_shop , lease_status , peccancy_status , next_main_km ,
                 financing_rent_company , financing_rent_price , bail , monthly_payment};
@@ -265,7 +265,7 @@ public class VehicleManageDao extends BaseJdbcDaoImpl {
         String sql = "insert into vehicle_insurance(carframe_no , engine_no , license_plate , insurance_company , strong_insurance , " +
                 "vehicle_vessel_tax , strong_insurance_expire_at , business_insurance , business_insurance_expire_at , remark , create_by) " +
                 "values (?,?,?,?,?,?,?,?,?,?,?)";
-        Object[] o = new Object[] { carframe_no , engine_no , license_plate , insurance_company , strong_insurance ,
+        Object[] o = new Object[] { carframe_no , engine_no , license_plate.toUpperCase() , insurance_company , strong_insurance ,
                 vehicle_vessel_tax , strong_insurance_expire_at , business_insurance , business_insurance_expire_at , remark , create_by };
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().update(sql, o);
@@ -292,7 +292,7 @@ public class VehicleManageDao extends BaseJdbcDaoImpl {
                 "set t.insurance_company = ? , strong_insurance = ? , vehicle_vessel_tax = ? , strong_insurance_expire_at = ? , business_insurance = ? , business_insurance_expire_at = ? " +
                 "where carframe_no = ? and engine_no = ? and license_plate = ?";
         Object[] o = new Object[] { insurance_company , strong_insurance , vehicle_vessel_tax , strong_insurance_expire_at , business_insurance , business_insurance_expire_at ,
-                carframe_no , engine_no , license_plate};
+                carframe_no , engine_no , license_plate.toUpperCase()};
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().update(sql, o);
 
@@ -344,7 +344,7 @@ public class VehicleManageDao extends BaseJdbcDaoImpl {
                 "peccancy_place , peccancy_reason , score , status , create_by , peccancy_price , arbitration , " +
                 "employee_id , employee_name , customer_id , customer_name) " +
                 "values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-        Object[] o = new Object[] { carframe_no , engine_no , license_plate , peccancy_at , peccancy_place ,
+        Object[] o = new Object[] { carframe_no , engine_no , license_plate.toUpperCase() , peccancy_at , peccancy_place ,
                 peccancy_reason , score , status , create_by , peccancy_price , arbitration ,
                 employee_id , employee_name , customer_id , customer_name };
         logger.info(sql.replaceAll("\\?", "{}"), o);
@@ -378,7 +378,7 @@ public class VehicleManageDao extends BaseJdbcDaoImpl {
         }
         if(license_plate != null && !"".equals(license_plate.trim())) {
             sql = sql + " and license_plate = ? ";
-            param.add(license_plate);
+            param.add(license_plate.toUpperCase());
         }
         sql = sql + " and TO_DAYS(strong_insurance_expire_at) - TO_DAYS(NOW()) <= ?";
         param.add(remind_day);
@@ -417,7 +417,7 @@ public class VehicleManageDao extends BaseJdbcDaoImpl {
         }
         if(license_plate != null && !"".equals(license_plate.trim())) {
             sql = sql + " and license_plate = ? ";
-            param.add(license_plate);
+            param.add(license_plate.toUpperCase());
         }
         if(current_city != null && !"".equals(current_city.trim())) {
             sql = sql + " and current_city = ? ";
@@ -489,7 +489,7 @@ public class VehicleManageDao extends BaseJdbcDaoImpl {
      */
     public long getVehiclePeccancyCount(String carframe_no , String engine_no , String license_plate) {
         String sql = "select count(1) from vehicle_peccancy where carframe_no = ? and engine_no = ? and license_plate = ? and status = 0 ";
-        Object[] o = new Object[] { carframe_no , engine_no , license_plate };
+        Object[] o = new Object[] { carframe_no , engine_no , license_plate.toUpperCase() };
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().queryForLong(sql, o);
     }
@@ -500,7 +500,7 @@ public class VehicleManageDao extends BaseJdbcDaoImpl {
      */
     public int updateVehiclePeccancyStatus(String carframe_no , String engine_no , String license_plate , int peccancy_status) {
         String sql = "update vehicle_info set peccancy_status = ? where carframe_no = ? and engine_no = ? and license_plate = ?  ";
-        Object[] o = new Object[] { peccancy_status , carframe_no , engine_no , license_plate };
+        Object[] o = new Object[] { peccancy_status , carframe_no , engine_no , license_plate.toUpperCase() };
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().update(sql, o);
     }
@@ -516,7 +516,7 @@ public class VehicleManageDao extends BaseJdbcDaoImpl {
         }
         if(license_plate != null && !"".equals(license_plate.trim())) {
             sql = sql + " and license_plate = ? ";
-            param.add(license_plate);
+            param.add(license_plate.toUpperCase());
         }
         sql = sql + " and peccancy_status = 1 ";
          Object[] o = new Object[param.size()];
@@ -543,7 +543,7 @@ public class VehicleManageDao extends BaseJdbcDaoImpl {
 
         if(license_plate != null && !"".equals(license_plate.trim())) {
             sql = sql + " and license_plate = ? ";
-            param.add(license_plate);
+            param.add(license_plate.toUpperCase());
         }
         if(current_city != null && !"".equals(current_city.trim())) {
             sql = sql + " and current_city = ? ";
@@ -578,7 +578,7 @@ public class VehicleManageDao extends BaseJdbcDaoImpl {
 
         String sql = "update vehicle_peccancy set peccancy_at = ? , peccancy_place = ? , peccancy_reason = ? , score = ? , peccancy_price = ? , arbitration = ? , status = ? , update_by = ? " +
                 "where id = ? and carframe_no = ? and engine_no = ? and license_plate = ? ";
-        Object[] o = new Object[] { peccancy_at , peccancy_place , peccancy_reason , score , peccancy_price , arbitration , status , update_by , id , carframe_no , engine_no , license_plate };
+        Object[] o = new Object[] { peccancy_at , peccancy_place , peccancy_reason , score , peccancy_price , arbitration , status , update_by , id , carframe_no , engine_no , license_plate.toUpperCase() };
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().update(sql, o);
     }
@@ -595,7 +595,7 @@ public class VehicleManageDao extends BaseJdbcDaoImpl {
         }
         if(license_plate != null && !"".equals(license_plate.trim())) {
             sql = sql + " and license_plate = ? ";
-            param.add(license_plate);
+            param.add(license_plate.toUpperCase());
         }
         sql = sql + " and maintian_on_km < ? ";
         param.add(remind_km);
@@ -624,7 +624,7 @@ public class VehicleManageDao extends BaseJdbcDaoImpl {
 
         if(license_plate != null && !"".equals(license_plate.trim())) {
             sql = sql + " and license_plate = ? ";
-            param.add(license_plate);
+            param.add(license_plate.toUpperCase());
         }
         if(current_city != null && !"".equals(current_city.trim())) {
             sql = sql + " and current_city = ? ";
@@ -650,7 +650,7 @@ public class VehicleManageDao extends BaseJdbcDaoImpl {
         String sql = "insert into vehicle_maintail_record(carframe_no , engine_no , license_plate , maintain_date , maintain_content , maintain_price , " +
                 "current_km , next_maintain_km , user_id , user_name , create_by) " +
                 "values (?,?,?,?,?,?,?,?,?,?,?)";
-        Object[] o = new Object[] { carframe_no , engine_no , license_plate , maintain_at_date , maintain_content , maintain_price ,
+        Object[] o = new Object[] { carframe_no , engine_no , license_plate.toUpperCase() , maintain_at_date , maintain_content , maintain_price ,
                 current_km , next_maintain_km , user_id , user_name , create_by };
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().update(sql, o);
@@ -669,14 +669,14 @@ public class VehicleManageDao extends BaseJdbcDaoImpl {
 
     public int updateVehicleRemind(String carframe_no , String engine_no , String license_plate , long current_km , long next_maintain_km , long maintian_on_km) {
         String sql = "update vehicle_info set km = ? , next_main_km = ? , maintian_on_km = ? where carframe_no = ? and engine_no = ? and license_plate = ?  ";
-        Object[] o = new Object[] { current_km , next_maintain_km , maintian_on_km , carframe_no , engine_no , license_plate };
+        Object[] o = new Object[] { current_km , next_maintain_km , maintian_on_km , carframe_no , engine_no , license_plate.toUpperCase() };
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().update(sql, o);
     }
 
     public List<VehicleContraceVehsInfo> getContraceVehicles(String license_plate , String peccancy_at) {
         String sql = "select * from vehicle_contrace_vehs where create_at < date_format(?,'%Y-%m-%d %H:%i') and date_format(?,'%Y-%m-%d %H:%i') < return_time and license_plate = ? ";
-        Object[] o = new Object[] { peccancy_at , peccancy_at , license_plate };
+        Object[] o = new Object[] { peccancy_at , peccancy_at , license_plate.toUpperCase() };
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().query(sql, o , new VehicleContraceVehsInfoRowMapper());
     }
