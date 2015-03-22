@@ -95,18 +95,33 @@
 <table class="table table-bordered table-hover definewidth m10">
     <thead>
         <tr>
+            <%--<th>车牌号</th>--%>
+            <%--<th>年审时间</th>--%>
+            <%--<th>所在城市</th>--%>
+            <%--<th>所在门店</th>--%>
+
             <th>车牌号</th>
-            <th>年审时间</th>
-            <th>所在城市</th>
-            <th>所在门店</th>
+            <th>车架号</th>
+            <th>发动机号</th>
+            <th>供应商名称</th>
+            <th>保险公司</th>
+            <th>备注</th>
         </tr>
     </thead>
     <c:forEach var="vehicle" items="${vehicle_peccancy_remind_list}" varStatus="status">
         <tr>
-            <td><a href="${ctx}/vehicle/peccancy/detail?carframe_no=${vehicle.carframe_no}">${vehicle.license_plate}</a></td>
-            <td>${vehicle.limited_at}</td>
-            <td>${vehicle.current_city}</td>
-            <td>${vehicle.original_org}</td>
+            <%--<td><a href="${ctx}/vehicle/peccancy/detail?carframe_no=${vehicle.carframe_no}">${vehicle.license_plate}</a></td>--%>
+            <%--<td>${vehicle.limited_at}</td>--%>
+            <%--<td>${vehicle.current_city}</td>--%>
+            <%--<td>${vehicle.original_org}</td>--%>
+            <td>
+                <a href="${ctx}/vehicle/peccancy/detail?carframe_no=${vehicle.carframe_no}">${vehicle.license_plate}</a>
+            </td>
+            <td>${vehicle.carframe_no}</td>
+            <td>${vehicle.engine_no}</td>
+            <td>${vehicle.supplier}</td>
+            <td>${vehicle.insurance_company}</td>
+            <td>${vehicle.remark}</td>
         </tr>
     </c:forEach>
 </table>
