@@ -43,29 +43,14 @@
             <tr>
                 <td class="tableleft">车架号</td>
                 <td><input type="text" name="carframe_no" id="carframe_no" value="${vehicle_info.carframe_no}" readonly/></td>
-            </tr>
-            <tr>
                 <td width="15%" class="tableleft">发动机号</td>
                 <td><input type="text" name="engine_no" id="engine_no" value="${vehicle_info.engine_no}" readonly/></td>
-            </tr>
-            <tr>
                 <td class="tableleft">车牌号</td>
                 <td><input type="text" name="license_plate" id="license_plate" value="${vehicle_info.license_plate}" readonly/></td>
             </tr>
             <tr>
                 <td class="tableleft">保险公司</td>
                 <td><input type="text" name="insurance_company" id="insurance_company" placeholder="必填" required="true"/></td>
-            </tr>
-            <tr>
-                <td class="tableleft">交强险</td>
-                <td><input type="text" name="strong_insurance" id="strong_insurance" placeholder="必填" required/></td>
-            </tr>
-
-            <tr>
-                <td class="tableleft">车船税</td>
-                <td><input type="text" name="vehicle_vessel_tax" id="vehicle_vessel_tax" placeholder="必填" required/></td>
-            </tr>
-            <tr>
                 <td class="tableleft">交强险到期日期</td>
                 <td>
                     <div class="input-append date" id="strong_insurance_expire_at" data-date-format="yyyy-mm-dd">
@@ -73,13 +58,13 @@
                         <span class="add-on"><i class="icon-th"></i></span>
                     </div>
                 </td>
-            </tr>
-            <tr>
-                <td class="tableleft">商业险</td>
-                <td><input type="text" name="business_insurance" id="business_insurance" placeholder="必填" required/></td>
-            </tr>
+                <td class="tableleft">交强险金额</td>
+                <td><input type="text" name="strong_insurance" id="strong_insurance" placeholder="必填" required/></td>
 
+            </tr>
             <tr>
+                <td class="tableleft">车船税</td>
+                <td><input type="text" name="vehicle_vessel_tax" id="vehicle_vessel_tax" placeholder="必填" required/></td>
                 <td class="tableleft">商业险到期日期</td>
                 <td>
                     <div class="input-append date" id="business_insurance_expire_at" data-date-format="yyyy-mm-dd">
@@ -87,14 +72,16 @@
                         <span class="add-on"><i class="icon-th"></i></span>
                     </div>
                 </td>
+                <td class="tableleft">商业险金额</td>
+                <td><input type="text" name="business_insurance" id="business_insurance" placeholder="必填" required/></td>
             </tr>
             <tr>
                 <td class="tableleft">备注</td>
-                <td><input type="text" name="remark" id="remark"/></td>
+                <td colspan="5"><input type="text" name="remark" id="remark"/></td>
             </tr>
             <tr>
                 <td class="tableleft"></td>
-                <td>
+                <td colspan="5">
                     <button type="button" class="btn btn-primary" id="save">保存</button> &nbsp;&nbsp;
                     <button type="button" class="btn btn-success" id="backid">返回列表</button>
                 </td>
