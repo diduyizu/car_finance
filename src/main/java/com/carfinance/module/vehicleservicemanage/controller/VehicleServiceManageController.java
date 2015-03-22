@@ -87,6 +87,14 @@ public class VehicleServiceManageController {
         model.addAttribute("prepage" , prepages);
         model.addAttribute("nextpage" , nextpages);
         model.addAttribute("page_url" , request.getRequestURI());
+        String condition = "&original_org="+original_org;
+        if(customer_name != null) {
+            condition = condition + "&customer_name="+customer_name;
+        }
+        if(dn != null) {
+            condition = condition + "&dn="+dn;
+        }
+        model.addAttribute("condition" , condition);
 
         model.addAttribute("original_org" , original_org);
         model.addAttribute("customer_name" , customer_name);
@@ -142,6 +150,14 @@ public class VehicleServiceManageController {
         model.addAttribute("prepage" , prepages);
         model.addAttribute("nextpage" , nextpages);
         model.addAttribute("page_url" , request.getRequestURI());
+        String condition = "&original_org="+original_org;
+        if(customer_name != null) {
+            condition = condition + "&customer_name="+customer_name;
+        }
+        if(dn != null) {
+            condition = condition + "&dn="+dn;
+        }
+        model.addAttribute("condition" , condition);
 
         model.addAttribute("original_org" , original_org);
         model.addAttribute("customer_name" , customer_name);
@@ -266,6 +282,7 @@ public class VehicleServiceManageController {
         model.addAttribute("prepage" , prepages);
         model.addAttribute("nextpage" , nextpages);
         model.addAttribute("page_url" , request.getRequestURI());
+        model.addAttribute("condition" , "&original_org="+original_org);
 
         model.addAttribute("original_org" , original_org);
         model.addAttribute("original_org_name" , original_org_name);
@@ -474,6 +491,22 @@ public class VehicleServiceManageController {
         model.addAttribute("user_all_org_list" , user_all_org_list);
         model.addAttribute("vehicle_list" , vehicle_list);
 
+        String condition = "&contrace_id="+contrace_id+"&original_org="+original_org;
+        if(current_city != null) {
+            condition = condition + "&current_city="+current_city;
+        }
+        if(brand != null) {
+            condition = condition + "&brand="+brand;
+        }
+        if(vehicle_model != null) {
+            condition = condition + "&model="+vehicle_model;
+        }
+        if(license_plate != null) {
+            condition = condition + "&license_plate="+license_plate;
+        }
+
+        model.addAttribute("condition" , condition);
+
 
         model.addAttribute("original_org" , original_org);
         model.addAttribute("current_city" , current_city);
@@ -571,6 +604,18 @@ public class VehicleServiceManageController {
         model.addAttribute("nextpage" , nextpages);
         model.addAttribute("page_url" , request.getRequestURI());
 
+        String condition = "&contrace_id="+contrace_id;
+        if(brand != null) {
+            condition = condition + "&brand="+brand;
+        }
+        if(vehicle_model != null) {
+            condition = condition + "&model="+vehicle_model;
+        }
+        if(license_plate != null) {
+            condition = condition + "&license_plate="+license_plate;
+        }
+        model.addAttribute("condition" , condition);
+
         model.addAttribute("contrace_id" , contrace_id);
         model.addAttribute("vehicle_list" , vehicle_list);
         model.addAttribute("brand" , brand);
@@ -612,6 +657,7 @@ public class VehicleServiceManageController {
         model.addAttribute("prepage" , prepages);
         model.addAttribute("nextpage" , nextpages);
         model.addAttribute("page_url" , request.getRequestURI());
+        model.addAttribute("condition" , "&original_org="+original_org);
 
         model.addAttribute("veh_contrace_vehs_id" , veh_contrace_vehs_id);
         model.addAttribute("driver_list" , driver_list);
@@ -730,6 +776,15 @@ public class VehicleServiceManageController {
         model.addAttribute("nextpage" , nextpages);
         model.addAttribute("page_url" , request.getRequestURI());
 
+        String condition = "&original_org="+original_org;
+        if(status != null) {
+            condition = condition + "&status="+status;
+        }
+        if(contrace_type_str != null) {
+            condition = condition + "&contrace_type="+contrace_type_str;
+        }
+        model.addAttribute("condition" , condition);
+
         model.addAttribute("status" , status);
         model.addAttribute("original_org" , original_org);
         model.addAttribute("original_org_name" , original_org_name);
@@ -820,6 +875,14 @@ public class VehicleServiceManageController {
         model.addAttribute("prepage" , prepages);
         model.addAttribute("nextpage" , nextpages);
         model.addAttribute("page_url" , request.getRequestURI());
+        String condition = "&original_org="+original_org;
+        if(status != null) {
+            condition = condition + "&status="+status;
+        }
+        if(contrace_type_str != null) {
+            condition = condition + "&contrace_type="+contrace_type_str;
+        }
+        model.addAttribute("condition" , condition);
 
         model.addAttribute("status" , status);
         model.addAttribute("original_org" , original_org);
@@ -912,6 +975,14 @@ public class VehicleServiceManageController {
         model.addAttribute("prepage" , prepages);
         model.addAttribute("nextpage" , nextpages);
         model.addAttribute("page_url" , request.getRequestURI());
+        String condition = "&original_org="+original_org;
+        if(status != null) {
+            condition = condition + "&status="+status;
+        }
+        if(contrace_type_str != null) {
+            condition = condition + "&contrace_type="+contrace_type_str;
+        }
+        model.addAttribute("condition" , condition);
 
         model.addAttribute("status" , status);
         model.addAttribute("original_org" , original_org);
@@ -1006,6 +1077,15 @@ public class VehicleServiceManageController {
         model.addAttribute("prepage" , prepages);
         model.addAttribute("nextpage" , nextpages);
         model.addAttribute("page_url" , request.getRequestURI());
+
+        String condition = "&original_org="+original_org;
+        if(status != null) {
+            condition = condition + "&status="+status;
+        }
+        if(contrace_type_str != null) {
+            condition = condition + "&contrace_type="+contrace_type_str;
+        }
+        model.addAttribute("condition" , condition);
 
         model.addAttribute("status" , status);
         model.addAttribute("original_org" , original_org);
@@ -1102,8 +1182,9 @@ public class VehicleServiceManageController {
         long vehicle_id = Long.valueOf(request.getParameter("vehicle_id"));
         double over_price = Long.valueOf(request.getParameter("over_price"));
         long vehicle_contrace_id = Long.valueOf(request.getParameter("vehicle_contrace_id"));
+        long return_org = Long.valueOf(request.getParameter("return_org"));
 
-        int result = this.vehicleServiceManageService.returnVehicle(vehicle_contrace_id , contrace_id , return_time , return_km , vehicle_id , over_price);
+        int result = this.vehicleServiceManageService.returnVehicle(vehicle_contrace_id , contrace_id , return_time , return_km , vehicle_id , over_price , return_org);
         return result;
 //        return "redirect:/vehicleservice/contrace/finish?contrace_id=" + contrace_id;
     }
@@ -1183,6 +1264,7 @@ public class VehicleServiceManageController {
         model.addAttribute("prepage" , prepages);
         model.addAttribute("nextpage" , nextpages);
         model.addAttribute("page_url" , request.getRequestURI());
+        model.addAttribute("condition" , "&original_org="+original_org);
 
         model.addAttribute("original_org" , original_org);
         model.addAttribute("original_org_name" , original_org_name);
@@ -1319,6 +1401,7 @@ public class VehicleServiceManageController {
         model.addAttribute("prepage" , prepages);
         model.addAttribute("nextpage" , nextpages);
         model.addAttribute("page_url" , request.getRequestURI());
+        model.addAttribute("condition" , "&original_org="+original_org);
 
         model.addAttribute("original_org" , original_org);
         model.addAttribute("original_org_name" , original_org_name);
@@ -1466,6 +1549,21 @@ public class VehicleServiceManageController {
         model.addAttribute("nextpage" , nextpages);
         model.addAttribute("page_url" , request.getRequestURI());
 
+        String condition = "&contrace_id="+contrace_id+"&original_org="+original_org;
+        if(current_city != null) {
+            condition = condition + "&current_city="+current_city;
+        }
+        if(brand != null) {
+            condition = condition + "&brand="+brand;
+        }
+        if(vehicle_model != null) {
+            condition = condition + "&model="+vehicle_model;
+        }
+        if(license_plate != null) {
+            condition = condition + "&license_plate="+license_plate;
+        }
+        model.addAttribute("condition" , condition);
+
         model.addAttribute("contrace_id" , contrace_id);
         model.addAttribute("city_list" , city_list);
         model.addAttribute("user_all_org_list" , user_all_org_list);
@@ -1558,6 +1656,15 @@ public class VehicleServiceManageController {
         model.addAttribute("nextpage" , nextpages);
         model.addAttribute("page_url" , request.getRequestURI());
 
+        String condition = "&original_org="+original_org;
+        if(status != null) {
+            condition = condition + "&status="+status;
+        }
+        if(contrace_type_str != null) {
+            condition = condition + "&contrace_type="+contrace_type_str;
+        }
+        model.addAttribute("condition" , condition);
+
         model.addAttribute("status" , status);
         model.addAttribute("original_org" , original_org);
         model.addAttribute("original_org_name" , original_org_name);
@@ -1633,6 +1740,14 @@ public class VehicleServiceManageController {
         model.addAttribute("prepage" , prepages);
         model.addAttribute("nextpage" , nextpages);
         model.addAttribute("page_url" , request.getRequestURI());
+        String condition = "&original_org="+original_org;
+        if(status != null) {
+            condition = condition + "&status="+status;
+        }
+        if(contrace_type_str != null) {
+            condition = condition + "&contrace_type="+contrace_type_str;
+        }
+        model.addAttribute("condition" , condition);
 
         model.addAttribute("status" , status);
         model.addAttribute("original_org" , original_org);
@@ -1718,6 +1833,14 @@ public class VehicleServiceManageController {
         model.addAttribute("prepage" , prepages);
         model.addAttribute("nextpage" , nextpages);
         model.addAttribute("page_url" , request.getRequestURI());
+        String condition = "&original_org="+original_org;
+        if(status != null) {
+            condition = condition + "&status="+status;
+        }
+        if(contrace_type_str != null) {
+            condition = condition + "&contrace_type="+contrace_type_str;
+        }
+        model.addAttribute("condition" , condition);
 
         model.addAttribute("status" , status);
         model.addAttribute("original_org" , original_org);
@@ -1797,6 +1920,14 @@ public class VehicleServiceManageController {
         model.addAttribute("prepage" , prepages);
         model.addAttribute("nextpage" , nextpages);
         model.addAttribute("page_url" , request.getRequestURI());
+        String condition = "&original_org="+original_org;
+        if(status != null) {
+            condition = condition + "&status="+status;
+        }
+        if(contrace_type_str != null) {
+            condition = condition + "&contrace_type="+contrace_type_str;
+        }
+        model.addAttribute("condition" , condition);
 
         model.addAttribute("status" , status);
         model.addAttribute("original_org" , original_org);
@@ -1878,6 +2009,7 @@ public class VehicleServiceManageController {
         model.addAttribute("prepage" , prepages);
         model.addAttribute("nextpage" , nextpages);
         model.addAttribute("page_url" , request.getRequestURI());
+        model.addAttribute("condition" , "&contrace_id="+contrace_id);
 
         model.addAttribute("detail_list" , detail_list);
         return "/module/vehicleservicemanage/propertycontrace/paymentdetail";

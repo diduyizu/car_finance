@@ -102,6 +102,29 @@ public class VehicleManageController {
         model.addAttribute("prepage" , prepages);
         model.addAttribute("nextpage" , nextpages);
         model.addAttribute("page_url" , request.getRequestURI());
+        String condition = "&original_org="+original_org;
+        if(current_city != null) {
+            condition = condition + "&current_city="+current_city;
+        }
+        if(brand != null) {
+            condition = condition + "&brand="+brand;
+        }
+        if(vehicle_model != null) {
+            condition = condition + "&model="+vehicle_model;
+        }
+        if(license_plate != null) {
+            condition = condition + "&license_plate="+license_plate;
+        }
+        if(gps != null) {
+            condition = condition + "&gps="+gps;
+        }
+        if(lease_status != null) {
+            condition = condition + "&lease_status="+lease_status;
+        }
+        if(color != null) {
+            condition = condition + "&color="+color;
+        }
+        model.addAttribute("condition" , condition);
 
         model.addAttribute("current_city" , current_city);
         model.addAttribute("original_org" , original_org);
@@ -382,6 +405,15 @@ public class VehicleManageController {
         model.addAttribute("nextpage" , nextpages);
         model.addAttribute("page_url" , request.getRequestURI());
 
+        String condition = "&original_org="+original_org;
+        if(brand != null) {
+            condition = condition + "&brand="+brand;
+        }
+        if(license_plate != null) {
+            condition = condition + "&license_plate="+license_plate;
+        }
+        model.addAttribute("condition" , condition);
+
         model.addAttribute("original_org" , original_org);
         model.addAttribute("brand" , brand);
         model.addAttribute("license_plate" , license_plate);
@@ -425,6 +457,11 @@ public class VehicleManageController {
         model.addAttribute("prepage" , prepages);
         model.addAttribute("nextpage" , nextpages);
         model.addAttribute("page_url" , request.getRequestURI());
+        String condition = "";
+        if(carframe_no != null) {
+            condition = "&carframe_no="+carframe_no;
+        }
+        model.addAttribute("condition" , condition);
 
         model.addAttribute("carframe_no" , carframe_no);
         model.addAttribute("vehicleInsurance_list" , vehicleInsurance_list);
@@ -532,6 +569,15 @@ public class VehicleManageController {
         model.addAttribute("nextpage" , nextpages);
         model.addAttribute("page_url" , request.getRequestURI());
 
+        String condition = "&original_org="+original_org;
+        if(brand != null) {
+            condition = condition + "&brand="+brand;
+        }
+        if(license_plate != null) {
+            condition = condition + "&license_plate="+license_plate;
+        }
+        model.addAttribute("condition" , condition);
+
         model.addAttribute("original_org" , original_org);
         model.addAttribute("brand" , brand);
         model.addAttribute("license_plate" , license_plate);
@@ -576,6 +622,11 @@ public class VehicleManageController {
         model.addAttribute("prepage" , prepages);
         model.addAttribute("nextpage" , nextpages);
         model.addAttribute("page_url" , request.getRequestURI());
+        String condition = "";
+        if(carframe_no != null) {
+            condition = condition + "&carframe_no="+carframe_no;
+        }
+        model.addAttribute("condition" , condition);
 
         model.addAttribute("carframe_no" , carframe_no);
         model.addAttribute("vehiclePeccancy_list" , vehiclePeccancy_list);
@@ -695,6 +746,15 @@ public class VehicleManageController {
         model.addAttribute("nextpage" , nextpages);
         model.addAttribute("page_url" , request.getRequestURI());
 
+        String condition = "&original_org="+original_org;
+        if(current_city != null) {
+            condition = condition + "&current_city="+current_city;
+        }
+        if(license_plate != null) {
+            condition = condition + "&license_plate="+license_plate;
+        }
+        model.addAttribute("condition" , condition);
+
         model.addAttribute("original_org" , original_org);
         model.addAttribute("license_plate" , license_plate);
         model.addAttribute("current_city" , current_city);
@@ -751,6 +811,15 @@ public class VehicleManageController {
         model.addAttribute("nextpage" , nextpages);
         model.addAttribute("page_url" , request.getRequestURI());
 
+        String condition = "&original_org="+original_org;
+        if(current_city != null) {
+            condition = condition + "&current_city="+current_city;
+        }
+        if(license_plate != null) {
+            condition = condition + "&license_plate="+license_plate;
+        }
+        model.addAttribute("condition" , condition);
+
         model.addAttribute("original_org" , original_org);
         model.addAttribute("license_plate" , license_plate);
         model.addAttribute("current_city" , current_city);
@@ -803,6 +872,12 @@ public class VehicleManageController {
         model.addAttribute("prepage" , prepages);
         model.addAttribute("nextpage" , nextpages);
         model.addAttribute("page_url" , request.getRequestURI());
+
+        String condition = "&original_org="+original_org;
+        if(lease_status != null) {
+            condition = condition + "&leasestatus="+lease_status;
+        }
+        model.addAttribute("condition" , condition);
 
         model.addAttribute("original_org" , original_org);
         model.addAttribute("lease_status" , lease_status);
@@ -909,6 +984,15 @@ public class VehicleManageController {
         model.addAttribute("nextpage" , nextpages);
         model.addAttribute("page_url" , request.getRequestURI());
 
+        String condition = "&original_org="+original_org;
+        if(current_city != null) {
+            condition = condition + "&current_city="+current_city;
+        }
+        if(license_plate != null) {
+            condition = condition + "&license_plate="+license_plate;
+        }
+        model.addAttribute("condition" , condition);
+
         model.addAttribute("original_org" , original_org);
         model.addAttribute("license_plate" , license_plate);
         model.addAttribute("current_city" , current_city);
@@ -984,6 +1068,12 @@ public class VehicleManageController {
         model.addAttribute("prepage" , prepages);
         model.addAttribute("nextpage" , nextpages);
         model.addAttribute("page_url" , request.getRequestURI());
+
+        String condition = "";
+        if(carframe_no != null) {
+            condition = condition + "&carframe_no="+carframe_no;
+        }
+        model.addAttribute("condition" , condition);
 
         model.addAttribute("carframe_no" , carframe_no);
         model.addAttribute("vehicle_maintain_list" , vehicle_maintain_list);

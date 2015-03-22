@@ -55,6 +55,16 @@ public class VehicleInfo implements Serializable{
     private double bail;
     private double monthly_payment;
 
+    private String current_shop_name;
+
+    public String getCurrent_shop_name() {
+        return current_shop_name;
+    }
+
+    public void setCurrent_shop_name(String current_shop_name) {
+        this.current_shop_name = current_shop_name;
+    }
+
     public String getFinancing_rent_company() {
         return financing_rent_company;
     }

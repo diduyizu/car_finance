@@ -109,7 +109,7 @@
             <td>
                 <c:if test="${reservation.create_by == user.user_id}">
                     <button type="button" class="btn btn-success cancel" value="${reservation.id}">取消</button>
-                    <button type="button" class="btn btn-success tocontract" value="${reservation.id}">转合同</button>
+                    <button type="button" class="btn btn-success tocontract" value="${reservation.id},${reservation.org_id}">转合同</button>
                 </c:if>
             </td>
         </tr>
@@ -142,7 +142,7 @@
     })
 
     $('.tocontract').click(function(){
-        var reservation_id = $(this).val();
-        window.location.href="${ctx}/vehicleservice/contrace/add?reservation_id="+reservation_id;
+        var reservation_org_id = $(this).val();
+        window.location.href="${ctx}/vehicleservice/contrace/add?reservation_org_id="+reservation_org_id;
     });
 </script>

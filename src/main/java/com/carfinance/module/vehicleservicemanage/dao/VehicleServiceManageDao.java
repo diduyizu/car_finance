@@ -749,16 +749,16 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
      * @param over_price
      * @return
      */
-    public int returnVehicle(long vehicle_contrace_id , Date return_time , long return_km , double over_price) {
-        String sql = "update vehicle_contrace_vehs set return_time = ? , return_km = ? , over_price = ? , status = 1 where id = ? ";
-        Object[] o = new Object[] { return_time , return_km , over_price , vehicle_contrace_id  };
+    public int returnVehicle(long vehicle_contrace_id , Date return_time , long return_km , double over_price , long return_org) {
+        String sql = "update vehicle_contrace_vehs set return_time = ? , return_km = ? , over_price = ? , return_org = ? , status = 1 where id = ? ";
+        Object[] o = new Object[] { return_time , return_km , over_price , return_org , vehicle_contrace_id  };
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().update(sql , o);
     }
 
-    public int updateVehicleKM(long vehicle_id , long return_km) {
-        String sql = "update vehicle_info set km = ? , lease_status = '在库' where id = ? ";
-        Object[] o = new Object[] {  return_km , vehicle_id  };
+    public int updateVehicleKM(long vehicle_id , long return_km , long return_org , long city ) {
+        String sql = "update vehicle_info set km = ? , lease_status = '在库' , current_shop = ?  , current_city = ? where id = ? ";
+        Object[] o = new Object[] {  return_km , return_org , city ,  vehicle_id  };
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().update(sql , o);
     }

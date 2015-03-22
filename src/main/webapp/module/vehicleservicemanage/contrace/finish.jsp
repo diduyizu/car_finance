@@ -40,13 +40,15 @@
     </style>
 </head>
 <body>
-    <form class="cmxform form-horizontal">
+    <%--<form class="cmxform form-horizontal">--%>
+    <form class="form-inline definewidth m20">
         <table class="table table-bordered table-hover definewidth m10">
             <thead>
             <tr>
                 <th>车牌号</th>
                 <th>车型</th>
                 <th>当前里程</th>
+                <th>还车门店</th>
                 <th>还车时间</th>
                 <th>还车里程</th>
                 <th>超期费用</th>
@@ -58,6 +60,28 @@
                     <td>${vehicle.license_plate}</td>
                     <td>${vehicle.model}</td>
                     <td>${vehicle.km}</td>
+                    <td>
+                        <c:if test="${vehicle.status == 1}">
+                            <c:forEach var="org" items="${user_all_org_list}" varStatus="status">
+                                <c:if test="${org.org_id == vehicle.return_org}">
+                                    <c:if test="${org.org_type > 12}">${org.org_city_name} ${org.org_name}</c:if>
+                                    <c:if test="${org.org_type < 13}">${org.org_name}</c:if>
+                                </c:if>
+                            </c:forEach>
+                        </c:if>
+                        <c:if test="${vehicle.status == 0}">
+                            <select name="original_org">
+                                <c:forEach var="org" items="${user_all_org_list}" varStatus="status">
+                                    <c:if test="${org.org_type > 12}">
+                                        <option value="${org.org_id}">${org.org_city_name} ${org.org_name}</option>
+                                    </c:if>
+                                    <c:if test="${org.org_type < 13}">
+                                        <option value="${org.org_id}">${org.org_name}</option>
+                                    </c:if>
+                                </c:forEach>
+                            </select>
+                        </c:if>
+                    </td>
                     <td>
                         <c:if test="${vehicle.status == 1}">${vehicle.return_time}</c:if>
                         <c:if test="${vehicle.status == 0}">
@@ -225,6 +249,8 @@
             var vehicle_id = $(this).parent('td').parent('tr').find("input[name='vehicle_id']").val();
             var over_price = $(this).parent('td').parent('tr').find("input[name='over_price']").val();
             var vehicle_contrace_id = $(this).next("input").val();
+            var return_org = $(this).parent('td').parent('tr').find("select[name='original_org']").val();
+
 
             if(return_time == "" || return_time == null) {
                 alert("请选择还车时间");
@@ -238,7 +264,8 @@
             $.ajax({
                 url:"${ctx}/vehicleservice/contrace/returnvahicle",
                 type: "post",
-                data:{contrace_id:contrace_id,return_time:return_time,return_km:return_km,vehicle_id:vehicle_id,over_price:over_price,vehicle_contrace_id:vehicle_contrace_id},
+                data:{contrace_id:contrace_id,return_time:return_time,return_km:return_km,vehicle_id:vehicle_id,
+                    over_price:over_price,vehicle_contrace_id:vehicle_contrace_id,return_org:return_org},
                 success:function(data){
                     if(data > 0) {
                         alert("成功");

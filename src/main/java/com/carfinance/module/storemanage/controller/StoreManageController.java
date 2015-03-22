@@ -76,6 +76,11 @@ public class StoreManageController {
         model.addAttribute("prepage" , prepages);
         model.addAttribute("nextpage" , nextpages);
         model.addAttribute("page_url" , request.getRequestURI());
+        String condition = "";
+        if(store_name != null) {
+            condition = "&store_name="+store_name;
+        }
+        model.addAttribute("condition" , condition);
 
         model.addAttribute("store_name" , store_name);
         model.addAttribute("store_List" , store_List);
@@ -210,6 +215,12 @@ public class StoreManageController {
         model.addAttribute("nextpage" , nextpages);
         model.addAttribute("page_url" , request.getRequestURI());
 
+        String condition = "";
+        if(store_name != null) {
+            condition = "&store_name="+store_name;
+        }
+        model.addAttribute("condition" , condition);
+
         model.addAttribute("store_name" , store_name);
         model.addAttribute("store_List" , store_List);
         return "/module/storemanage/delete/index";
@@ -263,6 +274,11 @@ public class StoreManageController {
         model.addAttribute("prepage" , prepages);
         model.addAttribute("nextpage" , nextpages);
         model.addAttribute("page_url" , request.getRequestURI());
+        String condition = "";
+        if(store_name != null) {
+            condition = "&store_name="+store_name;
+        }
+        model.addAttribute("condition" , condition);
 
         model.addAttribute("store_name" , store_name);
         model.addAttribute("store_List" , store_List);

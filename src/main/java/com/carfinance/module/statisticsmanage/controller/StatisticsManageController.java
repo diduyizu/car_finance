@@ -70,7 +70,7 @@ public class StatisticsManageController {
         model.addAttribute("prepage" , prepages);
         model.addAttribute("nextpage" , nextpages);
         model.addAttribute("page_url" , request.getRequestURI());
-
+        model.addAttribute("condition" , "");
         model.addAttribute("contrace_list" , contrace_list);
         return "/module/statistics/standingbook/index";
     }

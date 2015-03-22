@@ -100,6 +100,12 @@ public class PeopleManageController {
         model.addAttribute("nextpage" , nextpages);
         model.addAttribute("page_url" , request.getRequestURI());
 
+        String condition = "&choose_org_id="+org_id;
+        if(user_name != null) {
+            condition = condition + "&username="+user_name;
+        }
+        model.addAttribute("condition" , condition);
+
         model.addAttribute("choose_org_id" , org_id);
         model.addAttribute("user_name" , user_name);
         model.addAttribute("user_org_list" , user_org_list);
@@ -245,6 +251,12 @@ public class PeopleManageController {
         model.addAttribute("nextpage" , nextpages);
         model.addAttribute("page_url" , request.getRequestURI());
 
+        String condition = "&choose_org_id="+org_id;
+        if(user_name != null) {
+            condition = condition + "&username="+user_name;
+        }
+        model.addAttribute("condition" , condition);
+
         model.addAttribute("choose_org_id" , org_id);
         model.addAttribute("user_org_list" , user_org_list);
         model.addAttribute("org_user_role_list" , org_user_role_list);
@@ -276,6 +288,7 @@ public class PeopleManageController {
         model.addAttribute("prepage" , prepages);
         model.addAttribute("nextpage" , nextpages);
         model.addAttribute("page_url" , request.getRequestURI());
+        model.addAttribute("condition" , "&edited_user_id="+edited_user_id);
 
         model.addAttribute("edited_user_id" , edited_user_id);
         model.addAttribute("user_org_role_list" , user_org_role_list);
@@ -451,6 +464,12 @@ public class PeopleManageController {
         model.addAttribute("prepage" , prepages);
         model.addAttribute("nextpage" , nextpages);
         model.addAttribute("page_url" , request.getRequestURI());
+
+        String condition = "&choose_org_id="+org_id;
+        if(user_name != null) {
+            condition = condition + "&username="+user_name;
+        }
+        model.addAttribute("condition" , condition);
 
         model.addAttribute("choose_org_id" , org_id);
         model.addAttribute("user_name" , user_name);

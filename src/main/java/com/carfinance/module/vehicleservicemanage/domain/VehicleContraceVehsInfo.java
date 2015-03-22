@@ -27,8 +27,17 @@ public class VehicleContraceVehsInfo implements Serializable{
 
     private String return_time;
     private long return_km;
+    private long return_org;
     private double over_price;
     private int status;
+
+    public long getReturn_org() {
+        return return_org;
+    }
+
+    public void setReturn_org(long return_org) {
+        this.return_org = return_org;
+    }
 
     public long getOther_vehicle_km() {
         return other_vehicle_km;

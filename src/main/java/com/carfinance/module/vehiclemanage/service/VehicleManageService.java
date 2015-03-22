@@ -2,6 +2,7 @@ package com.carfinance.module.vehiclemanage.service;
 
 import com.carfinance.module.common.dao.CommonDao;
 import com.carfinance.module.common.domain.City;
+import com.carfinance.module.common.domain.Org;
 import com.carfinance.module.common.service.CommonService;
 import com.carfinance.module.common.service.ManageMemcacdedClient;
 import com.carfinance.module.init.service.InitService;
@@ -58,14 +59,30 @@ public class VehicleManageService {
         long total = this.vehicleManageDao.getVehicleCount(original_org , current_city , brand , vehicle_model , license_plate , gps , km_begin , km_end , lease_status , color);//门店品牌车辆总数
         List<VehicleInfo> vehicle_list = this.vehicleManageDao.getVehicleList(original_org , current_city , brand , vehicle_model , license_plate , gps , km_begin , km_end , lease_status , color  , start , size);
         List<City> sys_used_city_list = this.commonService.getSysUsedCityList();
+        List<Org> org_list = this.commonService.getSysAllOrgList();
+//        for(VehicleInfo vehicleInfo : vehicle_list) {
+//            for(City city : sys_used_city_list) {
+//                if(vehicleInfo.getCurrent_city() == city.getCity_id()) {
+//                    vehicleInfo.setCurrent_city_name(city.getCity_name());
+//                    break;
+//                }
+//            }
+//        }
         for(VehicleInfo vehicleInfo : vehicle_list) {
-            for(City city : sys_used_city_list) {
-                if(vehicleInfo.getCurrent_city() == city.getCity_id()) {
-                    vehicleInfo.setCurrent_city_name(city.getCity_name());
+            for(Org org : org_list) {
+                if(vehicleInfo.getCurrent_shop() == org.getOrg_id()) {
+                    String current_shop_name = "";
+                    if(org.getOrg_type() > 12) {
+                        current_shop_name = org.getOrg_city_name() + " " + org.getOrg_name();
+                    } else {
+                        current_shop_name = org.getOrg_name();
+                    }
+                    vehicleInfo.setCurrent_shop_name(current_shop_name);
                     break;
                 }
             }
         }
+
 
         Map<String , Object> map = new HashMap<String, Object>();
         map.put("total" , total);

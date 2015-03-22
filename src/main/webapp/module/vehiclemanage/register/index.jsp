@@ -59,7 +59,7 @@
     <table>
         <tr>
             <td>
-                门店：
+                所属门店：
                 <select id="original_org" name="original_org">
                     <%--<c:forEach var="org" items="${user_all_org_list}" varStatus="status">--%>
                         <%--<c:if test="${org.org_id == original_org}">--%>
@@ -159,7 +159,8 @@
             <th>车牌</th>
             <th>品牌</th>
             <th>车型</th>
-            <th>当前所在地市</th>
+            <%--<th>当前所在地市</th>--%>
+            <th>当前所在门店</th>
             <th>车辆状态</th>
             <th>GPS状态</th>
             <th>操作</th>
@@ -172,7 +173,8 @@
             <td><a href="${ctx}/vehicle/info/detail?vehicle_id=${vehicle.id}">${vehicle.license_plate}</a></td>
             <td>${vehicle.brand}</td>
             <td>${vehicle.model}</td>
-            <td>${vehicle.current_city_name}</td>
+            <%--<td>${vehicle.current_city_name}</td>--%>
+            <td>${vehicle.current_shop_name}</td>
             <td>${vehicle.lease_status}</td>
             <td>${vehicle.gps}</td>
             <td>

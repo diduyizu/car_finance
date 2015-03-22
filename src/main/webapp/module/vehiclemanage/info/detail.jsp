@@ -49,7 +49,7 @@
             </tr>
             <tr>
                 <td class="tableleft">所属门店</td>
-                <td>
+                <td colspan="5">
                     <c:forEach var="org" items="${user_all_org_list}" varStatus="status">
                         <c:if test="${vehicle_info.original_org == org.org_id}">${org.org_name}</c:if>
                     </c:forEach>

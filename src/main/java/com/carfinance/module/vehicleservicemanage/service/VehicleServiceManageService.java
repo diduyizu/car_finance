@@ -9,6 +9,7 @@ import com.carfinance.module.customermanage.service.CustomerManageService;
 import com.carfinance.module.init.service.InitService;
 import com.carfinance.module.login.domain.User;
 import com.carfinance.module.storemanage.dao.StoreManageDao;
+import com.carfinance.module.storemanage.domain.Store;
 import com.carfinance.module.vehiclemanage.dao.VehicleManageDao;
 import com.carfinance.module.vehiclemanage.domain.VehicleInfo;
 import com.carfinance.module.vehiclemanage.service.VehicleManageService;
@@ -50,6 +51,8 @@ public class VehicleServiceManageService {
     private Properties appProps;
     @Autowired
     private CustomerManageService customerManageService;
+    @Autowired
+    private StoreManageDao storeManageDao;
 
     public Map<String , Object> getOrgReservationList(long org_id , String customer_name , String dn , int start, int size) {
         long total = this.vehicleServiceManageDao.getOrgReservationCount(org_id, customer_name, dn);
@@ -418,14 +421,16 @@ public class VehicleServiceManageService {
         return map;
     }
 
-    public int returnVehicle(long vehicle_contrace_id , long contrace_id , String return_time , long return_km , long vehicle_id , double over_price) {
+    public int returnVehicle(long vehicle_contrace_id , long contrace_id , String return_time , long return_km , long vehicle_id , double over_price , long return_org) {
         try{
             //更新合同车辆表
             Date return_time_date = DateUtil.string2Date(return_time , "yyyy-MM-dd HH:mm");
-            int result = this.vehicleServiceManageDao.returnVehicle(vehicle_contrace_id , return_time_date , return_km , over_price);
+            int result = this.vehicleServiceManageDao.returnVehicle(vehicle_contrace_id , return_time_date , return_km , over_price , return_org);
             if(result > 0) {
-                //更新车辆主表当前公里数为return_km
-                this.vehicleServiceManageDao.updateVehicleKM(vehicle_id , return_km);
+                //更新车辆主表当前公里数为return_km,以及当前所在门店和城市
+                //根据归还门店，得到归还城市
+                Store store = this.storeManageDao.getStoreById(return_org);
+                this.vehicleServiceManageDao.updateVehicleKM(vehicle_id, return_km, return_org , store.getOrg_city());
             }
             return result;
         } catch (Exception e) {
