@@ -380,10 +380,16 @@ public class VehicleServiceManageService {
 
 
     public Map<String , Object> calculateOvertimeAndKm(String use_begin , String use_end , String return_date , long vehicle_id , long return_km , long daily_available_km , double over_hour_price , double over_km_price) {
+        long current_km = 0;
         VehicleInfo vehicleInfo = this.vehicleManageDao.getVehicleInfoByid(vehicle_id);
+        if(vehicleInfo != null) {
+            current_km = vehicleInfo.getKm();
+        } else {
+            current_km = this.vehicleServiceManageDao.getOtherVehicleKm(vehicle_id);
+        }
 
         //还车时，实际使用公里数
-        long km_lag_tmp = return_km-vehicleInfo.getKm();
+        long km_lag_tmp = return_km - current_km;
         //计算合同租车天数,开始——结束时间算
         double contrace_days = DateUtil.getTimeLag(use_begin, use_end, "day");
         //合同允许总公里数=合同允许每天公里数*合同使用天数

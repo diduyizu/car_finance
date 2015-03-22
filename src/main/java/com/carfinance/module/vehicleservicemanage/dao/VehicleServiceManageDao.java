@@ -583,8 +583,9 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
     }
 
     public int contraceDoAddForeignVehicle(long contrace_id, String license_plate , String vehicle_model , double vehicle_price , String company , long other_vehicle_km , long user_id) {
-        String sql = "insert into vehicle_contrace_vehs (contrace_id , license_plate , model , company , isother ,  create_by , vehicle_price , other_vehicle_km) values (?,?,?,?,1,?,?,?)";
-        Object[] o = new Object[] { contrace_id , license_plate.toUpperCase() , vehicle_model , company  , user_id , vehicle_price , other_vehicle_km };
+        long vehicle_id = this.commonDao.getNextVal("ForeignSeq");
+        String sql = "insert into vehicle_contrace_vehs (contrace_id , vehicle_id , license_plate , model , company , isother ,  create_by , vehicle_price , other_vehicle_km) values (?,?,?,?,1,?,?,?)";
+        Object[] o = new Object[] { contrace_id , vehicle_id , license_plate.toUpperCase() , vehicle_model , company  , user_id , vehicle_price , other_vehicle_km };
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().update(sql, o);
     }
@@ -1069,5 +1070,12 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
         Object[] o = new Object[] {  vehicle_status , vehicle_id  };
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().update(sql , o);
+    }
+
+    public long getOtherVehicleKm(long vehicle_id) {
+        String sql = "select other_vehicle_km from vehicle_contrace_vehs where vehicle_id = ?";
+        Object[] o = new Object[] {  vehicle_id  };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().queryForLong(sql , o);
     }
 }
