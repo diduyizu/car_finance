@@ -45,6 +45,9 @@
     <form class="cmxform form-horizontal">
         <table class="table table-bordered table-hover definewidth m10">
             <tr>
+                <td class="tableleft" colspan="6">车辆基本信息</td>
+            </tr>
+            <tr>
                 <td class="tableleft">所属门店</td>
                 <td>
                     <c:forEach var="org" items="${user_all_org_list}" varStatus="status">
@@ -181,10 +184,6 @@
                 </td>
                 <td class="tableleft">当前所在门店</td>
                 <td>
-                    <c:forEach var="org" items="${user_all_org_list}" varStatus="status">
-
-                    </c:forEach>
-
                     <c:forEach var="org" items="${user_all_org_list}" varStatus="status">
                         <c:if test="${vehicle_info.current_shop == org.org_id}">
                             <c:if test="${org.org_type > 12}">

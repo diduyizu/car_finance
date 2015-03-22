@@ -176,6 +176,7 @@
             <td>${vehicle.lease_status}</td>
             <td>${vehicle.gps}</td>
             <td>
+                <button type="button" class="btn btn-success modify" value="${vehicle.id}">修改</button>
                 <button type="button" class="btn btn-success addinsurance" value="${vehicle.id}">新增保险</button>
                 <button type="button" class="btn btn-success addpeccancy" value="${vehicle.id}">新增违章</button>
                 <button type="button" class="btn btn-success addmaintainremind" value="${vehicle.id}">新增保养</button>
@@ -207,6 +208,11 @@
     $('.addmaintainremind').click(function(){
         var vehicle_id = $(this).val();
         window.location.href="${ctx}/vehicle/maintainremind/add?vehicle_id="+vehicle_id;
+    });
+
+    $('.modify').click(function(){
+        var vehicle_id = $(this).val();
+        window.location.href="${ctx}/vehicle/vehicle/modify?vehicle_id="+vehicle_id;
     });
 
 

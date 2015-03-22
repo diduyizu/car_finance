@@ -229,12 +229,12 @@
                 <td class="tableleft" colspan="6">车辆使用情况</td>
             </tr>
             <tr>
-                <td class="tableleft">保养剩余公里数</td>
-                <td><input type="text" name="maintian_on_km" id="maintian_on_km" placeholder="必填" required="true"/></td>
+                <%--<td class="tableleft">保养剩余公里数</td>--%>
+                <%--<td><input type="text" name="maintian_on_km" id="maintian_on_km" placeholder="必填" required="true"/></td>--%>
                 <td class="tableleft">下次保养公里数</td>
                 <td><input type="text" name="next_main_km" id="next_main_km" placeholder="必填" required="true"/></td>
                 <td class="tableleft">是否有违章待处理</td>
-                <td>
+                <td colspan="3">
                     <select id="peccancy_status" name="peccancy_status">
                         <option value="0">无</option>
                         <option value="1">有</option>
@@ -340,7 +340,7 @@
             var business_insurance=$.trim($('#business_insurance').val());
             var business_insurance_expire_at=$.trim($('#business_insurance_expire_at_date').val());
             var km=$.trim($('#km').val());
-            var maintian_on_km=$.trim($('#maintian_on_km').val());
+//            var maintian_on_km=$.trim($('#maintian_on_km').val());
             var gps=$.trim($('#gps').val());
             var current_city=$.trim($('#current_city').val());
             var current_shop=$.trim($('#current_shop').val());
@@ -375,7 +375,7 @@
                     guide_price:guide_price,vehicle_price:vehicle_price,vehicle_tax:vehicle_tax,insurance_company:insurance_company,
                     strong_insurance:strong_insurance,vehicle_vessel_tax:vehicle_vessel_tax,strong_insurance_expire_at:strong_insurance_expire_at,
                     business_insurance:business_insurance,business_insurance_expire_at:business_insurance_expire_at,remark:remark,original_org:original_org,
-                    km:km , maintian_on_km:maintian_on_km , gps:gps , current_city:current_city , current_shop:current_shop ,
+                    km:km , gps:gps , current_city:current_city , current_shop:current_shop ,
                     lease_status:lease_status , peccancy_status:peccancy_status , next_main_km:next_main_km ,
                     financing_rent_company:financing_rent_company , financing_rent_price:financing_rent_price , bail:bail , monthly_payment:monthly_payment},
                 success:function(data){

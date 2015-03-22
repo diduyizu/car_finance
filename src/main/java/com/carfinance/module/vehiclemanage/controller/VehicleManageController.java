@@ -182,7 +182,7 @@ public class VehicleManageController {
         String business_insurance_expire_at  = request.getParameter("business_insurance_expire_at");
 
         long km = Long.valueOf(request.getParameter("km"));
-        long maintian_on_km = Long.valueOf(request.getParameter("maintian_on_km"));
+//        long maintian_on_km = Long.valueOf(request.getParameter("maintian_on_km"));
         String gps = request.getParameter("gps");
         long current_city = Long.valueOf(request.getParameter("current_city"));
         long current_shop  = Long.valueOf(request.getParameter("current_shop"));
@@ -216,7 +216,7 @@ public class VehicleManageController {
                 limited_at , guide_price , vehicle_price , vehicle_tax , insurance_company ,
                 strong_insurance , vehicle_vessel_tax , strong_insurance_expire_at , business_insurance ,
                 business_insurance_expire_at , remark , user.getUser_id() , original_org ,
-                km , maintian_on_km , gps , current_city , current_shop , lease_status , peccancy_status , next_main_km ,
+                km  , gps , current_city , current_shop , lease_status , peccancy_status , next_main_km ,
                 financing_rent_company , financing_rent_price , bail , monthly_payment);
     }
 
@@ -244,6 +244,88 @@ public class VehicleManageController {
         model.addAttribute("vehicle_info" , vehicle_info);
         return "/module/vehiclemanage/info/detail";
     }
+
+    @RequestMapping(value = "/vehicle/modify" , method = RequestMethod.GET)
+    public String vehicleModify(Model model , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        long vehicle_id = Long.valueOf(request.getParameter("vehicle_id"));
+        List<Org> user_all_org_list = this.commonService.getUserAllOrgList(user.getUser_id());
+        List<City> city_list = this.commonService.getSysUsedCityList();
+        VehicleInfo vehicleInfo = this.vehicleManageService.getVehicleInfoByid(vehicle_id);
+
+        model.addAttribute("city_list" , city_list);
+        model.addAttribute("user_all_org_list" , user_all_org_list);
+        model.addAttribute("vehicle_info" , vehicleInfo);
+        model.addAttribute("vehicle_id" , vehicle_id);
+        return "/module/vehiclemanage/register/modify";
+    }
+
+    @RequestMapping(value = "/vehicle/domodify" , method = RequestMethod.POST)
+    @ResponseBody
+    public int vehicleDoModify(Model model , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        long vehicle_id = Long.valueOf(request.getParameter("vehicle_id"));
+        String brand = request.getParameter("brand");
+        String vehicle_model = request.getParameter("model");
+        String color = request.getParameter("color");
+        String carframe_no = request.getParameter("carframe_no");
+        String engine_no = request.getParameter("engine_no");
+        String buy_at = request.getParameter("buy_at");
+        String supplier= request.getParameter("supplier");
+        String license_plate = request.getParameter("license_plate");
+        String card_at = request.getParameter("card_at");
+        String limited_at = request.getParameter("limited_at");
+        double guide_price = Double.valueOf(request.getParameter("guide_price"));
+        double vehicle_price = Double.valueOf(request.getParameter("vehicle_price"));
+        double vehicle_tax = Double.valueOf(request.getParameter("vehicle_tax"));
+        String insurance_company= request.getParameter("insurance_company");
+        double strong_insurance = Double.valueOf(request.getParameter("strong_insurance"));
+        String strong_insurance_expire_at= request.getParameter("strong_insurance_expire_at");
+        double vehicle_vessel_tax = Double.valueOf(request.getParameter("vehicle_vessel_tax"));
+        double business_insurance = Double.valueOf(request.getParameter("business_insurance"));
+        String business_insurance_expire_at  = request.getParameter("business_insurance_expire_at");
+
+        long km = Long.valueOf(request.getParameter("km"));
+//        long maintian_on_km = Long.valueOf(request.getParameter("maintian_on_km"));
+        String gps = request.getParameter("gps");
+        long current_city = Long.valueOf(request.getParameter("current_city"));
+        long current_shop  = Long.valueOf(request.getParameter("current_shop"));
+        String lease_status = request.getParameter("lease_status");
+        String peccancy_status = request.getParameter("peccancy_status");
+        String archive_no = request.getParameter("archive_no");
+        String inventory_no = request.getParameter("inventory_no");
+        String registry_certificate = request.getParameter("registry_certificate");
+        String certificate_direction = request.getParameter("certificate_direction");
+        String loan_bank = request.getParameter("loan_bank");
+        String consistency_cer = request.getParameter("consistency_cer");
+        String check_list  = request.getParameter("check_list");
+        String duty_paid_proof = request.getParameter("duty_paid_proof");
+        String record = request.getParameter("record");
+        String remark = request.getParameter("remark");
+        long original_org = Long.valueOf(request.getParameter("original_org"));
+        long next_main_km = Long.valueOf(request.getParameter("next_main_km"));
+
+        String financing_rent_company = request.getParameter("financing_rent_company");
+        String financing_rent_price_str = request.getParameter("financing_rent_price");
+        double financing_rent_price =  StringUtils.isBlank(financing_rent_price_str) ? 0 : Double.valueOf(financing_rent_price_str);
+        String bail_str = request.getParameter("bail");
+        double bail = StringUtils.isBlank(bail_str) ? 0 : Double.valueOf(bail_str);
+        String monthly_payment_str = request.getParameter("monthly_payment");
+        double monthly_payment = StringUtils.isBlank(monthly_payment_str) ? 0 : Double.valueOf(monthly_payment_str);
+
+
+        return this.vehicleManageService.modifyVehicle(vehicle_id , archive_no , inventory_no , brand , vehicle_model , color , carframe_no , engine_no ,
+                registry_certificate , certificate_direction , loan_bank , consistency_cer , check_list ,
+                duty_paid_proof , record , buy_at , supplier , license_plate , card_at ,
+                limited_at , guide_price , vehicle_price , vehicle_tax , insurance_company ,
+                strong_insurance , vehicle_vessel_tax , strong_insurance_expire_at , business_insurance ,
+                business_insurance_expire_at , remark , user.getUser_id() , original_org ,
+                km , gps , current_city , current_shop , lease_status , peccancy_status , next_main_km ,
+                financing_rent_company , financing_rent_price , bail , monthly_payment);
+    }
+
 
 
     /**

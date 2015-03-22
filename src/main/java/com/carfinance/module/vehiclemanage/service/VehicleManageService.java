@@ -79,7 +79,7 @@ public class VehicleManageService {
                           String limited_at , double guide_price , double vehicle_price , double vehicle_tax , String insurance_company ,
                           double strong_insurance , double vehicle_vessel_tax , String strong_insurance_expire_at , double business_insurance ,
                           String business_insurance_expire_at , String remark , long create_by , long original_org ,
-                          long km , long maintian_on_km , String gps , long current_city , long current_shop , String lease_status , String peccancy_status , long next_main_km ,
+                          long km , String gps , long current_city , long current_shop , String lease_status , String peccancy_status , long next_main_km ,
                           String financing_rent_company , double financing_rent_price , double bail , double monthly_payment) {
 
         try{
@@ -94,7 +94,7 @@ public class VehicleManageService {
                     limited_at_date , guide_price , vehicle_price , vehicle_tax , insurance_company ,
                     strong_insurance , vehicle_vessel_tax , strong_insurance_expire_at_date , business_insurance ,
                     business_insurance_expire_at_date , remark , create_by , original_org ,
-                    km , maintian_on_km , gps , current_city , current_shop , lease_status , peccancy_status , next_main_km ,
+                    km  , gps , current_city , current_shop , lease_status , peccancy_status , next_main_km ,
                     financing_rent_company , financing_rent_price , bail , monthly_payment);
             if(result > 0) {
                 //增加车辆保险详细
@@ -110,6 +110,48 @@ public class VehicleManageService {
         }
 
     }
+
+
+
+    public int modifyVehicle(long vehicle_id , String archive_no , String inventory_no , String brand , String model , String color , String carframe_no , String engine_no ,
+                          String registry_certificate , String certificate_direction , String loan_bank , String consistency_cer , String check_list ,
+                          String duty_paid_proof , String record , String buy_at , String supplier , String license_plate , String card_at ,
+                          String limited_at , double guide_price , double vehicle_price , double vehicle_tax , String insurance_company ,
+                          double strong_insurance , double vehicle_vessel_tax , String strong_insurance_expire_at , double business_insurance ,
+                          String business_insurance_expire_at , String remark , long update_by , long original_org ,
+                          long km , String gps , long current_city , long current_shop , String lease_status , String peccancy_status , long next_main_km ,
+                          String financing_rent_company , double financing_rent_price , double bail , double monthly_payment) {
+
+        try{
+            Date buy_at_date = DateUtil.string2Date(buy_at , "yyyy-MM-dd");
+            Date card_at_date = DateUtil.string2Date(card_at , "yyyy-MM-dd");
+            Date limited_at_date = DateUtil.string2Date(limited_at , "yyyy-MM-dd");
+            Date strong_insurance_expire_at_date = DateUtil.string2Date(strong_insurance_expire_at , "yyyy-MM-dd");
+            Date business_insurance_expire_at_date = DateUtil.string2Date(business_insurance_expire_at , "yyyy-MM-dd");
+            int result = this.vehicleManageDao.modifyVehicle(vehicle_id , archive_no , inventory_no , brand , model , color , carframe_no , engine_no ,
+                    registry_certificate , certificate_direction , loan_bank , consistency_cer , check_list ,
+                    duty_paid_proof , record , buy_at_date , supplier , license_plate , card_at_date ,
+                    limited_at_date , guide_price , vehicle_price , vehicle_tax , insurance_company ,
+                    strong_insurance , vehicle_vessel_tax , strong_insurance_expire_at_date , business_insurance ,
+                    business_insurance_expire_at_date , remark , update_by , original_org ,
+                    km , gps , current_city , current_shop , lease_status , peccancy_status , next_main_km ,
+                    financing_rent_company , financing_rent_price , bail , monthly_payment);
+            if(result > 0) {
+                //增加车辆保险详细
+                this.vehicleManageDao.addVehicleInsurance(carframe_no , engine_no , license_plate , insurance_company , strong_insurance ,
+                        vehicle_vessel_tax , strong_insurance_expire_at_date , business_insurance , business_insurance_expire_at_date , remark , update_by);
+//                //增加车辆保养详细
+//                this.vehicleManageDao.addVehicleMaintain(carframe_no , engine_no , license_plate , "" , 0 , km , next_main_km , 0 , "" , create_by);
+            }
+            return result;
+        } catch (Exception e) {
+            logger.info(e.getMessage() , e);
+            return 0;
+        }
+
+    }
+
+
 
     /**
      * 获取某车辆保险纪录
