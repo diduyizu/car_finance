@@ -19,12 +19,21 @@ public class VehiclePeccancy implements Serializable{
     private String arbitration;
     private String employee_id;
     private String employee_name;
-    private long customer_id;
+    private String customer_id;
     private String customer_name;
     private long create_by;
     private Date create_at;
     private long update_by;
     private Date update_at;
+
+
+    public String getCustomer_id() {
+        return customer_id;
+    }
+
+    public void setCustomer_id(String customer_id) {
+        this.customer_id = customer_id;
+    }
 
     public String getEmployee_id() {
         return employee_id;
@@ -40,14 +49,6 @@ public class VehiclePeccancy implements Serializable{
 
     public void setEmployee_name(String employee_name) {
         this.employee_name = employee_name;
-    }
-
-    public long getCustomer_id() {
-        return customer_id;
-    }
-
-    public void setCustomer_id(long customer_id) {
-        this.customer_id = customer_id;
     }
 
     public String getCustomer_name() {

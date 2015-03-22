@@ -8,6 +8,7 @@ import com.carfinance.module.init.service.InitService;
 import com.carfinance.module.vehiclemanage.dao.VehicleManageDao;
 import com.carfinance.module.vehiclemanage.domain.VehicleInfo;
 import com.carfinance.module.vehiclemanage.domain.VehicleInsurance;
+import com.carfinance.module.vehiclemanage.domain.VehicleMaintail;
 import com.carfinance.module.vehiclemanage.domain.VehiclePeccancy;
 import com.carfinance.module.vehicleservicemanage.dao.VehicleServiceManageDao;
 import com.carfinance.module.vehicleservicemanage.domain.VehicleContraceInfo;
@@ -297,7 +298,6 @@ public class VehicleManageService {
         }
     }
 
-
     public Map<String , Object> getVehicleMaintainRemindList(long original_org , String current_city , String license_plate , int start , int size) {
         long remind_km = Long.valueOf(appProps.get("vehicle.maintain.remind.km").toString());//保养提醒公里数
         long total = this.vehicleManageDao.getVehicleMaintainRemindCount(original_org, current_city, license_plate, remind_km);//需要提醒保养车辆总数
@@ -305,6 +305,15 @@ public class VehicleManageService {
         Map<String , Object> map = new HashMap<String, Object>();
         map.put("total" , total);
         map.put("vehicle_maintain_remind_list" , vehicle_maintain_remind_list);
+        return map;
+    }
+
+    public Map<String , Object> getVehicleMaintainDetai(String carframe_no , int start , int size) {
+        long total = this.vehicleManageDao.getVehicleMaintainDetail(carframe_no);
+        List<VehicleMaintail> vehicleMaintailList = this.vehicleManageDao.getVechicleMaintainDetaiList(carframe_no , start , size);
+        Map<String , Object> map = new HashMap<String, Object>();
+        map.put("total" , total);
+        map.put("vehicle_maintain_list" , vehicleMaintailList);
         return map;
     }
 

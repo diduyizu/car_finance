@@ -2,12 +2,7 @@ package com.carfinance.module.vehiclemanage.dao;
 
 import com.carfinance.core.dao.BaseJdbcDaoImpl;
 import com.carfinance.module.common.dao.CommonDao;
-import com.carfinance.module.vehiclemanage.domain.VehicleInfo;
-import com.carfinance.module.vehiclemanage.domain.VehicleInfoRowMapper;
-import com.carfinance.module.vehiclemanage.domain.VehicleInsurance;
-import com.carfinance.module.vehiclemanage.domain.VehicleInsuranceRowMapper;
-import com.carfinance.module.vehiclemanage.domain.VehiclePeccancy;
-import com.carfinance.module.vehiclemanage.domain.VehiclePeccancyRowMapper;
+import com.carfinance.module.vehiclemanage.domain.*;
 import com.carfinance.module.vehicleservicemanage.domain.VehicleContraceVehsInfo;
 import com.carfinance.module.vehicleservicemanage.domain.VehicleContraceVehsInfoRowMapper;
 import org.slf4j.Logger;
@@ -679,5 +674,19 @@ public class VehicleManageDao extends BaseJdbcDaoImpl {
         Object[] o = new Object[] { peccancy_at , peccancy_at , license_plate.toUpperCase() };
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().query(sql, o , new VehicleContraceVehsInfoRowMapper());
+    }
+
+    public long getVehicleMaintainDetail(String carframe_no) {
+        String sql = "select count(1) from vehicle_maintail_record where carframe_no = ?";
+        Object[] o = new Object[] { carframe_no };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().queryForLong(sql, o);
+    }
+
+    public List<VehicleMaintail> getVechicleMaintainDetaiList(String carframe_no , int start , int size) {
+        String sql = "select * from vehicle_maintail_record where carframe_no = ? limit ? , ?";
+        Object[] o = new Object[] { carframe_no , start , size };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().query(sql, o, new VehicleMaintailRowMapper());
     }
 }

@@ -9,11 +9,13 @@
     <link rel="stylesheet" type="text/css" href="<c:url value="/resources/Css/style.css" />" />
     <link rel="stylesheet" type="text/css" href="<c:url value="/resources/Css/datepicker.css" />" />
 
-    <script type="text/javascript" src="<c:url value="/resources/Js/jquery.js" />"></script>
+    <%--<script type="text/javascript" src="<c:url value="/resources/Js/jquery.js" />"></script>--%>
+    <script type="text/javascript" src="<c:url value="/resources/Js/jquery-1.7.1.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/Js/bootstrap.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/Js/ckform.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/Js/common.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/Js/bootstrap-datepicker.js" />"></script>
+    <script type="text/javascript" src="<c:url value="/resources/Js/bootstrap-typeahead.js" />"></script>
 
  
 
@@ -36,6 +38,21 @@
 
 
     </style>
+    <script type="text/javascript">
+        $().ready(function() {
+            var user_employee_id_name_json = ${user_employee_id_name_json};
+            console.info(user_employee_id_name_json);
+            $('#employee_id_name').typeahead({
+                source: user_employee_id_name_json
+            });
+
+            var customer_name_certification_no_json = ${customer_name_certification_no_json};
+            console.info(customer_name_certification_no_json);
+            $('#customer_id_name').typeahead({
+                source: customer_name_certification_no_json
+            });
+        })
+    </script>
 </head>
 <body>
     <form class="definewidth m20">
@@ -43,12 +60,8 @@
             <tr>
                 <td class="tableleft">车架号</td>
                 <td><input type="text" name="carframe_no" id="carframe_no" value="${vehicle_peccancy.carframe_no}" readonly/></td>
-            </tr>
-            <tr>
                 <td class="tableleft">发动机号</td>
                 <td><input type="text" name="engine_no" id="engine_no" value="${vehicle_peccancy.engine_no}" readonly/></td>
-            </tr>
-            <tr>
                 <td class="tableleft">车牌号</td>
                 <td><input type="text" name="license_plate" id="license_plate" value="${vehicle_peccancy.license_plate}" readonly/></td>
             </tr>
@@ -60,38 +73,33 @@
                         <span class="add-on"><i class="icon-th"></i></span>
                     </div>
                 </td>
-            </tr>
-            <tr>
                 <td class="tableleft">违章地点</td>
                 <td><input type="text" name="peccancy_place" id="peccancy_place" value="${vehicle_peccancy.peccancy_place}" /></td>
-            </tr>
-
-            <tr>
                 <td class="tableleft">违章原因</td>
                 <td><input type="text" name="peccancy_reason" id="peccancy_reason" value="${vehicle_peccancy.peccancy_reason}" /></td>
             </tr>
             <tr>
                 <td class="tableleft">罚款金额</td>
                 <td><input type="text" name="peccancy_price" id="peccancy_price" value="${vehicle_peccancy.peccancy_price}" /></td>
-            </tr>
-            <tr>
                 <td class="tableleft">扣分数</td>
                 <td><input type="text" name="score" id="score" value="${vehicle_peccancy.score}" /></td>
-            </tr>
-            <tr>
-                <td class="tableleft">是否已处理</td>
+                <td class="tableleft">是否处理</td>
                 <td>
-                    <input type="radio" name="status" value="0" checked>未处理
-                    <input type="radio" name="status" value="1">已处理
+                    <input type="radio" name="status" value="0" checked>不处理
+                    <input type="radio" name="status" value="1">处理
                 </td>
             </tr>
             <tr>
+                <td class="tableleft">处理员工姓名/工号</td>
+                <td><input type="text" name="employee_id_name" id="employee_id_name" placeholder="必填" required value="${vehicle_peccancy.employee_name}|${vehicle_peccancy.employee_id}" /></td>
+                <td class="tableleft">客户姓名/证件号</td>
+                <td><input type="text" name="customer_id_name" id="customer_id_name" placeholder="必填" required value="${vehicle_peccancy.customer_name}|${vehicle_peccancy.customer_id}"  /></td>
                 <td class="tableleft">仲裁结果</td>
-                <td><input type="text" name="arbitration" id="arbitration" required=""/></td>
+                <td><input type="text" name="arbitration" id="arbitration" required value="${vehicle_peccancy.arbitration}"/></td>
             </tr>
             <tr>
                 <td class="tableleft"></td>
-                <td>
+                <td colspan="5">
                     <input type="hidden" id="peccancy_id" name="peccancy_id" value="${vehicle_peccancy.id}">
                     <button type="button" class="btn btn-primary" id="save">保存</button> &nbsp;&nbsp;
                     <button type="button" class="btn btn-success" id="backid">返回列表</button>

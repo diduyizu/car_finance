@@ -22,7 +22,7 @@ public class VehiclePeccancyRowMapper implements RowMapper<VehiclePeccancy>{
         vehiclePeccancy.setArbitration(rs.getString("arbitration"));
         vehiclePeccancy.setEmployee_id(rs.getString("employee_id"));
         vehiclePeccancy.setEmployee_name(rs.getString("employee_name"));
-        vehiclePeccancy.setCustomer_id(rs.getLong("customer_id"));
+        vehiclePeccancy.setCustomer_id(rs.getString("customer_id"));
         vehiclePeccancy.setCustomer_name(rs.getString("customer_name"));
         vehiclePeccancy.setCreate_at(rs.getDate("create_at"));
         vehiclePeccancy.setCreate_by(rs.getLong("create_by"));

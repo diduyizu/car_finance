@@ -6,6 +6,7 @@ import com.carfinance.module.init.service.InitService;
 import com.carfinance.module.login.domain.User;
 import com.carfinance.module.vehiclemanage.domain.VehicleInfo;
 import com.carfinance.module.vehiclemanage.domain.VehicleInsurance;
+import com.carfinance.module.vehiclemanage.domain.VehicleMaintail;
 import com.carfinance.module.vehiclemanage.service.VehicleManageService;
 import com.carfinance.module.vehiclemanage.domain.VehiclePeccancy;
 import org.apache.commons.lang3.StringUtils;
@@ -743,7 +744,12 @@ public class VehicleManageController {
         long id = Long.valueOf(request.getParameter("id"));
         VehiclePeccancy vehiclePeccancy = this.vehicleManageService.getVehiclePeccancy(id);
 
+        String customer_name_certification_no_json = this.commonService.getAllCustomerNameAndCertificateNo();
+        String user_employee_id_name_json = this.commonService.getAllEmployeeIdAndName();
+
         model.addAttribute("vehicle_peccancy" , vehiclePeccancy);
+        model.addAttribute("customer_name_certification_no_json" , customer_name_certification_no_json);
+        model.addAttribute("user_employee_id_name_json" , user_employee_id_name_json);
         return "/module/vehiclemanage/peccancy/handle";
     }
 
@@ -869,6 +875,37 @@ public class VehicleManageController {
 
         return this.vehicleManageService.maintainRecordDoAdd(carframe_no, engine_no, license_plate, maintain_at,
                 maintain_content, maintain_price, current_km, next_maintain_km, user_id, user_name, user.getUser_id());
+    }
+
+    @RequestMapping(value = "/maintainremind/detail" , method = RequestMethod.GET)
+    public String maintainremindDetail(Model model , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        String pageindexStr = request.getParameter("page_index");//第几页
+        int page_index = Integer.parseInt(StringUtils.isBlank(pageindexStr) || "0".equals(pageindexStr) ? "1" : pageindexStr);
+        int size = Integer.valueOf(appProps.get("store.query.size").toString());//每页显示条数
+        int start = (page_index - 1) * size;
+
+        String carframe_no = request.getParameter("carframe_no");//车架号
+        Map<String , Object> map = this.vehicleManageService.getVehicleMaintainDetai(carframe_no, start, size);
+
+        long total = (Long)map.get("total");;
+        List<VehicleMaintail> vehicle_maintain_list = (List<VehicleMaintail>)map.get("vehicle_maintain_list");
+
+        long temp = (total - 1) <= 0 ? 0 : (total - 1);
+        int pages = Integer.parseInt(Long.toString(temp / size)) + 1;
+        int prepages = (page_index - 1) <= 0 ? 1 : (page_index - 1);
+        int nextpages = (page_index + 1) >= pages ? pages : (page_index + 1);
+
+        model.addAttribute("current_page" , page_index);
+        model.addAttribute("pages" , pages);
+        model.addAttribute("prepage" , prepages);
+        model.addAttribute("nextpage" , nextpages);
+        model.addAttribute("page_url" , request.getRequestURI());
+
+        model.addAttribute("carframe_no" , carframe_no);
+        model.addAttribute("vehicle_maintain_list" , vehicle_maintain_list);
+        return "/module/vehiclemanage/maintainremind/detail";
     }
 
     /**
