@@ -90,6 +90,45 @@ public class VehicleManageService {
         return map;
     }
 
+    /**
+     * 获取某组织下车辆列表，车辆列表页，选择的是当前所在门店
+     * 上面一个方法，获取的是车辆归属门店
+     * @param current_shop
+     * @param brand
+     * @param license_plate
+     * @param start
+     * @param size
+     * @return
+     */
+    public Map<String , Object> getCurrentShopVehicleList(long current_shop , String current_city , String brand , String vehicle_model , String license_plate , String gps , String km_begin , String km_end , String lease_status , String color  , int start , int size) {
+        long total = this.vehicleManageDao.getCurrentShopVehicleCount(current_shop , current_city , brand , vehicle_model , license_plate , gps , km_begin , km_end , lease_status , color);//门店品牌车辆总数
+        List<VehicleInfo> vehicle_list = this.vehicleManageDao.getCurrentShopVehicleList(current_shop , current_city , brand , vehicle_model , license_plate , gps , km_begin , km_end , lease_status , color  , start , size);
+        List<City> sys_used_city_list = this.commonService.getSysUsedCityList();
+        List<Org> org_list = this.commonService.getSysAllOrgList();
+        for(VehicleInfo vehicleInfo : vehicle_list) {
+            for(Org org : org_list) {
+                if(vehicleInfo.getCurrent_shop() == org.getOrg_id()) {
+                    String current_shop_name = "";
+                    if(org.getOrg_type() > 12) {
+                        current_shop_name = org.getOrg_city_name() + " " + org.getOrg_name();
+                    } else {
+                        current_shop_name = org.getOrg_name();
+                    }
+                    vehicleInfo.setCurrent_shop_name(current_shop_name);
+                    break;
+                }
+            }
+        }
+
+
+        Map<String , Object> map = new HashMap<String, Object>();
+        map.put("total" , total);
+        map.put("vehicle_list" , vehicle_list);
+        return map;
+    }
+
+
+
     public int addVehicle(String archive_no , String inventory_no , String brand , String model , String color , String carframe_no , String engine_no ,
                           String registry_certificate , String certificate_direction , String loan_bank , String consistency_cer , String check_list ,
                           String duty_paid_proof , String record , String buy_at , String supplier , String license_plate , String card_at ,

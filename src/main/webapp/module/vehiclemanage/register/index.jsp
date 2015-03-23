@@ -59,7 +59,7 @@
     <table>
         <tr>
             <td>
-                所属门店：
+                 当前所在门店：
                 <select id="original_org" name="original_org">
                     <%--<c:forEach var="org" items="${user_all_org_list}" varStatus="status">--%>
                         <%--<c:if test="${org.org_id == original_org}">--%>

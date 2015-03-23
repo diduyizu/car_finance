@@ -54,6 +54,7 @@ public class VehicleManageController {
         int start = (page_index - 1) * size;
 
         String original_org_str = request.getParameter("original_org");
+        String vehicle_current_org = request.getParameter("original_org");//车辆当前所在门店
         String current_city = request.getParameter("current_city");
         String brand = request.getParameter("brand");
         String vehicle_model = request.getParameter("model");
@@ -79,8 +80,9 @@ public class VehicleManageController {
         }
 
         List<City> sys_used_city_list = this.commonService.getSysUsedCityList();
-        Map<String , Object> map = this.vehicleManageService.getVehicleList(original_org , current_city , brand , vehicle_model , license_plate , gps , km_begin , km_end , lease_status , color  , start , size);
-
+//        Map<String , Object> map = this.vehicleManageService.getVehicleList(original_org , current_city , brand , vehicle_model , license_plate , gps , km_begin , km_end , lease_status , color  , start , size);
+        Map<String , Object> map = this.vehicleManageService.getCurrentShopVehicleList(original_org, current_city, brand, vehicle_model, license_plate, gps, km_begin, km_end, lease_status, color, start, size);
+        
         long total = (Long)map.get("total");;
         List<VehicleInfo> vehicle_list = (List<VehicleInfo>)map.get("vehicle_list");
 
