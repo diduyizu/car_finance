@@ -209,6 +209,17 @@
         });
 
         $('#save').click(function(){
+
+            var certificate_type=$.trim($('#certificate_type').val());
+            var certificate_no=$.trim($('#certificate_no').val());
+            if(certificate_type == '身份证') {
+                var idcard_validate_result = IdCardValidate(certificate_no);
+                if(!idcard_validate_result) {
+                    alert("请输入正确的身份证号码");
+                    return false;
+                }
+            }
+
             var contrace_id=$.trim($('#contrace_id').val());
             var reservation_id=$.trim($('#reservation_id').val());
             var original_org=$.trim($('#original_org').val());
@@ -219,8 +230,7 @@
             var customer_name=$.trim($('#customer_name').val());
             var customer_type=$.trim($('#customer_type').val());
             var customer_dn=$.trim($('#customer_dn').val());
-            var certificate_type=$.trim($('#certificate_type').val());
-            var certificate_no=$.trim($('#certificate_no').val());
+
             var sign_at_date=$.trim($('#sign_at_date').val());
 
             var period_number=$.trim($('#period_number').val());
