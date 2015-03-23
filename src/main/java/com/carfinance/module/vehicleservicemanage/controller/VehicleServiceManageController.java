@@ -1726,7 +1726,7 @@ public class VehicleServiceManageController {
             }
         }
 
-        Map<String , Object> map = this.vehicleServiceManageService.getOrgContracePropertyList(original_org, status, start, size, null);
+        Map<String , Object> map = this.vehicleServiceManageService.getOrgContracePropertyList(original_org, status, start, size, "1");
         long total = (Long)map.get("total");
         List<PropertyContraceInfo> contrace_list = (List<PropertyContraceInfo>)map.get("contrace_list");
 
@@ -1819,7 +1819,7 @@ public class VehicleServiceManageController {
             }
         }
 
-        Map<String , Object> map = this.vehicleServiceManageService.getOrgContracePropertyList(original_org, status, start, size, null);
+        Map<String , Object> map = this.vehicleServiceManageService.getOrgContracePropertyList(original_org, status, start, size, "1");
         long total = (Long)map.get("total");
         List<PropertyContraceInfo> contrace_list = (List<PropertyContraceInfo>)map.get("contrace_list");
 
