@@ -18,6 +18,7 @@
     <script type="text/javascript" src="<c:url value="/resources/Js/common.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/Js/bootstrap-datepicker.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/Js/bootstrap-fileupload.js" />"></script>
+    <script type="text/javascript" src="<c:url value="/resources/Js/idcardValidate.js" />"></script>
 
 
 
@@ -117,6 +118,18 @@
 		$('#backid').click(function(){
             window.location.href="${ctx}/customer/info/index";
 		});
+
+        $("#certificate_no").blur(function(){
+            var certificate_type = $.trim($('#certificate_type').val());
+            if(certificate_type == '身份证') {
+                var certificate_no = $(this).val();
+                var idcard_validate_result = IdCardValidate(certificate_no);
+                if(!idcard_validate_result) {
+                    alert("请输入正确的身份证号码");
+                    return false;
+                }
+            }
+        });
 
         <%--$('#save').click(function(){--%>
             <%--var certificate_type=$.trim($('#certificate_type').val());--%>
