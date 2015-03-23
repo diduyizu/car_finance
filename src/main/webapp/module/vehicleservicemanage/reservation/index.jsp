@@ -133,11 +133,11 @@
     });
 
     $('.cancel').click(function(){
-        var reservation_org_id = $(this).val();
+        var reservation_id = $(this).val();
         $.ajax({
             url:"${ctx}/vehicleservice/reservation/docancel",
             type: "post",
-            data:{reservation_org_id:reservation_org_id , status:2},
+            data:{reservation_id:reservation_id , status:2},
             success:function(data){
                 if(data == 1){
                     alert("成功");
