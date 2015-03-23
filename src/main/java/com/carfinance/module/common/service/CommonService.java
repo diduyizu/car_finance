@@ -450,4 +450,41 @@ public class CommonService {
         return this.commonDao.getSysAllOrgList();
     }
 
+    /**
+     * 根据客户姓名，获取客户证件号码
+     * 优先获取身份证，如果身份证没有，随机捞取用户证件号码
+     * @param customer_name
+     * @param customer_dn
+     * @return
+     */
+    public Map<String , String> getCertificateNoByNameAndDn(String customer_name , String customer_dn) {
+        String certificate_type = "";
+        String certificate_no = "";
+        //优先使用身份证获取
+        List<CustomerInfo> customerInfoList = this.commonDao.getCertificateNoByNameAndDn(customer_name , customer_dn , "身份证");
+        if(customerInfoList.size() > 0) {//根据身份证查到数据
+            certificate_type = customerInfoList.get(0).getCertificate_type();
+            certificate_no = customerInfoList.get(0).getCertificate_no();
+            for(CustomerInfo customerInfo : customerInfoList) {//优先使用18位身份证号码
+                if(customerInfo.getCertificate_no().length() == 18) {
+                    certificate_type = customerInfo.getCertificate_type();
+                    certificate_no = customerInfo.getCertificate_no();
+                    break;
+                }
+            }
+        } else {
+            customerInfoList = this.commonDao.getCertificateNoByNameAndDn(customer_name, customer_dn, null);
+            if(customerInfoList.size() > 0) {
+                certificate_type = customerInfoList.get(0).getCertificate_type();
+                certificate_no = customerInfoList.get(0).getCertificate_no();
+            }
+        }
+
+        Map<String , String> map = new HashMap<String, String>();
+        map.put("certificate_type" , certificate_type);
+        map.put("certificate_no" , certificate_no);
+
+        return map;
+    }
+
 }

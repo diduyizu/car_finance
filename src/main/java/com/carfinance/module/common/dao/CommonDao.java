@@ -7,6 +7,8 @@ import com.carfinance.module.login.domain.User;
 import com.carfinance.module.login.domain.UserRowMapper;
 import com.carfinance.module.vehiclemanage.domain.VehicleInfo;
 import com.carfinance.module.vehiclemanage.domain.VehicleInfoRowMapper;
+import freemarker.template.utility.StringUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -189,5 +191,20 @@ public class CommonDao extends BaseJdbcDaoImpl{
         Object[] o = new Object[] { };
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().query(sql , o  , new OrgRowMapper());
+    }
+
+    public List<CustomerInfo> getCertificateNoByNameAndDn(String customer_name , String customer_dn , String certificate_type) {
+        String sql ;
+        Object[] o ;
+        if(StringUtils.isBlank(certificate_type)) {
+            sql="select * from customer_info where customer_name = ? and customer_dn = ? ";
+            o = new Object[] { customer_name , customer_dn };
+        } else {
+            sql="select * from customer_info where customer_name = ? and customer_dn = ? and certificate_type = ? ";
+            o = new Object[] { customer_name , customer_dn , certificate_type  };
+        }
+
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().query(sql , o  , new CustomerInfoRowMapper());
     }
 }

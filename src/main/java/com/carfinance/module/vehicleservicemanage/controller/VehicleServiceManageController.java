@@ -348,6 +348,12 @@ public class VehicleServiceManageController {
 //        this.vehicleServiceManageService.reservationDoCancel(reservation_id, user.getUser_id(), 1);//将预约单状态改为完结
         VehicleReservationInfo vehicleReservationInfo = this.vehicleServiceManageService.getVehicleReservationInfoById(reservation_id);
 
+        //根据预约单客户姓名、手机号，到客户资料表中，获取该姓名、手机号对应的身份证号码；如果查到多个，随机获取一个返回前台
+        Map<String , String> map = this.commonService.getCertificateNoByNameAndDn(vehicleReservationInfo.getCustomer_name() , vehicleReservationInfo.getCustomer_dn());
+        String certificate_type = map.get("certificate_type");
+        String certificate_no = map.get("certificate_no");
+
+
         String customer_name_json = this.commonService.getAllCustomerName();
         String user_employee_id_name_json = this.commonService.getAllEmployeeIdAndName();
 
@@ -358,6 +364,9 @@ public class VehicleServiceManageController {
         model.addAttribute("city_list" , city_list);
         model.addAttribute("user_all_org_list" , user_all_org_list);
         model.addAttribute("vehicleReservationInfo" , vehicleReservationInfo);
+
+        model.addAttribute("certificate_type" , certificate_type);
+        model.addAttribute("certificate_no" , certificate_no);
         return "/module/vehicleservicemanage/contrace/add";
     }
 
@@ -1345,6 +1354,15 @@ public class VehicleServiceManageController {
         VehicleReservationInfo vehicleReservationInfo = this.vehicleServiceManageService.getVehicleReservationInfoById(reservation_id);
         String customer_name_json = this.commonService.getAllCustomerName();
         String user_employee_id_name_json = this.commonService.getAllEmployeeIdAndName();
+
+        //根据预约单客户姓名、手机号，到客户资料表中，获取该姓名、手机号对应的身份证号码；如果查到多个，随机获取一个返回前台
+        Map<String , String> map = this.commonService.getCertificateNoByNameAndDn(vehicleReservationInfo.getCustomer_name() , vehicleReservationInfo.getCustomer_dn());
+        String certificate_type = map.get("certificate_type");
+        String certificate_no = map.get("certificate_no");
+
+
+        model.addAttribute("certificate_type" , certificate_type);
+        model.addAttribute("certificate_no" , certificate_no);
 
         model.addAttribute("customer_name_json" , customer_name_json);
         model.addAttribute("user_employee_id_name_json" , user_employee_id_name_json);

@@ -101,16 +101,23 @@
             <tr>
                 <td class="tableleft">证件类型</td>
                 <td>
+                    <%--<select id="certificate_type" name="certificate_type">--%>
+                        <%--<option value="身份证">身份证</option>--%>
+                        <%--<option value="国际护照">国际护照</option>--%>
+                        <%--<option value="回乡证">回乡证</option>--%>
+                        <%--<option value="台胞证">台胞证</option>--%>
+                        <%--<option value="其他">其他</option>--%>
+                    <%--</select>--%>
                     <select id="certificate_type" name="certificate_type">
-                        <option value="身份证">身份证</option>
-                        <option value="国际护照">国际护照</option>
-                        <option value="回乡证">回乡证</option>
-                        <option value="台胞证">台胞证</option>
-                        <option value="其他">其他</option>
+                        <option value="身份证" <c:if test="${certificate_type == '身份证'}"> selected="selected" </c:if>>身份证</option>
+                        <option value="国际护照" <c:if test="${certificate_type == '国际护照'}"> selected="selected" </c:if>>国际护照</option>
+                        <option value="回乡证" <c:if test="${certificate_type == '回乡证'}"> selected="selected" </c:if>>回乡证</option>
+                        <option value="台胞证" <c:if test="${certificate_type == '台胞证'}"> selected="selected" </c:if>>台胞证</option>
+                        <option value="其他" <c:if test="${certificate_type == '其他'}"> selected="selected" </c:if>>其他</option>
                     </select>
                 </td>
                 <td class="tableleft">证件号码</td>
-                <td colspan="3"><input type="text" name="certificate_no" id="certificate_no" placeholder="必填" required="true"/></td>
+                <td colspan="3"><input type="text" name="certificate_no" id="certificate_no" placeholder="必填" required="true" value="${certificate_no}"/></td>
             </tr>
 
             <tr>
