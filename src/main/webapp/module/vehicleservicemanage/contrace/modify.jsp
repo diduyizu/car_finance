@@ -18,6 +18,7 @@
     <script type="text/javascript" src="<c:url value="/resources/Js/ckform.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/Js/common.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/Js/bootstrap-typeahead.js" />"></script>
+    <script type="text/javascript" src="<c:url value="/resources/Js/idcardValidate.js" />"></script>
 
     <style type="text/css">
         body {
@@ -245,6 +246,18 @@
 		$('#backid').click(function(){
             window.location.href="${ctx}/vehicleservice/contrace/index?page_index=${current_page}&original_org=${original_org}";
 		});
+
+        $("#certificate_no").blur(function(){
+            var certificate_type = $.trim($('#certificate_type').val());
+            if(certificate_type == '身份证') {
+                var certificate_no = $(this).val();
+                var idcard_validate_result = IdCardValidate(certificate_no);
+                if(!idcard_validate_result) {
+                    alert("请输入正确的身份证号码");
+                    return false;
+                }
+            }
+        });
 
         $('#save').click(function(){
             var contrace_id=$.trim($('#contrace_id').val());
