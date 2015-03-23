@@ -109,7 +109,7 @@
             <tr>
                 <td class="tableleft"></td>
                 <td colspan="5">
-                    <button type="submit" class="btn btn-primary" id="save">保存</button> &nbsp;&nbsp;
+                    <button type="button" class="btn btn-primary" id="save">保存</button> &nbsp;&nbsp;
                     <button type="button" class="btn btn-success" id="backid">返回列表</button>
                     <input type="hidden" id="customer_id" name="customer_id" value="${customer_info.id}">
                 </td>
@@ -134,6 +134,19 @@
                     return false;
                 }
             }
+        });
+
+        $('#save').click(function(){
+            var certificate_type = $.trim($('#certificate_type').val());
+            var certificate_no = $.trim($('#certificate_no').val());
+            if(certificate_type == '身份证') {
+                var idcard_validate_result = IdCardValidate(certificate_no);
+                if(!idcard_validate_result) {
+                    alert("请输入正确的身份证号码");
+                    return false;
+                }
+            }
+            $("#uploadannex").submit();
         });
 
         <%--$('#save').click(function(){--%>
