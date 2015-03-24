@@ -64,6 +64,11 @@ public class VehicleServiceManageController {
         String customer_name = request.getParameter("customer_name");
         String dn = request.getParameter("dn");
 
+        String method = request.getMethod();
+        if("GET".equals(method.toUpperCase())) {//get请求，进行编码格式转换
+            customer_name = this.commonService.characterFormat(customer_name , "ISO8859-1" , "UTF-8");
+        }
+
         List<Org> user_all_org_list = this.commonService.getUserAllOrgList(user.getUser_id());
 
         //获取用户角色列表
@@ -125,6 +130,11 @@ public class VehicleServiceManageController {
         String original_org_str = request.getParameter("original_org");
         String customer_name = request.getParameter("customer_name");
         String dn = request.getParameter("dn");
+
+        String method = request.getMethod();
+        if("GET".equals(method.toUpperCase())) {//get请求，进行编码格式转换
+            customer_name = this.commonService.characterFormat(customer_name , "ISO8859-1" , "UTF-8");
+        }
 
         List<Org> user_all_org_list = this.commonService.getUserAllOrgList(user.getUser_id());
 
@@ -469,6 +479,13 @@ public class VehicleServiceManageController {
         String vehicle_model = request.getParameter("model");
         String license_plate = request.getParameter("license_plate");
 
+        String method = request.getMethod();
+        if("GET".equals(method.toUpperCase())) {//get请求，进行编码格式转换
+            brand = this.commonService.characterFormat(brand , "ISO8859-1" , "UTF-8");
+            vehicle_model = this.commonService.characterFormat(vehicle_model , "ISO8859-1" , "UTF-8");
+            license_plate = this.commonService.characterFormat(license_plate , "ISO8859-1" , "UTF-8");
+        }
+
         String pageindexStr = request.getParameter("page_index");//第几页
         int page_index = Integer.parseInt(StringUtils.isBlank(pageindexStr) || "0".equals(pageindexStr) ? "1" : pageindexStr);
         int size = Integer.valueOf(appProps.get("store.query.size").toString());//每页显示条数
@@ -589,6 +606,13 @@ public class VehicleServiceManageController {
         String brand = request.getParameter("brand");
         String vehicle_model = request.getParameter("model");
         String license_plate = request.getParameter("license_plate");
+
+        String method = request.getMethod();
+        if("GET".equals(method.toUpperCase())) {//get请求，进行编码格式转换
+            brand = this.commonService.characterFormat(brand , "ISO8859-1" , "UTF-8");
+            vehicle_model = this.commonService.characterFormat(vehicle_model , "ISO8859-1" , "UTF-8");
+            license_plate = this.commonService.characterFormat(license_plate , "ISO8859-1" , "UTF-8");
+        }
 
         String pageindexStr = request.getParameter("page_index");//第几页
         int page_index = Integer.parseInt(StringUtils.isBlank(pageindexStr) || "0".equals(pageindexStr) ? "1" : pageindexStr);
@@ -1540,6 +1564,14 @@ public class VehicleServiceManageController {
         String brand = request.getParameter("brand");
         String vehicle_model = request.getParameter("model");
         String license_plate = request.getParameter("license_plate");
+
+        String method = request.getMethod();
+        if("GET".equals(method.toUpperCase())) {//get请求，进行编码格式转换
+            brand = this.commonService.characterFormat(brand , "ISO8859-1" , "UTF-8");
+            vehicle_model = this.commonService.characterFormat(vehicle_model , "ISO8859-1" , "UTF-8");
+            license_plate = this.commonService.characterFormat(license_plate , "ISO8859-1" , "UTF-8");
+        }
+
 
         String pageindexStr = request.getParameter("page_index");//第几页
         int page_index = Integer.parseInt(StringUtils.isBlank(pageindexStr) || "0".equals(pageindexStr) ? "1" : pageindexStr);

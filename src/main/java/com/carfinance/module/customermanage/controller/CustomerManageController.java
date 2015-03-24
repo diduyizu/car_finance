@@ -63,6 +63,12 @@ public class CustomerManageController {
         String customer_name = request.getParameter("customer_name");
         String dn = request.getParameter("dn");
         String certificate_no = request.getParameter("certificate_no");
+
+        String method = request.getMethod();
+        if("GET".equals(method.toUpperCase())) {//get请求，进行编码格式转换
+            customer_name = this.commonService.characterFormat(customer_name , "ISO8859-1" , "UTF-8");
+        }
+
         Map<String , Object> map = this.customerManageService.getCustomerList(customer_name , dn , certificate_no, start, size);
 
         String customer_name_json = this.commonService.getAllCustomerName();
@@ -80,6 +86,17 @@ public class CustomerManageController {
         model.addAttribute("prepage" , prepages);
         model.addAttribute("nextpage" , nextpages);
         model.addAttribute("page_url" , request.getRequestURI());
+        String condition = "";
+        if(customer_name != null) {
+            condition = condition + "&customer_name="+customer_name;
+        }
+        if(dn != null) {
+            condition = condition + "&dn="+dn;
+        }
+        if(certificate_no != null) {
+            condition = condition + "&certificate_no="+certificate_no;
+        }
+        model.addAttribute("condition" , condition);
 
         model.addAttribute("customer_name" , customer_name);
         model.addAttribute("dn" , dn);

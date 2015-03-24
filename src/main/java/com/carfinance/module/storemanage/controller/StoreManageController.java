@@ -61,6 +61,11 @@ public class StoreManageController {
         int start = (page_index - 1) * size;
 
         String store_name = request.getParameter("store_name");
+        String method = request.getMethod();
+        if("GET".equals(method.toUpperCase())) {//get请求，进行编码格式转换
+            store_name = this.commonService.characterFormat(store_name , "ISO8859-1" , "UTF-8");
+        }
+
         Map<String , Object> map = this.storeManageService.getStoreList(store_name , start , size);
 
         long total = (Long)map.get("total");;
@@ -199,6 +204,11 @@ public class StoreManageController {
         int start = (page_index - 1) * size;
 
         String store_name = request.getParameter("store_name");
+        String method = request.getMethod();
+        if("GET".equals(method.toUpperCase())) {//get请求，进行编码格式转换
+            store_name = this.commonService.characterFormat(store_name , "ISO8859-1" , "UTF-8");
+        }
+
         Map<String , Object> map = this.storeManageService.getStoreList(store_name , start , size);
 
         long total = (Long)map.get("total");;
@@ -259,6 +269,11 @@ public class StoreManageController {
         int start = (page_index - 1) * size;
 
         String store_name = request.getParameter("store_name");
+        String method = request.getMethod();
+        if("GET".equals(method.toUpperCase())) {//get请求，进行编码格式转换
+            store_name = this.commonService.characterFormat(store_name , "ISO8859-1" , "UTF-8");
+        }
+
         Map<String , Object> map = this.storeManageService.getStoreList(store_name , start , size);
 
         long total = (Long)map.get("total");;

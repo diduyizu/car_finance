@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -64,6 +65,14 @@ public class VehicleManageController {
         String km_end = request.getParameter("km_end");
         String lease_status = request.getParameter("lease_status");
         String color = request.getParameter("color");
+
+        String method = request.getMethod();
+        if("GET".equals(method.toUpperCase())) {//get请求，进行编码格式转换
+            brand = this.commonService.characterFormat(brand , "ISO8859-1" , "UTF-8");
+            vehicle_model = this.commonService.characterFormat(vehicle_model , "ISO8859-1" , "UTF-8");
+            license_plate = this.commonService.characterFormat(license_plate , "ISO8859-1" , "UTF-8");
+            color = this.commonService.characterFormat(color , "ISO8859-1" , "UTF-8");
+        }
 
 //        List<Org> user_all_org_list = this.commonService.getUserAllOrgList(user.getUser_id());
         List<Org> user_all_org_list = this.commonService.getSysAllOrgList();
@@ -373,6 +382,12 @@ public class VehicleManageController {
         String brand = request.getParameter("brand");
         String license_plate = request.getParameter("license_plate");
 
+        String method = request.getMethod();
+        if("GET".equals(method.toUpperCase())) {//get请求，进行编码格式转换
+            brand = this.commonService.characterFormat(brand , "ISO8859-1" , "UTF-8");
+            license_plate = this.commonService.characterFormat(license_plate , "ISO8859-1" , "UTF-8");
+        }
+
         //获取用户角色列表
 //        List<UserRole> user_role_list = this.commonService.getUserRoleList(user.getUser_id());
 //        long original_org;
@@ -536,6 +551,12 @@ public class VehicleManageController {
         String original_org_str = request.getParameter("original_org");
         String brand = request.getParameter("brand");
         String license_plate = request.getParameter("license_plate");
+
+        String method = request.getMethod();
+        if("GET".equals(method.toUpperCase())) {//get请求，进行编码格式转换
+            brand = this.commonService.characterFormat(brand , "ISO8859-1" , "UTF-8");
+            license_plate = this.commonService.characterFormat(license_plate , "ISO8859-1" , "UTF-8");
+        }
 
         //获取用户角色列表
 //        List<UserRole> user_role_list = this.commonService.getUserRoleList(user.getUser_id());
@@ -714,6 +735,11 @@ public class VehicleManageController {
 //        String engine_no = request.getParameter("engine_no");
         String license_plate = request.getParameter("license_plate");
 
+        String method = request.getMethod();
+        if("GET".equals(method.toUpperCase())) {//get请求，进行编码格式转换
+            license_plate = this.commonService.characterFormat(license_plate , "ISO8859-1" , "UTF-8");
+        }
+
         //获取用户角色列表
 //        List<UserRole> user_role_list = this.commonService.getUserRoleList(user.getUser_id());
 //        long original_org;
@@ -787,6 +813,11 @@ public class VehicleManageController {
         String current_city = request.getParameter("current_city");
         String license_plate = request.getParameter("license_plate");
 
+        String method = request.getMethod();
+        if("GET".equals(method.toUpperCase())) {//get请求，进行编码格式转换
+            license_plate = this.commonService.characterFormat(license_plate , "ISO8859-1" , "UTF-8");
+        }
+
         List<Org> user_all_org_list = this.commonService.getUserAllOrgList(user.getUser_id());
         long original_org = (original_org_str == null || "".equals(original_org_str.trim())) ? user_all_org_list.get(0).getOrg_id() : Long.valueOf(original_org_str);
         List<City> sys_used_city_list = this.commonService.getSysUsedCityList();
@@ -850,6 +881,11 @@ public class VehicleManageController {
 
         String original_org_str = request.getParameter("original_org");
         String lease_status = request.getParameter("leasestatus");//状态
+
+        String method = request.getMethod();
+        if("GET".equals(method.toUpperCase())) {//get请求，进行编码格式转换
+            lease_status = this.commonService.characterFormat(lease_status , "ISO8859-1" , "UTF-8");
+        }
 
         //获取用户角色列表
         List<UserRole> user_role_list = this.commonService.getUserRoleList(user.getUser_id());
@@ -959,6 +995,11 @@ public class VehicleManageController {
         String original_org_str = request.getParameter("original_org");
         String current_city = request.getParameter("current_city");
         String license_plate = request.getParameter("license_plate");
+
+        String method = request.getMethod();
+        if("GET".equals(method.toUpperCase())) {//get请求，进行编码格式转换
+            license_plate = this.commonService.characterFormat(license_plate , "ISO8859-1" , "UTF-8");
+        }
 
         List<Org> user_all_org_list = this.commonService.getUserAllOrgList(user.getUser_id());
         long original_org = (original_org_str == null || "".equals(original_org_str.trim())) ? user_all_org_list.get(0).getOrg_id() : Long.valueOf(original_org_str);

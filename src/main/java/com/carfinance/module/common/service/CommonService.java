@@ -2,6 +2,7 @@ package com.carfinance.module.common.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.security.Timestamp;
 import java.util.*;
 
@@ -487,4 +488,15 @@ public class CommonService {
         return map;
     }
 
+    public String characterFormat(String str , String from_format , String to_format) {
+        String return_str = null;
+        try {
+            if(str != null) {
+                return_str = new String(str.getBytes(from_format),to_format);
+            }
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return return_str;
+    }
 }
