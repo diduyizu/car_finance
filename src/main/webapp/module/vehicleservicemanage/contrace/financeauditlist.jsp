@@ -85,6 +85,7 @@
 <table class="table table-bordered table-hover definewidth m10">
     <thead>
         <tr>
+            <th>合同编号</th>
             <th>客户姓名</th>
             <th>客户类型</th>
             <th>手机号码</th>
@@ -99,7 +100,9 @@
     </thead>
     <c:forEach var="contrace" items="${contrace_list}" varStatus="status">
         <tr>
-            <%--<td>${contrace.customer_name}</td>--%>
+            <td>
+                <a href="${ctx}/vehicleservice/contrace/detail?contrace_id=${contrace.id}">${contrace.contrace_no}</a>
+            </td>
             <td>
                 <a href="${ctx}/vehicleservice/contrace/audit/tocustomerdetail?customer_cer_no=${contrace.customer_cer_no}">${contrace.customer_name}</a>
             </td>
