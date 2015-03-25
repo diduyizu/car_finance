@@ -111,29 +111,51 @@
         </table>
         <table class="table table-bordered table-hover definewidth m10">
             <thead>
+                <tr><th colspan="5">零租历史业务</th></tr>
                 <tr>
                     <th>合同编号</th>
-                    <th>租赁类型</th>
+                    <%--<th>租赁类型</th>--%>
+                    <th>系统计算应得租金</th>
+                    <th>约定所得租金</th>
+                    <th>实际所得租金</th>
+                    <th>滞纳金</th>
                 </tr>
             </thead>
             <c:forEach var="contrace" items="${vehicle_contrace_list}" varStatus="status">
             <tr>
                 <td>${contrace.contrace_no}</td>
-                <td>零租</td>
+                <%--<td>零租</td>--%>
+                <td>${contrace.system_total_price}</td>
+                <td>${contrace.arrange_price}</td>
+                <td>${contrace.actual_price}</td>
+                <td>${contrace.late_fee}</td>
             </tr>
             </c:forEach>
         </table>
         <table class="table table-bordered table-hover definewidth m10">
             <thead>
+                <tr><th colspan="7">产权租历史业务</th></tr>
                 <tr>
                     <th>合同编号</th>
-                    <th>租赁类型</th>
+                    <%--<th>租赁类型</th>--%>
+                    <th>合同期限</th>
+                    <th>首付款</th>
+                    <th>合同租赁价格</th>
+                    <th>月付款</th>
+                    <th>已收回期数</th>
+                    <th>已收回款额</th>
                 </tr>
             </thead>
             <c:forEach var="contrace" items="${property_contrace_list}" varStatus="status">
             <tr>
                 <td>${contrace.contrace_no}</td>
-                <td>产权租</td>
+                <%--<td>产权租</td>--%>
+                <td>${contrace.period_number}个月</td>
+                <td>${contrace.down_payment}</td>
+                <td>${contrace.lease_price}</td>
+                <td>${contrace.montyly_payment}</td>
+                <td>${contrace.received_periods}</td>
+                <td>${contrace.already_back_amount}</td>
             </tr>
             </c:forEach>
         </table>
