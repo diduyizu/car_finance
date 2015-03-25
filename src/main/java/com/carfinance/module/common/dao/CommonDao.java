@@ -207,4 +207,11 @@ public class CommonDao extends BaseJdbcDaoImpl{
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().query(sql , o  , new CustomerInfoRowMapper());
     }
+
+    public int checkIdCard(String certificate_no) {
+        String sql = "select count(1) from customer_info where certificate_no = ? and certificate_type = '身份证' ";
+        Object[] o = new Object[] { certificate_no };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().queryForInt(sql , o);
+    }
 }

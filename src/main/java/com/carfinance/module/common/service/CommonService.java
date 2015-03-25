@@ -499,4 +499,8 @@ public class CommonService {
         }
         return return_str;
     }
+
+    public int checkIdCard(String certificate_no) {
+        return this.commonDao.checkIdCard(certificate_no);
+    }
 }

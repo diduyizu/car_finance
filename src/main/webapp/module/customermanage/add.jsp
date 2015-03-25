@@ -128,6 +128,20 @@
                     alert("请输入正确的身份证号码");
                     return false;
                 }
+
+                //后台ajax请求，判断身份证号码是否重复
+                $.ajax({
+                    url:"${ctx}/common/checkidcard",
+                    type: "post",
+                    data:{certificate_no:certificate_no},
+                    success:function(data){
+                        if(data > 0){
+                            alert("该身份证已经被使用，请更换身份证");
+                            return false;
+                        }
+                    }
+                })
+
             }
         });
 
@@ -141,6 +155,20 @@
                     return false;
                 }
             }
+
+            //后台ajax请求，判断身份证号码是否重复
+            $.ajax({
+                url:"${ctx}/common/checkidcard",
+                type: "post",
+                data:{certificate_no:certificate_no},
+                success:function(data){
+                    if(data > 0){
+                        alert("该身份证已经被使用，请更换身份证");
+                        return false;
+                    }
+                }
+            })
+
             $("#uploadannex").submit();
         });
 

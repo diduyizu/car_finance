@@ -81,4 +81,23 @@ public class CommonController {
 //    }
 
 
+    /**
+     * 判断身份证是否重复
+     * @param model
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/checkidcard" , method = RequestMethod.POST)
+    @ResponseBody
+    public int checkIdCard(Model model , HttpServletRequest request , HttpServletResponse response) {
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.set("Content-Type", "text/plain;charset=utf-8");
+        User user = (User)request.getSession().getAttribute("user");
+
+        String certificate_no = request.getParameter("certificate_no");
+
+        return this.commonService.checkIdCard(certificate_no);
+    }
+
 }
