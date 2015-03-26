@@ -88,6 +88,29 @@
 </form>
 <table class="table table-bordered table-hover definewidth m10">
     <thead>
+    <tr>
+        <th colspan="3">已选车辆</th>
+    </tr>
+    <tr>
+        <th>车牌</th>
+        <th>车型</th>
+        <th>当前里程</th>
+    </tr>
+    </thead>
+    <c:forEach var="vehicle" items="${contrace_vehicle_list}" varStatus="status">
+        <tr>
+            <td>${vehicle.license_plate}</td>
+            <td>${vehicle.model}</td>
+            <td>
+                <c:if test="${vehicle.isother == 0}">${vehicle.km}</c:if>
+                <c:if test="${vehicle.isother == 1}">${vehicle.other_vehicle_km}</c:if>
+            </td>
+        </tr>
+    </c:forEach>
+    </tr>
+</table>
+<table class="table table-bordered table-hover definewidth m10">
+    <thead>
         <tr>
             <th>车牌</th>
             <th>品牌</th>

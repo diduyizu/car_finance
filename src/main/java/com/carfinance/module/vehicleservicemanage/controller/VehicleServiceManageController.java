@@ -501,9 +501,12 @@ public class VehicleServiceManageController {
         long original_org = (original_org_str == null || "".equals(original_org_str.trim())) ? user_all_org_list.get(0).getOrg_id() : Long.valueOf(original_org_str);
 
         Map<String , Object> map = this.vehicleServiceManageService.getContraceCanUseVehicleList(original_org , current_city , brand , vehicle_model , license_plate , start , size);
-
         long total = (Long)map.get("total");;
         List<VehicleInfo> vehicle_list = (List<VehicleInfo>)map.get("vehicle_list");
+
+
+        List<VehicleContraceVehsInfo> contrace_vehicle_list = this.vehicleServiceManageService.getVehicleContraceVehsListByContraceId(contrace_id);
+
 
         long temp = (total - 1) <= 0 ? 0 : (total - 1);
         int pages = Integer.parseInt(Long.toString(temp / size)) + 1;
@@ -543,6 +546,8 @@ public class VehicleServiceManageController {
         model.addAttribute("brand" , brand);
         model.addAttribute("vehicle_model" , vehicle_model);
         model.addAttribute("license_plate" , license_plate);
+
+        model.addAttribute("contrace_vehicle_list" , contrace_vehicle_list);
         return "/module/vehicleservicemanage/contrace/addvech";
     }
 
