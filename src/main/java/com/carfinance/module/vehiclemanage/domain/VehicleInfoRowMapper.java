@@ -68,6 +68,20 @@ public class VehicleInfoRowMapper implements RowMapper<VehicleInfo>{
             vehicleInfo.setMonthly_payment(rs.getDouble("monthly_payment"));
         } catch (Exception e) {}
 
+
+
+
+
+        try{
+            vehicleInfo.setEtc(rs.getString("etc"));
+        } catch (Exception e) {}
+        try{
+            vehicleInfo.setEtc_money(rs.getDouble("etc_money"));
+        } catch (Exception e) {}
+        try{
+            vehicleInfo.setOil_percent(rs.getInt("oil_percent"));
+        } catch (Exception e) {}
+
         return vehicleInfo;
 	}
 }

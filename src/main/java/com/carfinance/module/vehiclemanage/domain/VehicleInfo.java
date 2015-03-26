@@ -57,6 +57,34 @@ public class VehicleInfo implements Serializable{
 
     private String current_shop_name;
 
+    private String etc;
+    private double etc_money;
+    private int oil_percent;
+
+    public String getEtc() {
+        return etc;
+    }
+
+    public void setEtc(String etc) {
+        this.etc = etc;
+    }
+
+    public double getEtc_money() {
+        return etc_money;
+    }
+
+    public void setEtc_money(double etc_money) {
+        this.etc_money = etc_money;
+    }
+
+    public int getOil_percent() {
+        return oil_percent;
+    }
+
+    public void setOil_percent(int oil_percent) {
+        this.oil_percent = oil_percent;
+    }
+
     public String getCurrent_shop_name() {
         return current_shop_name;
     }

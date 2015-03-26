@@ -243,6 +243,12 @@ public class VehicleManageController {
         String monthly_payment_str = request.getParameter("monthly_payment");
         double monthly_payment = StringUtils.isBlank(monthly_payment_str) ? 0 : Double.valueOf(monthly_payment_str);
 
+        String etc = request.getParameter("etc");
+        String ect_money_str = request.getParameter("etc_money");
+        double etc_money = StringUtils.isBlank(ect_money_str) ? 0 : Double.valueOf(ect_money_str);
+        String oil_percent_str = request.getParameter("oil_percent");
+        int oil_percent = StringUtils.isBlank(oil_percent_str) ? 0 : Integer.valueOf(oil_percent_str);
+
 
         return this.vehicleManageService.addVehicle(archive_no , inventory_no , brand , model , color , carframe_no , engine_no ,
                 registry_certificate , certificate_direction , loan_bank , consistency_cer , check_list ,
@@ -251,7 +257,8 @@ public class VehicleManageController {
                 strong_insurance , vehicle_vessel_tax , strong_insurance_expire_at , business_insurance ,
                 business_insurance_expire_at , remark , user.getUser_id() , original_org ,
                 km  , gps , current_city , current_shop , lease_status , peccancy_status , next_main_km ,
-                financing_rent_company , financing_rent_price , bail , monthly_payment);
+                financing_rent_company , financing_rent_price , bail , monthly_payment ,
+                etc , etc_money , oil_percent);
     }
 
     /**
@@ -349,6 +356,12 @@ public class VehicleManageController {
         String monthly_payment_str = request.getParameter("monthly_payment");
         double monthly_payment = StringUtils.isBlank(monthly_payment_str) ? 0 : Double.valueOf(monthly_payment_str);
 
+        String etc = request.getParameter("etc");
+        String ect_money_str = request.getParameter("etc_money");
+        double etc_money = StringUtils.isBlank(ect_money_str) ? 0 : Double.valueOf(ect_money_str);
+        String oil_percent_str = request.getParameter("oil_percent");
+        int oil_percent = StringUtils.isBlank(oil_percent_str) ? 0 : Integer.valueOf(oil_percent_str);
+
 
         return this.vehicleManageService.modifyVehicle(vehicle_id , archive_no , inventory_no , brand , vehicle_model , color , carframe_no , engine_no ,
                 registry_certificate , certificate_direction , loan_bank , consistency_cer , check_list ,
@@ -357,7 +370,8 @@ public class VehicleManageController {
                 strong_insurance , vehicle_vessel_tax , strong_insurance_expire_at , business_insurance ,
                 business_insurance_expire_at , remark , user.getUser_id() , original_org ,
                 km , gps , current_city , current_shop , lease_status , peccancy_status , next_main_km ,
-                financing_rent_company , financing_rent_price , bail , monthly_payment);
+                financing_rent_company , financing_rent_price , bail , monthly_payment ,
+                etc , etc_money , oil_percent);
     }
 
 

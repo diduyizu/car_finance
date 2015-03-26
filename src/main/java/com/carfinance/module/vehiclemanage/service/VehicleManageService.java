@@ -136,7 +136,8 @@ public class VehicleManageService {
                           double strong_insurance , double vehicle_vessel_tax , String strong_insurance_expire_at , double business_insurance ,
                           String business_insurance_expire_at , String remark , long create_by , long original_org ,
                           long km , String gps , long current_city , long current_shop , String lease_status , String peccancy_status , long next_main_km ,
-                          String financing_rent_company , double financing_rent_price , double bail , double monthly_payment) {
+                          String financing_rent_company , double financing_rent_price , double bail , double monthly_payment ,
+                          String etc , double etc_money , int oil_percent) {
 
         try{
             Date buy_at_date = DateUtil.string2Date(buy_at , "yyyy-MM-dd");
@@ -151,7 +152,8 @@ public class VehicleManageService {
                     strong_insurance , vehicle_vessel_tax , strong_insurance_expire_at_date , business_insurance ,
                     business_insurance_expire_at_date , remark , create_by , original_org ,
                     km  , gps , current_city , current_shop , lease_status , peccancy_status , next_main_km ,
-                    financing_rent_company , financing_rent_price , bail , monthly_payment);
+                    financing_rent_company , financing_rent_price , bail , monthly_payment ,
+                    etc , etc_money , oil_percent);
             if(result > 0) {
                 //增加车辆保险详细
                 this.vehicleManageDao.addVehicleInsurance(carframe_no , engine_no , license_plate , insurance_company , strong_insurance ,
@@ -176,7 +178,8 @@ public class VehicleManageService {
                           double strong_insurance , double vehicle_vessel_tax , String strong_insurance_expire_at , double business_insurance ,
                           String business_insurance_expire_at , String remark , long update_by , long original_org ,
                           long km , String gps , long current_city , long current_shop , String lease_status , String peccancy_status , long next_main_km ,
-                          String financing_rent_company , double financing_rent_price , double bail , double monthly_payment) {
+                          String financing_rent_company , double financing_rent_price , double bail , double monthly_payment ,
+                          String etc , double etc_money , int oil_percent) {
 
         try{
             Date buy_at_date = DateUtil.string2Date(buy_at , "yyyy-MM-dd");
@@ -191,7 +194,8 @@ public class VehicleManageService {
                     strong_insurance , vehicle_vessel_tax , strong_insurance_expire_at_date , business_insurance ,
                     business_insurance_expire_at_date , remark , update_by , original_org ,
                     km , gps , current_city , current_shop , lease_status , peccancy_status , next_main_km ,
-                    financing_rent_company , financing_rent_price , bail , monthly_payment);
+                    financing_rent_company , financing_rent_price , bail , monthly_payment ,
+                    etc , etc_money , oil_percent);
             if(result > 0) {
                 //增加车辆保险详细
                 this.vehicleManageDao.addVehicleInsurance(carframe_no , engine_no , license_plate , insurance_company , strong_insurance ,

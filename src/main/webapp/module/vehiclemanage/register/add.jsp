@@ -277,6 +277,19 @@
                 </td>
             </tr>
             <tr>
+                <td class="tableleft">是否有ETC</td>
+                <td>
+                    <select id="etc" name="etc">
+                        <option value="有">有</option>
+                        <option value="无">无</option>
+                    </select>
+                </td>
+                <td class="tableleft">当前金额</td>
+                <td><input type="text" name="etc_money" id="etc_money" /></td>
+                <td class="tableleft">当前油量比（百分比）</td>
+                <td><input type="text" name="oil_percent" id="oil_percent" placeholder="必填" required="true"/>%</td>
+            </tr>
+            <tr>
                 <td class="tableleft"></td>
                 <td colspan="5">
                     <button type="button" class="btn btn-primary" id="save">保存</button> &nbsp;&nbsp;
@@ -364,6 +377,11 @@
             var bail=$.trim($('#bail').val());
             var monthly_payment=$.trim($('#monthly_payment').val());
 
+            var etc=$.trim($('#etc').val());
+            var etc_money=$.trim($('#etc_money').val());
+            var oil_percent=$.trim($('#oil_percent').val());
+
+
 
             $.ajax({
                 url:"${ctx}/vehicle/register/doadd",
@@ -377,7 +395,8 @@
                     business_insurance:business_insurance,business_insurance_expire_at:business_insurance_expire_at,remark:remark,original_org:original_org,
                     km:km , gps:gps , current_city:current_city , current_shop:current_shop ,
                     lease_status:lease_status , peccancy_status:peccancy_status , next_main_km:next_main_km ,
-                    financing_rent_company:financing_rent_company , financing_rent_price:financing_rent_price , bail:bail , monthly_payment:monthly_payment},
+                    financing_rent_company:financing_rent_company , financing_rent_price:financing_rent_price , bail:bail , monthly_payment:monthly_payment,
+                    etc:etc,etc_money:etc_money,oil_percent:oil_percent},
                 success:function(data){
                     if(data == 1){
                         alert("成功");

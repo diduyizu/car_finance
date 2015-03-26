@@ -157,7 +157,6 @@ public class VehicleManageDao extends BaseJdbcDaoImpl {
 
     /**
      * 某个门店,或者某品牌下车辆总数
-     * @param original_org
      * @param brand
      * @return
      */
@@ -220,7 +219,6 @@ public class VehicleManageDao extends BaseJdbcDaoImpl {
 
     /**
      * 获取某一门店下所有车辆信息
-     * @param original_org
      * @param start
      * @param size
      * @return
@@ -331,20 +329,22 @@ public class VehicleManageDao extends BaseJdbcDaoImpl {
                           double strong_insurance , double vehicle_vessel_tax , Date strong_insurance_expire_at , double business_insurance ,
                           Date business_insurance_expire_at , String remark , long create_by , long original_org ,
                           long km , String gps , long current_city , long current_shop , String lease_status , String peccancy_status , long next_main_km ,
-                          String financing_rent_company , double financing_rent_price , double bail , double monthly_payment) {
+                          String financing_rent_company , double financing_rent_price , double bail , double monthly_payment ,
+                          String etc , double etc_money , int oil_percent) {
         String sql = "insert into vehicle_info(archive_no , inventory_no , brand , model , color , carframe_no , engine_no , registry_certificate , " +
                 "certificate_direction , loan_bank , consistency_cer , check_list , duty_paid_proof , record , buy_at , supplier , " +
                 "license_plate , card_at , limited_at , guide_price , vehicle_price , vehicle_tax , insurance_company , strong_insurance , " +
                 "vehicle_vessel_tax , strong_insurance_expire_at , business_insurance , business_insurance_expire_at , remark , create_by , " +
                 "original_org , km , maintian_on_km , gps , current_city , current_shop , lease_status , peccancy_status , next_main_km , " +
-                "financing_rent_company , financing_rent_price , bail , monthly_payment) " +
-                "values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                "financing_rent_company , financing_rent_price , bail , monthly_payment , etc , etc_money , oil_percent) " +
+                "values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         Object[] o = new Object[] { archive_no , inventory_no , brand , model , color , carframe_no , engine_no , registry_certificate ,
                 certificate_direction , loan_bank , consistency_cer , check_list , duty_paid_proof , record , buy_at , supplier ,
                 license_plate.toUpperCase() , card_at , limited_at , guide_price , vehicle_price , vehicle_tax , insurance_company , strong_insurance ,
                 vehicle_vessel_tax , strong_insurance_expire_at , business_insurance , business_insurance_expire_at , remark , create_by , original_org ,
                 km , next_main_km-km , gps , current_city , current_shop , lease_status , peccancy_status , next_main_km ,
-                financing_rent_company , financing_rent_price , bail , monthly_payment};
+                financing_rent_company , financing_rent_price , bail , monthly_payment ,
+                etc , etc_money , oil_percent};
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().update(sql , o);
     }
@@ -358,20 +358,22 @@ public class VehicleManageDao extends BaseJdbcDaoImpl {
                           double strong_insurance , double vehicle_vessel_tax , Date strong_insurance_expire_at , double business_insurance ,
                           Date business_insurance_expire_at , String remark , long update_by , long original_org ,
                           long km , String gps , long current_city , long current_shop , String lease_status , String peccancy_status , long next_main_km ,
-                          String financing_rent_company , double financing_rent_price , double bail , double monthly_payment) {
+                          String financing_rent_company , double financing_rent_price , double bail , double monthly_payment ,
+                          String etc , double etc_money , int oil_percent) {
         String sql = "update vehicle_info set archive_no = ? , inventory_no = ? , brand = ? , model = ? , color = ? , carframe_no = ? , engine_no = ? , " +
                 "registry_certificate = ? , certificate_direction = ? , loan_bank = ? , consistency_cer = ? , check_list = ? , duty_paid_proof = ? , " +
                 "record = ? , buy_at = ? , supplier = ? , license_plate = ? , card_at = ? , limited_at = ? , guide_price = ? , vehicle_price = ? , " +
                 "vehicle_tax = ? , insurance_company = ? , strong_insurance = ? , vehicle_vessel_tax = ? , strong_insurance_expire_at = ? , " +
                 "business_insurance = ? , business_insurance_expire_at = ? , remark = ? , original_org = ? , km = ? , maintian_on_km = ? , gps = ? , " +
                 "current_city = ? , current_shop = ? , lease_status = ? , peccancy_status = ? , next_main_km = ? , financing_rent_company = ? , " +
-                "financing_rent_price = ? , bail = ? , monthly_payment = ? , update_at = now() , update_by = ? where id = ? ";
+                "financing_rent_price = ? , bail = ? , monthly_payment = ? , update_at = now() , update_by = ? , " +
+                "etc = ? , etc_money = ? , oil_percent = ? where id = ? ";
         Object[] o = new Object[] { archive_no , inventory_no , brand , model , color , carframe_no , engine_no , registry_certificate ,
                 certificate_direction , loan_bank , consistency_cer , check_list , duty_paid_proof , record , buy_at , supplier ,
                 license_plate.toUpperCase() , card_at , limited_at , guide_price , vehicle_price , vehicle_tax , insurance_company , strong_insurance ,
                 vehicle_vessel_tax , strong_insurance_expire_at , business_insurance , business_insurance_expire_at , remark , original_org ,
                 km , next_main_km-km , gps , current_city , current_shop , lease_status , peccancy_status , next_main_km ,
-                financing_rent_company , financing_rent_price , bail , monthly_payment , update_by , vehicle_id};
+                financing_rent_company , financing_rent_price , bail , monthly_payment , update_by , etc , etc_money , oil_percent , vehicle_id};
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().update(sql , o);
     }
