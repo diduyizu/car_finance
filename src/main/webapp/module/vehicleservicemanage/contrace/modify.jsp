@@ -97,7 +97,7 @@
                     </select>
                 </td>
                 <td class="tableleft">合同编号</td>
-                <td><input type="text" name="contrace_no" id="contrace_no" placeholder="必填" value="${vehicle_contrace_info.contrace_no}" required="true"/></td>
+                <td><input type="text" name="contrace_no" id="contrace_no" value="${vehicle_contrace_info.contrace_no}" readonly/></td>
                 <td class="tableleft">合同类型</td>
                 <td>
                     <c:if test="${vehicle_contrace_info.contrace_type == 1}">

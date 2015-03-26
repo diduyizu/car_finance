@@ -363,6 +363,8 @@ public class VehicleServiceManageController {
         String certificate_type = map.get("certificate_type");
         String certificate_no = map.get("certificate_no");
 
+        //计算合同编号
+        String contrace_no = this.commonService.getContraceNo(contrace_id);
 
         String customer_name_json = this.commonService.getAllCustomerName();
         String user_employee_id_name_json = this.commonService.getAllEmployeeIdAndName();
@@ -377,6 +379,8 @@ public class VehicleServiceManageController {
 
         model.addAttribute("certificate_type" , certificate_type);
         model.addAttribute("certificate_no" , certificate_no);
+
+        model.addAttribute("contrace_no" , contrace_no);
         return "/module/vehicleservicemanage/contrace/add";
     }
 
@@ -1384,6 +1388,9 @@ public class VehicleServiceManageController {
         String certificate_type = map.get("certificate_type");
         String certificate_no = map.get("certificate_no");
 
+        //计算合同编号
+        String contrace_no = this.commonService.getContraceNo(contrace_id);
+
 
         model.addAttribute("certificate_type" , certificate_type);
         model.addAttribute("certificate_no" , certificate_no);
@@ -1395,6 +1402,8 @@ public class VehicleServiceManageController {
         model.addAttribute("city_list" , city_list);
         model.addAttribute("user_all_org_list" , user_all_org_list);
         model.addAttribute("vehicleReservationInfo" , vehicleReservationInfo);
+
+        model.addAttribute("contrace_no" , contrace_no);
         return "/module/vehicleservicemanage/propertycontrace/add";
     }
 

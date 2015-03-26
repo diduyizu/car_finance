@@ -13,6 +13,7 @@ import com.carfinance.module.customermanage.domain.CustomerInfo;
 import com.carfinance.module.init.service.InitService;
 import com.carfinance.module.login.domain.User;
 import com.carfinance.module.vehiclemanage.domain.VehicleInfo;
+import com.carfinance.utils.DateTimeUtil;
 import com.carfinance.utils.DateUtil;
 import net.sf.json.JSONArray;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -502,5 +503,11 @@ public class CommonService {
 
     public int checkIdCard(String certificate_no) {
         return this.commonDao.checkIdCard(certificate_no);
+    }
+
+
+    public String getContraceNo(long contrace_id) {
+        String date = DateUtil.format(new Date() , "yyyyMMdd");
+        return date + contrace_id;
     }
 }

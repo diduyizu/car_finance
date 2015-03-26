@@ -94,7 +94,7 @@
                     </select>
                 </td>
                 <td class="tableleft">合同编号</td>
-                <td><input type="text" name="contrace_no" id="contrace_no" placeholder="必填" value="${property_contrace_info.contrace_no}" required="true"/></td>
+                <td><input type="text" name="contrace_no" id="contrace_no" value="${property_contrace_info.contrace_no}" readonly/></td>
                 <td class="tableleft">合同类型</td>
                 <td>产权租</td>
             </tr>

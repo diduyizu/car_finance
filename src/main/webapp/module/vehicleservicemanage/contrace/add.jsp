@@ -78,7 +78,7 @@
                     </select>
                 </td>
                 <td class="tableleft">合同编号</td>
-                <td><input type="text" name="contrace_no" id="contrace_no" placeholder="必填" required="true"/></td>
+                <td><input type="text" name="contrace_no" id="contrace_no" readonly value="${contrace_no}"/></td>
                 <td class="tableleft">合同类型</td>
                 <td>
                     <%--<select id="contrace_type" name="contrace_type">--%>
