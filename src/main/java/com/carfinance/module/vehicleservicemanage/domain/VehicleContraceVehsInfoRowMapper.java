@@ -67,7 +67,7 @@ public class VehicleContraceVehsInfoRowMapper implements RowMapper<VehicleContra
             vehicleContraceVehsInfo.setOil_percent(rs.getInt("oil_percent"));
         } catch (Exception e) {}
         try{
-            vehicleContraceVehsInfo.setResent_oil_percent(rs.getInt("resent_oil_percent"));
+            vehicleContraceVehsInfo.setRevert_oil_percent(rs.getInt("revert_oil_percent"));
         } catch (Exception e) {}
 
         return vehicleContraceVehsInfo;

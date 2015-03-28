@@ -34,14 +34,14 @@ public class VehicleContraceVehsInfo implements Serializable{
     private String etc;
     private double etc_money;
     private int oil_percent;
-    private int resent_oil_percent;
+    private int revert_oil_percent;
 
-    public int getResent_oil_percent() {
-        return resent_oil_percent;
+    public int getRevert_oil_percent() {
+        return revert_oil_percent;
     }
 
-    public void setResent_oil_percent(int resent_oil_percent) {
-        this.resent_oil_percent = resent_oil_percent;
+    public void setRevert_oil_percent(int revert_oil_percent) {
+        this.revert_oil_percent = revert_oil_percent;
     }
 
     public String getEtc() {

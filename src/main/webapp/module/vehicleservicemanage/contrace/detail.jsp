@@ -50,6 +50,10 @@
                 <th>还车时间</th>
                 <th>还车里程</th>
                 <th>超期费用</th>
+                <th>是否有ETC</th>
+                <th>ETC金额</th>
+                <th>发车油量比(%)</th>
+                <th>还车油量比(%)</th>
             </tr>
             </thead>
             <c:forEach var="vehicle" items="${vehicle_contrace_vehs_list}" varStatus="status">
@@ -63,6 +67,11 @@
                     <td>${vehicle.return_time}</td>
                     <td>${vehicle.return_km}</td>
                     <td>${vehicle.over_price}</td>
+
+                    <td>${vehicle.etc}</td>
+                    <td>${vehicle.etc_money}</td>
+                    <td>${vehicle.oil_percent}</td>
+                    <td>${vehicle.revert_oil_percent}</td>
                 </tr>
             </c:forEach>
         </table>
