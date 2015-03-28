@@ -97,7 +97,7 @@
         <th>当前里程</th>
         <th>是否有ETC</th>
         <th>ETC余额</th>
-        <th>当前油量</th>
+        <th>当前油量比（百分比％）</th>
     </tr>
     </thead>
     <c:forEach var="vehicle" items="${contrace_vehicle_list}" varStatus="status">
@@ -127,7 +127,7 @@
             <th>公里数</th>
             <th>是否有ETC</th>
             <th>ETC余额</th>
-            <th>当前油量</th>
+            <th>当前油量比（百分比％）</th>
             <th>操作</th>
         </tr>
     </thead>

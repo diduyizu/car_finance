@@ -72,7 +72,7 @@
                 <td colspan="3"><input type="text" name="etc_money" id="etc_money" /></td>
             </tr>
             <tr>
-                <td class="tableleft">当前油量比（百分比）</td>
+                <td class="tableleft">当前油量比（百分比％）</td>
                 <td><input type="text" name="oil_percent" id="oil_percent" placeholder="必填" required="true"/>%</td>
                 <td class="tableleft">公里数</td>
                 <td colspan="3"><input type="text" name="other_vehicle_km" id="other_vehicle_km" placeholder="必填" required="true"/></td>

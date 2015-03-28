@@ -255,7 +255,7 @@
                 </td>
                 <td class="tableleft">当前金额</td>
                 <td><input type="text" name="etc_money" id="etc_money" value="${vehicle_info.etc_money}" /></td>
-                <td class="tableleft">当前油量比（百分比）</td>
+                <td class="tableleft">当前油量比（百分比％）</td>
                 <td><input type="text" name="oil_percent" id="oil_percent" placeholder="必填" required="true" value="${vehicle_info.oil_percent}"/>%</td>
             </tr>
             <tr>

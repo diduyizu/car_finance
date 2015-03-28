@@ -201,7 +201,7 @@
                 <td>${vehicle_info.etc}</td>
                 <td class="tableleft">当前金额</td>
                 <td>${vehicle_info.etc_money}</td>
-                <td class="tableleft">当前油量比（百分比）</td>
+                <td class="tableleft">当前油量比（百分比％）</td>
                 <td>${vehicle_info.oil_percent}%</td>
             </tr>
         </table>
