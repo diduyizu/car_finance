@@ -298,8 +298,8 @@ public class VehicleServiceManageService {
         return result;
     }
 
-    public int contraceDoAddForeignVehicle(long contrace_id, String license_plate , String vehicle_model , double vehicle_price , String company , long other_vehicle_km , long user_id) {
-        int result = this.vehicleServiceManageDao.contraceDoAddForeignVehicle(contrace_id, license_plate , vehicle_model , vehicle_price , company , other_vehicle_km , user_id);
+    public int contraceDoAddForeignVehicle(long contrace_id, String license_plate , String vehicle_model , double vehicle_price , String company , long other_vehicle_km , long user_id , String etc , double etc_money , int oil_percent) {
+        int result = this.vehicleServiceManageDao.contraceDoAddForeignVehicle(contrace_id, license_plate , vehicle_model , vehicle_price , company , other_vehicle_km , user_id , etc , etc_money , oil_percent);
         return result;
     }
 

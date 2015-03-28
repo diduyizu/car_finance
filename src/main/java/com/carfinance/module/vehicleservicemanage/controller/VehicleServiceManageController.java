@@ -597,14 +597,15 @@ public class VehicleServiceManageController {
         double vehicle_price = Double.valueOf(request.getParameter("vehicle_price"));
         String company = request.getParameter("company");
         long other_vehicle_km = Long.valueOf(request.getParameter("other_vehicle_km"));
-        return this.vehicleServiceManageService.contraceDoAddForeignVehicle(contrace_id, license_plate , vehicle_model , vehicle_price , company , other_vehicle_km , user.getUser_id());
+
+        String etc = request.getParameter("etc");
+        String ect_money_str = request.getParameter("etc_money");
+        double etc_money = StringUtils.isBlank(ect_money_str) ? 0 : Double.valueOf(ect_money_str);
+        String oil_percent_str = request.getParameter("oil_percent");
+        int oil_percent = StringUtils.isBlank(oil_percent_str) ? 0 : Integer.valueOf(oil_percent_str);
+
+        return this.vehicleServiceManageService.contraceDoAddForeignVehicle(contrace_id, license_plate , vehicle_model , vehicle_price , company , other_vehicle_km , user.getUser_id() , etc , etc_money , oil_percent);
     }
-
-
-
-
-
-
 
     //TODO 业务员查看合同车辆信息
     @RequestMapping(value = "/contrace/vech/list" , method = {RequestMethod.GET , RequestMethod.POST})

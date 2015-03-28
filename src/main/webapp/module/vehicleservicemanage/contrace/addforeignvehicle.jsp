@@ -55,26 +55,35 @@
             <tr>
                 <td width="15%" class="tableleft">车牌</td>
                 <td><input type="text" name="license_plate" id="license_plate" placeholder="必填" required="true"/></td>
-            </tr>
-            <tr>
                 <td class="tableleft">车型</td>
                 <td><input type="text" name="model" id="model" placeholder="必填" required="true"/></td>
-            </tr>
-            <tr>
                 <td class="tableleft">车价</td>
                 <td><input type="text" name="vehicle_price" id="vehicle_price" placeholder="必填" required="true"/></td>
             </tr>
             <tr>
+                <td class="tableleft">是否有ETC</td>
+                <td>
+                    <select id="etc" name="etc">
+                        <option value="有">有</option>
+                        <option value="无">无</option>
+                    </select>
+                </td>
+                <td class="tableleft">当前金额</td>
+                <td colspan="3"><input type="text" name="etc_money" id="etc_money" /></td>
+            </tr>
+            <tr>
+                <td class="tableleft">当前油量比（百分比）</td>
+                <td><input type="text" name="oil_percent" id="oil_percent" placeholder="必填" required="true"/>%</td>
                 <td class="tableleft">公里数</td>
-                <td><input type="text" name="other_vehicle_km" id="other_vehicle_km" placeholder="必填" required="true"/></td>
+                <td colspan="3"><input type="text" name="other_vehicle_km" id="other_vehicle_km" placeholder="必填" required="true"/></td>
             </tr>
             <tr>
                 <td class="tableleft">外援公司</td>
-                <td><input type="text" name="company" id="company" placeholder="必填" required="true"/></td>
+                <td colspan="5"><input type="text" name="company" id="company" placeholder="必填" required="true"/></td>
             </tr>
             <tr>
                 <td class="tableleft"></td>
-                <td>
+                <td colspan="5">
                     <input type="hidden" id="contrace_id" value="${contrace_id}">
                     <button type="button" class="btn btn-primary" id="save">保存</button> &nbsp;&nbsp;
                     <%--<button type="button" class="btn btn-success" id="backid">返回列表</button>--%>
@@ -100,10 +109,15 @@
             var company=$.trim($('#company').val());
             var other_vehicle_km = $.trim($('#other_vehicle_km').val());
 
+            var etc=$.trim($('#etc').val());
+            var etc_money=$.trim($('#etc_money').val());
+            var oil_percent=$.trim($('#oil_percent').val());
+
             $.ajax({
                 url:"${ctx}/vehicleservice/contrace/doaddforeignvehicle",
                 type: "post",
-                data:{contrace_id:contrace_id,license_plate:license_plate,model:model,vehicle_price:vehicle_price,company:company,other_vehicle_km:other_vehicle_km},
+                data:{contrace_id:contrace_id,license_plate:license_plate,model:model,vehicle_price:vehicle_price,company:company,
+                    other_vehicle_km:other_vehicle_km,etc:etc,etc_money:etc_money,oil_percent:oil_percent},
                 success:function(data){
                     if(data > 0){
                         alert("成功");
