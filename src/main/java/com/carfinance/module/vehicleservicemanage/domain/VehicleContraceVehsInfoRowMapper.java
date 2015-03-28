@@ -57,6 +57,19 @@ public class VehicleContraceVehsInfoRowMapper implements RowMapper<VehicleContra
             vehicleContraceVehsInfo.setStatus(rs.getInt("status"));
         } catch (Exception e){}
 
+        try{
+            vehicleContraceVehsInfo.setEtc(rs.getString("etc"));
+        } catch (Exception e) {}
+        try{
+            vehicleContraceVehsInfo.setEtc_money(rs.getDouble("etc_money"));
+        } catch (Exception e) {}
+        try{
+            vehicleContraceVehsInfo.setOil_percent(rs.getInt("oil_percent"));
+        } catch (Exception e) {}
+        try{
+            vehicleContraceVehsInfo.setResent_oil_percent(rs.getInt("resent_oil_percent"));
+        } catch (Exception e) {}
+
         return vehicleContraceVehsInfo;
 	}
 }

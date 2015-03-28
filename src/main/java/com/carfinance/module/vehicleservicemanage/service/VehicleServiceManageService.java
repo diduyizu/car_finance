@@ -291,7 +291,7 @@ public class VehicleServiceManageService {
      */
     public int contraceDoChooseVech(long contrace_id , long vehicle_id , long user_id) {
         VehicleInfo vehicleInfo = this.vehicleManageDao.getVehicleInfoByid(vehicle_id);
-        int result = this.vehicleServiceManageDao.contraceDoChooseVech(contrace_id , vehicle_id , user_id , vehicleInfo.getVehicle_price() , vehicleInfo.getLicense_plate() , vehicleInfo.getModel());
+        int result = this.vehicleServiceManageDao.contraceDoChooseVech(contrace_id , vehicle_id , user_id , vehicleInfo.getVehicle_price() , vehicleInfo.getLicense_plate() , vehicleInfo.getModel() , vehicleInfo.getEtc() , vehicleInfo.getEtc_money() , vehicleInfo.getOil_percent());
         if(result > 0) {//插入成功，更新该车辆状态为出库中
             this.vehicleServiceManageDao.updateVehicleStatus(vehicle_id , "出库中");
         }
@@ -563,7 +563,7 @@ public class VehicleServiceManageService {
 
     public int contracePropertyDoChooseVech(long contrace_id , long vehicle_id , long user_id) {
         VehicleInfo vehicleInfo = this.vehicleManageDao.getVehicleInfoByid(vehicle_id);
-        int result = this.vehicleServiceManageDao.contraceDoChooseVech(contrace_id , vehicle_id , user_id , vehicleInfo.getVehicle_price() , vehicleInfo.getLicense_plate() , vehicleInfo.getModel());
+        int result = this.vehicleServiceManageDao.contraceDoChooseVech(contrace_id , vehicle_id , user_id , vehicleInfo.getVehicle_price() , vehicleInfo.getLicense_plate() , vehicleInfo.getModel() , vehicleInfo.getEtc() , vehicleInfo.getEtc_money() , vehicleInfo.getOil_percent());
         if(result > 0) {//插入成功，更新该车辆状态为出库中
             this.vehicleServiceManageDao.updateVehicleStatus(vehicle_id , "出库中");
         }

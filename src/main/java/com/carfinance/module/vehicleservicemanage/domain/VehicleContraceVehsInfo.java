@@ -31,6 +31,43 @@ public class VehicleContraceVehsInfo implements Serializable{
     private double over_price;
     private int status;
 
+    private String etc;
+    private double etc_money;
+    private int oil_percent;
+    private int resent_oil_percent;
+
+    public int getResent_oil_percent() {
+        return resent_oil_percent;
+    }
+
+    public void setResent_oil_percent(int resent_oil_percent) {
+        this.resent_oil_percent = resent_oil_percent;
+    }
+
+    public String getEtc() {
+        return etc;
+    }
+
+    public void setEtc(String etc) {
+        this.etc = etc;
+    }
+
+    public double getEtc_money() {
+        return etc_money;
+    }
+
+    public void setEtc_money(double etc_money) {
+        this.etc_money = etc_money;
+    }
+
+    public int getOil_percent() {
+        return oil_percent;
+    }
+
+    public void setOil_percent(int oil_percent) {
+        this.oil_percent = oil_percent;
+    }
+
     public long getReturn_org() {
         return return_org;
     }

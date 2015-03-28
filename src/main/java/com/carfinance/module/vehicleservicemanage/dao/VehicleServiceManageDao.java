@@ -575,9 +575,10 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
      * @param user_id
      * @return
      */
-    public int contraceDoChooseVech(long contrace_id , long vehicle_id , long user_id , double vehicle_price , String license_plate , String model) {
-        String sql = "insert into vehicle_contrace_vehs (contrace_id , vehicle_id , create_by , vehicle_price , license_plate , model) values (?,?,?,?,?,?)";
-        Object[] o = new Object[] { contrace_id , vehicle_id , user_id , vehicle_price  , license_plate.toUpperCase(), model };
+    public int contraceDoChooseVech(long contrace_id , long vehicle_id , long user_id , double vehicle_price , String license_plate , String model , String etc , double etc_money , int oil_percent) {
+        String sql = "insert into vehicle_contrace_vehs (contrace_id , vehicle_id , create_by , vehicle_price , license_plate , model , etc , etc_money , oil_percent) " +
+                "values (?,?,?,?,?,?,?,?,?)";
+        Object[] o = new Object[] { contrace_id , vehicle_id , user_id , vehicle_price  , license_plate.toUpperCase(), model , etc , etc_money , oil_percent };
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().update(sql, o);
     }
