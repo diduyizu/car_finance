@@ -49,6 +49,8 @@
                 <th>车型</th>
                 <th>当前里程</th>
                 <th>还车门店</th>
+                <th>还车油量比(%)</th>
+                <th>还车ETC金额</th>
                 <th>还车时间</th>
                 <th>还车里程</th>
                 <th>超期费用</th>
@@ -83,6 +85,18 @@
                         </c:if>
                     </td>
                     <td>
+                        <c:if test="${vehicle.status == 1}">${vehicle.revert_oil_percent}</c:if>
+                        <c:if test="${vehicle.status == 0}">
+                            <input type="text" class="revert_oil_percent" name="revert_oil_percent" placeholder="必填" required="true" />
+                        </c:if>
+                    </td>
+                    <td>
+                        <c:if test="${vehicle.status == 1}">${vehicle.revert_etc_money}</c:if>
+                        <c:if test="${vehicle.status == 0}">
+                            <input type="text" class="revert_etc_money" name="revert_etc_money" />
+                        </c:if>
+                    </td>
+                    <td>
                         <c:if test="${vehicle.status == 1}">${vehicle.return_time}</c:if>
                         <c:if test="${vehicle.status == 0}">
                             <input class="form_datetime return_time" size="16" type="text" placeholder="必填" required="true" name="return_time">
@@ -91,7 +105,7 @@
                     <td>
                         <c:if test="${vehicle.status == 1}">${vehicle.return_km}</c:if>
                         <c:if test="${vehicle.status == 0}">
-                            <input type="text" class="return_km" name="return_km" />
+                            <input type="text" class="return_km" name="return_km" placeholder="必填" required="true" />
                             <input type="hidden" name="vehicle_id" value="${vehicle.vehicle_id}" />
                         </c:if>
                     </td>
@@ -251,6 +265,9 @@
             var vehicle_contrace_id = $(this).next("input").val();
             var return_org = $(this).parent('td').parent('tr').find("select[name='original_org']").val();
 
+            var revert_oil_percent = $(this).parent('td').parent('tr').find("input[name='revert_oil_percent']").val();
+            var revert_etc_money = $(this).parent('td').parent('tr').find("input[name='revert_etc_money']").val();
+
 
             if(return_time == "" || return_time == null) {
                 alert("请选择还车时间");
@@ -260,12 +277,18 @@
                 alert("请输入还车里程");
                 return false;
             }
+            if(revert_oil_percent == "" || revert_oil_percent == null) {
+                alert("请输入还车油量比");
+                return false;
+            }
+
 
             $.ajax({
                 url:"${ctx}/vehicleservice/contrace/returnvahicle",
                 type: "post",
                 data:{contrace_id:contrace_id,return_time:return_time,return_km:return_km,vehicle_id:vehicle_id,
-                    over_price:over_price,vehicle_contrace_id:vehicle_contrace_id,return_org:return_org},
+                    over_price:over_price,vehicle_contrace_id:vehicle_contrace_id,return_org:return_org,
+                    revert_oil_percent:revert_oil_percent,revert_etc_money:revert_etc_money},
                 success:function(data){
                     if(data > 0) {
                         alert("成功");

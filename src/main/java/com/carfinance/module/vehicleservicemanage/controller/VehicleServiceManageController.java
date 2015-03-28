@@ -1227,7 +1227,11 @@ public class VehicleServiceManageController {
         long vehicle_contrace_id = Long.valueOf(request.getParameter("vehicle_contrace_id"));
         long return_org = Long.valueOf(request.getParameter("return_org"));
 
-        int result = this.vehicleServiceManageService.returnVehicle(vehicle_contrace_id , contrace_id , return_time , return_km , vehicle_id , over_price , return_org);
+        int revert_oil_percent = Integer.valueOf(request.getParameter("revert_oil_percent"));
+        String revert_etc_money_str = request.getParameter("revert_etc_money");
+        double revert_etc_money = StringUtils.isBlank(revert_etc_money_str) ? 0 : Double.valueOf(revert_etc_money_str);
+
+        int result = this.vehicleServiceManageService.returnVehicle(vehicle_contrace_id , contrace_id , return_time , return_km , vehicle_id , over_price , return_org , revert_oil_percent , revert_etc_money);
         return result;
 //        return "redirect:/vehicleservice/contrace/finish?contrace_id=" + contrace_id;
     }

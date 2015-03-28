@@ -35,6 +35,15 @@ public class VehicleContraceVehsInfo implements Serializable{
     private double etc_money;
     private int oil_percent;
     private int revert_oil_percent;
+    private double revert_etc_money;
+
+    public double getRevert_etc_money() {
+        return revert_etc_money;
+    }
+
+    public void setRevert_etc_money(double revert_etc_money) {
+        this.revert_etc_money = revert_etc_money;
+    }
 
     public int getRevert_oil_percent() {
         return revert_oil_percent;
