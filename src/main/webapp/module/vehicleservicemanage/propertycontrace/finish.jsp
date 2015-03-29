@@ -50,6 +50,9 @@
             <th>还车时间</th>
             <th>还车里程</th>
             <th>超期费用</th>
+            <th>是否有ETC</th>
+            <th>ETC金额</th>
+            <th>发车油量比(%)</th>
         </tr>
         </thead>
         <c:forEach var="vehicle" items="${vehicle_contrace_vehs_list}" varStatus="status">
@@ -60,6 +63,9 @@
                 <td>${vehicle.return_time}</td>
                 <td>${vehicle.return_km}</td>
                 <td>${vehicle.over_price}</td>
+                <td>${vehicle.etc}</td>
+                <td>${vehicle.etc_money}</td>
+                <td>${vehicle.oil_percent}</td>
             </tr>
         </c:forEach>
     </table>
@@ -143,10 +149,15 @@
     <table class="table table-bordered table-hover definewidth m10">
         <tr>
             <td class="tableleft">剩余租金</td>
-            <td>${property_contrace_info.lease_price - property_contrace_info.already_back_amount}</td>
             <td class="tableleft">结单交付租金</td>
-            <td><input type="text" id="actual_payment" name="finish_payment" placeholder="必填" required /></td>
             <td class="tableleft">车辆处理方式</td>
+            <td class="tableleft">还车油量比(%)</td>
+            <td class="tableleft">还车ETC金额</td>
+            <td class="tableleft"></td>
+        </tr>
+        <tr>
+            <td>${property_contrace_info.lease_price - property_contrace_info.already_back_amount}</td>
+            <td><input type="text" id="actual_payment" name="finish_payment" placeholder="必填" required /></td>
             <td>
                 <select id="vehicle_status" name="vehicle_status">
                     <option value="售出">售出</option>
@@ -154,11 +165,44 @@
                 </select>
             </td>
             <td>
+                <input type="text" id="revert_oil_percent" name="revert_oil_percent" />
+            </td>
+            <td>
+                <input type="text" id="revert_etc_money" name="revert_etc_money" />
+            </td>
+            <td>
                 <input type="hidden" id="contrace_id" name="contrace_id" value="${property_contrace_info.id}" />
                 <input type="hidden" id="should_payment" name="should_payment" value="${property_contrace_info.lease_price - property_contrace_info.already_back_amount}" />
-                <button type="button" class="btn btn-primary" id="dofinish">结单</button>&nbsp;&nbsp;结单前，请注意车辆租金是否已还清
+                <button type="button" class="btn btn-primary" id="dofinish" title="结单前，请注意车辆租金是否已还清">结单</button>&nbsp;&nbsp;结单前，请注意车辆租金是否已还清
             </td>
         </tr>
+
+        <%--<tr>--%>
+            <%--<td class="tableleft">剩余租金</td>--%>
+            <%--<td>${property_contrace_info.lease_price - property_contrace_info.already_back_amount}</td>--%>
+            <%--<td class="tableleft">结单交付租金</td>--%>
+            <%--<td><input type="text" id="actual_payment" name="finish_payment" placeholder="必填" required /></td>--%>
+            <%--<td class="tableleft">车辆处理方式</td>--%>
+            <%--<td>--%>
+                <%--<select id="vehicle_status" name="vehicle_status">--%>
+                    <%--<option value="售出">售出</option>--%>
+                    <%--<option value="在库">收回</option>--%>
+                <%--</select>--%>
+            <%--</td>--%>
+            <%--<td class="tableleft">还车油量比(%)</td>--%>
+            <%--<td>--%>
+                <%--<input type="text" class="revert_oil_percent" name="revert_oil_percent" />--%>
+            <%--</td>--%>
+            <%--<td class="tableleft">还车ETC金额</td>--%>
+            <%--<td>--%>
+                <%--<input type="text" class="revert_etc_money" name="revert_etc_money" />--%>
+            <%--</td>--%>
+            <%--<td>--%>
+                <%--<input type="hidden" id="contrace_id" name="contrace_id" value="${property_contrace_info.id}" />--%>
+                <%--<input type="hidden" id="should_payment" name="should_payment" value="${property_contrace_info.lease_price - property_contrace_info.already_back_amount}" />--%>
+                <%--<button type="button" class="btn btn-primary" id="dofinish">结单</button>&nbsp;&nbsp;结单前，请注意车辆租金是否已还清--%>
+            <%--</td>--%>
+        <%--</tr>--%>
     </table>
 </form>
 </body>
@@ -170,10 +214,14 @@
         var actual_payment=$.trim($('#actual_payment').val());
         var vehicle_status=$('#vehicle_status').val();
 
+        var revert_oil_percent=$.trim($('#revert_oil_percent').val());
+        var revert_etc_money=$('#revert_etc_money').val();
+
         $.ajax({
             url:"${ctx}/vehicleservice/contrace/property/dofinish",
             type: "post",
-            data:{contrace_id:contrace_id,should_payment:should_payment,actual_payment:actual_payment,vehicle_status:vehicle_status},
+            data:{contrace_id:contrace_id,should_payment:should_payment,actual_payment:actual_payment,vehicle_status:vehicle_status,
+                revert_oil_percent:revert_oil_percent,revert_etc_money:revert_etc_money},
             success:function(data){
                 if(data > 0) {
                     alert("成功");

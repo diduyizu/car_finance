@@ -666,7 +666,7 @@ public class VehicleServiceManageService {
      * @param user_id
      * @return
      */
-    public int PropertyContraceDoFinish(long contrace_id , double should_payment , double actual_payment , String vehicle_status , long user_id) {
+    public int PropertyContraceDoFinish(long contrace_id , double should_payment , double actual_payment , String vehicle_status , long user_id , int revert_oil_percent , double revert_etc_money) {
         //更新产权租合同已收回期数、已收回租金、尾款金额
         int result = this.vehicleServiceManageDao.updatePropertyContracePayment(contrace_id , actual_payment , user_id);
         if(result > 0) {
@@ -678,7 +678,7 @@ public class VehicleServiceManageService {
             //根据合同ID，获取车辆列表
             List<VehicleContraceVehsInfo> vehicleContraceVehsInfoList = this.getVehicleContraceVehsListByContraceId(contrace_id);
             for(VehicleContraceVehsInfo vehicle : vehicleContraceVehsInfoList) {
-                this.vehicleServiceManageDao.updatePropertyVehicleStatus(vehicle.getVehicle_id() , vehicle_status);
+                this.vehicleServiceManageDao.updatePropertyVehicleStatus(vehicle.getVehicle_id() , vehicle_status , revert_oil_percent , revert_etc_money);
             }
         }
         return result;

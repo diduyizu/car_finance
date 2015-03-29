@@ -2132,6 +2132,11 @@ public class VehicleServiceManageController {
         double actual_payment = Double.valueOf(request.getParameter("actual_payment"));
         String vehicle_status = request.getParameter("vehicle_status");
 
-        return this.vehicleServiceManageService.PropertyContraceDoFinish(contrace_id , should_payment , actual_payment , vehicle_status , user.getUser_id());
+        String revert_oil_percent_str = request.getParameter("revert_oil_percent");
+        String revert_etc_money_str = request.getParameter("revert_etc_money");
+        int revert_oil_percent = StringUtils.isBlank(revert_oil_percent_str) ? 0 : Integer.valueOf(revert_oil_percent_str);
+        double revert_etc_money = StringUtils.isBlank(revert_etc_money_str) ? 0 : Double.valueOf(revert_etc_money_str);
+
+        return this.vehicleServiceManageService.PropertyContraceDoFinish(contrace_id , should_payment , actual_payment , vehicle_status , user.getUser_id() , revert_oil_percent , revert_etc_money);
     }
 }
