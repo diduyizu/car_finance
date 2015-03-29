@@ -87,6 +87,35 @@
 </form>
 <table class="table table-bordered table-hover definewidth m10">
     <thead>
+    <tr>
+        <th colspan="7">已选车辆</th>
+    </tr>
+    <tr>
+        <th>车牌</th>
+        <th>车型</th>
+        <th>当前里程</th>
+        <th>是否有ETC</th>
+        <th>ETC余额</th>
+        <th>当前油量比（百分比％）</th>
+    </tr>
+    </thead>
+    <c:forEach var="vehicle" items="${contrace_vehicle_list}" varStatus="status">
+        <tr>
+            <td>${vehicle.license_plate}</td>
+            <td>${vehicle.model}</td>
+            <td>
+                <c:if test="${vehicle.isother == 0}">${vehicle.km}</c:if>
+                <c:if test="${vehicle.isother == 1}">${vehicle.other_vehicle_km}</c:if>
+            </td>
+            <td>${vehicle.etc}</td>
+            <td>${vehicle.etc_money}</td>
+            <td>${vehicle.oil_percent}</td>
+        </tr>
+    </c:forEach>
+    </tr>
+</table>
+<table class="table table-bordered table-hover definewidth m10">
+    <thead>
         <tr>
             <th>车牌</th>
             <th>品牌</th>
@@ -95,6 +124,9 @@
             <th>车辆状态</th>
             <th>保养剩余公里数</th>
             <th>公里数</th>
+            <th>是否有ETC</th>
+            <th>ETC余额</th>
+            <th>当前油量比（百分比％）</th>
             <th>操作</th>
         </tr>
     </thead>
@@ -107,6 +139,9 @@
             <td>${vehicle.lease_status}</td>
             <td>${vehicle.maintian_on_km}</td>
             <td>${vehicle.km}</td>
+            <td>${vehicle.etc}</td>
+            <td>${vehicle.etc_money}</td>
+            <td>${vehicle.oil_percent}</td>
             <td><button type="button" class="btn btn-success choosevehi" value="${vehicle.id}">选择</button></td>
         </tr>
     </c:forEach>

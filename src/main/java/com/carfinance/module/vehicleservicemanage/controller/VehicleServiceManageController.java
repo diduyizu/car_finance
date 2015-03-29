@@ -1607,6 +1607,8 @@ public class VehicleServiceManageController {
         long total = (Long)map.get("total");;
         List<VehicleInfo> vehicle_list = (List<VehicleInfo>)map.get("vehicle_list");
 
+        List<VehicleContraceVehsInfo> contrace_vehicle_list = this.vehicleServiceManageService.getVehicleContraceVehsListByContraceId(contrace_id);
+
         long temp = (total - 1) <= 0 ? 0 : (total - 1);
         int pages = Integer.parseInt(Long.toString(temp / size)) + 1;
         int prepages = (page_index - 1) <= 0 ? 1 : (page_index - 1);
@@ -1644,6 +1646,8 @@ public class VehicleServiceManageController {
         model.addAttribute("brand" , brand);
         model.addAttribute("vehicle_model" , vehicle_model);
         model.addAttribute("license_plate" , license_plate);
+
+        model.addAttribute("contrace_vehicle_list" , contrace_vehicle_list);
         return "/module/vehicleservicemanage/propertycontrace/addvech";
     }
 
