@@ -103,7 +103,7 @@
     <c:forEach var="contrace" items="${contrace_list}" varStatus="status">
         <tr>
             <td>
-                <a href="${ctx}/vehicleservice/contrace/detail?contrace_id=${contrace.id}">${contrace.contrace_no}</a>
+                <a href="${ctx}/vehicleservice/contrace/property/detail?contrace_id=${contrace.id}">${contrace.contrace_no}</a>
             </td>
             <td>
             <%--${contrace.customer_name}--%>
