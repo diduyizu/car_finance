@@ -153,7 +153,7 @@
                 <td>${contrace.period_number}个月</td>
                 <td>${contrace.down_payment}</td>
                 <td>${contrace.lease_price}</td>
-                <td>${contrace.montyly_payment}</td>
+                <td>${contrace.monthly_payment}</td>
                 <td>${contrace.received_periods}</td>
                 <td>${contrace.already_back_amount}</td>
             </tr>

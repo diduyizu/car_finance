@@ -879,19 +879,19 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
 
 
     public long modifyPropertyContrace(long contrace_id , long reservation_id , long original_org , String contrace_no , String customer_name , String customer_type , String customer_dn ,
-                                       String certificate_type , String certificate_no , Date sign_at_date , long period_number , double down_payment , double lease_price , double montyly_payment ,
+                                       String certificate_type , String certificate_no , Date sign_at_date , long period_number , double down_payment , double lease_price , double monthly_payment ,
                                        double arrange_payment , int monthly_day , double final_payment , long received_periods , double already_back_amount , String payment_type ,
                                        String employee_id , String employee_name , String remark , long user_id) {
 
         String sql = "update property_contrace " +
                 " set contrace_no = ? , customer_name = ? , customer_type = ? , customer_dn = ? , customer_cer_type = ? , customer_cer_no = ? , " +
                 " remark = ? , employee_id = ? , employee_name = ? , org_id = ? , sign_at = ? , period_number = ? , down_payment = ? , " +
-                " lease_price = ? , montyly_payment = ? , arrange_payment = ? , monthly_day = ? , final_payment = ? , received_periods = ? , " +
+                " lease_price = ? , monthly_payment = ? , arrange_payment = ? , monthly_day = ? , final_payment = ? , received_periods = ? , " +
                 " already_back_amount = ? , payment_type = ? , reserv_to_contrace_status = 1 " +
                 " where id = ? and create_by = ?";
         Object[] o = new Object[] { contrace_no , customer_name , customer_type , customer_dn , certificate_type , certificate_no ,
                 remark , employee_id , employee_name , original_org , sign_at_date , period_number , down_payment , lease_price ,
-                montyly_payment , arrange_payment , monthly_day , final_payment , received_periods , already_back_amount ,
+                monthly_payment , arrange_payment , monthly_day , final_payment , received_periods , already_back_amount ,
                 payment_type , contrace_id , user_id };
         logger.info(sql.replaceAll("\\?", "{}"), o);
         long result = this.getJdbcTemplate().update(sql, o);

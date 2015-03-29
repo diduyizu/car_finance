@@ -1499,7 +1499,7 @@ public class VehicleServiceManageController {
         long period_number = Long.valueOf(request.getParameter("period_number"));
         double down_payment = Double.valueOf(request.getParameter("down_payment"));
         double lease_price = Double.valueOf(request.getParameter("lease_price"));
-        double montyly_payment = Double.valueOf(request.getParameter("montyly_payment"));
+        double monthly_payment = Double.valueOf(request.getParameter("monthly_payment"));
         double arrange_payment = Double.valueOf(request.getParameter("arrange_payment"));
         int monthly_day = Integer.valueOf(request.getParameter("monthly_day"));
         double final_payment = Double.valueOf(request.getParameter("final_payment"));
@@ -1512,7 +1512,7 @@ public class VehicleServiceManageController {
 
 
         return this.vehicleServiceManageService.modifyPropertyContrace(contrace_id, reservation_id, original_org, contrace_no , customer_name, customer_type, customer_dn,
-                certificate_type, certificate_no, sign_at_date, period_number , down_payment , lease_price , montyly_payment , arrange_payment , monthly_day ,
+                certificate_type, certificate_no, sign_at_date, period_number , down_payment , lease_price , monthly_payment , arrange_payment , monthly_day ,
                 final_payment , received_periods , already_back_amount , payment_type , employee_id, employee_name, remark, user.getUser_id());
     }
 

@@ -41,7 +41,7 @@ public class PropertyContraceInfoRowMapper implements RowMapper<PropertyContrace
         propertyContraceInfo.setPeriod_number(rs.getLong("period_number"));
         propertyContraceInfo.setDown_payment(rs.getDouble("down_payment"));
         propertyContraceInfo.setLease_price(rs.getDouble("lease_price"));
-        propertyContraceInfo.setMonthly_payment(rs.getDouble("montyly_payment"));
+        propertyContraceInfo.setMonthly_payment(rs.getDouble("monthly_payment"));
         propertyContraceInfo.setArrange_payment(rs.getDouble("arrange_payment"));
         propertyContraceInfo.setMonthly_day(rs.getInt("monthly_day"));
         propertyContraceInfo.setFinal_payment(rs.getDouble("final_payment"));

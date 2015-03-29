@@ -143,7 +143,7 @@
                 <td class="tableleft">合同租赁价格</td>
                 <td><input type="text" name="lease_price" id="lease_price" placeholder="必填" required="true" value="${property_contrace_info.lease_price}"/></td>
                 <td class="tableleft">月付款</td>
-                <td><input type="text" name="montyly_payment" id="montyly_payment" placeholder="必填" required="true" value="${property_contrace_info.monthly_payment}"/></td>
+                <td><input type="text" name="monthly_payment" id="monthly_payment" placeholder="必填" required="true" value="${property_contrace_info.monthly_payment}"/></td>
                 <td class="tableleft">协商月付</td>
                 <td><input type="text" name="arrange_payment" id="arrange_payment" placeholder="必填" required="true" value="${property_contrace_info.arrange_payment}"/></td>
             </tr>
@@ -236,7 +236,7 @@
             var period_number=$.trim($('#period_number').val());
             var down_payment=$.trim($('#down_payment').val());
             var lease_price=$.trim($('#lease_price').val());
-            var montyly_payment=$.trim($('#montyly_payment').val());
+            var monthly_payment=$.trim($('#monthly_payment').val());
             var arrange_payment=$.trim($('#arrange_payment').val());
             var monthly_day=$.trim($('#monthly_day').val());
             var final_payment=$.trim($('#final_payment').val());
@@ -256,7 +256,7 @@
                 type: "post",
                 data:{contrace_id:contrace_id,reservation_id:reservation_id,original_org:original_org,contrace_no:contrace_no,
                     customer_name:customer_name,customer_type:customer_type,customer_dn:customer_dn,certificate_type:certificate_type,certificate_no:certificate_no,
-                    sign_at_date:sign_at_date,period_number:period_number,down_payment:down_payment,lease_price:lease_price,montyly_payment:montyly_payment,
+                    sign_at_date:sign_at_date,period_number:period_number,down_payment:down_payment,lease_price:lease_price,monthly_payment:monthly_payment,
                     arrange_payment:arrange_payment,monthly_day:monthly_day,final_payment:final_payment,payment_type:payment_type,received_periods:received_periods,
                     already_back_amount:already_back_amount,employee_id:employee_id,employee_name:employee_name,remark:remark},
                 success:function(data){
