@@ -508,6 +508,6 @@ public class CommonService {
 
     public String getContraceNo(long contrace_id) {
         String date = DateUtil.format(new Date() , "yyyyMMdd");
-        return date + contrace_id;
+        return "HT"+date + contrace_id;
     }
 }
