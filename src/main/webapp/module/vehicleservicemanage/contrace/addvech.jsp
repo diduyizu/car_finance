@@ -89,7 +89,7 @@
 <table class="table table-bordered table-hover definewidth m10">
     <thead>
     <tr>
-        <th colspan="7">已选车辆</th>
+        <th colspan="8">已选车辆</th>
     </tr>
     <tr>
         <th>车牌</th>
@@ -98,6 +98,7 @@
         <th>是否有ETC</th>
         <th>ETC余额</th>
         <th>当前油量比（百分比％）</th>
+        <th>操作</th>
     </tr>
     </thead>
     <c:forEach var="vehicle" items="${contrace_vehicle_list}" varStatus="status">
@@ -111,6 +112,7 @@
             <td>${vehicle.etc}</td>
             <td>${vehicle.etc_money}</td>
             <td>${vehicle.oil_percent}</td>
+            <td><button type="button" class="btn btn-danger cancelvehicle" value="${vehicle.id}">取消车辆</button></td>
         </tr>
     </c:forEach>
     </tr>
@@ -169,6 +171,29 @@
                 if(data > 0){
                     alert("成功");
                     location.reload();
+                } else {
+                    alert("失败");
+                    return false;
+                }
+            }
+        })
+    });
+
+    //取消合同车辆
+    $('.cancelvehicle').click(function(){
+        var veh_contrace_vehs_id = $(this).val();
+        $.ajax({
+            url:"${ctx}/vehicleservice/contrace/cancelchoosevehicle",
+            type: "post",
+            data:{veh_contrace_vehs_id:veh_contrace_vehs_id},
+            dataType:"json",
+            success:function(data){
+                if(data > 0){
+                    alert("成功");
+                    location.reload();
+                } else if(data == -1) {
+                    alert("您还没有绑定车辆，请先增加车辆，再提交审核");
+                    return false;
                 } else {
                     alert("失败");
                     return false;

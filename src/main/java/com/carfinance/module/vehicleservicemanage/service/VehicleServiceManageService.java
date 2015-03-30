@@ -333,9 +333,9 @@ public class VehicleServiceManageService {
     }
 
     public int contraceCancelChooseVehicle(long veh_contrace_vehs_id , long user_id) {
+        VehicleContraceVehsInfo vehicleContraceVehsInfo = this.vehicleServiceManageDao.getContraceVehicleByid(veh_contrace_vehs_id);
         int result = this.vehicleServiceManageDao.contraceCancelChooseVehicle(veh_contrace_vehs_id, user_id);
         if(result > 0) {//更新取消车辆，更新车辆及配驾人员信息
-            VehicleContraceVehsInfo vehicleContraceVehsInfo = this.vehicleServiceManageDao.getContraceVehicleByid(veh_contrace_vehs_id);
             if(vehicleContraceVehsInfo != null) {
                 long vehicle_id = vehicleContraceVehsInfo.getVehicle_id();
                 long driver_user_id = vehicleContraceVehsInfo.getDriving_user_id();
