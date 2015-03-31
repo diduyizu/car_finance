@@ -98,6 +98,7 @@
         <th>是否有ETC</th>
         <th>ETC余额</th>
         <th>当前油量比（百分比％）</th>
+        <th>日租金</th>
         <th>操作</th>
     </tr>
     </thead>
@@ -112,6 +113,7 @@
             <td>${vehicle.etc}</td>
             <td>${vehicle.etc_money}</td>
             <td>${vehicle.oil_percent}</td>
+            <td>${vehicle.daily_price}</td>
             <td><button type="button" class="btn btn-danger cancelvehicle" value="${vehicle.id}">取消车辆</button></td>
         </tr>
     </c:forEach>
@@ -130,6 +132,7 @@
             <th>是否有ETC</th>
             <th>ETC余额</th>
             <th>当前油量比（百分比％）</th>
+            <th>日租金</th>
             <th>操作</th>
         </tr>
     </thead>
@@ -145,6 +148,7 @@
             <td>${vehicle.etc}</td>
             <td>${vehicle.etc_money}</td>
             <td>${vehicle.oil_percent}</td>
+            <td>${vehicle.daily_price}</td>
             <td><button type="button" class="btn btn-success choosevehi" value="${vehicle.id}">选择</button></td>
         </tr>
     </c:forEach>

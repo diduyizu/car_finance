@@ -37,6 +37,16 @@ public class VehicleContraceVehsInfo implements Serializable{
     private int revert_oil_percent;
     private double revert_etc_money;
 
+    private double daily_price;
+
+    public double getDaily_price() {
+        return daily_price;
+    }
+
+    public void setDaily_price(double daily_price) {
+        this.daily_price = daily_price;
+    }
+
     public double getRevert_etc_money() {
         return revert_etc_money;
     }

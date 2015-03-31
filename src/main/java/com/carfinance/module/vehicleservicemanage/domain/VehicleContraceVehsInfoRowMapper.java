@@ -73,6 +73,10 @@ public class VehicleContraceVehsInfoRowMapper implements RowMapper<VehicleContra
             vehicleContraceVehsInfo.setRevert_etc_money(rs.getInt("revert_etc_money"));
         } catch (Exception e) {}
 
+        try{
+            vehicleContraceVehsInfo.setDaily_price(rs.getDouble("daily_price"));
+        } catch (Exception e) {}
+
         return vehicleContraceVehsInfo;
 	}
 }
