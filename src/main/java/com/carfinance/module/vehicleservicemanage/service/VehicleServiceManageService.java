@@ -360,24 +360,35 @@ public class VehicleServiceManageService {
 
     //获取合同应该收到的租金
     //包括合同正常行驶情况下的租金；车辆超时、超里程的赔偿金
+//    public double getContraceIncom(long contrace_id) {
+//        VehicleContraceInfo vehicleContraceInfo = this.vehicleServiceManageDao.getVehicleContraceInfoById(contrace_id);
+//
+//        double contrace_days = DateUtil.getTimeLag(vehicleContraceInfo.getUse_begin(), vehicleContraceInfo.getUse_end(), "day");//合同天数
+//        double daily_price = vehicleContraceInfo.getDaily_price();//合同约定每天价格
+//
+//        double normal_price = contrace_days * daily_price;//正常金额，按照合同约定天数，以及每日单价计算得出
+//
+//        double abnormal_price = 0;//不正常金额，车辆超时、超里程的赔偿金
+//        List<VehicleContraceVehsInfo> vehicleContraceVehsInfoList = this.vehicleServiceManageDao.getVehicleContraceVehsListByContraceId(contrace_id);
+//        for(VehicleContraceVehsInfo v : vehicleContraceVehsInfoList) {
+//            abnormal_price = abnormal_price + v.getOver_price();
+//        }
+//
+//        double system_total_price = normal_price + abnormal_price;
+//        return system_total_price;
+//    }
     public double getContraceIncom(long contrace_id) {
         VehicleContraceInfo vehicleContraceInfo = this.vehicleServiceManageDao.getVehicleContraceInfoById(contrace_id);
 
         double contrace_days = DateUtil.getTimeLag(vehicleContraceInfo.getUse_begin(), vehicleContraceInfo.getUse_end(), "day");//合同天数
-        double daily_price = vehicleContraceInfo.getDaily_price();//合同约定每天价格
-
-        double normal_price = contrace_days * daily_price;//正常金额，按照合同约定天数，以及每日单价计算得出
-
-        double abnormal_price = 0;//不正常金额，车辆超时、超里程的赔偿金
+        //合同正常总价，需要根据该合同对应的车辆算出，每辆车每天的价格不同
+        double system_total_price = 0;
         List<VehicleContraceVehsInfo> vehicleContraceVehsInfoList = this.vehicleServiceManageDao.getVehicleContraceVehsListByContraceId(contrace_id);
         for(VehicleContraceVehsInfo v : vehicleContraceVehsInfoList) {
-            abnormal_price = abnormal_price + v.getOver_price();
+            double vehicle_normal_price = v.getDaily_price() * contrace_days;
+            system_total_price = system_total_price + vehicle_normal_price + v.getOver_price();
         }
-
-        double system_total_price = normal_price + abnormal_price;
         return system_total_price;
-
-
     }
 
 
