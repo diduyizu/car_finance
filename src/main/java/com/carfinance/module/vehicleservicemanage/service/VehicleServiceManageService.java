@@ -289,9 +289,9 @@ public class VehicleServiceManageService {
      * @param user_id
      * @return
      */
-    public int contraceDoChooseVech(long contrace_id , long vehicle_id , long user_id) {
+    public int contraceDoChooseVech(long contrace_id , long vehicle_id , long user_id , String settlement_way , double fixed_price) {
         VehicleInfo vehicleInfo = this.vehicleManageDao.getVehicleInfoByid(vehicle_id);
-        int result = this.vehicleServiceManageDao.contraceDoChooseVech(contrace_id , vehicle_id , user_id , vehicleInfo.getVehicle_price() , vehicleInfo.getLicense_plate() , vehicleInfo.getModel() , vehicleInfo.getEtc() , vehicleInfo.getEtc_money() , vehicleInfo.getOil_percent() , vehicleInfo.getDaily_price());
+        int result = this.vehicleServiceManageDao.contraceDoChooseVech(contrace_id , vehicle_id , user_id , vehicleInfo.getVehicle_price() , vehicleInfo.getLicense_plate() , vehicleInfo.getModel() , vehicleInfo.getEtc() , vehicleInfo.getEtc_money() , vehicleInfo.getOil_percent() , vehicleInfo.getDaily_price() , settlement_way , fixed_price);
         if(result > 0) {//插入成功，更新该车辆状态为出库中
             this.vehicleServiceManageDao.updateVehicleStatus(vehicle_id , "出库中");
         }
@@ -563,7 +563,7 @@ public class VehicleServiceManageService {
 
     public int contracePropertyDoChooseVech(long contrace_id , long vehicle_id , long user_id) {
         VehicleInfo vehicleInfo = this.vehicleManageDao.getVehicleInfoByid(vehicle_id);
-        int result = this.vehicleServiceManageDao.contraceDoChooseVech(contrace_id , vehicle_id , user_id , vehicleInfo.getVehicle_price() , vehicleInfo.getLicense_plate() , vehicleInfo.getModel() , vehicleInfo.getEtc() , vehicleInfo.getEtc_money() , vehicleInfo.getOil_percent() , vehicleInfo.getDaily_price());
+        int result = this.vehicleServiceManageDao.contraceDoChooseVech(contrace_id , vehicle_id , user_id , vehicleInfo.getVehicle_price() , vehicleInfo.getLicense_plate() , vehicleInfo.getModel() , vehicleInfo.getEtc() , vehicleInfo.getEtc_money() , vehicleInfo.getOil_percent() , vehicleInfo.getDaily_price() , "客户自理" , 0);
         if(result > 0) {//插入成功，更新该车辆状态为出库中
             this.vehicleServiceManageDao.updateVehicleStatus(vehicle_id , "出库中");
         }

@@ -567,7 +567,10 @@ public class VehicleServiceManageController {
 
         long contrace_id = Long.valueOf(request.getParameter("contrace_id"));
         long vehicle_id = Long.valueOf(request.getParameter("vehicle_id"));
-        return this.vehicleServiceManageService.contraceDoChooseVech(contrace_id, vehicle_id , user.getUser_id());
+        String settlement_way = request.getParameter("settlement_way");
+        double fixed_price = Double.valueOf(request.getParameter("fixed_price"));
+
+        return this.vehicleServiceManageService.contraceDoChooseVech(contrace_id, vehicle_id , user.getUser_id() , settlement_way , fixed_price);
     }
 
     /**

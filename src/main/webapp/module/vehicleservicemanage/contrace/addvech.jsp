@@ -181,10 +181,14 @@
     $('.choosevehi').click(function(){
         var contrace_id = $.trim($('#contrace_id').val());
         var vehicle_id = $(this).val();
+
+        var settlement_way = $(this).parent('td').parent('tr').find("select[name='settlement_way']").val();
+        var fixed_price = $(this).parent('td').parent('tr').find("input[name='fixed_price']").val();
+
         $.ajax({
             url:"${ctx}/vehicleservice/contrace/dochoosevech",
             type: "post",
-            data:{contrace_id:contrace_id,vehicle_id:vehicle_id},
+            data:{contrace_id:contrace_id,vehicle_id:vehicle_id,settlement_way:settlement_way,fixed_price:fixed_price},
             success:function(data){
                 if(data > 0){
                     alert("成功");

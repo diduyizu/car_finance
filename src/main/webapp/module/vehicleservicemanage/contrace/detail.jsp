@@ -54,6 +54,9 @@
                 <th>ETC金额</th>
                 <th>发车油量比(%)</th>
                 <th>还车油量比(%)</th>
+                <th>日租金</th>
+                <th>结算方式</th>
+                <th>一口价</th>
             </tr>
             </thead>
             <c:forEach var="vehicle" items="${vehicle_contrace_vehs_list}" varStatus="status">
@@ -67,11 +70,13 @@
                     <td>${vehicle.return_time}</td>
                     <td>${vehicle.return_km}</td>
                     <td>${vehicle.over_price}</td>
-
                     <td>${vehicle.etc}</td>
                     <td>${vehicle.etc_money}</td>
                     <td>${vehicle.oil_percent}</td>
                     <td>${vehicle.revert_oil_percent}</td>
+                    <td>${vehicle.daily_price}</td>
+                    <td>${vehicle.settlement_way}</td>
+                    <td>${vehicle.fixed_price}</td>
                 </tr>
             </c:forEach>
         </table>
