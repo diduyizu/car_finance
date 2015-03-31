@@ -38,6 +38,24 @@ public class VehicleContraceVehsInfo implements Serializable{
     private double revert_etc_money;
 
     private double daily_price;
+    private String settlement_way;
+    private double fixed_price;
+
+    public String getSettlement_way() {
+        return settlement_way;
+    }
+
+    public void setSettlement_way(String settlement_way) {
+        this.settlement_way = settlement_way;
+    }
+
+    public double getFixed_price() {
+        return fixed_price;
+    }
+
+    public void setFixed_price(double fixed_price) {
+        this.fixed_price = fixed_price;
+    }
 
     public double getDaily_price() {
         return daily_price;

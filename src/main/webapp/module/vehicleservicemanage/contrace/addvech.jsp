@@ -99,6 +99,8 @@
         <th>ETC余额</th>
         <th>当前油量比（百分比％）</th>
         <th>日租金</th>
+        <th>结算方式</th>
+        <th>一口价</th>
         <th>操作</th>
     </tr>
     </thead>
@@ -114,6 +116,8 @@
             <td>${vehicle.etc_money}</td>
             <td>${vehicle.oil_percent}</td>
             <td>${vehicle.daily_price}</td>
+            <td>${vehicle.settlement_way}</td>
+            <td>${vehicle.fixed_price}</td>
             <td><button type="button" class="btn btn-danger cancelvehicle" value="${vehicle.id}">取消车辆</button></td>
         </tr>
     </c:forEach>
@@ -133,6 +137,8 @@
             <th>ETC余额</th>
             <th>当前油量比（百分比％）</th>
             <th>日租金</th>
+            <th>结算方式</th>
+            <th>一口价</th>
             <th>操作</th>
         </tr>
     </thead>
@@ -149,6 +155,14 @@
             <td>${vehicle.etc_money}</td>
             <td>${vehicle.oil_percent}</td>
             <td>${vehicle.daily_price}</td>
+            <td>
+                <select name="settlement_way">
+                    <option value="客户自理">客户自理</option>
+                    <option value="公司包干">公司包干</option>
+                    <option value="一口价">一口价</option>
+                </select>
+            </td>
+            <td><input type="text" name="fixed_price" value="0" /></td>
             <td><button type="button" class="btn btn-success choosevehi" value="${vehicle.id}">选择</button></td>
         </tr>
     </c:forEach>

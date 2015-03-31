@@ -77,6 +77,13 @@ public class VehicleContraceVehsInfoRowMapper implements RowMapper<VehicleContra
             vehicleContraceVehsInfo.setDaily_price(rs.getDouble("daily_price"));
         } catch (Exception e) {}
 
+        try{
+            vehicleContraceVehsInfo.setSettlement_way(rs.getString("settlement_way"));
+        } catch (Exception e) {}
+        try{
+            vehicleContraceVehsInfo.setFixed_price(rs.getDouble("fixed_price"));
+        } catch (Exception e) {}
+
         return vehicleContraceVehsInfo;
 	}
 }
