@@ -750,9 +750,9 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
      * @param over_price
      * @return
      */
-    public int returnVehicle(long vehicle_contrace_id , Date return_time , long return_km , double over_price , long return_org , int revert_oil_percent , double revert_etc_money) {
-        String sql = "update vehicle_contrace_vehs set return_time = ? , return_km = ? , over_price = ? , return_org = ? , revert_oil_percent = ? , revert_etc_money = ? ,status = 1 where id = ? ";
-        Object[] o = new Object[] { return_time , return_km , over_price , return_org , revert_oil_percent , revert_etc_money , vehicle_contrace_id };
+    public int returnVehicle(long vehicle_contrace_id , Date return_time , long return_km , double over_price , long return_org , int revert_oil_percent , double revert_etc_money , double vehicle_system_price) {
+        String sql = "update vehicle_contrace_vehs set return_time = ? , return_km = ? , over_price = ? , return_org = ? , revert_oil_percent = ? , revert_etc_money = ? , system_price = ? , status = 1 where id = ? ";
+        Object[] o = new Object[] { return_time , return_km , over_price , return_org , revert_oil_percent , revert_etc_money , vehicle_system_price , vehicle_contrace_id };
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().update(sql , o);
     }
@@ -1079,4 +1079,17 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().queryForLong(sql , o);
     }
+
+    public VehicleContraceVehsInfo getVehicleContraceVehsInfoById(long id) {
+        try{
+            String sql = "select * from vehicle_contrace_vehs where id = ? ";
+            Object[] o = new Object[] {  id  };
+            logger.info(sql.replaceAll("\\?", "{}"), o);
+            return this.getJdbcTemplate().queryForObject(sql , o , new VehicleContraceVehsInfoRowMapper());
+        } catch (EmptyResultDataAccessException e) {
+            logger.error(e.getMessage() , e);
+            return null;
+        }
+    }
+
 }

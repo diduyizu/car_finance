@@ -49,6 +49,7 @@
                 <th>车型</th>
                 <th>当前里程</th>
                 <th>日租价格</th>
+                <th>一口价</th>
                 <th>还车门店</th>
                 <th>还车油量比(%)</th>
                 <th>还车ETC金额</th>
@@ -64,6 +65,7 @@
                     <td>${vehicle.model}</td>
                     <td>${vehicle.km}</td>
                     <td>${vehicle.daily_price}</td>
+                    <td>${vehicle.fixed_price}</td>
                     <td>
                         <c:if test="${vehicle.status == 1}">
                             <c:forEach var="org" items="${user_all_org_list}" varStatus="status">

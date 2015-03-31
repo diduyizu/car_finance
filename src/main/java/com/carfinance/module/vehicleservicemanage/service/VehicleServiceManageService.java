@@ -382,11 +382,16 @@ public class VehicleServiceManageService {
 
         double contrace_days = DateUtil.getTimeLag(vehicleContraceInfo.getUse_begin(), vehicleContraceInfo.getUse_end(), "day");//合同天数
         //合同正常总价，需要根据该合同对应的车辆算出，每辆车每天的价格不同
+        //如果该车辆是一口价，不需要计算，直接按一口价算
         double system_total_price = 0;
         List<VehicleContraceVehsInfo> vehicleContraceVehsInfoList = this.vehicleServiceManageDao.getVehicleContraceVehsListByContraceId(contrace_id);
         for(VehicleContraceVehsInfo v : vehicleContraceVehsInfoList) {
-            double vehicle_normal_price = v.getDaily_price() * contrace_days;
-            system_total_price = system_total_price + vehicle_normal_price + v.getOver_price();
+            if("一口价".equals(v.getSettlement_way())) {
+                system_total_price = system_total_price + v.getFixed_price();
+            } else {
+                double vehicle_normal_price = v.getDaily_price() * contrace_days;
+                system_total_price = system_total_price + vehicle_normal_price + v.getOver_price();
+            }
         }
         return system_total_price;
     }
@@ -434,20 +439,36 @@ public class VehicleServiceManageService {
 
     public int returnVehicle(long vehicle_contrace_id , long contrace_id , String return_time , long return_km , long vehicle_id , double over_price , long return_org , int revert_oil_percent , double revert_etc_money) {
         try{
-            //更新合同车辆表
-            Date return_time_date = DateUtil.string2Date(return_time , "yyyy-MM-dd HH:mm");
-            int result = this.vehicleServiceManageDao.returnVehicle(vehicle_contrace_id , return_time_date , return_km , over_price , return_org , revert_oil_percent , revert_etc_money);
-            if(result > 0) {
-                //更新车辆主表当前公里数为return_km,以及当前所在门店和城市
-                //根据归还门店，得到归还城市
-                Store store = this.storeManageDao.getStoreById(return_org);
-                this.vehicleServiceManageDao.updateVehicleKM(vehicle_id, return_km, return_org , store.getOrg_city() , revert_oil_percent , revert_etc_money);
+            //计算该车，在该合同中，应该得到的收入
+            //如果是一口价，直接获得一口价价格
+            //如果不是一口价，根据合同开始、结束时间，乘以该车日租金
+            VehicleContraceVehsInfo vehicleContraceVehsInfo = this.vehicleServiceManageDao.getVehicleContraceVehsInfoById(vehicle_contrace_id);
+            if(vehicleContraceVehsInfo != null) {
+                double vehicle_system_price = 0;
+                if(vehicleContraceVehsInfo.getSettlement_way().equals("一口价")) {//一口价，不用计算时间
+                    vehicle_system_price = vehicleContraceVehsInfo.getFixed_price();
+                    over_price = 0;//一口价，不存在超期费用
+                } else {
+                    VehicleContraceInfo vehicleContraceInfo = this.vehicleServiceManageDao.getVehicleContraceInfoById(contrace_id);
+                    double contrace_days = DateUtil.getTimeLag(vehicleContraceInfo.getUse_begin(), vehicleContraceInfo.getUse_end(), "day");//合同天数
+                    vehicle_system_price = contrace_days * vehicleContraceVehsInfo.getDaily_price();
+                }
+
+                //更新合同车辆表
+                Date return_time_date = DateUtil.string2Date(return_time , "yyyy-MM-dd HH:mm");
+                int result = this.vehicleServiceManageDao.returnVehicle(vehicle_contrace_id , return_time_date , return_km , over_price , return_org , revert_oil_percent , revert_etc_money , vehicle_system_price);
+                if(result > 0) {
+                    //更新车辆主表当前公里数为return_km,以及当前所在门店和城市
+                    //根据归还门店，得到归还城市
+                    Store store = this.storeManageDao.getStoreById(return_org);
+                    this.vehicleServiceManageDao.updateVehicleKM(vehicle_id, return_km, return_org , store.getOrg_city() , revert_oil_percent , revert_etc_money);
+                }
+                return result;
             }
-            return result;
         } catch (Exception e) {
             logger.error(e.getMessage() , e);
-            return 0;
         }
+        return 0;
     }
 
 
@@ -470,7 +491,49 @@ public class VehicleServiceManageService {
         //结单，更新合同主表状态
         int is_arrearage = 0;
         if((arrange_price-actual_price) > 0 ) is_arrearage = 1;
-        return this.vehicleServiceManageDao.contraceDofinish(contrace_id , system_total_price , arrange_price , actual_price , late_fee , is_arrearage , user_id);
+        int result = this.vehicleServiceManageDao.contraceDofinish(contrace_id , system_total_price , arrange_price , actual_price , late_fee , is_arrearage , user_id);
+        if(result > 0) {
+            //需要判断是否有优惠，如果有优惠，需要将折扣，平坦到该合同到每辆车上
+            if(arrange_price < system_total_price) {//约定金额 小于 系统应收金额，需要算出差价，平坦每辆车上
+                double difference = system_total_price - arrange_price;//差价
+                List<VehicleContraceVehsInfo> vehicleContraceVehsInfoList = this.vehicleServiceManageDao.getContraceVehsList(contrace_id);
+                int vehicle_count = vehicleContraceVehsInfoList.size();
+                double each_difference = (Math.round((difference/vehicle_count)*100)/100.0);//把减免金额，平摊到每辆车上
+
+
+                //处理每辆车的实际租金，算折扣
+                double has_handled_price = 0;
+                for(int i = 0 ; i < vehicleContraceVehsInfoList.size() ; i++) {
+                    VehicleContraceVehsInfo v = vehicleContraceVehsInfoList.get(i);
+
+                    if(i == (vehicleContraceVehsInfoList.size()-1)) {//最后一个，需要计算剩余的优惠
+                        double tmp = difference - has_handled_price;
+                        //TODO 将最后一辆车的减免金额（tmp），以及减免后计算得到到租金，写入合同车辆表
+
+
+
+
+                    } else {
+                        has_handled_price = has_handled_price + each_difference;
+                        //TODO 将每辆车的减免金额（each_difference），以及减免后计算得到到租金，写入合同车辆表
+
+
+
+
+                    }
+
+
+
+                }
+
+
+
+
+
+            }
+        }
+
+        return result;
     }
 
     /**
