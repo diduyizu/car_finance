@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
+import java.sql.Struct;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -249,6 +250,9 @@ public class VehicleManageController {
         String oil_percent_str = request.getParameter("oil_percent");
         int oil_percent = StringUtils.isBlank(oil_percent_str) ? 0 : Integer.valueOf(oil_percent_str);
 
+        String daily_price_str = request.getParameter("daily_price");
+        double daily_price = StringUtils.isBlank(daily_price_str) ? 0 : Double.valueOf(daily_price_str);
+
 
         return this.vehicleManageService.addVehicle(archive_no , inventory_no , brand , model , color , carframe_no , engine_no ,
                 registry_certificate , certificate_direction , loan_bank , consistency_cer , check_list ,
@@ -258,7 +262,7 @@ public class VehicleManageController {
                 business_insurance_expire_at , remark , user.getUser_id() , original_org ,
                 km  , gps , current_city , current_shop , lease_status , peccancy_status , next_main_km ,
                 financing_rent_company , financing_rent_price , bail , monthly_payment ,
-                etc , etc_money , oil_percent);
+                etc , etc_money , oil_percent , daily_price);
     }
 
     /**
@@ -362,6 +366,9 @@ public class VehicleManageController {
         String oil_percent_str = request.getParameter("oil_percent");
         int oil_percent = StringUtils.isBlank(oil_percent_str) ? 0 : Integer.valueOf(oil_percent_str);
 
+        String daily_price_str = request.getParameter("daily_price");
+        double daily_price = StringUtils.isBlank(daily_price_str) ? 0 : Double.valueOf(daily_price_str);
+
 
         return this.vehicleManageService.modifyVehicle(vehicle_id , archive_no , inventory_no , brand , vehicle_model , color , carframe_no , engine_no ,
                 registry_certificate , certificate_direction , loan_bank , consistency_cer , check_list ,
@@ -371,7 +378,7 @@ public class VehicleManageController {
                 business_insurance_expire_at , remark , user.getUser_id() , original_org ,
                 km , gps , current_city , current_shop , lease_status , peccancy_status , next_main_km ,
                 financing_rent_company , financing_rent_price , bail , monthly_payment ,
-                etc , etc_money , oil_percent);
+                etc , etc_money , oil_percent , daily_price);
     }
 
 

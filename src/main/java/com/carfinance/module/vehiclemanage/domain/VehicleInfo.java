@@ -61,6 +61,16 @@ public class VehicleInfo implements Serializable{
     private double etc_money;
     private int oil_percent;
 
+    private double daily_price;
+
+    public double getDaily_price() {
+        return daily_price;
+    }
+
+    public void setDaily_price(double daily_price) {
+        this.daily_price = daily_price;
+    }
+
     public String getEtc() {
         return etc;
     }

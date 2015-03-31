@@ -75,8 +75,6 @@
                         <%--<c:forEach var="org" items="${user_all_org_list}" varStatus="status">--%>
                             <%--<option value="${org.org_id}">${org.org_name}</option>--%>
                         <%--</c:forEach>--%>
-
-
                         <c:forEach var="org" items="${user_all_org_list}" varStatus="status">
                             <c:if test="${org.org_type > 12}">
                                 <option value="${org.org_id}">${org.org_city_name} ${org.org_name}</option>
@@ -85,7 +83,6 @@
                                 <option value="${org.org_id}">${org.org_name}</option>
                             </c:if>
                         </c:forEach>
-
                     </select>
                 </td>
             </tr>
@@ -234,12 +231,14 @@
                 <td class="tableleft">下次保养公里数</td>
                 <td><input type="text" name="next_main_km" id="next_main_km" placeholder="必填" required="true"/></td>
                 <td class="tableleft">是否有违章待处理</td>
-                <td colspan="3">
+                <td>
                     <select id="peccancy_status" name="peccancy_status">
                         <option value="0">无</option>
                         <option value="1">有</option>
                     </select>
                 </td>
+                <td class="tableleft">车辆日租价格</td>
+                <td><input type="text" name="daily_price" id="daily_price" placeholder="必填" required="true"/></td>
             </tr>
             <tr>
                 <td class="tableleft">GPS状态</td>
@@ -381,6 +380,8 @@
             var etc_money=$.trim($('#etc_money').val());
             var oil_percent=$.trim($('#oil_percent').val());
 
+            var daily_price = $.trim($('#daily_price').val());
+
 
 
             $.ajax({
@@ -396,7 +397,7 @@
                     km:km , gps:gps , current_city:current_city , current_shop:current_shop ,
                     lease_status:lease_status , peccancy_status:peccancy_status , next_main_km:next_main_km ,
                     financing_rent_company:financing_rent_company , financing_rent_price:financing_rent_price , bail:bail , monthly_payment:monthly_payment,
-                    etc:etc,etc_money:etc_money,oil_percent:oil_percent},
+                    etc:etc,etc_money:etc_money,oil_percent:oil_percent,daily_price:daily_price},
                 success:function(data){
                     if(data == 1){
                         alert("成功");

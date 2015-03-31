@@ -149,16 +149,14 @@
             </tr>
 
             <tr>
-                <td class="tableleft">日单价</td>
-                <td><input type="text" name="daily_price" id="daily_price" placeholder="必填" value="${vehicle_contrace_info.daily_price}" required="true"/></td>
+                <%--<td class="tableleft">日单价</td>--%>
+                <%--<td><input type="text" name="daily_price" id="daily_price" placeholder="必填" value="${vehicle_contrace_info.daily_price}" required="true"/></td>--%>
                 <td class="tableleft">日公里数</td>
-                <td colspan="3"><input type="text" name="daily_available_km" id="daily_available_km" placeholder="必填" value="${vehicle_contrace_info.daily_available_km}" required="true"/></td>
-            </tr>
-            <tr>
+                <td><input type="text" name="daily_available_km" id="daily_available_km" placeholder="必填" value="${vehicle_contrace_info.daily_available_km}" required="true"/></td>
                 <td class="tableleft">超公里金额</td>
                 <td><input type="text" name="over_km_price" id="over_km_price" placeholder="必填" value="${vehicle_contrace_info.over_km_price}" required="true"/></td>
                 <td class="tableleft">超小时金额</td>
-                <td colspan="3"><input type="text" name="over_hour_price" id="over_hour_price" placeholder="必填" value="${vehicle_contrace_info.over_hour_price}" required="true"/></td>
+                <td><input type="text" name="over_hour_price" id="over_hour_price" placeholder="必填" value="${vehicle_contrace_info.over_hour_price}" required="true"/></td>
             </tr>
             <tr>
                 <td class="tableleft">月结日</td>

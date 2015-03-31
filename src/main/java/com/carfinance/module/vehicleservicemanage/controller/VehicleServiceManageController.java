@@ -412,7 +412,8 @@ public class VehicleServiceManageController {
         String remark= request.getParameter("remark");
 
         String contrace_no =  request.getParameter("contrace_no");
-        double daily_price = Double.valueOf(request.getParameter("daily_price"));
+//        double daily_price = Double.valueOf(request.getParameter("daily_price"));
+        double daily_price = 0;
         long daily_available_km = Long.valueOf(request.getParameter("daily_available_km"));
         double over_km_price = Double.valueOf(request.getParameter("over_km_price"));
         double over_hour_price = Double.valueOf(request.getParameter("over_hour_price"));
