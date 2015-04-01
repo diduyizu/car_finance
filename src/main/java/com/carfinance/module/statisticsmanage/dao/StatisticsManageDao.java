@@ -42,7 +42,7 @@ public class StatisticsManageDao extends BaseJdbcDaoImpl {
 //    }
 
     public long getVehicleCount(String vehicle_model , String license_plate) {
-        String sql = "select count(1) from (select count(1) from vehicle_contrace_vehs where 1 = 1 ";
+        String sql = "select count(1) from (select distinct vehicle_id from vehicle_contrace_vehs where 1 = 1 ";
         List<Object> param = new ArrayList<Object>();
 
         if(vehicle_model != null && !"".equals(vehicle_model.trim())) {
@@ -53,7 +53,7 @@ public class StatisticsManageDao extends BaseJdbcDaoImpl {
             sql = sql + " and license_plate like ? ";
             param.add("%"+license_plate.toUpperCase().trim()+"%");
         }
-        sql = sql + " group by vehicle_id) as name ";
+        sql = sql + " ) as name ";
 
         Object[] o = new Object[param.size()];
         for(int i = 0 ; i < param.size() ; i++) {
@@ -69,7 +69,7 @@ public class StatisticsManageDao extends BaseJdbcDaoImpl {
      * @return
      */
     public List<VehicleContraceVehsInfo> getVehicleList(String vehicle_model , String license_plate , int start , int size) {
-        String sql = "select a.*,b.actually_price total_actually from vehicle_contrace_vehs a , (select vehicle_id,sum(actually_price) actually_price from vehicle_contrace_vehs where 1=1 ";
+        String sql = "select * , sum(actually_price) total_actually from vehicle_contrace_vehs where 1=1 ";
         List<Object> param = new ArrayList<Object>();
 
         if(vehicle_model != null && !"".equals(vehicle_model.trim())) {
@@ -80,7 +80,7 @@ public class StatisticsManageDao extends BaseJdbcDaoImpl {
             sql = sql + " and license_plate like ? ";
             param.add("%"+license_plate.toUpperCase().trim()+"%");
         }
-        sql = sql + " group by vehicle_id order by vehicle_id) b where a.vehicle_id = b.vehicle_id order by id desc limit ?,?";
+        sql = sql + " group by vehicle_id order by actually_price desc limit ?,?";
         param.add(start);
         param.add(size);
 
