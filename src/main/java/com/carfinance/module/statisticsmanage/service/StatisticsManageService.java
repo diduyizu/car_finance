@@ -5,6 +5,8 @@ import com.carfinance.module.common.service.CommonService;
 import com.carfinance.module.common.service.ManageMemcacdedClient;
 import com.carfinance.module.init.service.InitService;
 import com.carfinance.module.statisticsmanage.dao.StatisticsManageDao;
+import com.carfinance.module.statisticsmanage.domain.Achievement;
+import com.carfinance.module.statisticsmanage.domain.AchievementRowMapper;
 import com.carfinance.module.storemanage.dao.StoreManageDao;
 import com.carfinance.module.vehicleservicemanage.domain.VehicleContraceInfo;
 import com.carfinance.module.vehicleservicemanage.domain.VehicleContraceVehsInfo;
@@ -48,10 +50,10 @@ public class StatisticsManageService {
 
     public Map<String , Object> getOrgEmployeeList(long org_id , String employee_id , int start , int size) {
         long total = this.statisticsManageDao.getOrgEmployeeCount(org_id , employee_id);
-        List<VehicleContraceInfo> contraceList =  this.statisticsManageDao.getOrgEmployeeList(org_id, employee_id, start, size);
+        List<Achievement> achievementList =  this.statisticsManageDao.getOrgEmployeeList(org_id, employee_id, start, size);
         Map<String , Object> map = new HashMap<String, Object>();
         map.put("total" , total);
-        map.put("contrace_list" , contraceList);
+        map.put("achievement_list" , achievementList);
         return map;
     }
 

@@ -89,11 +89,11 @@
             <th>总金额</th>
         </tr>
     </thead>
-    <c:forEach var="contrace" items="${contrace_list}" varStatus="status">
+    <c:forEach var="achievement" items="${achievement_list}" varStatus="status">
         <tr>
-            <td>${contrace.employee_id}</td>
-            <td>${contrace.employee_name}</td>
-            <td>${contrace.total_actually}</td>
+            <td>${achievement.employee_id}</td>
+            <td>${achievement.employee_name}</td>
+            <td>${achievement.total_actually}</td>
         </tr>
     </c:forEach>
 </table>

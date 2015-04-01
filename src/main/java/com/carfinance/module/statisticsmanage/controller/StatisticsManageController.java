@@ -5,6 +5,8 @@ import com.carfinance.module.common.domain.Org;
 import com.carfinance.module.common.service.CommonService;
 import com.carfinance.module.init.service.InitService;
 import com.carfinance.module.login.domain.User;
+import com.carfinance.module.statisticsmanage.domain.Achievement;
+import com.carfinance.module.statisticsmanage.domain.AchievementRowMapper;
 import com.carfinance.module.statisticsmanage.service.StatisticsManageService;
 import com.carfinance.module.storemanage.service.StoreManageService;
 import com.carfinance.module.vehiclemanage.domain.VehicleInfo;
@@ -142,7 +144,7 @@ public class StatisticsManageController {
 
         Map<String , Object> map = this.statisticsManageService.getOrgEmployeeList(original_org, employee_id , start, size);
         long total = (Long)map.get("total");;
-        List<VehicleContraceInfo> contrace_list = (List<VehicleContraceInfo>)map.get("contrace_list");
+        List<Achievement> achievement_list = (List<Achievement>)map.get("achievement_list");
 
         long temp = (total - 1) <= 0 ? 0 : (total - 1);
         int pages = Integer.parseInt(Long.toString(temp / size)) + 1;
@@ -168,7 +170,7 @@ public class StatisticsManageController {
 
         model.addAttribute("user_employee_id_name_json" , user_employee_id_name_json);
         model.addAttribute("user_all_org_list" , user_all_org_list);
-        model.addAttribute("contrace_list" , contrace_list);
+        model.addAttribute("achievement_list" , achievement_list);
 
         return "/module/statistics/achievement/index";
     }

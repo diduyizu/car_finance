@@ -2,6 +2,8 @@ package com.carfinance.module.statisticsmanage.dao;
 
 import com.carfinance.core.dao.BaseJdbcDaoImpl;
 import com.carfinance.module.common.dao.CommonDao;
+import com.carfinance.module.statisticsmanage.domain.Achievement;
+import com.carfinance.module.statisticsmanage.domain.AchievementRowMapper;
 import com.carfinance.module.vehiclemanage.domain.VehicleInfo;
 import com.carfinance.module.vehiclemanage.domain.VehicleInfoRowMapper;
 import com.carfinance.module.vehicleservicemanage.domain.VehicleContraceInfo;
@@ -99,7 +101,7 @@ public class StatisticsManageDao extends BaseJdbcDaoImpl {
      * @return
      */
     public long getOrgEmployeeCount(long org_id , String employee_id) {
-        String sql = "select count(1) from (select count(1) from vehicle_contrace where 1 = 1 ";
+        String sql = "select count(1) from (select distinct employee_id from vehicle_contrace where 1 = 1 ";
         List<Object> param = new ArrayList<Object>();
 
         if(org_id != 0) {
@@ -110,7 +112,7 @@ public class StatisticsManageDao extends BaseJdbcDaoImpl {
             sql = sql + " and employee_id = ? ";
             param.add(employee_id);
         }
-        sql = sql + " group by employee_id) as name ";
+        sql = sql + " ) as name ";
 
         Object[] o = new Object[param.size()];
         for(int i = 0 ; i < param.size() ; i++) {
@@ -121,8 +123,8 @@ public class StatisticsManageDao extends BaseJdbcDaoImpl {
         return this.getJdbcTemplate().queryForLong(sql, o);
     }
 
-    public List<VehicleContraceInfo> getOrgEmployeeList(long org_id , String employee_id , int start , int size) {
-        String sql = "select a.*,b.total_actually from vehicle_contrace a , (select employee_id , sum(actual_price) total_actually  from vehicle_contrace  where 1=1 ";
+    public List<Achievement> getOrgEmployeeList(long org_id , String employee_id , int start , int size) {
+        String sql = "select employee_id , employee_name , sum(actual_price) total_actually  from vehicle_contrace  where 1=1 ";
         List<Object> param = new ArrayList<Object>();
 
         if(org_id != 0) {
@@ -133,7 +135,7 @@ public class StatisticsManageDao extends BaseJdbcDaoImpl {
             sql = sql + " and employee_id = ? ";
             param.add(employee_id);
         }
-        sql = sql + " group by employee_id order by employee_id) b where a.employee_id = b.employee_id order by id desc limit ?,?";
+        sql = sql + " group by employee_id order by total_actually desc limit ?,?";
         param.add(start);
         param.add(size);
 
@@ -143,7 +145,7 @@ public class StatisticsManageDao extends BaseJdbcDaoImpl {
         }
 
         logger.info(sql.replaceAll("\\?", "{}"), o);
-        return this.getJdbcTemplate().query(sql, o, new VehicleContraceInfoRowMapper());
+        return this.getJdbcTemplate().query(sql, o, new AchievementRowMapper());
     }
 
 }
