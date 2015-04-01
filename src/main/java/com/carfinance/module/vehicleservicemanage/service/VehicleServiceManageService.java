@@ -500,36 +500,21 @@ public class VehicleServiceManageService {
                 int vehicle_count = vehicleContraceVehsInfoList.size();
                 double each_difference = (Math.round((difference/vehicle_count)*100)/100.0);//把减免金额，平摊到每辆车上
 
-
                 //处理每辆车的实际租金，算折扣
                 double has_handled_price = 0;
                 for(int i = 0 ; i < vehicleContraceVehsInfoList.size() ; i++) {
                     VehicleContraceVehsInfo v = vehicleContraceVehsInfoList.get(i);
 
                     if(i == (vehicleContraceVehsInfoList.size()-1)) {//最后一个，需要计算剩余的优惠
-                        double tmp = difference - has_handled_price;
-                        //TODO 将最后一辆车的减免金额（tmp），以及减免后计算得到到租金，写入合同车辆表
-
-
-
-
+                        double reduction_price = difference - has_handled_price;
+                        //将最后一辆车的减免金额（reduction_price），以及减免后计算得到到租金，写入合同车辆表
+                        this.vehicleServiceManageDao.updateVehicleContraceVehsActuallyPrice(reduction_price , v.getId());
                     } else {
                         has_handled_price = has_handled_price + each_difference;
-                        //TODO 将每辆车的减免金额（each_difference），以及减免后计算得到到租金，写入合同车辆表
-
-
-
-
+                        //将每辆车的减免金额（each_difference），以及减免后计算得到到租金，写入合同车辆表
+                        this.vehicleServiceManageDao.updateVehicleContraceVehsActuallyPrice(each_difference , v.getId());
                     }
-
-
-
                 }
-
-
-
-
-
             }
         }
 

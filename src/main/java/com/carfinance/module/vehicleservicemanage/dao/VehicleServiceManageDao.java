@@ -1092,4 +1092,17 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
         }
     }
 
+    /**
+     *
+     * @param reduction_price
+     * @param id
+     * @return
+     */
+    public int updateVehicleContraceVehsActuallyPrice(double reduction_price , long id) {
+        String sql = "update vehicle_contrace_vehs set reduction_price = ? , actually_price = system_price - ? where id = ?";
+        Object[] o = new Object[] {  reduction_price , reduction_price , id  };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().update(sql , o);
+    }
+
 }
