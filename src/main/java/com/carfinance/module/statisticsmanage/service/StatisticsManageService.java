@@ -46,6 +46,15 @@ public class StatisticsManageService {
         return map;
     }
 
+    public Map<String , Object> getOrgEmployeeList(long org_id , String employee_id , int start , int size) {
+        long total = this.statisticsManageDao.getOrgEmployeeCount(org_id , employee_id);
+        List<VehicleContraceInfo> contraceList =  this.statisticsManageDao.getOrgEmployeeList(org_id, employee_id, start, size);
+        Map<String , Object> map = new HashMap<String, Object>();
+        map.put("total" , total);
+        map.put("contrace_list" , contraceList);
+        return map;
+    }
+
 
 
 

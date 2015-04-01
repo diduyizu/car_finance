@@ -56,6 +56,16 @@ public class VehicleContraceInfo implements Serializable{
     private String arrearage_date;//欠费 补缴时间
     private long arrearage_days;//欠费天数，根据当前系统时间和欠费补缴时间，计算得出
 
+    private double total_actually;
+
+    public double getTotal_actually() {
+        return total_actually;
+    }
+
+    public void setTotal_actually(double total_actually) {
+        this.total_actually = total_actually;
+    }
+
     public long getArrearage_days() {
         return arrearage_days;
     }

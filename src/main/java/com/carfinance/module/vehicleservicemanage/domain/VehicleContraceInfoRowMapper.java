@@ -63,6 +63,10 @@ public class VehicleContraceInfoRowMapper implements RowMapper<VehicleContraceIn
         String arrearage_date_str = rs.getTimestamp("arrearage_date").toString();
         vehicleContraceInfo.setArrearage_date(arrearage_date_str.substring(0 , arrearage_date_str.length()-2));
 
+        try{
+            vehicleContraceInfo.setTotal_actually(rs.getDouble("total_actually"));
+        } catch (Exception e){}
+
         return vehicleContraceInfo;
 	}
 }

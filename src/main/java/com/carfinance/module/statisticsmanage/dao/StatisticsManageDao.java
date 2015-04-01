@@ -8,6 +8,7 @@ import com.carfinance.module.vehicleservicemanage.domain.VehicleContraceInfo;
 import com.carfinance.module.vehicleservicemanage.domain.VehicleContraceInfoRowMapper;
 import com.carfinance.module.vehicleservicemanage.domain.VehicleContraceVehsInfo;
 import com.carfinance.module.vehicleservicemanage.domain.VehicleContraceVehsInfoRowMapper;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,19 +25,19 @@ public class StatisticsManageDao extends BaseJdbcDaoImpl {
     @Autowired
     private CommonDao commonDao;
 
-    public long getContraceCount() {
-        String sql = "select count(1) from vehicle_contrace where status = 6";
-        Object[] o = new Object[]{};
-        logger.info(sql.replaceAll("\\?", "{}"), o);
-        return this.getJdbcTemplate().queryForLong(sql, o);
-    }
-
-    public List<VehicleContraceInfo> getCountraceList(int start , int size) {
-        String sql = "select * from vehicle_contrace where status = 6 order by id desc limit ?,?";
-        Object[] o = new Object[]{ start , size };
-        logger.info(sql.replaceAll("\\?", "{}"), o);
-        return this.getJdbcTemplate().query(sql, o, new VehicleContraceInfoRowMapper());
-    }
+//    public long getContraceCount() {
+//        String sql = "select count(1) from vehicle_contrace where status = 6";
+//        Object[] o = new Object[]{};
+//        logger.info(sql.replaceAll("\\?", "{}"), o);
+//        return this.getJdbcTemplate().queryForLong(sql, o);
+//    }
+//
+//    public List<VehicleContraceInfo> getCountraceList(int start , int size) {
+//        String sql = "select * from vehicle_contrace where status = 6 order by id desc limit ?,?";
+//        Object[] o = new Object[]{ start , size };
+//        logger.info(sql.replaceAll("\\?", "{}"), o);
+//        return this.getJdbcTemplate().query(sql, o, new VehicleContraceInfoRowMapper());
+//    }
 
     public long getVehicleCount(String vehicle_model , String license_plate) {
         String sql = "select count(1) from (select count(1) from vehicle_contrace_vehs where 1 = 1 ";
@@ -91,7 +92,58 @@ public class StatisticsManageDao extends BaseJdbcDaoImpl {
     }
 
 
+    /**
+     * 获取门店、业务员的合同收入
+     * @param org_id
+     * @param employee_id
+     * @return
+     */
+    public long getOrgEmployeeCount(long org_id , String employee_id) {
+        String sql = "select count(1) from (select count(1) from vehicle_contrace where 1 = 1 ";
+        List<Object> param = new ArrayList<Object>();
 
+        if(org_id != 0) {
+            sql = sql + " and org_id = ? ";
+            param.add(org_id);
+        }
+        if(!StringUtils.isBlank(employee_id)) {
+            sql = sql + " and employee_id = ? ";
+            param.add(employee_id);
+        }
+        sql = sql + " group by employee_id) as name ";
 
+        Object[] o = new Object[param.size()];
+        for(int i = 0 ; i < param.size() ; i++) {
+            o[i] = param.get(i);
+        }
+
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().queryForLong(sql, o);
+    }
+
+    public List<VehicleContraceInfo> getOrgEmployeeList(long org_id , String employee_id , int start , int size) {
+        String sql = "select a.*,b.total_actually from vehicle_contrace a , (select employee_id , sum(actual_price) total_actually  from vehicle_contrace  where 1=1 ";
+        List<Object> param = new ArrayList<Object>();
+
+        if(org_id != 0) {
+            sql = sql + " and org_id = ? ";
+            param.add(org_id);
+        }
+        if(!StringUtils.isBlank(employee_id)) {
+            sql = sql + " and employee_id = ? ";
+            param.add(employee_id);
+        }
+        sql = sql + " group by employee_id order by employee_id) b where a.employee_id = b.employee_id order by id desc limit ?,?";
+        param.add(start);
+        param.add(size);
+
+        Object[] o = new Object[param.size()];
+        for(int i = 0 ; i < param.size() ; i++) {
+            o[i] = param.get(i);
+        }
+
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().query(sql, o, new VehicleContraceInfoRowMapper());
+    }
 
 }
