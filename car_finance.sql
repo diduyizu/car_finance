@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.1.6
+-- version 4.1.4
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: 2015-03-31 16:28:18
--- 服务器版本： 5.6.16
--- PHP Version: 5.5.9
+-- Generation Time: 2015-04-01 14:07:40
+-- 服务器版本： 5.6.11
+-- PHP Version: 5.5.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -372,7 +372,10 @@ INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `menu_url`, `pid`, `level`, `men
 (60000, '客户管理', '', 0, 0, '客户管理', 'page', 'nav-user', 1, 0),
 (60001, '客户资料维护', 'carfinance/customer/info/index', 60000, 0, '客户录入登记', 'page', NULL, 1, 0),
 (70000, '统计模块', '', 0, 0, '统计模块', 'page', 'nav-monitor', 1, 0),
-(70001, '台帐', 'carfinance/statistics/standingbook/index', 70000, 0, '台帐', 'page', NULL, 1, 0);
+(70001, '台帐', 'carfinance/statistics/standingbook/index', 70000, 0, '台帐', 'page', NULL, 1, 0),
+(70002, '报表', 'carfinance/statistics/reportform', 70000, 0, '报表', 'page', NULL, 1, 0),
+(70003, '车辆租用/收入信息', 'carfinance/statistics/vehicleincom', 70000, 0, '车辆租用/收入信息', 'page', NULL, 1, 0),
+(70004, '业务员绩效', 'carfinance/statistics/achievement', 70000, 0, '业务员绩效', 'page', NULL, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -561,6 +564,9 @@ INSERT INTO `sys_role_menu` (`role_id`, `menu_id`, `status`) VALUES
 (10000, 40009, 1),
 (10000, 60001, 1),
 (10000, 70001, 1),
+(10000, 70002, 1),
+(10000, 70003, 1),
+(10000, 70004, 1),
 (10000, 10000, 1),
 (10000, 20000, 1),
 (10000, 30000, 1),
@@ -592,7 +598,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `driver_license_no` varchar(32) DEFAULT NULL COMMENT '配驾员驾驶证号',
   PRIMARY KEY (`user_id`),
   KEY `driver_status` (`driver_status`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=100024 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=100018 ;
 
 --
 -- 转存表中的数据 `users`
@@ -697,7 +703,7 @@ CREATE TABLE IF NOT EXISTS `vehicle_contrace` (
 --
 
 INSERT INTO `vehicle_contrace` (`id`, `contrace_no`, `customer_name`, `customer_type`, `customer_dn`, `customer_cer_type`, `customer_cer_no`, `remark`, `employee_id`, `employee_name`, `create_at`, `create_by`, `update_at`, `update_by`, `status`, `shopowner_update_by`, `shopowner_update_at`, `city_shopowner_update_by`, `city_shopowner_update_at`, `finance_update_by`, `finance_update_at`, `org_id`, `reservation_id`, `regional_manager_update_by`, `regional_manager_update_at`, `use_begin`, `use_end`, `isovertop`, `daily_price`, `daily_available_km`, `over_km_price`, `over_hour_price`, `month_price`, `month_available_km`, `pre_payment`, `monthly_day`, `deposit`, `peccancy_deposit`, `contrace_type`, `system_total_price`, `arrange_price`, `actual_price`, `late_fee`, `is_arrearage`, `arrearage_date`, `reserv_to_contrace_status`) VALUES
-(100053, 'HT20150331100053', '123', '个人用户', '15380897663', '身份证', '321281198609041875', '1', '泰州市业务员', '0523100', '2015-03-31 00:18:16', 100000, '2015-03-31 00:18:16', 0, 5, 100000, '2015-03-31 07:42:25', 0, '2015-03-31 00:18:16', 100000, '2015-03-31 07:42:51', 1, 43, 0, '2015-03-31 00:18:16', '2015-03-31 00:15:00', '2015-05-01 00:15:00', 0, '0.00', 80, 10, 5, 0, 0, '20000.00', NULL, '10000.00', '1000.00', 1, NULL, NULL, NULL, NULL, 0, '2015-03-31 00:18:16', 1);
+(100053, 'HT20150331100053', '123', '个人用户', '15380897663', '身份证', '321281198609041875', '1', '泰州市业务员', '0523100', '2015-03-31 00:18:16', 100000, '2015-03-31 00:18:16', 0, 6, 100000, '2015-03-31 07:42:25', 0, '2015-03-31 00:18:16', 100000, '2015-03-31 07:42:51', 1, 43, 0, '2015-03-31 00:18:16', '2015-03-31 00:15:00', '2015-05-01 00:15:00', 0, '0.00', 80, 10, 5, 0, 0, '20000.00', NULL, '10000.00', '1000.00', 1, '60225.00', '60001.00', '60001.00', '0.00', 0, '2015-04-01 01:04:45', 1);
 
 -- --------------------------------------------------------
 
@@ -736,6 +742,8 @@ CREATE TABLE IF NOT EXISTS `vehicle_contrace_vehs` (
   `settlement_way` varchar(32) DEFAULT NULL,
   `fixed_price` decimal(10,2) DEFAULT '0.00',
   `system_price` decimal(10,2) DEFAULT NULL COMMENT '系统应收租金，按照合同算',
+  `reduction_price` decimal(10,2) DEFAULT '0.00' COMMENT '减免金额，根据合同减免金额平分得到',
+  `actually_price` decimal(10,2) DEFAULT '0.00' COMMENT '系统金额-减免金额',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='合同对应车辆详细表' AUTO_INCREMENT=28 ;
 
@@ -743,10 +751,10 @@ CREATE TABLE IF NOT EXISTS `vehicle_contrace_vehs` (
 -- 转存表中的数据 `vehicle_contrace_vehs`
 --
 
-INSERT INTO `vehicle_contrace_vehs` (`id`, `contrace_id`, `vehicle_id`, `license_plate`, `model`, `company`, `other_vehicle_km`, `isother`, `driving_user_id`, `driving_user_name`, `driving_user_license_no`, `create_by`, `create_at`, `update_by`, `update_at`, `vehicle_price`, `return_time`, `return_km`, `return_org`, `over_price`, `status`, `etc`, `etc_money`, `oil_percent`, `revert_oil_percent`, `revert_etc_money`, `daily_price`, `settlement_way`, `fixed_price`, `system_price`) VALUES
-(25, 100053, 10, '苏K196L0', 'VSSCJ61P', NULL, 0, 0, '0', NULL, NULL, 100000, '2015-03-31 06:52:45', 0, '2015-03-31 06:52:45', '27.00', '2015-05-03 17:15:00', 1111, 100020, '325.00', 1, NULL, '0.00', 0, 10, '200.00', '1000.00', '客户自理', '0.00', '31000.00'),
-(26, 100053, 9, '苏AK1P89', '速腾', NULL, 0, 0, '0', NULL, NULL, 100000, '2015-03-31 06:54:44', 0, '2015-03-31 06:54:44', '14.98', '2015-04-28 17:15:00', 1111, 1, '0.00', 1, '有', '0.00', 0, 20, '150.00', '900.00', '客户自理', '0.00', '27900.00'),
-(27, 100053, 8, '苏AK1P81', '迈腾', NULL, 0, 0, '0', NULL, NULL, 100000, '2015-03-31 07:31:21', 0, '2015-03-31 07:31:21', '22.00', '2015-04-30 17:15:00', 11111, 1, '0.00', 1, NULL, '0.00', 0, 10, '211.00', '800.00', '一口价', '1000.00', '1000.00');
+INSERT INTO `vehicle_contrace_vehs` (`id`, `contrace_id`, `vehicle_id`, `license_plate`, `model`, `company`, `other_vehicle_km`, `isother`, `driving_user_id`, `driving_user_name`, `driving_user_license_no`, `create_by`, `create_at`, `update_by`, `update_at`, `vehicle_price`, `return_time`, `return_km`, `return_org`, `over_price`, `status`, `etc`, `etc_money`, `oil_percent`, `revert_oil_percent`, `revert_etc_money`, `daily_price`, `settlement_way`, `fixed_price`, `system_price`, `reduction_price`, `actually_price`) VALUES
+(25, 100053, 10, '苏K196L0', 'VSSCJ61P', NULL, 0, 0, '0', NULL, NULL, 100000, '2015-03-31 06:52:45', 0, '2015-03-31 06:52:45', '27.00', '2015-05-03 17:15:00', 1111, 100020, '325.00', 1, NULL, '0.00', 0, 10, '200.00', '1000.00', '客户自理', '0.00', '31000.00', '74.67', '30925.33'),
+(26, 100053, 9, '苏AK1P89', '速腾', NULL, 0, 0, '0', NULL, NULL, 100000, '2015-03-31 06:54:44', 0, '2015-03-31 06:54:44', '14.98', '2015-04-28 17:15:00', 1111, 1, '0.00', 1, '有', '0.00', 0, 20, '150.00', '900.00', '客户自理', '0.00', '27900.00', '74.67', '27825.33'),
+(27, 100053, 8, '苏AK1P81', '迈腾', NULL, 0, 0, '0', NULL, NULL, 100000, '2015-03-31 07:31:21', 0, '2015-03-31 07:31:21', '22.00', '2015-04-30 17:15:00', 11111, 1, '0.00', 1, NULL, '0.00', 0, 10, '211.00', '800.00', '一口价', '1000.00', '1000.00', '74.66', '925.34');
 
 -- --------------------------------------------------------
 
@@ -884,7 +892,7 @@ CREATE TABLE IF NOT EXISTS `vehicle_maintail_record` (
   `create_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `create_by` int(11) NOT NULL COMMENT '创建人员ID',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='车辆保养记录表' AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='车辆保养记录表' AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -914,7 +922,7 @@ CREATE TABLE IF NOT EXISTS `vehicle_peccancy` (
   `customer_name` varchar(64) DEFAULT NULL COMMENT '客户姓名（客户造成违章时录入）',
   PRIMARY KEY (`id`),
   KEY `carframe_no` (`carframe_no`,`engine_no`,`license_plate`,`status`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='车辆违章表' AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='车辆违章表' AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
