@@ -608,7 +608,13 @@ public class VehicleServiceManageController {
         String oil_percent_str = request.getParameter("oil_percent");
         int oil_percent = StringUtils.isBlank(oil_percent_str) ? 0 : Integer.valueOf(oil_percent_str);
 
-        return this.vehicleServiceManageService.contraceDoAddForeignVehicle(contrace_id, license_plate , vehicle_model , vehicle_price , company , other_vehicle_km , user.getUser_id() , etc , etc_money , oil_percent);
+
+        double daily_price = Double.valueOf(request.getParameter("daily_price"));
+        String settlement_way = request.getParameter("settlement_way");
+        String fixed_price_str = request.getParameter("fixed_price");
+        double fixed_price = StringUtils.isBlank(fixed_price_str) ? 0 : Double.valueOf(fixed_price_str);
+
+        return this.vehicleServiceManageService.contraceDoAddForeignVehicle(contrace_id, license_plate , vehicle_model , vehicle_price , company , other_vehicle_km , user.getUser_id() , etc , etc_money , oil_percent , daily_price , settlement_way , fixed_price);
     }
 
     //TODO 业务员查看合同车辆信息

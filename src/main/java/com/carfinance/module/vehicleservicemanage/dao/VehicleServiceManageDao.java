@@ -583,10 +583,10 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
         return this.getJdbcTemplate().update(sql, o);
     }
 
-    public int contraceDoAddForeignVehicle(long contrace_id, String license_plate , String vehicle_model , double vehicle_price , String company , long other_vehicle_km , long user_id , String etc , double etc_money , int oil_percent) {
+    public int contraceDoAddForeignVehicle(long contrace_id, String license_plate , String vehicle_model , double vehicle_price , String company , long other_vehicle_km , long user_id , String etc , double etc_money , int oil_percent , double daily_price , String settlement_way , double fixed_price) {
         long vehicle_id = this.commonDao.getNextVal("ForeignSeq");
-        String sql = "insert into vehicle_contrace_vehs (contrace_id , vehicle_id , license_plate , model , company , isother ,  create_by , vehicle_price , other_vehicle_km, etc , etc_money , oil_percent) values (?,?,?,?,?,1,?,?,?,?,?,?)";
-        Object[] o = new Object[] { contrace_id , vehicle_id , license_plate.toUpperCase() , vehicle_model , company  , user_id , vehicle_price , other_vehicle_km , etc , etc_money , oil_percent};
+        String sql = "insert into vehicle_contrace_vehs (contrace_id , vehicle_id , license_plate , model , company , isother ,  create_by , vehicle_price , other_vehicle_km, etc , etc_money , oil_percent , daily_price , settlement_way , fixed_price) values (?,?,?,?,?,1,?,?,?,?,?,?,?,?,?)";
+        Object[] o = new Object[] { contrace_id , vehicle_id , license_plate.toUpperCase() , vehicle_model , company  , user_id , vehicle_price , other_vehicle_km , etc , etc_money , oil_percent , daily_price , settlement_way , fixed_price};
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().update(sql, o);
     }

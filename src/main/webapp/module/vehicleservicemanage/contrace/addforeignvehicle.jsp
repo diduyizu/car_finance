@@ -53,7 +53,7 @@
     <form class="cmxform form-horizontal">
         <table class="table table-bordered table-hover definewidth m10">
             <tr>
-                <td width="15%" class="tableleft">车牌</td>
+                <td class="tableleft">车牌</td>
                 <td><input type="text" name="license_plate" id="license_plate" placeholder="必填" required="true"/></td>
                 <td class="tableleft">车型</td>
                 <td><input type="text" name="model" id="model" placeholder="必填" required="true"/></td>
@@ -80,6 +80,20 @@
             <tr>
                 <td class="tableleft">外援公司</td>
                 <td colspan="5"><input type="text" name="company" id="company" placeholder="必填" required="true"/></td>
+            </tr>
+            <tr>
+                <td class="tableleft">日租金</td>
+                <td><input type="text" name="daily_price" id="daily_price" placeholder="必填" required="true" /></td>
+                <td class="tableleft">结算方式</td>
+                <td>
+                    <select name="settlement_way" id="settlement_way">
+                        <option value="客户自理">客户自理</option>
+                        <option value="公司包干">公司包干</option>
+                        <option value="一口价">一口价</option>
+                    </select>
+                </td>
+                <td class="tableleft">一口价</td>
+                <td><input type="text" name="fixed_price" id="fixed_price" value="0" /></td>
             </tr>
             <tr>
                 <td class="tableleft"></td>
@@ -113,11 +127,16 @@
             var etc_money=$.trim($('#etc_money').val());
             var oil_percent=$.trim($('#oil_percent').val());
 
+            var daily_price=$.trim($('#daily_price').val());
+            var settlement_way=$.trim($('#settlement_way').val());
+            var fixed_price=$.trim($('#fixed_price').val());
+
             $.ajax({
                 url:"${ctx}/vehicleservice/contrace/doaddforeignvehicle",
                 type: "post",
                 data:{contrace_id:contrace_id,license_plate:license_plate,model:model,vehicle_price:vehicle_price,company:company,
-                    other_vehicle_km:other_vehicle_km,etc:etc,etc_money:etc_money,oil_percent:oil_percent},
+                    other_vehicle_km:other_vehicle_km,etc:etc,etc_money:etc_money,oil_percent:oil_percent,
+                    daily_price:daily_price,settlement_way:settlement_way,fixed_price:fixed_price},
                 success:function(data){
                     if(data > 0){
                         alert("成功");

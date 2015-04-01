@@ -298,8 +298,8 @@ public class VehicleServiceManageService {
         return result;
     }
 
-    public int contraceDoAddForeignVehicle(long contrace_id, String license_plate , String vehicle_model , double vehicle_price , String company , long other_vehicle_km , long user_id , String etc , double etc_money , int oil_percent) {
-        int result = this.vehicleServiceManageDao.contraceDoAddForeignVehicle(contrace_id, license_plate , vehicle_model , vehicle_price , company , other_vehicle_km , user_id , etc , etc_money , oil_percent);
+    public int contraceDoAddForeignVehicle(long contrace_id, String license_plate , String vehicle_model , double vehicle_price , String company , long other_vehicle_km , long user_id , String etc , double etc_money , int oil_percent , double daily_price , String settlement_way , double fixed_price) {
+        int result = this.vehicleServiceManageDao.contraceDoAddForeignVehicle(contrace_id, license_plate , vehicle_model , vehicle_price , company , other_vehicle_km , user_id , etc , etc_money , oil_percent , daily_price , settlement_way , fixed_price);
         return result;
     }
 
@@ -393,6 +393,19 @@ public class VehicleServiceManageService {
                 system_total_price = system_total_price + vehicle_normal_price + v.getOver_price();
             }
         }
+
+        List<VehicleContraceVehsInfo> otherVehicleList = this.vehicleServiceManageDao.getVehicleContraceOtherVehsListByContraceId(contrace_id);
+        for(VehicleContraceVehsInfo v : otherVehicleList) {
+            if("一口价".equals(v.getSettlement_way())) {
+                system_total_price = system_total_price + v.getFixed_price();
+            } else {
+                double vehicle_normal_price = v.getDaily_price() * contrace_days;
+                system_total_price = system_total_price + vehicle_normal_price + v.getOver_price();
+            }
+        }
+
+
+
         return system_total_price;
     }
 
