@@ -84,6 +84,19 @@ public class VehicleContraceVehsInfoRowMapper implements RowMapper<VehicleContra
             vehicleContraceVehsInfo.setFixed_price(rs.getDouble("fixed_price"));
         } catch (Exception e) {}
 
+        try{
+            vehicleContraceVehsInfo.setSystem_price(rs.getDouble("system_price"));
+        } catch (Exception e) {}
+        try{
+            vehicleContraceVehsInfo.setReduction_price(rs.getDouble("reduction_price"));
+        } catch (Exception e) {}
+        try{
+            vehicleContraceVehsInfo.setActually_price(rs.getDouble("actually_price"));
+        } catch (Exception e) {}
+        try{
+            vehicleContraceVehsInfo.setTotal_actually(rs.getDouble("total_actually"));
+        } catch (Exception e) {}
+
         return vehicleContraceVehsInfo;
 	}
 }

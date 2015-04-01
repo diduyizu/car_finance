@@ -7,6 +7,7 @@ import com.carfinance.module.init.service.InitService;
 import com.carfinance.module.statisticsmanage.dao.StatisticsManageDao;
 import com.carfinance.module.storemanage.dao.StoreManageDao;
 import com.carfinance.module.vehicleservicemanage.domain.VehicleContraceInfo;
+import com.carfinance.module.vehicleservicemanage.domain.VehicleContraceVehsInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,14 +37,16 @@ public class StatisticsManageService {
     @Autowired
     private CommonDao commonDao;
 
-    public Map<String , Object> getVehicleCountList(int start , int size) {
-        long total = this.statisticsManageDao.getContraceCount();
-        List<VehicleContraceInfo> vehicleContraceInfoList =  this.statisticsManageDao.getCountraceList(start , size);
+    public Map<String , Object> getVehicleList(String vehicle_model , String license_plate , int start , int size) {
+        long total = this.statisticsManageDao.getVehicleCount(vehicle_model , license_plate);
+        List<VehicleContraceVehsInfo> vehicleList =  this.statisticsManageDao.getVehicleList(vehicle_model, license_plate, start, size);
         Map<String , Object> map = new HashMap<String, Object>();
         map.put("total" , total);
-        map.put("contrace_list" , vehicleContraceInfoList);
+        map.put("vehicle_list" , vehicleList);
         return map;
     }
+
+
 
 
 }

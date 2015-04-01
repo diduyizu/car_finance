@@ -41,6 +41,43 @@ public class VehicleContraceVehsInfo implements Serializable{
     private String settlement_way;
     private double fixed_price;
 
+    private double system_price;
+    private double reduction_price;
+    private double actually_price;
+    private double total_actually;
+
+    public double getSystem_price() {
+        return system_price;
+    }
+
+    public void setSystem_price(double system_price) {
+        this.system_price = system_price;
+    }
+
+    public double getReduction_price() {
+        return reduction_price;
+    }
+
+    public void setReduction_price(double reduction_price) {
+        this.reduction_price = reduction_price;
+    }
+
+    public double getActually_price() {
+        return actually_price;
+    }
+
+    public void setActually_price(double actually_price) {
+        this.actually_price = actually_price;
+    }
+
+    public double getTotal_actually() {
+        return total_actually;
+    }
+
+    public void setTotal_actually(double total_actually) {
+        this.total_actually = total_actually;
+    }
+
     public String getSettlement_way() {
         return settlement_way;
     }
