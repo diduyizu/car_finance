@@ -4,6 +4,8 @@ import com.carfinance.core.dao.BaseJdbcDaoImpl;
 import com.carfinance.module.common.dao.CommonDao;
 import com.carfinance.module.statisticsmanage.domain.Achievement;
 import com.carfinance.module.statisticsmanage.domain.AchievementRowMapper;
+import com.carfinance.module.statisticsmanage.domain.VehicleIncom;
+import com.carfinance.module.statisticsmanage.domain.VehicleIncomRowMapper;
 import com.carfinance.module.vehiclemanage.domain.VehicleInfo;
 import com.carfinance.module.vehiclemanage.domain.VehicleInfoRowMapper;
 import com.carfinance.module.vehicleservicemanage.domain.VehicleContraceInfo;
@@ -68,8 +70,8 @@ public class StatisticsManageDao extends BaseJdbcDaoImpl {
      * 获取某一门店下所有车辆信息
      * @return
      */
-    public List<VehicleContraceVehsInfo> getVehicleList(String vehicle_model , String license_plate , int start , int size) {
-        String sql = "select * , sum(actually_price) total_actually from vehicle_contrace_vehs where 1=1 ";
+    public List<VehicleIncom> getVehicleList(String vehicle_model , String license_plate , int start , int size) {
+        String sql = "select license_plate , model , sum(over_price) over_price , sum(actually_price) actually_price from vehicle_contrace_vehs where 1=1 ";
         List<Object> param = new ArrayList<Object>();
 
         if(vehicle_model != null && !"".equals(vehicle_model.trim())) {
@@ -90,7 +92,7 @@ public class StatisticsManageDao extends BaseJdbcDaoImpl {
         }
 
         logger.info(sql.replaceAll("\\?", "{}"), o);
-        return this.getJdbcTemplate().query(sql, o, new VehicleContraceVehsInfoRowMapper());
+        return this.getJdbcTemplate().query(sql, o, new VehicleIncomRowMapper());
     }
 
 

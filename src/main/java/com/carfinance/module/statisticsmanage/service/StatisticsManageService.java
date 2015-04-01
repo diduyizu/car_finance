@@ -7,6 +7,7 @@ import com.carfinance.module.init.service.InitService;
 import com.carfinance.module.statisticsmanage.dao.StatisticsManageDao;
 import com.carfinance.module.statisticsmanage.domain.Achievement;
 import com.carfinance.module.statisticsmanage.domain.AchievementRowMapper;
+import com.carfinance.module.statisticsmanage.domain.VehicleIncom;
 import com.carfinance.module.storemanage.dao.StoreManageDao;
 import com.carfinance.module.vehicleservicemanage.domain.VehicleContraceInfo;
 import com.carfinance.module.vehicleservicemanage.domain.VehicleContraceVehsInfo;
@@ -15,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,7 +43,15 @@ public class StatisticsManageService {
 
     public Map<String , Object> getVehicleList(String vehicle_model , String license_plate , int start , int size) {
         long total = this.statisticsManageDao.getVehicleCount(vehicle_model , license_plate);
-        List<VehicleContraceVehsInfo> vehicleList =  this.statisticsManageDao.getVehicleList(vehicle_model, license_plate, start, size);
+        List<VehicleIncom> vehicleList =  this.statisticsManageDao.getVehicleList(vehicle_model, license_plate, start, size);
+        for(VehicleIncom vehicleIncom : vehicleList) {
+            double total_price = vehicleIncom.getOver_price() + vehicleIncom.getActually_price();
+            DecimalFormat df = new DecimalFormat("#.00");
+            total_price = Double.valueOf(df.format(total_price));
+
+            vehicleIncom.setTotal_price(total_price);
+        }
+
         Map<String , Object> map = new HashMap<String, Object>();
         map.put("total" , total);
         map.put("vehicle_list" , vehicleList);

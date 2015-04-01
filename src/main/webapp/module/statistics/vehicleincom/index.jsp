@@ -56,22 +56,20 @@
         <tr>
             <th>车牌</th>
             <th>车型</th>
-            <th>外借公司</th>
-            <th>还车时间</th>
-            <th>还车里程</th>
+            <%--<th>外借公司</th>--%>
             <th>超额费用</th>
-            <th>实收总金额</th>
+            <th>实收金额</th>
+            <th>总额</th>
         </tr>
     </thead>
     <c:forEach var="vehicle" items="${vehicle_list}" varStatus="status">
         <tr>
             <td>${vehicle.license_plate}</td>
             <td>${vehicle.model}</td>
-            <td>${vehicle.company}</td>
-            <td>${vehicle.return_time}</td>
-            <td>${vehicle.return_km}</td>
+            <%--<td>${vehicle.company}</td>--%>
             <td>${vehicle.over_price}</td>
             <td>${vehicle.actually_price}</td>
+            <td>${vehicle.total_price}</td>
         </tr>
     </c:forEach>
 </table>
