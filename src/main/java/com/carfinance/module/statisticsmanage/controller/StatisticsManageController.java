@@ -176,15 +176,6 @@ public class StatisticsManageController {
     }
 
 
-
-
-
-
-
-
-
-
-
     /**
      * 车辆管理－车辆入库登记
      * @param model
