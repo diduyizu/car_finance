@@ -245,8 +245,8 @@
             var already_back_amount=$.trim($('#already_back_amount').val());
 
             var employee_id_name = $.trim($('#employee_id_name').val());
-            var employee_id = employee_id_name.split("|")[0];
-            var employee_name = employee_id_name.split("|")[1];
+            var employee_id = employee_id_name.split("|")[1];
+            var employee_name = employee_id_name.split("|")[0];
 //            var employee_id=$.trim($('#employee_id').val());
 //            var employee_name=$.trim($('#employee_name').val());
             var remark=$.trim($('#remark').val());

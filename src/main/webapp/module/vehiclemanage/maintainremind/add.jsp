@@ -110,8 +110,8 @@
             var next_maintain_km=$.trim($('#next_maintain_km').val());
 
             var employee_id_name = $.trim($('#employee_id_name').val());
-            var user_id = employee_id_name.split("|")[0];
-            var user_name = employee_id_name.split("|")[1];
+            var user_id = employee_id_name.split("|")[1];
+            var user_name = employee_id_name.split("|")[0];
 
 //            var user_id=$.trim($('#user_id').val());
 //            var user_name=$.trim($('#user_name').val());
