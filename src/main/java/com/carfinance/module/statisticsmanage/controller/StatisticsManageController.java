@@ -141,6 +141,8 @@ public class StatisticsManageController {
         String original_org_str = request.getParameter("original_org");
         String employee_id_name = request.getParameter("employee_id_name");
         String employee_id = request.getParameter("employee_id");
+        String begin_date= request.getParameter("begin_date");
+        String end_date= request.getParameter("end_date");
 
         String method = request.getMethod();
         if("GET".equals(method.toUpperCase())) {//get请求，进行编码格式转换
@@ -152,7 +154,7 @@ public class StatisticsManageController {
 
         String user_employee_id_name_json = this.commonService.getAllEmployeeIdAndName();
 
-        Map<String , Object> map = this.statisticsManageService.getOrgEmployeeList(original_org, employee_id , start, size);
+        Map<String , Object> map = this.statisticsManageService.getOrgEmployeeList(original_org, employee_id , begin_date , end_date , start, size);
         long total = (Long)map.get("total");;
         List<Achievement> achievement_list = (List<Achievement>)map.get("achievement_list");
 
@@ -173,10 +175,18 @@ public class StatisticsManageController {
         if(employee_id_name != null) {
             condition = condition + "&employee_id_name="+employee_id_name;
         }
+        if(begin_date != null) {
+            condition = condition + "&begin_date="+begin_date;
+        }
+        if(end_date != null) {
+            condition = condition + "&end_date="+end_date;
+        }
         model.addAttribute("condition" , condition);
 
         model.addAttribute("original_org" , original_org);
         model.addAttribute("employee_id_name" , employee_id_name);
+        model.addAttribute("begin_date" , begin_date);
+        model.addAttribute("end_date" , end_date);
 
         model.addAttribute("user_employee_id_name_json" , user_employee_id_name_json);
         model.addAttribute("user_all_org_list" , user_all_org_list);

@@ -118,7 +118,7 @@ public class StatisticsManageDao extends BaseJdbcDaoImpl {
      * @param employee_id
      * @return
      */
-    public long getOrgEmployeeCount(long org_id , String employee_id) {
+    public long getOrgEmployeeCount(long org_id , String employee_id , String begin_date , String end_date) {
         String sql = "select count(1) from (select distinct employee_id from vehicle_contrace where 1 = 1 ";
         List<Object> param = new ArrayList<Object>();
 
@@ -129,6 +129,14 @@ public class StatisticsManageDao extends BaseJdbcDaoImpl {
         if(!StringUtils.isBlank(employee_id)) {
             sql = sql + " and employee_id = ? ";
             param.add(employee_id);
+        }
+        if(begin_date != null && !"".equals(begin_date.trim())) {
+            sql = sql + " and TO_DAYS(create_at) > TO_DAYS(?) ";
+            param.add(begin_date);
+        }
+        if(end_date != null && !"".equals(end_date.trim())) {
+            sql = sql + " and TO_DAYS(create_at) < TO_DAYS(?) ";
+            param.add(end_date);
         }
         sql = sql + " ) as name ";
 
@@ -141,7 +149,7 @@ public class StatisticsManageDao extends BaseJdbcDaoImpl {
         return this.getJdbcTemplate().queryForLong(sql, o);
     }
 
-    public List<Achievement> getOrgEmployeeList(long org_id , String employee_id , int start , int size) {
+    public List<Achievement> getOrgEmployeeList(long org_id , String employee_id , String begin_date , String end_date , int start , int size) {
         String sql = "select employee_id , employee_name , sum(actual_price) total_actually  from vehicle_contrace  where 1=1 ";
         List<Object> param = new ArrayList<Object>();
 
@@ -152,6 +160,14 @@ public class StatisticsManageDao extends BaseJdbcDaoImpl {
         if(!StringUtils.isBlank(employee_id)) {
             sql = sql + " and employee_id = ? ";
             param.add(employee_id);
+        }
+        if(begin_date != null && !"".equals(begin_date.trim())) {
+            sql = sql + " and TO_DAYS(create_at) > TO_DAYS(?) ";
+            param.add(begin_date);
+        }
+        if(end_date != null && !"".equals(end_date.trim())) {
+            sql = sql + " and TO_DAYS(create_at) < TO_DAYS(?) ";
+            param.add(end_date);
         }
         sql = sql + " group by employee_id order by total_actually desc limit ?,?";
         param.add(start);

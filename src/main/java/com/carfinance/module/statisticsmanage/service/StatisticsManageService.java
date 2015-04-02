@@ -58,9 +58,9 @@ public class StatisticsManageService {
         return map;
     }
 
-    public Map<String , Object> getOrgEmployeeList(long org_id , String employee_id , int start , int size) {
-        long total = this.statisticsManageDao.getOrgEmployeeCount(org_id , employee_id);
-        List<Achievement> achievementList =  this.statisticsManageDao.getOrgEmployeeList(org_id, employee_id, start, size);
+    public Map<String , Object> getOrgEmployeeList(long org_id , String employee_id , String begin_date , String end_date , int start , int size) {
+        long total = this.statisticsManageDao.getOrgEmployeeCount(org_id , employee_id  , begin_date , end_date);
+        List<Achievement> achievementList =  this.statisticsManageDao.getOrgEmployeeList(org_id, employee_id,  begin_date , end_date , start, size);
         Map<String , Object> map = new HashMap<String, Object>();
         map.put("total" , total);
         map.put("achievement_list" , achievementList);
