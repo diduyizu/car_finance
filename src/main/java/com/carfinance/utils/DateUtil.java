@@ -3,6 +3,7 @@ package com.carfinance.utils;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 
@@ -263,4 +264,55 @@ public class DateUtil {
         }
         return time_lag;
     }
+
+//    /**
+//     * 返回特定日期处于一周中的第几天<br>
+//     * 中国周一为一周第一天：CN<br>
+//     * 国外周日为一周第一天：US
+//     *
+//     * @return int
+//     */
+//    public static int getNoDayOfWeek(String country) {
+//        Calendar calendar = Calendar.getInstance();
+//        return calendar.get(Calendar.DAY_OF_WEEK)
+//                - Integer.parseInt(country.equals("CN") ? "1" : "0");
+//    }
+//    /**
+//     * 东方是周一为一周的第一天：CN<br>
+//     * 西方是周日为一周的第一天：US<br>
+//     * 返回特定日期所处这一周的周一所处的日期
+//     *
+//     * @return String
+//     */
+//    public static String getFirstDayOfWeek(String country) {
+//        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+//        Calendar calendar = Calendar.getInstance();
+//
+//        // 西方是周日为一周的第一天
+//        // 东方是周一为一周的第一天
+//        Date dateBegin = new Date();
+//        dateBegin.setTime(calendar.getTimeInMillis() - (long) (getNoDayOfWeek(country) - 1) * 24 * 60 * 60 * 1000);
+//
+//        return formatter.format(dateBegin);
+//    }
+//
+//    /**
+//     * 东方是周一为一周的第一天：CN<br>
+//     * 西方是周日为一周的第一天：US<br>
+//     * 返回特定日期所处这一周的周末所处的日期
+//     *
+//     * @return String
+//     */
+//    public static String getLastDayOfWeek(String country) {
+//        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+//        Calendar calendar = Calendar.getInstance();
+//
+//        // 西方是周日为一周的第一天
+//        // 东方是周一为一周的第一天
+//        Date dateEnd = new Date();
+//        dateEnd.setTime(calendar.getTimeInMillis()
+//                + (long) (7 - getNoDayOfWeek(country)) * 24 * 60 * 60 * 1000);
+//
+//        return formatter.format(dateEnd);
+//    }
 }

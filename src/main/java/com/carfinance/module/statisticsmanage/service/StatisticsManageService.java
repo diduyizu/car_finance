@@ -41,6 +41,30 @@ public class StatisticsManageService {
     @Autowired
     private CommonDao commonDao;
 
+    public Map<String , Object> getReoprtList(String vehicle_model , String license_plate , String report_type , int start , int size) {
+        String begin_date = null;
+        String end_date = null;
+
+        Map<String , String> beginEndMap = this.commonService.getBeginEndDate(report_type);
+        begin_date = beginEndMap.get("begin");
+        end_date = beginEndMap.get("end");
+
+        long total = this.statisticsManageDao.getReoprtCount(vehicle_model, license_plate, begin_date, end_date);
+        List<VehicleIncom> vehicleList =  this.statisticsManageDao.getReoprtList(vehicle_model, license_plate, begin_date, end_date, start, size);
+        for(VehicleIncom vehicleIncom : vehicleList) {
+            double total_price = vehicleIncom.getOver_price() + vehicleIncom.getActually_price();
+            DecimalFormat df = new DecimalFormat("#.00");
+            total_price = Double.valueOf(df.format(total_price));
+
+            vehicleIncom.setTotal_price(total_price);
+        }
+
+        Map<String , Object> map = new HashMap<String, Object>();
+        map.put("total" , total);
+        map.put("vehicle_list" , vehicleList);
+        return map;
+    }
+
     public Map<String , Object> getVehicleList(String vehicle_model , String license_plate , String begin_date , String end_date , int start , int size) {
         long total = this.statisticsManageDao.getVehicleCount(vehicle_model , license_plate , begin_date , end_date);
         List<VehicleIncom> vehicleList =  this.statisticsManageDao.getVehicleList(vehicle_model, license_plate,  begin_date , end_date , start, size);

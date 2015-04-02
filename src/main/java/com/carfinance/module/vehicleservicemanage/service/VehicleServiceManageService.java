@@ -528,6 +528,11 @@ public class VehicleServiceManageService {
                         this.vehicleServiceManageDao.updateVehicleContraceVehsActuallyPrice(each_difference , v.getId());
                     }
                 }
+
+                List<VehicleContraceVehsInfo> vehicleContraceVehsList = this.vehicleServiceManageDao.getContraceVehsList(contrace_id);
+                for(VehicleContraceVehsInfo v : vehicleContraceVehsList) {
+                    this.vehicleServiceManageDao.insertPaymentStatistics(contrace_id , 0 , v.getVehicle_id() ,  v.getLicense_plate() , v.getModel() , v.getOver_price() , v.getActually_price());
+                }
             }
         }
 
@@ -698,6 +703,10 @@ public class VehicleServiceManageService {
         if(result > 0) {
             //将本次还款，写入产权租还款明细表
             this.vehicleServiceManageDao.addPropertyContraceRepaymentLog(contrace_id , should_payment , actual_payment , user_id);
+            //将本次还款，写入车辆统计表中，以便统计使用
+            VehicleContraceVehsInfo v = this.vehicleServiceManageDao.getContraceVehsList(contrace_id).get(0);
+            this.vehicleServiceManageDao.insertPaymentStatistics(contrace_id , 1 , v.getVehicle_id() , v.getLicense_plate() , v.getModel() , 0 , actual_payment);
+
         }
         return result;
     }

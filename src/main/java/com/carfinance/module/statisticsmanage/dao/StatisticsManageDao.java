@@ -29,22 +29,8 @@ public class StatisticsManageDao extends BaseJdbcDaoImpl {
     @Autowired
     private CommonDao commonDao;
 
-//    public long getContraceCount() {
-//        String sql = "select count(1) from vehicle_contrace where status = 6";
-//        Object[] o = new Object[]{};
-//        logger.info(sql.replaceAll("\\?", "{}"), o);
-//        return this.getJdbcTemplate().queryForLong(sql, o);
-//    }
-//
-//    public List<VehicleContraceInfo> getCountraceList(int start , int size) {
-//        String sql = "select * from vehicle_contrace where status = 6 order by id desc limit ?,?";
-//        Object[] o = new Object[]{ start , size };
-//        logger.info(sql.replaceAll("\\?", "{}"), o);
-//        return this.getJdbcTemplate().query(sql, o, new VehicleContraceInfoRowMapper());
-//    }
-
     public long getVehicleCount(String vehicle_model , String license_plate , String begin_date , String end_date) {
-        String sql = "select count(1) from (select distinct vehicle_id from vehicle_contrace_vehs where 1 = 1 ";
+        String sql = "select count(1) from (select distinct vehicle_id from payment_statistics where 1 = 1 ";
         List<Object> param = new ArrayList<Object>();
 
         if(vehicle_model != null && !"".equals(vehicle_model.trim())) {
@@ -56,11 +42,11 @@ public class StatisticsManageDao extends BaseJdbcDaoImpl {
             param.add("%"+license_plate.toUpperCase().trim()+"%");
         }
         if(begin_date != null && !"".equals(begin_date.trim())) {
-            sql = sql + " and TO_DAYS(return_time) > TO_DAYS(?) ";
+            sql = sql + " and TO_DAYS(return_at) > TO_DAYS(?) ";
             param.add(begin_date);
         }
         if(end_date != null && !"".equals(end_date.trim())) {
-            sql = sql + " and TO_DAYS(return_time) < TO_DAYS(?) ";
+            sql = sql + " and TO_DAYS(return_at) < TO_DAYS(?) ";
             param.add(end_date);
         }
         sql = sql + " ) as name ";
@@ -79,7 +65,7 @@ public class StatisticsManageDao extends BaseJdbcDaoImpl {
      * @return
      */
     public List<VehicleIncom> getVehicleList(String vehicle_model , String license_plate , String begin_date , String end_date , int start , int size) {
-        String sql = "select license_plate , model , sum(over_price) over_price , sum(actually_price) actually_price from vehicle_contrace_vehs where 1=1 ";
+        String sql = "select license_plate , model , sum(over_price) over_price , sum(actually_price) actually_price from payment_statistics where 1=1 ";
         List<Object> param = new ArrayList<Object>();
 
         if(vehicle_model != null && !"".equals(vehicle_model.trim())) {
@@ -91,11 +77,11 @@ public class StatisticsManageDao extends BaseJdbcDaoImpl {
             param.add("%"+license_plate.toUpperCase().trim()+"%");
         }
         if(begin_date != null && !"".equals(begin_date.trim())) {
-            sql = sql + " and TO_DAYS(return_time) > TO_DAYS(?) ";
+            sql = sql + " and TO_DAYS(return_at) > TO_DAYS(?) ";
             param.add(begin_date);
         }
         if(end_date != null && !"".equals(end_date.trim())) {
-            sql = sql + " and TO_DAYS(return_time) < TO_DAYS(?) ";
+            sql = sql + " and TO_DAYS(return_at) < TO_DAYS(?) ";
             param.add(end_date);
         }
         sql = sql + " group by vehicle_id order by actually_price desc limit ?,?";
@@ -182,4 +168,77 @@ public class StatisticsManageDao extends BaseJdbcDaoImpl {
         return this.getJdbcTemplate().query(sql, o, new AchievementRowMapper());
     }
 
+
+    /**
+     *
+     * 报表，日、周、月、季、年
+     * @param vehicle_model
+     * @param license_plate
+     * @param begin_date
+     * @param end_date
+     * @return
+     */
+    public long getReoprtCount(String vehicle_model , String license_plate , String begin_date , String end_date) {
+        String sql = "select count(1) from (select distinct vehicle_id from payment_statistics where 1 = 1 ";
+        List<Object> param = new ArrayList<Object>();
+
+        if(vehicle_model != null && !"".equals(vehicle_model.trim())) {
+            sql = sql + " and model like ? ";
+            param.add("%"+vehicle_model.trim()+"%");
+        }
+        if(license_plate != null && !"".equals(license_plate.trim())) {
+            sql = sql + " and license_plate like ? ";
+            param.add("%"+license_plate.toUpperCase().trim()+"%");
+        }
+        if(begin_date != null && !"".equals(begin_date.trim())) {
+            sql = sql + " and TO_DAYS(return_at) > TO_DAYS(?) ";
+            param.add(begin_date);
+        }
+        if(end_date != null && !"".equals(end_date.trim())) {
+            sql = sql + " and TO_DAYS(return_at) < TO_DAYS(?) ";
+            param.add(end_date);
+        }
+        sql = sql + " ) as name ";
+
+        Object[] o = new Object[param.size()];
+        for(int i = 0 ; i < param.size() ; i++) {
+            o[i] = param.get(i);
+        }
+
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().queryForLong(sql, o);
+    }
+
+    public List<VehicleIncom> getReoprtList(String vehicle_model , String license_plate , String begin_date , String end_date , int start , int size) {
+        String sql = "select license_plate , model , sum(over_price) over_price , sum(actually_price) actually_price from payment_statistics where 1=1 ";
+        List<Object> param = new ArrayList<Object>();
+
+        if(vehicle_model != null && !"".equals(vehicle_model.trim())) {
+            sql = sql + " and model like ? ";
+            param.add("%"+vehicle_model.trim()+"%");
+        }
+        if(license_plate != null && !"".equals(license_plate.trim())) {
+            sql = sql + " and license_plate like ? ";
+            param.add("%"+license_plate.toUpperCase().trim()+"%");
+        }
+        if(begin_date != null && !"".equals(begin_date.trim())) {
+            sql = sql + " and TO_DAYS(return_at) > TO_DAYS(?) ";
+            param.add(begin_date);
+        }
+        if(end_date != null && !"".equals(end_date.trim())) {
+            sql = sql + " and TO_DAYS(return_at) < TO_DAYS(?) ";
+            param.add(end_date);
+        }
+        sql = sql + " group by vehicle_id order by actually_price desc limit ?,?";
+        param.add(start);
+        param.add(size);
+
+        Object[] o = new Object[param.size()];
+        for(int i = 0 ; i < param.size() ; i++) {
+            o[i] = param.get(i);
+        }
+
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().query(sql, o, new VehicleIncomRowMapper());
+    }
 }

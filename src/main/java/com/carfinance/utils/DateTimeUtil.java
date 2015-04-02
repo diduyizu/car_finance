@@ -12,6 +12,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
 import org.apache.log4j.Logger;
@@ -647,7 +648,31 @@ public class DateTimeUtil { // 服务器的时间
 		return this.getDate();
 	}
 
-	public static void main(String[] args) {
+
+
+    /**
+     * 得到本月的第一天
+     */
+    public String getMonthFirstDay() {
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMinimum(Calendar.DAY_OF_MONTH));
+//        calendar.set( Calendar.DATE, 1);
+        SimpleDateFormat simpleFormate = new SimpleDateFormat("yyyy-MM-dd");
+        return simpleFormate.format(calendar.getTime());
+    }
+
+    /**
+     * 得到本月的最后一天
+     */
+    public String getMonthLastDay() {
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+//        calendar.set( Calendar.DATE, 1);
+//        calendar.roll(Calendar.DATE, - 1);
+        SimpleDateFormat simpleFormate = new SimpleDateFormat("yyyy-MM-dd");
+        return simpleFormate.format(calendar.getTime());
+    }
+
+
+    public static void main(String[] args) {
 		Logger m_logger = Logger.getLogger(DateTimeUtil.class);
 		DateTimeUtil timeUtil = new DateTimeUtil("2006-1-1");
 		m_logger.info(String.valueOf(timeUtil.getNoWeekOfYear()));

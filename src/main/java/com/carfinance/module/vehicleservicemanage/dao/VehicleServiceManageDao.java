@@ -1105,4 +1105,12 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
         return this.getJdbcTemplate().update(sql , o);
     }
 
+
+    public int insertPaymentStatistics(long contrace_id , int contrace_type , long vehicle_id , String license_plate , String model , double over_price , double actually_price) {
+        String sql = "insert into payment_statistics (contrace_id , contrace_type , vehicle_id , license_plate , model , over_price , actually_price) values (?,?,?,?,?,?,?)";
+        Object[] o = new Object[] {  contrace_id , contrace_type , vehicle_id ,license_plate , model , over_price , actually_price  };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().update(sql , o);
+    }
+
 }

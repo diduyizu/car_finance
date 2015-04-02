@@ -510,4 +510,43 @@ public class CommonService {
         String date = DateUtil.format(new Date() , "yyyyMMdd");
         return "HT"+date + contrace_id;
     }
+
+    /**
+     * 报表，分日、周、月、季、年
+     * 根据不同类型，返回不同开始、结束时间
+     * @param report_type
+     * @return
+     */
+    public Map<String , String> getBeginEndDate(String report_type) {
+        String begin = null;
+        String end = null;
+
+        DateTimeUtil dateTimeUtil = new DateTimeUtil();
+        if("day".equals(report_type)) {
+            begin = DateUtil.format(new Date() , "yyyy-MM-dd");
+            end = DateUtil.format(new Date() , "yyyy-MM-dd");
+        }
+        if("week".equals(report_type)) {
+            begin = dateTimeUtil.getFirstDayOfWeek("CN");
+            end = dateTimeUtil.getLastDayOfWeek("CN");
+        }
+        if("month".equals(report_type)) {
+            begin = dateTimeUtil.getMonthFirstDay();
+            end = dateTimeUtil.getMonthLastDay();
+        }
+        if("quarter".equals(report_type)) {
+
+        }
+        if("year".equals(report_type)) {
+            String year = String.valueOf(dateTimeUtil.getYear());
+            begin = year + "-01-01";
+            end = year + "-12-31";
+        }
+
+        Map<String , String> map = new HashMap<String, String>();
+        map.put("begin" , begin);
+        map.put("end" , end);
+
+        return map;
+    }
 }
