@@ -41,9 +41,9 @@ public class StatisticsManageService {
     @Autowired
     private CommonDao commonDao;
 
-    public Map<String , Object> getVehicleList(String vehicle_model , String license_plate , int start , int size) {
-        long total = this.statisticsManageDao.getVehicleCount(vehicle_model , license_plate);
-        List<VehicleIncom> vehicleList =  this.statisticsManageDao.getVehicleList(vehicle_model, license_plate, start, size);
+    public Map<String , Object> getVehicleList(String vehicle_model , String license_plate , String begin_date , String end_date , int start , int size) {
+        long total = this.statisticsManageDao.getVehicleCount(vehicle_model , license_plate , begin_date , end_date);
+        List<VehicleIncom> vehicleList =  this.statisticsManageDao.getVehicleList(vehicle_model, license_plate,  begin_date , end_date , start, size);
         for(VehicleIncom vehicleIncom : vehicleList) {
             double total_price = vehicleIncom.getOver_price() + vehicleIncom.getActually_price();
             DecimalFormat df = new DecimalFormat("#.00");

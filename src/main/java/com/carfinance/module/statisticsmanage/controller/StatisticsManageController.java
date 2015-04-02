@@ -74,6 +74,8 @@ public class StatisticsManageController {
 
         String vehicle_model = request.getParameter("model");
         String license_plate = request.getParameter("license_plate");
+        String begin_date= request.getParameter("begin_date");
+        String end_date= request.getParameter("end_date");
 
         String method = request.getMethod();
         if("GET".equals(method.toUpperCase())) {//get请求，进行编码格式转换
@@ -81,7 +83,7 @@ public class StatisticsManageController {
             license_plate = this.commonService.characterFormat(license_plate , "ISO8859-1" , "UTF-8");
         }
 
-        Map<String , Object> map = this.statisticsManageService.getVehicleList(vehicle_model, license_plate, start, size);
+        Map<String , Object> map = this.statisticsManageService.getVehicleList(vehicle_model, license_plate, begin_date , end_date ,  start, size);
         long total = (Long)map.get("total");;
         List<VehicleContraceVehsInfo> vehicle_list = (List<VehicleContraceVehsInfo>)map.get("vehicle_list");
 
@@ -102,10 +104,18 @@ public class StatisticsManageController {
         if(license_plate != null) {
             condition = condition + "&license_plate="+license_plate;
         }
+        if(begin_date != null) {
+            condition = condition + "&begin_date="+begin_date;
+        }
+        if(end_date != null) {
+            condition = condition + "&end_date="+end_date;
+        }
         model.addAttribute("condition" , condition);
 
         model.addAttribute("vehicle_model" , vehicle_model);
         model.addAttribute("license_plate" , license_plate);
+        model.addAttribute("begin_date" , begin_date);
+        model.addAttribute("end_date" , end_date);
 
         model.addAttribute("vehicle_list" , vehicle_list);
 

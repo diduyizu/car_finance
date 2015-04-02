@@ -43,7 +43,7 @@ public class StatisticsManageDao extends BaseJdbcDaoImpl {
 //        return this.getJdbcTemplate().query(sql, o, new VehicleContraceInfoRowMapper());
 //    }
 
-    public long getVehicleCount(String vehicle_model , String license_plate) {
+    public long getVehicleCount(String vehicle_model , String license_plate , String begin_date , String end_date) {
         String sql = "select count(1) from (select distinct vehicle_id from vehicle_contrace_vehs where 1 = 1 ";
         List<Object> param = new ArrayList<Object>();
 
@@ -54,6 +54,14 @@ public class StatisticsManageDao extends BaseJdbcDaoImpl {
         if(license_plate != null && !"".equals(license_plate.trim())) {
             sql = sql + " and license_plate like ? ";
             param.add("%"+license_plate.toUpperCase().trim()+"%");
+        }
+        if(begin_date != null && !"".equals(begin_date.trim())) {
+            sql = sql + " and TO_DAYS(return_time) > TO_DAYS(?) ";
+            param.add(begin_date);
+        }
+        if(end_date != null && !"".equals(end_date.trim())) {
+            sql = sql + " and TO_DAYS(return_time) < TO_DAYS(?) ";
+            param.add(end_date);
         }
         sql = sql + " ) as name ";
 
@@ -70,7 +78,7 @@ public class StatisticsManageDao extends BaseJdbcDaoImpl {
      * 获取某一门店下所有车辆信息
      * @return
      */
-    public List<VehicleIncom> getVehicleList(String vehicle_model , String license_plate , int start , int size) {
+    public List<VehicleIncom> getVehicleList(String vehicle_model , String license_plate , String begin_date , String end_date , int start , int size) {
         String sql = "select license_plate , model , sum(over_price) over_price , sum(actually_price) actually_price from vehicle_contrace_vehs where 1=1 ";
         List<Object> param = new ArrayList<Object>();
 
@@ -81,6 +89,14 @@ public class StatisticsManageDao extends BaseJdbcDaoImpl {
         if(license_plate != null && !"".equals(license_plate.trim())) {
             sql = sql + " and license_plate like ? ";
             param.add("%"+license_plate.toUpperCase().trim()+"%");
+        }
+        if(begin_date != null && !"".equals(begin_date.trim())) {
+            sql = sql + " and TO_DAYS(return_time) > TO_DAYS(?) ";
+            param.add(begin_date);
+        }
+        if(end_date != null && !"".equals(end_date.trim())) {
+            sql = sql + " and TO_DAYS(return_time) < TO_DAYS(?) ";
+            param.add(end_date);
         }
         sql = sql + " group by vehicle_id order by actually_price desc limit ?,?";
         param.add(start);

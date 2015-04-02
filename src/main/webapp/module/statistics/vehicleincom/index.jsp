@@ -7,11 +7,14 @@
     <link rel="stylesheet" type="text/css" href="<c:url value="/resources/Css/bootstrap.css" />" />
     <link rel="stylesheet" type="text/css" href="<c:url value="/resources/Css/bootstrap-responsive.css" />" />
     <link rel="stylesheet" type="text/css" href="<c:url value="/resources/Css/style.css" />" />
-    <script type="text/javascript" src="<c:url value="/resources/Js/jquery.js" />"></script>
+    <link rel="stylesheet" type="text/css" href="<c:url value="/resources/Css/datepicker.css" />" />
 
+    <%--<script type="text/javascript" src="<c:url value="/resources/Js/jquery.js" />"></script>--%>
+    <script type="text/javascript" src="<c:url value="/resources/Js/jquery-1.7.1.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/Js/bootstrap.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/Js/ckform.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/Js/common.js" />"></script>
+    <script type="text/javascript" src="<c:url value="/resources/Js/bootstrap-datepicker.js" />"></script>
 
     <style type="text/css">
         body {
@@ -37,6 +40,22 @@
 <form class="form-inline definewidth m20" action="${ctx}/statistics/vehicleincom" method="post">
     <table>
         <tr>
+            <td>
+                开始时间：
+                <%--<input class="form_datetime" size="16" type="text" id="begin_date" name="begin_date" value="${begin_date}"  readonly>--%>
+                <div class="input-append date" id="begin" data-date-format="yyyy-mm-dd">
+                    <input class="span2" size="16" type="text" id="begin_date" name="begin_date" value="${begin_date}" readonly>
+                    <span class="add-on"><i class="icon-th"></i></span>
+                </div>
+            </td>
+            <td>
+                结束时间：
+                <%--<input class="form_datetime" size="16" type="text" id="end_date" name="end_date" value="${end_date}"  readonly>--%>
+                <div class="input-append date" id="end" data-date-format="yyyy-mm-dd">
+                    <input class="span2" size="16" type="text" id="end_date" name="end_date" value="${end_date}" readonly>
+                    <span class="add-on"><i class="icon-th"></i></span>
+                </div>
+            </td>
             <td>
                 车辆型号：
                 <input type="text" data-provide="typeahead" name="model" id="model" class="abc input-default" placeholder="" value="${vehicle_model}">&nbsp;&nbsp;
@@ -76,3 +95,20 @@
 <%@ include file="/resources/page.jsp"%>
 </body>
 </html>
+<script>
+    $(function () {
+        window.prettyPrint && prettyPrint();
+        $('#begin').datepicker();
+        $('#end').datepicker();
+//        $('.form_datetime').datetimepicker({
+//            format: 'yyyy-mm-dd',
+//            language: 'zh-CN',
+//            pickDate: true,
+//            pickTime: true,
+//            hourStep: 1,
+//            minuteStep: 15,
+//            secondStep: 30,
+//            inputMask: true
+//        });
+    });
+</script>
