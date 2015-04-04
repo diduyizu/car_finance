@@ -89,7 +89,7 @@
 <table class="table table-bordered table-hover definewidth m10">
     <thead>
     <tr>
-        <th colspan="8">已选车辆</th>
+        <th colspan="10">已选车辆</th>
     </tr>
     <tr>
         <th>车牌</th>
