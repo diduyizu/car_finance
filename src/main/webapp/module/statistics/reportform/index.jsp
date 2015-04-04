@@ -43,11 +43,11 @@
             <td>
                 <select name="report_type">
                     <option value="">－－全部－－</option>
-                    <option value="day">日报表</option>
-                    <option value="week">周报表</option>
-                    <option value="month">月报表</option>
-                    <option value="quarter">季报表</option>
-                    <option value="year">年报表</option>
+                    <option value="day" <c:if test="${report_type == 'day'}">selected="selected"</c:if>>日报表</option>
+                    <option value="week" <c:if test="${report_type == 'week'}">selected="selected"</c:if>>周报表</option>
+                    <option value="month" <c:if test="${report_type == 'month'}">selected="selected"</c:if>>月报表</option>
+                    <option value="quarter" <c:if test="${report_type == 'quarter'}">selected="selected"</c:if>>季报表</option>
+                    <option value="year" <c:if test="${report_type == 'year'}">selected="selected"</c:if>>年报表</option>
                 </select>
             </td>
             <td>

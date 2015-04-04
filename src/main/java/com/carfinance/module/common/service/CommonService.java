@@ -517,33 +517,63 @@ public class CommonService {
      * @param report_type
      * @return
      */
-    public Map<String , String> getBeginEndDate(String report_type) {
-        String begin = null;
-        String end = null;
+    public Map<String , Date> getBeginEndDate(String report_type) {
+        String begin_str = null;
+        String end_str = null;
 
         DateTimeUtil dateTimeUtil = new DateTimeUtil();
         if("day".equals(report_type)) {
-            begin = DateUtil.format(new Date() , "yyyy-MM-dd");
-            end = DateUtil.format(new Date() , "yyyy-MM-dd");
+            begin_str = DateUtil.format(new Date() , "yyyy-MM-dd")+" 00:00:00";
+            end_str = DateUtil.format(new Date() , "yyyy-MM-dd")+" 23:59:59";
         }
         if("week".equals(report_type)) {
-            begin = dateTimeUtil.getFirstDayOfWeek("CN");
-            end = dateTimeUtil.getLastDayOfWeek("CN");
+            begin_str = dateTimeUtil.getFirstDayOfWeek("CN")+" 00:00:00";
+            end_str = dateTimeUtil.getLastDayOfWeek("CN")+" 23:59:59";
         }
         if("month".equals(report_type)) {
-            begin = dateTimeUtil.getMonthFirstDay();
-            end = dateTimeUtil.getMonthLastDay();
+            begin_str = dateTimeUtil.getMonthFirstDay()+" 00:00:00";
+            end_str = dateTimeUtil.getMonthLastDay()+" 23:59:59";
         }
         if("quarter".equals(report_type)) {
-
+            Calendar c = Calendar.getInstance();
+            String year = String.valueOf(dateTimeUtil.getYear());
+            int currentMonth = c.get(Calendar.MONTH) + 1;
+            try {
+                if (currentMonth >= 1 && currentMonth <= 3) {
+                    begin_str = year+"-01-01 00:00:00";
+                    end_str = year+"-03-31 23:59:59";
+                } else if (currentMonth >= 4 && currentMonth <= 6) {
+                    begin_str = year+"-04-01 00:00:00";
+                    end_str = year+"-06-30 23:59:59";
+                } else if (currentMonth >= 7 && currentMonth <= 9) {
+                    begin_str = year+"-07-01 00:00:00";
+                    end_str = year+"-09-30 23:59:59";
+                } else if (currentMonth >= 10 && currentMonth <= 12) {
+                    begin_str = year+"-10-01 00:00:00";
+                    end_str = year+"-12-31 23:59:59";
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         if("year".equals(report_type)) {
             String year = String.valueOf(dateTimeUtil.getYear());
-            begin = year + "-01-01";
-            end = year + "-12-31";
+            begin_str = year + "-01-01 00:00:00";
+            end_str = year + "-12-31 23:59:59";
         }
 
-        Map<String , String> map = new HashMap<String, String>();
+        Date begin = null;
+        Date end = null;
+        if(begin_str != null && end_str != null) {
+            try{
+                begin = DateUtil.string2Date(begin_str , "yyyy-MM-dd HH:mm:ss");
+                end = DateUtil.string2Date(end_str , "yyyy-MM-dd HH:mm:ss");
+            } catch (Exception e) {
+                logger.error(e.getMessage() , e);
+            }
+        }
+
+        Map<String , Date> map = new HashMap<String, Date>();
         map.put("begin" , begin);
         map.put("end" , end);
 
