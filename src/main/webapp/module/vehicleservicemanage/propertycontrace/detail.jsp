@@ -147,22 +147,11 @@
                 <td colspan="4">${property_contrace_info.remark}</td>
                 <td colspan="5">
                     <input type="hidden" id="contrace_id" value="${property_contrace_info.id}"/>
-                    <button type="button" class="btn btn-primary" id="paymentdetail">还款明细</button>
-                    <button type="button" class="btn btn-primary" id="annex">附件</button>
+                    <a href="${ctx}/vehicleservice/contrace/property/paymentdetail?contrace_id=${property_contrace_info.id}" target="_blank">还款明细</a>
+                    <a href="${ctx}/vehicleservice/contrace/annex/detail?contrace_id=${property_contrace_info.id}">附件</a>
                 </td>
             </tr>
         </table>
     </form>
 </body>
 </html>
-<script>
-    $("#paymentdetail").click(function(){
-        var contrace_id=$.trim($('#contrace_id').val());
-        window.location.href="${ctx}/vehicleservice/contrace/property/paymentdetail?contrace_id="+contrace_id;
-    });
-
-    $("#annex").click(function(){
-        var contrace_id=$.trim($('#contrace_id').val());
-        window.location.href="${ctx}/vehicleservice/contrace/annex/detail?contrace_id="+contrace_id;
-    });
-</script>
