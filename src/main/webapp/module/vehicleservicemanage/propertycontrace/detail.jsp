@@ -148,7 +148,7 @@
                 <td colspan="5">
                     <input type="hidden" id="contrace_id" value="${property_contrace_info.id}"/>
                     <a href="${ctx}/vehicleservice/contrace/property/paymentdetail?contrace_id=${property_contrace_info.id}" target="_blank">还款明细</a>
-                    <a href="${ctx}/vehicleservice/contrace/annex/detail?contrace_id=${property_contrace_info.id}">附件</a>
+                    <a href="${ctx}/vehicleservice/contrace/annex/detail?contrace_id=${property_contrace_info.id}" target="_blank">附件</a>
                 </td>
             </tr>
         </table>
