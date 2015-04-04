@@ -22,7 +22,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -2148,5 +2150,38 @@ public class VehicleServiceManageController {
         double revert_etc_money = StringUtils.isBlank(revert_etc_money_str) ? 0 : Double.valueOf(revert_etc_money_str);
 
         return this.vehicleServiceManageService.PropertyContraceDoFinish(contrace_id , should_payment , actual_payment , vehicle_status , user.getUser_id() , revert_oil_percent , revert_etc_money);
+    }
+
+    /**
+     * 合同附件页面
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/contrace/annex/detail", method = RequestMethod.GET)
+    public String contraceAnnexDetail(Model model , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User) request.getSession().getAttribute("user");
+
+        long contrace_id = Long.valueOf(request.getParameter("contrace_id"));
+        List<ContraceAnnex> contrace_annex_list = this.vehicleServiceManageService.getContraceAnnexList(contrace_id);
+
+        model.addAttribute("contrace_id" , contrace_id);
+        model.addAttribute("contrace_annex_list" , contrace_annex_list);
+        return "/module/vehicleservicemanage/contraceannex/index";
+    }
+
+    /**
+     * 合同上传附件
+     * @param request
+     * @param file_upload
+     * @return
+     */
+    @RequestMapping(value = "/contrace/annex/upload", method = RequestMethod.POST)
+    public String contraceAnnexUpload(HttpServletRequest request, @RequestParam("files") CommonsMultipartFile[] file_upload) {
+        User user = (User) request.getSession().getAttribute("user");
+
+        long contrace_id = Long.valueOf(request.getParameter("contrace_id"));
+        this.vehicleServiceManageService.annexUpload(request , file_upload , contrace_id , user.getUser_id());
+
+        return "redirect:/vehicleservice/contrace/annex/detail?contrace_id=" + contrace_id;
     }
 }

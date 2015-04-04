@@ -70,7 +70,11 @@
                 <td width="15%" class="tableleft">证件照</td>
                 <td colspan="3">
                     <c:if test="${customer_info.certificate_url != null && '' != customer_info.certificate_url}">
-                        <img src="${ctx}${customer_info.certificate_url}" alt="${customer_info.certificate_name}">
+                        <div class="fileupload fileupload-new" data-provides="fileupload">
+                            <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
+                                <img src="${ctx}${customer_info.certificate_url}" alt="${customer_info.certificate_name}">
+                            </div>
+                        </div>
                     </c:if>
                 </td>
             </tr>
@@ -78,13 +82,21 @@
                 <td class="tableleft">身份证明</td>
                 <td>
                     <c:if test="${customer_info.identity_url != null && '' != customer_info.identity_url}">
-                        <img src="${ctx}${customer_info.identity_url}" alt="${customer_info.identity_name}">
+                        <div class="fileupload fileupload-new" data-provides="fileupload">
+                            <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
+                                <img src="${ctx}${customer_info.identity_url}" alt="${customer_info.identity_name}">
+                            </div>
+                        </div>
                     </c:if>
                 </td>
                 <td class="tableleft">房产证明</td>
                 <td>
                     <c:if test="${customer_info.house_property_url != null && '' != customer_info.house_property_url}">
-                        <img src="${ctx}${customer_info.house_property_url}" alt="${customer_info.house_property_name}">
+                        <div class="fileupload fileupload-new" data-provides="fileupload">
+                            <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
+                                <img src="${ctx}${customer_info.house_property_url}" alt="${customer_info.house_property_name}">
+                            </div>
+                        </div>
                     </c:if>
                 </td>
             </tr>
@@ -92,13 +104,21 @@
                 <td class="tableleft">车辆证明</td>
                 <td>
                     <c:if test="${customer_info.driving_license_url != null && '' != customer_info.driving_license_url}">
-                        <img src="${ctx}${customer_info.driving_license_url}" alt="${customer_info.driving_license_name}">
+                        <div class="fileupload fileupload-new" data-provides="fileupload">
+                            <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
+                                <img src="${ctx}${customer_info.driving_license_url}" alt="${customer_info.driving_license_name}">
+                            </div>
+                        </div>
                     </c:if>
                 </td>
                 <td class="tableleft">其他证明</td>
                 <td>
                     <c:if test="${customer_info.other_url != null && '' != customer_info.other_url}">
-                        <img src="${ctx}${customer_info.other_url}" alt="${customer_info.other_name}">
+                        <div class="fileupload fileupload-new" data-provides="fileupload">
+                            <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
+                                <img src="${ctx}${customer_info.other_url}" alt="${customer_info.other_name}">
+                            </div>
+                        </div>
                     </c:if>
                 </td>
             </tr>

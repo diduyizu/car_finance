@@ -764,4 +764,33 @@ public class VehicleServiceManageService {
         }
         return result;
     }
+
+    public List<ContraceAnnex> getContraceAnnexList(long contrace_id) {
+        return this.vehicleServiceManageDao.getContraceAnnexList(contrace_id);
+    }
+
+    public void annexUpload(HttpServletRequest request , CommonsMultipartFile[] file_upload , long contrace_id, long user_id) {
+        if(file_upload != null && file_upload.length > 0){
+            //循环获取file数组中得文件
+            for(int i = 0;i<file_upload.length;i++){
+                CommonsMultipartFile file = file_upload[i];
+                //保存文件
+                String savePath = request.getSession().getServletContext().getRealPath("/");
+                String sharespace = appProps.getProperty("contraceannex.dbpath").replace("${contrace_id}", String.valueOf(contrace_id));
+                savePath = savePath + sharespace;
+                logger.info("savePath=" + savePath);
+
+                Map<String , Object> map = this.commonService.saveFile(file , savePath);
+                if(map != null) {
+                    String annex_name = (String)map.get("annexName");
+                    String file_name = (String)map.get("file_name");
+                    String db_url = sharespace + file_name;
+
+                    //根据i都值，确定更新哪一个字段
+                    //i从0-3，客户附件总共4个
+                    this.vehicleServiceManageDao.addContraceAnnex(contrace_id , annex_name , db_url , user_id);
+                }
+            }
+        }
+    }
 }

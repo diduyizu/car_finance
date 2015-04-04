@@ -1113,4 +1113,18 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
         return this.getJdbcTemplate().update(sql , o);
     }
 
+    public List<ContraceAnnex> getContraceAnnexList(long contrace_id) {
+        String sql = "select * from contrace_annex where contrace_id = ? ";
+        Object[] o = new Object[] {  contrace_id  };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().query(sql , o , new ContraceAnnexRowMapper());
+    }
+
+    public int addContraceAnnex(long contrace_id , String annex_name , String annex_url , long create_by) {
+        String sql = "insert into contrace_annex (contrace_id , annex_name , annex_url , create_by) values (?,?,?,?)";
+        Object[] o = new Object[] {  contrace_id , annex_name , annex_url , create_by };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().update(sql , o );
+    }
+
 }

@@ -174,7 +174,10 @@
             <tr>
                 <td class="tableleft">描述</td>
                 <%--<td colspan="5"><textarea readonly id="remark" rows="4" style="margin: 0px 0px 10px; width: 766px; height: 140px;" >${vehicle_contrace_info.remark}</textarea></td>--%>
-                <td colspan="5">${vehicle_contrace_info.remark}</td>
+                <td colspan="3">${vehicle_contrace_info.remark}</td>
+                <td class="tableleft" colspan="2">
+                    <a href="${ctx}/vehicleservice/contrace/annex/detail?contrace_id=${vehicle_contrace_info.id}" target="_blank">附件</a>
+                </td>
             </tr>
         </table>
     </form>
