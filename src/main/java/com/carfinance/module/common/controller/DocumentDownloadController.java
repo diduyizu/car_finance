@@ -255,7 +255,7 @@ public class DocumentDownloadController {
             Font normal_desc_fontChinese = new Font(bfChinese, 6, Font.NORMAL, BaseColor.BLACK);
 
 
-            FileOutputStream pdfFile = new FileOutputStream(new File("/Users/JIANGYIN/Documents/my_project/myworkfirstPdf.pdf"));
+            FileOutputStream pdfFile = new FileOutputStream(new File("D:\\my_project\\myworkfirstPdf.pdf"));
             // pdf 文件中的一个文字段落
             Paragraph paragraph1 = new Paragraph("汽车租赁合同" , bold_fontChinese);
             paragraph1.setAlignment(Element.ALIGN_CENTER);
@@ -335,11 +335,7 @@ public class DocumentDownloadController {
             Paragraph paragraph12 = new Paragraph("4、租金于本合同生效之日先预付人民币 "+pre_payment_underline+" 元，于还车之日结清。租赁期在一个月以上的，于每月 "+monthly_day_underline+" 日（节假日顺延）结算支付一次。" , normal_fontChinese);
             Paragraph paragraph13 = new Paragraph("5、乙方租赁甲方的汽车，须付押金人民币 "+deposit_underline+" 元，(含违章押金人民贰千元)于还车之日结清。租赁期满无其它意外情况，由甲方不计息退还乙方。违章押金在还车两个月后，查询用车期间无违章时退还。" , normal_fontChinese);
             Paragraph paragraph14 = new Paragraph("6、对租金、修理及其他费用，乙方逾期支付，逾期款除按1%每日计算滞纳金外，乙方于逾期支付日起，无条件地将租赁汽车立即送还甲方。否则由此造成的一起后果由乙方全部承担。" , normal_fontChinese);
-            Image image = Image.getInstance("/Users/JIANGYIN/Documents/my_project/chekuang.png");
-
-
-
-
+            Image image = Image.getInstance("D:\\my_project\\chekuang.jpg");
 
 
             Paragraph paragraph15 = new Paragraph("五、甲方责任和义务" , normal_desc_fontChinese);
@@ -386,8 +382,8 @@ public class DocumentDownloadController {
             Paragraph paragraph55 = new Paragraph("十、本合同自签订盖章时发生法律效力，至车辆归还，费用结清之日终止。但乙方在使用租赁汽车过程中发生的未了的经济责任情况，乙方不因本合同终止而免责，仍由乙方相对应后果承担责任。" , normal_desc_fontChinese);
             Paragraph paragraph56 = new Paragraph("十一、如履行本合同发生争议，双方约定由扬州市广陵区人民法院管辖。" , normal_desc_fontChinese);
             Paragraph paragraph57 = new Paragraph("十二、本合同一式两份，甲、乙双方各执一份。" , normal_desc_fontChinese);
-            Paragraph paragraph58 = new Paragraph("1、出租方：扬州瑞特汽车服务有限公司    法定代表人：                 住所地：" , normal_desc_fontChinese);
-            Paragraph paragraph59 = new Paragraph("2、承租方：                         证件号（身份证）：            联系电话：" , normal_desc_fontChinese);
+            Paragraph paragraph58 = new Paragraph("出租方：扬州瑞特汽车服务有限公司    法定代表人：                 住所地：" , normal_desc_fontChinese);
+            Paragraph paragraph59 = new Paragraph("承租方：                                           证件号（身份证）：                            联系电话：" , normal_desc_fontChinese);
 
 
             // 用 Document 对象、File 对象获得 PdfWriter 输出流对象
