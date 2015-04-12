@@ -67,6 +67,14 @@ public class VehicleContraceInfoRowMapper implements RowMapper<VehicleContraceIn
             vehicleContraceInfo.setTotal_actually(rs.getDouble("total_actually"));
         } catch (Exception e){}
 
+        try{
+            vehicleContraceInfo.setRegionalmanager_audit_status(rs.getInt("regionalmanager_audit_status"));
+        } catch (Exception e){}
+
+        try{
+            vehicleContraceInfo.setGeneralmanager_audit_status(rs.getInt("generalmanager_audit_status"));
+        } catch (Exception e){}
+
         return vehicleContraceInfo;
 	}
 }

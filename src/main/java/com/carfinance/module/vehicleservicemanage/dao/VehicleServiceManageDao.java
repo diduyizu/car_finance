@@ -5,6 +5,7 @@ import com.carfinance.module.common.dao.CommonDao;
 import com.carfinance.module.vehiclemanage.domain.VehicleInfo;
 import com.carfinance.module.vehiclemanage.domain.VehicleInfoRowMapper;
 import com.carfinance.module.vehicleservicemanage.domain.*;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -208,18 +209,7 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
     }
 
 
-    public long getOrgContraceCount(long org_id , String status , String over_top_str) {
-//        String sql;
-//        Object[] o;
-//        if(status == null || "".equals(status)) {
-//            sql = "select count(1) from vehicle_contrace where org_id = ?  ";
-//            o = new Object[] { org_id };
-//        } else {
-//            sql = "select count(1) from vehicle_contrace where org_id = ? and status = ? ";
-//            o = new Object[] { org_id , Long.valueOf(status) };
-//        }
-//        logger.info(sql.replaceAll("\\?", "{}"), o);
-//        return this.getJdbcTemplate().queryForLong(sql, o);
+    public long getOrgContraceCount(long org_id , String status , String regionalmanager_audit_status , String generalmanager_audit_status) {
         String sql = "select count(1) from vehicle_contrace where org_id = ? and reserv_to_contrace_status = 1 ";
         List<Object> param = new ArrayList<Object>();
         param.add(org_id);
@@ -228,9 +218,13 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
             sql = sql + " and status = ? ";
             param.add(Long.valueOf(status));
         }
-        if(over_top_str != null && !"".equals(over_top_str.trim())) {
-            sql = sql + " and isovertop = ? ";
-            param.add(Long.valueOf(Long.valueOf(over_top_str)));
+        if(!StringUtils.isBlank(regionalmanager_audit_status)) {
+            sql = sql + " and regionalmanager_audit_status = ? ";
+            param.add(Long.valueOf(Long.valueOf(regionalmanager_audit_status)));
+        }
+        if(!StringUtils.isBlank(generalmanager_audit_status)) {
+            sql = sql + " and generalmanager_audit_status = ? ";
+            param.add(Long.valueOf(Long.valueOf(generalmanager_audit_status)));
         }
 
         Object[] o = new Object[param.size()];
@@ -242,19 +236,7 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
         return this.getJdbcTemplate().queryForLong(sql, o);
     }
 
-    public List<VehicleContraceInfo> getOrgContraceList(long org_id , String status , String over_top_str , int start, int size) {
-//        String sql;
-//        Object[] o;
-//        if(status == null || "".equals(status)) {
-//            sql = "select * from vehicle_contrace where org_id = ? limit ?,? ";
-//            o = new Object[] { org_id , start , size };
-//        } else {
-//            sql = "select * from vehicle_contrace where org_id = ? and status = ? limit ?,? ";
-//            o = new Object[] { org_id , Long.valueOf(status) , start , size};
-//        }
-//
-//        logger.info(sql.replaceAll("\\?", "{}"), o);
-//        return this.getJdbcTemplate().query(sql, o, new VehicleContraceInfoRowMapper());
+    public List<VehicleContraceInfo> getOrgContraceList(long org_id , String status , String regionalmanager_audit_status , String generalmanager_audit_status , int start, int size) {
         String sql = "select * from vehicle_contrace where org_id = ? and reserv_to_contrace_status = 1 ";
         List<Object> param = new ArrayList<Object>();
         param.add(org_id);
@@ -263,9 +245,13 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
             sql = sql + " and status = ? ";
             param.add(Long.valueOf(status));
         }
-        if(over_top_str != null && !"".equals(over_top_str.trim())) {
-            sql = sql + " and isovertop = ? ";
-            param.add(Long.valueOf(Long.valueOf(over_top_str)));
+        if(!StringUtils.isBlank(regionalmanager_audit_status)) {
+            sql = sql + " and regionalmanager_audit_status = ? ";
+            param.add(Long.valueOf(Long.valueOf(regionalmanager_audit_status)));
+        }
+        if(!StringUtils.isBlank(generalmanager_audit_status)) {
+            sql = sql + " and generalmanager_audit_status = ? ";
+            param.add(Long.valueOf(Long.valueOf(generalmanager_audit_status)));
         }
 
         sql = sql + " order by id desc limit ?,?";
@@ -423,6 +409,24 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
         logger.info(sql.replaceAll("\\?", "{}"), o);
         return this.getJdbcTemplate().update(sql, o);
     }
+
+    public int contraceNeedRegionalAudit(long contrace_id , long user_id) {
+        String sql = "update vehicle_contrace set regionalmanager_audit_status = 1 where id = ? and create_by = ?";
+        Object[] o = new Object[] { contrace_id , user_id };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().update(sql, o);
+    }
+
+    public int contraceNeedGeneralAudit(long contrace_id , long user_id) {
+        String sql = "update vehicle_contrace set generalmanager_audit_status = 1 where id = ? and create_by = ?";
+        Object[] o = new Object[] { contrace_id , user_id };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().update(sql, o);
+    }
+
+
+
+
 
     /**
      * 门店店长审核

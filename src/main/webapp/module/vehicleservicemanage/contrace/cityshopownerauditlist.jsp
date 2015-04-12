@@ -68,7 +68,8 @@
     状态：
     <select id="status" name="status">
         <option value="-99">全部</option>
-        <option value="2" <c:if test="${status == '2'}">selected="selected"</c:if>>店长审核通过</option>
+        <%--<option value="2" <c:if test="${status == '2'}">selected="selected"</c:if>>店长审核通过</option>--%>
+        <option value="1" <c:if test="${status == '1'}">selected="selected"</c:if>>待审核</option>
     </select>&nbsp;&nbsp;
     合同类型：
     <select id="contrace_type" name="contrace_type">
@@ -127,7 +128,7 @@
                 <c:if test="${contrace.status == -5}">财务不通过</c:if>
             </td>
             <td>
-                <c:if test="${contrace.status == 2}">
+                <c:if test="${contrace.status == 1}">
                     <button type="button" class="btn btn-success pass" value="${contrace.id}">通过</button>
                     <button type="button" class="btn btn-danger nopass" value="${contrace.id}">不通过</button>
                 </c:if>

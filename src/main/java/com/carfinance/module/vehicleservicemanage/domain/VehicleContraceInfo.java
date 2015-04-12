@@ -58,6 +58,25 @@ public class VehicleContraceInfo implements Serializable{
 
     private double total_actually;
 
+    private int regionalmanager_audit_status;
+    private int generalmanager_audit_status;
+
+    public int getRegionalmanager_audit_status() {
+        return regionalmanager_audit_status;
+    }
+
+    public void setRegionalmanager_audit_status(int regionalmanager_audit_status) {
+        this.regionalmanager_audit_status = regionalmanager_audit_status;
+    }
+
+    public int getGeneralmanager_audit_status() {
+        return generalmanager_audit_status;
+    }
+
+    public void setGeneralmanager_audit_status(int generalmanager_audit_status) {
+        this.generalmanager_audit_status = generalmanager_audit_status;
+    }
+
     public double getTotal_actually() {
         return total_actually;
     }

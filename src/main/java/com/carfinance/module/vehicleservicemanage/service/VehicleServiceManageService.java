@@ -115,9 +115,9 @@ public class VehicleServiceManageService {
 //        map.put("contrace_list", contrace_list);
 //        return map;
 //    }
-    public Map<String , Object> getOrgContraceList(long original_org, String status, int start, int size , String over_top) {
-        long total = this.vehicleServiceManageDao.getOrgContraceCount(original_org, status , over_top);
-        List<VehicleContraceInfo> contrace_list = this.vehicleServiceManageDao.getOrgContraceList(original_org, status, over_top , start, size);
+    public Map<String , Object> getOrgContraceList(long original_org, String status, int start, int size , String regionalmanager_audit_status , String generalmanager_audit_status) {
+        long total = this.vehicleServiceManageDao.getOrgContraceCount(original_org, status , regionalmanager_audit_status , generalmanager_audit_status);
+        List<VehicleContraceInfo> contrace_list = this.vehicleServiceManageDao.getOrgContraceList(original_org, status, regionalmanager_audit_status , generalmanager_audit_status , start, size);
         Map<String , Object> map = new HashMap<String, Object>();
         map.put("total" , total);
         map.put("contrace_list", contrace_list);
@@ -194,13 +194,20 @@ public class VehicleServiceManageService {
         boolean isSysadmin = this.commonService.isSysadmin(user_id);
         int result = this.vehicleServiceManageDao.contraceToShopAudit(contrace_id , user_id , isSysadmin);
         if(result > 0) {
-            //判断该合同下所属车辆，是否超过一定金额，如果超过，则需要市店长、区域经理审核
+            //判断该合同下所属车辆，是否超过一定金额，如果超过，则需要区域经理、总经理审核
             //获取该合同对应车辆，算出总价
             double total_price = this.vehicleServiceManageDao.getContraceVehicleTotalPrice(contrace_id);
-            //需要市门店经理审批的限额
-            double top = Double.valueOf(appProps.get("city.shopowner.audit.top").toString());
-            if(total_price >= top) {//车辆总价，大于限额，则需要更新合同主表，市公司经理审核状态为：1-需要审核
-                this.vehicleServiceManageDao.contraceNeedCityAudit(contrace_id , user_id);
+            //获取合同车辆数量
+            long vehicle_size = this.vehicleServiceManageDao.getContraceVechCount(contrace_id , null , null , null);
+            //需要区域经理审批的限额
+            double regional_manage_top = Double.valueOf(appProps.get("regional.manage.audit.top").toString());
+            if(total_price > regional_manage_top || vehicle_size > 1) {//车辆总价，大于市店长审核限额,或者车数量大于1，则需要更新合同主表，区域经理经理审核状态为：1-需要审核
+                this.vehicleServiceManageDao.contraceNeedRegionalAudit(contrace_id, user_id);
+            }
+
+            double general_manage_top = Double.valueOf(appProps.get("general.manage.audit.top").toString());
+            if(total_price > general_manage_top || vehicle_size > 2) {//车辆总价，大于区域经历审核限额，或者车数量大于2，则需要更新合同主表，总经理经理审核状态为：1-需要审核
+                 this.vehicleServiceManageDao.contraceNeedGeneralAudit(contrace_id, user_id);
             }
         }
 
