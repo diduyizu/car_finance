@@ -337,7 +337,6 @@ public class DocumentDownloadController {
             Paragraph paragraph14 = new Paragraph("6、对租金、修理及其他费用，乙方逾期支付，逾期款除按1%每日计算滞纳金外，乙方于逾期支付日起，无条件地将租赁汽车立即送还甲方。否则由此造成的一起后果由乙方全部承担。" , normal_fontChinese);
             Image image = Image.getInstance("D:\\my_project\\chekuang.jpg");
 
-
             Paragraph paragraph15 = new Paragraph("五、甲方责任和义务" , normal_desc_fontChinese);
             Paragraph paragraph16 = new Paragraph("1、保证租赁车辆出租时性能良好、备胎、随车工具等附件齐全有效，并与乙方书面交接清楚。" , normal_desc_fontChinese);
             Paragraph paragraph17 = new Paragraph("2、负责对租赁汽车进行正常维修及定期保养，车辆的间隔里程为5000公里，正负不得超过200公里。" , normal_desc_fontChinese);
@@ -407,7 +406,6 @@ public class DocumentDownloadController {
             pdfDoc.add(paragraph13);
             pdfDoc.add(paragraph14);
             pdfDoc.add(image);
-
 
             pdfDoc.newPage();
             pdfDoc.add(paragraph15);
