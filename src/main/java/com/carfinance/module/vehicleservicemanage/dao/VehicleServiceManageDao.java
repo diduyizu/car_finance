@@ -471,6 +471,20 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
     }
 
     /**
+     * 总经理审核
+     * @param id
+     * @param status
+     * @param user_id
+     * @return
+     */
+    public int generalManagerDoAudit(long id , String status , long user_id) {
+        String sql = "update vehicle_contrace set status = ? , general_manager_update_by = ? , general_manager_update_at = now() where id = ?";
+        Object[] o = new Object[] { status , user_id , id };
+        logger.info(sql.replaceAll("\\?", "{}"), o);
+        return this.getJdbcTemplate().update(sql, o);
+    }
+
+    /**
      * 财务审核
      * @param id
      * @param status

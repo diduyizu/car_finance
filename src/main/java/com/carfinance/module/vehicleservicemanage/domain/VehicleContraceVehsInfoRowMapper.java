@@ -97,6 +97,10 @@ public class VehicleContraceVehsInfoRowMapper implements RowMapper<VehicleContra
             vehicleContraceVehsInfo.setTotal_actually(rs.getDouble("total_actually"));
         } catch (Exception e) {}
 
+        try{
+            vehicleContraceVehsInfo.setDispatch_status(rs.getInt("dispatch_status"));
+        } catch (Exception e) {}
+
         return vehicleContraceVehsInfo;
 	}
 }

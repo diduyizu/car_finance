@@ -128,6 +128,7 @@
                     <%--<button type="button" class="btn btn-success over" value="${contrace.id}">结单</button>--%>
                 <%--</c:if>--%>
                 <c:if test="${contrace.status == 3 && contrace.regionalmanager_audit_status == 0 && contrace.generalmanager_audit_status == 0}">
+                    <button type="button" class="btn btn-success dispatch" value="${contrace.id}">发车</button>
                     <button type="button" class="btn btn-success over" value="${contrace.id}">结单</button>
                 </c:if>
                 <c:if test="${contrace.status == 4 && contrace.generalmanager_audit_status == 0}">
@@ -200,6 +201,26 @@
                     <%--return false;--%>
                 <%--}--%>
             <%--}--%>
+        <%--})--%>
+    });
+
+    $('.dispatch').click(function(){
+        var contrace_id = $(this).val();
+        window.location.href="${ctx}/vehicleservice/contrace/dispatch?contrace_id="+contrace_id;
+        <%--$.ajax({--%>
+        <%--url:"${ctx}/vehicleservice/contrace/dofinish",--%>
+        <%--type: "post",--%>
+        <%--data:{id:id,status:6},--%>
+        <%--dataType:"json",--%>
+        <%--success:function(data){--%>
+        <%--if(data > 0){--%>
+        <%--alert("成功");--%>
+        <%--location.reload();--%>
+        <%--} else {--%>
+        <%--alert("失败");--%>
+        <%--return false;--%>
+        <%--}--%>
+        <%--}--%>
         <%--})--%>
     });
 </script>

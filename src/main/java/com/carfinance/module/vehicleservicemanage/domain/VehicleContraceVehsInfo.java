@@ -46,6 +46,16 @@ public class VehicleContraceVehsInfo implements Serializable{
     private double actually_price;
     private double total_actually;
 
+    private int dispatch_status;
+
+    public int getDispatch_status() {
+        return dispatch_status;
+    }
+
+    public void setDispatch_status(int dispatch_status) {
+        this.dispatch_status = dispatch_status;
+    }
+
     public double getSystem_price() {
         return system_price;
     }

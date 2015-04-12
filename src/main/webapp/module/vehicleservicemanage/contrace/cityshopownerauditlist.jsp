@@ -121,11 +121,13 @@
                 <c:if test="${contrace.status == 4}">区域经理审核通过</c:if>
                 <c:if test="${contrace.status == 5}">财务通过</c:if>
                 <c:if test="${contrace.status == 6}">完结</c:if>
+                <c:if test="${contrace.status == 7}">总经理审核通过</c:if>
                 <c:if test="${contrace.status == -1}">店长驳回</c:if>
                 <c:if test="${contrace.status == -2}">店长审核不通过</c:if>
                 <c:if test="${contrace.status == -3}">市公司店长审核不通过</c:if>
                 <c:if test="${contrace.status == -4}">区域经理审核不通过</c:if>
                 <c:if test="${contrace.status == -5}">财务不通过</c:if>
+                <c:if test="${contrace.status == -7}">总经理不通过</c:if>
             </td>
             <td>
                 <c:if test="${contrace.status == 1}">

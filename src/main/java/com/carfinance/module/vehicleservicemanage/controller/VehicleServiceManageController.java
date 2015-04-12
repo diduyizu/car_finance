@@ -1069,6 +1069,105 @@ public class VehicleServiceManageController {
         return this.vehicleServiceManageService.regionalManagerDoAudit(id, status, user.getUser_id());
     }
 
+    /**
+     * 总经理审核列表
+     * 同时，系统管理员能够查看到全部
+     * @param model
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/contrace/generalmanager/audit" , method = {RequestMethod.GET , RequestMethod.POST})
+    public String generalManagerAudit(Model model , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        String pageindexStr = request.getParameter("page_index");//第几页
+        int page_index = Integer.parseInt(StringUtils.isBlank(pageindexStr) || "0".equals(pageindexStr) ? "1" : pageindexStr);
+        int size = Integer.valueOf(appProps.get("vehicle.reservation.query.size").toString());//每页显示条数
+        int start = (page_index - 1) * size;
+
+        String original_org_str = request.getParameter("original_org");
+        String status = (request.getParameter("status") == null || "".equals(request.getParameter("status").trim())) ? "4" : request.getParameter("status");//区域经理默认查看市店长审核通过的列表
+//        if("-99".equals(status)) status = null;//-99表示查看全部
+
+        String contrace_type_str = request.getParameter("contrace_type");
+        int contrace_type = (contrace_type_str == null || "".equals(contrace_type_str.trim())) ? 1 : Integer.valueOf(contrace_type_str);//合同类型：1-零租；2-产权租
+        if(contrace_type == 2) {
+            return "redirect:/vehicleservice/contrace/property/generalmanager/audit?original_org="+original_org_str+"&status="+status;
+        }
+        if("-99".equals(status)) status = null;//-99表示查看全部
+
+        //TODO 管理员获取全部组织列表
+        //获取当前用户存在总经理的组织列表，管理员获取全部组织列表
+        boolean isSysadmin = this.commonService.isSysadmin(user.getUser_id());
+        List<Org> user_role_org_list;
+//        if(isSysadmin) {
+        user_role_org_list = this.commonService.getUserAllOrgList(user.getUser_id());
+//        } else {
+//            user_role_org_list = this.commonService.getUserRoleOrgList(user.getUser_id() , 20010);
+//        }
+
+        //获取用户角色列表
+        long original_org = (original_org_str == null || "".equals(original_org_str.trim())) ? user_role_org_list.get(0).getOrg_id() : Long.valueOf(original_org_str);
+        String original_org_name = "";
+        for(Org org : user_role_org_list) {
+            if(org.getOrg_id() == original_org) {
+                original_org_name = org.getOrg_name();
+                break;
+            }
+        }
+
+        Map<String , Object> map = this.vehicleServiceManageService.getOrgContraceList(original_org, status, start, size , "1" , "1");
+        long total = (Long)map.get("total");
+        List<VehicleContraceInfo> contrace_list = (List<VehicleContraceInfo>)map.get("contrace_list");
+
+        long temp = (total - 1) <= 0 ? 0 : (total - 1);
+        int pages = Integer.parseInt(Long.toString(temp / size)) + 1;
+        int prepages = (page_index - 1) <= 0 ? 1 : (page_index - 1);
+        int nextpages = (page_index + 1) >= pages ? pages : (page_index + 1);
+
+        model.addAttribute("current_page" , page_index);
+        model.addAttribute("pages" , pages);
+        model.addAttribute("prepage" , prepages);
+        model.addAttribute("nextpage" , nextpages);
+        model.addAttribute("page_url" , request.getRequestURI());
+        String condition = "&original_org="+original_org;
+        if(status != null) {
+            condition = condition + "&status="+status;
+        }
+        if(contrace_type_str != null) {
+            condition = condition + "&contrace_type="+contrace_type_str;
+        }
+        model.addAttribute("condition" , condition);
+
+        model.addAttribute("status" , status);
+        model.addAttribute("original_org" , original_org);
+        model.addAttribute("original_org_name" , original_org_name);
+
+        model.addAttribute("user_role_org_list" , user_role_org_list);
+        model.addAttribute("contrace_list" , contrace_list);
+        model.addAttribute("contrace_type" , contrace_type);
+        return "/module/vehicleservicemanage/contrace/generalmanagerauditlist";
+    }
+
+    /**
+     * 总经理执行审核
+     * @param model1
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/contrace/generalmanager/doaudit" , method = RequestMethod.POST)
+    @ResponseBody
+    public int generalManagerDoAudit(Model model1 , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        long id = Long.valueOf(request.getParameter("id"));
+        String status = request.getParameter("status");
+
+        return this.vehicleServiceManageService.generalManagerDoAudit(id, status, user.getUser_id());
+    }
+
 //    /**
 //     * 财务审核列表
 //     * 同时，系统管理员能够查看到全部
@@ -2185,5 +2284,44 @@ public class VehicleServiceManageController {
         this.vehicleServiceManageService.annexUpload(request , file_upload , contrace_id , user.getUser_id());
 
         return "redirect:/vehicleservice/contrace/annex/detail?contrace_id=" + contrace_id;
+    }
+
+
+    /**
+     * 发车页面
+     * @param model
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/contrace/dispatch" , method = RequestMethod.GET)
+    public String contraceDispatch(Model model , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        List<Org> user_all_org_list = this.commonService.getUserAllOrgList(user.getUser_id());
+
+        long contrace_id = Long.valueOf(request.getParameter("contrace_id"));
+        VehicleContraceInfo vehicleContraceInfo = this.vehicleServiceManageService.getVehicleContraceInfoById(contrace_id);
+        List<VehicleContraceVehsInfo> vehicleContraceVehsInfoList = this.vehicleServiceManageService.getVehicleContraceVehsListByContraceId(contrace_id);
+        double system_total_price = this.vehicleServiceManageService.getContraceIncom(contrace_id);
+
+        model.addAttribute("system_total_price" , system_total_price);
+        model.addAttribute("user_all_org_list" , user_all_org_list);
+        model.addAttribute("vehicle_contrace_info" , vehicleContraceInfo);
+        model.addAttribute("vehicle_contrace_vehs_list" , vehicleContraceVehsInfoList);
+        return "/module/vehicleservicemanage/contrace/dispatch";
+    }
+
+    @RequestMapping(value = "/contrace/dodispatch" , method = RequestMethod.POST)
+    @ResponseBody
+    public int contraceDoDispatch(Model model , HttpServletRequest request , HttpServletResponse response) {
+        User user = (User)request.getSession().getAttribute("user");
+
+        long contrace_id = Long.valueOf(request.getParameter("contrace_id"));
+        long vehicle_contrace_id = Long.valueOf(request.getParameter("vehicle_contrace_id"));
+        long km = Long.valueOf(request.getParameter("km"));
+        double oil_percent = Double.valueOf(request.getParameter("oil_percent"));
+
+        return this.vehicleServiceManageService.contraceDoDispatch(contrace_id , vehicle_contrace_id , km , oil_percent , user.getUser_id());
     }
 }

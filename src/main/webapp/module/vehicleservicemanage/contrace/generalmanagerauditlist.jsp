@@ -68,7 +68,7 @@
     状态：
     <select id="status" name="status">
         <option value="-99">全部</option>
-        <option value="3" <c:if test="${status == '3'}">selected="selected"</c:if>>市店长审核通过</option>
+        <option value="3" <c:if test="${status == '4'}">selected="selected"</c:if>>区域经理审核通过</option>
     </select>&nbsp;&nbsp;
     合同类型：
     <select id="contrace_type" name="contrace_type">
@@ -120,16 +120,14 @@
                 <c:if test="${contrace.status == 4}">区域经理审核通过</c:if>
                 <c:if test="${contrace.status == 5}">财务通过</c:if>
                 <c:if test="${contrace.status == 6}">完结</c:if>
-                <c:if test="${contrace.status == 7}">总经理审核通过</c:if>
                 <c:if test="${contrace.status == -1}">店长驳回</c:if>
                 <c:if test="${contrace.status == -2}">店长审核不通过</c:if>
                 <c:if test="${contrace.status == -3}">市公司店长审核不通过</c:if>
                 <c:if test="${contrace.status == -4}">区域经理审核不通过</c:if>
                 <c:if test="${contrace.status == -5}">财务不通过</c:if>
-                <c:if test="${contrace.status == -7}">总经理不通过</c:if>
             </td>
             <td>
-                <c:if test="${contrace.status == 3}">
+                <c:if test="${contrace.status == 4}">
                     <button type="button" class="btn btn-success pass" value="${contrace.id}">通过</button>
                     <button type="button" class="btn btn-danger nopass" value="${contrace.id}">不通过</button>
                 </c:if>
@@ -145,9 +143,9 @@
         $('.pass').click(function(){
             var id = $(this).val();
             $.ajax({
-                url:"${ctx}/vehicleservice/contrace/regionalmanager/doaudit",
+                url:"${ctx}/vehicleservice/contrace/generalmanager/doaudit",
                 type: "post",
-                data:{id:id,status:4},
+                data:{id:id,status:7},
                 success:function(data){
                     if(data > 0){
                         alert("成功");
@@ -164,9 +162,9 @@
             if(confirm("确定不通过吗？")) {
                 var id = $(this).val();
                 $.ajax({
-                    url:"${ctx}/vehicleservice/contrace/regionalmanager/doaudit",
+                    url:"${ctx}/vehicleservice/contrace/generalmanager/doaudit",
                     type: "post",
-                    data:{id:id,status:-4},
+                    data:{id:id,status:-7},
                     success:function(data){
                         if(data > 0){
                             alert("成功");
