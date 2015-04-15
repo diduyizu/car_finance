@@ -17,6 +17,7 @@ import com.carfinance.module.vehicleservicemanage.dao.VehicleServiceManageDao;
 import com.carfinance.module.vehicleservicemanage.domain.*;
 import com.carfinance.utils.DateTimeUtil;
 import com.carfinance.utils.DateUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -118,6 +119,20 @@ public class VehicleServiceManageService {
     public Map<String , Object> getOrgContraceList(long original_org, String status, int start, int size , String regionalmanager_audit_status , String generalmanager_audit_status) {
         long total = this.vehicleServiceManageDao.getOrgContraceCount(original_org, status , regionalmanager_audit_status , generalmanager_audit_status);
         List<VehicleContraceInfo> contrace_list = this.vehicleServiceManageDao.getOrgContraceList(original_org, status, regionalmanager_audit_status , generalmanager_audit_status , start, size);
+
+        for(VehicleContraceInfo contrace : contrace_list) {
+            long contrace_id = contrace.getId();
+            int has_driver = 0;
+            List<VehicleContraceVehsInfo> vehicleContraceVehsInfoList = this.vehicleServiceManageDao.getVehicleContraceVehsListByContraceId(contrace_id);
+            for(VehicleContraceVehsInfo vehicle : vehicleContraceVehsInfoList) {
+                if(!StringUtils.isBlank(vehicle.getDriving_user_license_no())) {
+                    has_driver = 1;
+                }
+            }
+            contrace.setHas_driver(has_driver);
+        }
+
+
         Map<String , Object> map = new HashMap<String, Object>();
         map.put("total" , total);
         map.put("contrace_list", contrace_list);

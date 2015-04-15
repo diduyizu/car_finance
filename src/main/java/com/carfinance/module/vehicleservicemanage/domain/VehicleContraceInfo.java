@@ -61,6 +61,16 @@ public class VehicleContraceInfo implements Serializable{
     private int regionalmanager_audit_status;
     private int generalmanager_audit_status;
 
+    private int has_driver;
+
+    public int getHas_driver() {
+        return has_driver;
+    }
+
+    public void setHas_driver(int has_driver) {
+        this.has_driver = has_driver;
+    }
+
     public int getRegionalmanager_audit_status() {
         return regionalmanager_audit_status;
     }
