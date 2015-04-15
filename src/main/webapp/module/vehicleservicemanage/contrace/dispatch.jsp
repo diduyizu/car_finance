@@ -199,7 +199,7 @@
                 success:function(data){
                     if(data > 0) {
                         alert("成功");
-                        window.location.href="${ctx}/vehicleservice/contrace/dispatch?contrace_id="+contrace_id;
+                        window.open("${ctx}/downloaddocument/pdfcontrace?contrace_id="+contrace_id+"&contrace_type=1&vehicle_contrace_id="+vehicle_contrace_id);
                     } else {
                         alert("失败");
                         return false;

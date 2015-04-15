@@ -8,7 +8,11 @@ import com.carfinance.module.vehicleservicemanage.domain.VehicleContraceInfo;
 import com.carfinance.module.vehicleservicemanage.domain.VehicleContraceVehsInfo;
 import com.carfinance.module.vehicleservicemanage.service.VehicleServiceManageService;
 import com.itextpdf.text.*;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Image;
 import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +22,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
@@ -173,6 +178,7 @@ public class DocumentDownloadController {
     public void pdfContrace(Model model , HttpServletRequest request , HttpServletResponse response) {
         String contrace_id_str = request.getParameter("contrace_id");
         long contrace_type = Long.valueOf(request.getParameter("contrace_type"));//合同类型，1-零租；2-产权租
+        long vehicle_contrace_id = Long.valueOf(request.getParameter("vehicle_contrace_id"));
 
         String org_id = "";
         String contrace_no = "";
@@ -196,6 +202,7 @@ public class DocumentDownloadController {
         String pre_payment = "";
         String deposit = "";
         String monthly_day = "";
+        String vehicle_id = "";
 
 
         if(contrace_type == 1) {
@@ -205,9 +212,10 @@ public class DocumentDownloadController {
                 contrace_no = vehicleContraceInfo.getContrace_no();
                 customer_name = vehicleContraceInfo.getCustomer_name();
 
-                List<VehicleContraceVehsInfo> vehsList = this.vehicleServiceManageService.getVehicleContraceVehsListByContraceId(vehicleContraceInfo.getId());
-                if(vehsList != null) {
-                    VehicleContraceVehsInfo vehsInfo = vehsList.get(0);
+//                List<VehicleContraceVehsInfo> vehsList = this.vehicleServiceManageService.getVehicleContraceVehsListByContraceId(vehicleContraceInfo.getId());
+//                if(vehsList != null) {
+//                    VehicleContraceVehsInfo vehsInfo = vehsList.get(0);
+                    VehicleContraceVehsInfo vehsInfo = this.vehicleServiceManageService.getContraceVehicleByid(vehicle_contrace_id);
                     VehicleInfo vehicleInfo = this.vehicleManageService.getVehicleInfoByid(vehsInfo.getVehicle_id());
 
                     license_plate = vehicleInfo.getLicense_plate();
@@ -221,7 +229,8 @@ public class DocumentDownloadController {
                     driving_user_license_no = vehsInfo.getDriving_user_license_no();
 
                     daily_price = vehicleInfo.getDaily_price()+"";
-                }
+                    vehicle_id = vehicleInfo.getId()+"";
+//                }
 
 
                 begin_time = vehicleContraceInfo.getUse_begin();
@@ -244,6 +253,10 @@ public class DocumentDownloadController {
                 customer_name = propertyContraceInfo.getCustomer_name();
             }
         }
+        //1.设置文件ContentType类型，这样设置，会自动判断下载文件类型
+        response.setContentType("multipart/form-data");
+        //2.设置文件头：最后一个参数是设置下载文件名(假如我们叫a.pdf)
+        response.setHeader("Content-Disposition", "attachment;fileName="+contrace_no+"_"+vehicle_id+".pdf");
 
         Document pdfDoc = new Document(PageSize.A4, 50, 50, 50, 50);
         // 将要生成的 pdf 文件的路径输出流
@@ -255,7 +268,7 @@ public class DocumentDownloadController {
             Font normal_desc_fontChinese = new Font(bfChinese, 6, Font.NORMAL, BaseColor.BLACK);
 
 
-            FileOutputStream pdfFile = new FileOutputStream(new File("D:\\my_project\\myworkfirstPdf.pdf"));
+            FileOutputStream pdfFile = new FileOutputStream(new File("/Users/JIANGYIN/Documents/my_project/"+contrace_no+"_"+vehicle_id+".pdf"));
             // pdf 文件中的一个文字段落
             Paragraph paragraph1 = new Paragraph("汽车租赁合同" , bold_fontChinese);
             paragraph1.setAlignment(Element.ALIGN_CENTER);
@@ -276,7 +289,7 @@ public class DocumentDownloadController {
             Chunk carframe_no_underline = new Chunk(carframe_no);
             carframe_no_underline.setUnderline(1f, 3f);
 
-            Chunk guide_price_underline = new Chunk(guide_price+"");
+            Chunk guide_price_underline = new Chunk(guide_price/10000+"");
             guide_price_underline.setUnderline(1f, 3f);
 
             Chunk color_underline = new Chunk(color);
@@ -335,7 +348,7 @@ public class DocumentDownloadController {
             Paragraph paragraph12 = new Paragraph("4、租金于本合同生效之日先预付人民币 "+pre_payment_underline+" 元，于还车之日结清。租赁期在一个月以上的，于每月 "+monthly_day_underline+" 日（节假日顺延）结算支付一次。" , normal_fontChinese);
             Paragraph paragraph13 = new Paragraph("5、乙方租赁甲方的汽车，须付押金人民币 "+deposit_underline+" 元，(含违章押金人民贰千元)于还车之日结清。租赁期满无其它意外情况，由甲方不计息退还乙方。违章押金在还车两个月后，查询用车期间无违章时退还。" , normal_fontChinese);
             Paragraph paragraph14 = new Paragraph("6、对租金、修理及其他费用，乙方逾期支付，逾期款除按1%每日计算滞纳金外，乙方于逾期支付日起，无条件地将租赁汽车立即送还甲方。否则由此造成的一起后果由乙方全部承担。" , normal_fontChinese);
-            Image image = Image.getInstance("D:\\my_project\\chekuang.jpg");
+            Image image = Image.getInstance("/Users/JIANGYIN/Documents/my_project/chekuang.png");
 
             Paragraph paragraph15 = new Paragraph("五、甲方责任和义务" , normal_desc_fontChinese);
             Paragraph paragraph16 = new Paragraph("1、保证租赁车辆出租时性能良好、备胎、随车工具等附件齐全有效，并与乙方书面交接清楚。" , normal_desc_fontChinese);
@@ -455,42 +468,199 @@ public class DocumentDownloadController {
             pdfDoc.add(paragraph59);
 
             pdfDoc.close();
+
+            ServletOutputStream out;
+            //通过文件路径获得File对象(假如此路径中有一个download.pdf文件)
+            File file = new File("/Users/JIANGYIN/Documents/my_project/"+contrace_no+"_"+vehicle_id+".pdf");
+
+            try {
+                FileInputStream inputStream = new FileInputStream(file);
+                //3.通过response获取ServletOutputStream对象(out)
+                out = response.getOutputStream();
+                int b = 0;
+                byte[] buffer = new byte[512];
+                while (b != -1){
+                    b = inputStream.read(buffer);
+                    //4.写到输出流(out)中
+                    out.write(buffer,0,b);
+                }
+                inputStream.close();
+                out.close();
+                out.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
-//        //生成word
-//        DocumentHandler handler = new DocumentHandler();
-//        String file_upload_path = appProps.get("conrace.download.path").toString().replace("${org_id}", org_id).replace("${contrace_id}",contrace_id_str);
-//        File outFile = handler.createDoc("/com/carfinance/template", "test.ftl", dataMap , file_upload_path , "text");
-//
-//        //下面的代码是导出word
-//        FileInputStream in = null;
-//        OutputStream o = null;
-//
-//        try {
-//            in = new FileInputStream(outFile);
-//            o = response.getOutputStream();
-//            response.setContentType("application/x-tar");
-//            response.setHeader("Content-disposition", "attachment; filename=" + URLEncoder.encode("text.doc", "UTF-8"));// 指定下载的文件名
-//            response.setHeader("Content_Length",String.valueOf( outFile.length()));       // download the file.
-//            int n = 0;
-//            while ((n = in.read (b))!= -1) {
-//                o.write(b, 0, n);
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        } finally {
-//            try {
-//                in.close();
-//                o.flush();
-//                o.close();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
     }
+
+
+    /**
+     * 婚车合同下载
+     * @param model
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/pdfhunchecontrace" , method = RequestMethod.GET)
+    public void pdfHuncheContrace(Model model , HttpServletRequest request , HttpServletResponse response) {
+        String contrace_id_str = request.getParameter("contrace_id");
+
+        String org_id = "";
+        String contrace_no = "";
+        String customer_name = "";
+        String vehicle_id = "";
+        String daily_available_km = "";
+
+
+        VehicleContraceInfo vehicleContraceInfo = this.vehicleServiceManageService.getVehicleContraceInfoById(Long.valueOf(contrace_id_str));
+        if(vehicleContraceInfo != null) {
+            org_id = String.valueOf(vehicleContraceInfo.getOrg_id());
+            contrace_no = vehicleContraceInfo.getContrace_no();
+            customer_name = vehicleContraceInfo.getCustomer_name();
+            daily_available_km = vehicleContraceInfo.getDaily_available_km()+"";
+        } else {
+            PropertyContraceInfo propertyContraceInfo = this.vehicleServiceManageService.getPropertyContraceInfoById(Long.valueOf(contrace_id_str));
+            if(propertyContraceInfo != null) {
+                org_id = String.valueOf(propertyContraceInfo.getOrg_id());
+                contrace_no = propertyContraceInfo.getContrace_no();
+                customer_name = propertyContraceInfo.getCustomer_name();
+            }
+        }
+
+        List<VehicleContraceVehsInfo> vehicleContraceVehsInfoList = this.vehicleServiceManageService.getVehicleContraceVehsListByContraceId(Long.valueOf(contrace_id_str));
+
+
+        //1.设置文件ContentType类型，这样设置，会自动判断下载文件类型
+        response.setContentType("multipart/form-data");
+        //2.设置文件头：最后一个参数是设置下载文件名(假如我们叫a.pdf)
+        response.setHeader("Content-Disposition", "attachment;fileName="+contrace_no+".pdf");
+
+        Document pdfDoc = new Document(PageSize.A4, 50, 50, 50, 50);
+        // 将要生成的 pdf 文件的路径输出流
+        try {
+            BaseFont bfChinese = BaseFont.createFont("STSongStd-Light", "UniGB-UCS2-H", false);
+
+            Font bold_fontChinese = new Font(bfChinese, 18, Font.BOLD, BaseColor.BLACK);
+            Font normal_fontChinese = new Font(bfChinese, 12, Font.NORMAL, BaseColor.BLACK);
+            Font normal_desc_fontChinese = new Font(bfChinese, 6, Font.NORMAL, BaseColor.BLACK);
+
+
+            FileOutputStream pdfFile = new FileOutputStream(new File("/Users/JIANGYIN/Documents/my_project/"+contrace_no+".pdf"));
+            // pdf 文件中的一个文字段落
+            Paragraph paragraph1 = new Paragraph("婚庆用车租赁合同" , bold_fontChinese);
+            paragraph1.setAlignment(Element.ALIGN_CENTER);
+
+
+            Paragraph paragraph2 = new Paragraph("出租方：扬州瑞特汽车服务有限公司（简称：甲方）" , normal_fontChinese);
+            Paragraph paragraph3 = new Paragraph("承租方："+customer_name+" (简称：乙方）" , normal_fontChinese);
+            Paragraph paragraph4 = new Paragraph("经双方友好协商，就________________婚庆用车达成如下协议" , normal_fontChinese);
+            Paragraph paragraph5 = new Paragraph("一、服务车型、数量、服务费用确认：" , normal_fontChinese);
+            // 添加table实例
+            PdfPTable table = new PdfPTable(4);
+            table.setWidthPercentage(100);
+            table.setHorizontalAlignment(PdfPTable.ALIGN_LEFT);
+            PdfPCell cell = new PdfPCell();
+            cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+            // 表格标题
+            cell.setPhrase(new Paragraph("数量" , normal_fontChinese));
+            table.addCell(cell);
+            cell.setPhrase(new Paragraph("车型", normal_fontChinese));
+            table.addCell(cell);
+            cell.setPhrase(new Paragraph("单价（元/天）", normal_fontChinese));
+            table.addCell(cell);
+            cell.setPhrase(new Paragraph("限定公里数（天）", normal_fontChinese));
+            table.addCell(cell);
+            // 表格数据
+            for(VehicleContraceVehsInfo v : vehicleContraceVehsInfoList) {
+
+                PdfPCell newcell = new PdfPCell();
+                newcell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+                newcell.setPhrase(new Paragraph("1", normal_fontChinese));
+                table.addCell(newcell);
+                newcell.setPhrase(new Paragraph(v.getModel(), normal_fontChinese));
+                table.addCell(newcell);
+                newcell.setPhrase(new Paragraph(v.getDaily_price()+"", normal_fontChinese));
+                table.addCell(newcell);
+                newcell.setPhrase(new Paragraph(daily_available_km, normal_fontChinese));
+                table.addCell(newcell);
+            }
+
+
+            Paragraph paragraph6 = new Paragraph("服务时间、目的地：______年_____月_____日______时______分。行驶路线：_____________________________________" , normal_fontChinese);
+            Paragraph paragraph7 = new Paragraph("按乙方指定到达目的地：______市_______区_________路（街）______号______。" , normal_fontChinese);
+            Paragraph paragraph8 = new Paragraph("三、定金及服务费支付方式" , normal_fontChinese);
+            Paragraph paragraph9 = new Paragraph("协议签署时，乙方向甲方支付定金        元，余款              元，婚庆当天车到现场结清。婚庆用车服务费总额为人民币（大写）                元。" , normal_fontChinese);
+            Paragraph paragraph10 = new Paragraph("四、甲方责任" , normal_fontChinese);
+            Paragraph paragraph11 = new Paragraph("双方认可合同确定的车型，婚庆当天若有特殊原因无法到场，甲方在与乙方处分沟通后，可用同等级的或者的更高级别的车型代替，费用不变。若甲方单方面终止协议，则应退还已收的所有款项，其中定金应双倍返还。" , normal_fontChinese);
+            Paragraph paragraph12 = new Paragraph("五、乙方责任" , normal_fontChinese);
+            Paragraph paragraph13 = new Paragraph("乙方应严格遵守协议的约定，及时有效的履行合同，若乙方违约，单方解除协议，则定金不予以退还；若定金不足以弥补甲方损失的，甲方有继续追索的权利。" , normal_fontChinese);
+            Paragraph paragraph14 = new Paragraph("本协议一经签订即具备法律效力。本协议未尽事宜双方协商沟通解决。" , normal_fontChinese);
+            Paragraph paragraph15 = new Paragraph("本协议一式贰份，甲，乙双方各执壹份为凭。" , normal_fontChinese);
+            Paragraph paragraph16 = new Paragraph("甲方(签字/盖章)：                                       乙方(签字/盖章)：" , normal_fontChinese);
+            Paragraph paragraph17 = new Paragraph("                                                      证件号：" , normal_fontChinese);
+            Paragraph paragraph18 = new Paragraph("联系电话                                               联系电话  " , normal_fontChinese);
+            Paragraph paragraph19 = new Paragraph("                                                      201   年    月   日" , normal_fontChinese);
+
+
+            // 用 Document 对象、File 对象获得 PdfWriter 输出流对象
+            PdfWriter.getInstance(pdfDoc, pdfFile);
+            pdfDoc.open();  // 打开 Document 文档
+
+            // 添加一个文字段落、一张图片
+            pdfDoc.add(paragraph1);
+            pdfDoc.add(new Chunk("\n\n"));
+            pdfDoc.add(paragraph2);
+            pdfDoc.add(paragraph3);
+            pdfDoc.add(paragraph4);
+            pdfDoc.add(paragraph5);
+            pdfDoc.add(table);
+            pdfDoc.add(paragraph6);
+            pdfDoc.add(paragraph7);
+            pdfDoc.add(paragraph8);
+            pdfDoc.add(paragraph9);
+            pdfDoc.add(paragraph10);
+            pdfDoc.add(paragraph11);
+            pdfDoc.add(paragraph12);
+            pdfDoc.add(paragraph13);
+            pdfDoc.add(paragraph14);
+            pdfDoc.add(paragraph15);
+            pdfDoc.add(paragraph16);
+            pdfDoc.add(paragraph17);
+            pdfDoc.add(paragraph18);
+            pdfDoc.add(paragraph19);
+
+            pdfDoc.close();
+
+            ServletOutputStream out;
+            //通过文件路径获得File对象(假如此路径中有一个download.pdf文件)
+            File file = new File("/Users/JIANGYIN/Documents/my_project/"+contrace_no+".pdf");
+
+            try {
+                FileInputStream inputStream = new FileInputStream(file);
+                //3.通过response获取ServletOutputStream对象(out)
+                out = response.getOutputStream();
+                int b = 0;
+                byte[] buffer = new byte[512];
+                while (b != -1){
+                    b = inputStream.read(buffer);
+                    //4.写到输出流(out)中
+                    out.write(buffer,0,b);
+                }
+                inputStream.close();
+                out.close();
+                out.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }

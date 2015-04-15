@@ -823,4 +823,13 @@ public class VehicleServiceManageService {
             }
         }
     }
+
+    public int contraceDoDispatch(long contrace_id , long vehicle_contrace_id , long km , double oil_percent , long userid) {
+        VehicleContraceVehsInfo vehicleContraceVehsInfo = this.vehicleServiceManageDao.getVehicleContraceVehsInfoById(vehicle_contrace_id);
+        return this.vehicleServiceManageDao.contraceDoDispatch(contrace_id , vehicle_contrace_id , km , oil_percent , userid , vehicleContraceVehsInfo.getVehicle_id());
+    }
+
+    public VehicleContraceVehsInfo getContraceVehicleByid(long veh_contrace_vehs_id) {
+        return this.vehicleServiceManageDao.getContraceVehicleByid(veh_contrace_vehs_id);
+    }
 }
