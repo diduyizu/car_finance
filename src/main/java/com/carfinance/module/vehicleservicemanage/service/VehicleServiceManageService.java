@@ -291,7 +291,15 @@ public class VehicleServiceManageService {
      * @return
      */
     public int cityShopownerDoAudit(long id , String status , long user_id) {
-        return this.vehicleServiceManageDao.cityShopownerDoAudit(id, status, user_id);
+        int result = this.vehicleServiceManageDao.cityShopownerDoAudit(id, status, user_id);
+        if("-3".equals(status) && result > 0) {//审核不通过，将车辆状态修改为在库
+            List<VehicleContraceVehsInfo> vehsInfos = this.vehicleServiceManageDao.getVehicleContraceVehsListByContraceId(id);
+            for(VehicleContraceVehsInfo v : vehsInfos) {
+                this.vehicleServiceManageDao.updateVehicleStatus(v.getVehicle_id() , "在库");
+            }
+        }
+
+        return result;
     }
 
     /**
@@ -302,7 +310,14 @@ public class VehicleServiceManageService {
      * @return
      */
     public int regionalManagerDoAudit(long id , String status , long user_id) {
-        return this.vehicleServiceManageDao.regionalManagerDoAudit(id, status, user_id);
+        int result = this.vehicleServiceManageDao.regionalManagerDoAudit(id, status, user_id);
+        if("-4".equals(status) && result > 0) {//审核不通过，将车辆状态修改为在库
+            List<VehicleContraceVehsInfo> vehsInfos = this.vehicleServiceManageDao.getVehicleContraceVehsListByContraceId(id);
+            for(VehicleContraceVehsInfo v : vehsInfos) {
+                this.vehicleServiceManageDao.updateVehicleStatus(v.getVehicle_id() , "在库");
+            }
+        }
+        return result;
     }
 
     /**
@@ -313,7 +328,14 @@ public class VehicleServiceManageService {
      * @return
      */
     public int generalManagerDoAudit(long id , String status , long user_id) {
-        return this.vehicleServiceManageDao.generalManagerDoAudit(id, status, user_id);
+        int result = this.vehicleServiceManageDao.generalManagerDoAudit(id, status, user_id);
+        if("-7".equals(status) && result > 0) {//审核不通过，将车辆状态修改为在库
+            List<VehicleContraceVehsInfo> vehsInfos = this.vehicleServiceManageDao.getVehicleContraceVehsListByContraceId(id);
+            for(VehicleContraceVehsInfo v : vehsInfos) {
+                this.vehicleServiceManageDao.updateVehicleStatus(v.getVehicle_id() , "在库");
+            }
+        }
+        return result;
     }
 
     /**
@@ -840,6 +862,10 @@ public class VehicleServiceManageService {
     }
 
     public int contraceDoDispatch(long contrace_id , long vehicle_contrace_id , long km , double oil_percent , long userid) {
+
+
+
+
         VehicleContraceVehsInfo vehicleContraceVehsInfo = this.vehicleServiceManageDao.getVehicleContraceVehsInfoById(vehicle_contrace_id);
         return this.vehicleServiceManageDao.contraceDoDispatch(contrace_id , vehicle_contrace_id , km , oil_percent , userid , vehicleContraceVehsInfo.getVehicle_id());
     }

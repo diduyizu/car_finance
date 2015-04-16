@@ -1145,7 +1145,6 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
         return this.getJdbcTemplate().update(sql , o );
     }
 
-
     public int contraceDoDispatch(long contrace_id , long vehicle_contrace_id , long km , double oil_percent , long userid , long vehicle_id) {
 
         String sql = "update vehicle_info set km = ? , oil_percent = ? where id = ?";
@@ -1153,7 +1152,7 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
         logger.info(sql.replaceAll("\\?", "{}"), o);
         int result = this.getJdbcTemplate().update(sql , o );
         if(result > 0) {
-            String sql1 = "update vehicle_contrace_vehs set oil_percent = ? where id = ?";
+            String sql1 = "update vehicle_contrace_vehs set oil_percent = ? , dispatch_status = 1 where id = ?";
             Object[] o1 = new Object[] {  oil_percent , vehicle_contrace_id };
             logger.info(sql.replaceAll("\\?", "{}"), o1);
             this.getJdbcTemplate().update(sql1 , o1 );

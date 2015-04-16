@@ -67,6 +67,7 @@
             <th>用户id</th>
             <th>用户名称</th>
             <th>真实姓名</th>
+            <th>登录名</th>
             <th>操作</th>
         </tr>
     </thead>
@@ -75,6 +76,7 @@
             <td>${org_user.user_id}</td>
             <td>${org_user.nick_name}</td>
             <td>${org_user.user_name}</td>
+            <td>${org_user.login_name}</td>
             <td>
                 <button type="button" class="btn btn-primary modify" value="${org_user.user_id}" >编辑</button> &nbsp;&nbsp;
                 <button type="button" class="btn btn-danger delete" value="${org_user.user_id}" >删除</button>
