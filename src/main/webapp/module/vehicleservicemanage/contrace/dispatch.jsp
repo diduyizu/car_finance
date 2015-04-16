@@ -77,6 +77,9 @@
                             <button type="button" class="btn btn-success dispatch">发车</button>
                             <input type="hidden" name="vehicle_contrace_id" value="${vehicle.id}" />
                         </c:if>
+                        <c:if test="${vehicle.dispatch_status == 1}">
+                            已发车
+                        </c:if>
                     </td>
                 </tr>
             </c:forEach>

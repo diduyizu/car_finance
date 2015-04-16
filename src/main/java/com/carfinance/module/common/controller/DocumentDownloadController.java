@@ -338,15 +338,15 @@ public class DocumentDownloadController {
             Paragraph paragraph2 = new Paragraph("出租方：扬州瑞特汽车服务有限公司（简称：甲方）    合同编号："+contrace_no , normal_fontChinese);
             Paragraph paragraph3 = new Paragraph("承租方："+customer_name_underline+" (简称：乙方）    签约时间：20____年____月____日" , normal_fontChinese);
             Paragraph paragraph4 = new Paragraph("根据我国《合同法》 、《担保法》及有关规定，为了明确甲方与乙方权利义务经双方协商一致，签订本合同。" , normal_fontChinese);
-            Paragraph paragraph5 = new Paragraph("一、租赁汽车壹辆，车牌号："+license_plate_underline+"  车型号："+vehicle_model_underline+"  颜色："+color_underline+"  发动机号："+engine_no_underline+"  底盘号："+carframe_no_underline+"  重置价人民币"+guide_price_underline+" 万元。" , normal_fontChinese);
-            Paragraph paragraph6 = new Paragraph("二、甲方从 "+begin_time_underline+" 起将租赁汽车交付乙方使用，至 "+end_time_underline+" 收回。" , normal_fontChinese);
-            Paragraph paragraph7 = new Paragraph("三、甲乙双方商定由驾驶员 "+driving_user_name_underline+" 驾驶证号"+driving_user_license_no_underline+" 专人驾驶租赁汽车。" , normal_fontChinese);
+            Paragraph paragraph5 = new Paragraph("一、租赁汽车壹辆，车牌号：____"+license_plate_underline+"____车型号：____"+vehicle_model_underline+"____颜色：____"+color_underline+"____发动机号：____"+engine_no_underline+"____底盘号：____"+carframe_no_underline+"____重置价人民币____"+guide_price_underline+"____万元。" , normal_fontChinese);
+            Paragraph paragraph6 = new Paragraph("二、甲方从____"+begin_time_underline+"____起将租赁汽车交付乙方使用，至____"+end_time_underline+"____收回。" , normal_fontChinese);
+            Paragraph paragraph7 = new Paragraph("三、甲乙双方商定由驾驶员____"+driving_user_name_underline+"____驾驶证号____"+driving_user_license_no_underline+"____专人驾驶租赁汽车。" , normal_fontChinese);
             Paragraph paragraph8 = new Paragraph("四、租金和租金缴纳方式及期限" , normal_fontChinese);
-            Paragraph paragraph9 = new Paragraph("1、租赁期内每辆车每天租金 "+daily_price_underline+" 元。每天可用 "+daily_available_km_underline+" 公里。每超一公里加收人民币 "+over_km_price_underline+" 元。每超一小时加收 "+over_hour_price_underline+" 元。起租按天计算，不足一天按一天计算租金。包月车辆按每月30天计算，包月价为每月人民币为每月人民币 "+month_price_underline+" 元，每月可用 "+month_available_km_underline+" 公里。超出30天的部分按日租算，超公里部分按所超公里数加收租金。" , normal_fontChinese);
+            Paragraph paragraph9 = new Paragraph("1、租赁期内每辆车每天租金____"+daily_price_underline+"____元。每天可用____"+daily_available_km_underline+"____公里。每超一公里加收人民币____"+over_km_price_underline+"____元。每超一小时加收____"+over_hour_price_underline+"____元。起租按天计算，不足一天按一天计算租金。包月车辆按每月30天计算，包月价为每月人民币为每月人民币____"+month_price_underline+"____元，每月可用____"+month_available_km_underline+"____公里。超出30天的部分按日租算，超公里部分按所超公里数加收租金。" , normal_fontChinese);
             Paragraph paragraph10 = new Paragraph("2、办理租赁，还车手续须在甲方营业时间内。营业时间为每天：8:00---20:00。" , normal_fontChinese);
             Paragraph paragraph11 = new Paragraph("3、租金可以现金或者承兑汇票交付，使用承兑汇票须待款到甲方账户后，乙方方可提车。" , normal_fontChinese);
-            Paragraph paragraph12 = new Paragraph("4、租金于本合同生效之日先预付人民币 "+pre_payment_underline+" 元，于还车之日结清。租赁期在一个月以上的，于每月 "+monthly_day_underline+" 日（节假日顺延）结算支付一次。" , normal_fontChinese);
-            Paragraph paragraph13 = new Paragraph("5、乙方租赁甲方的汽车，须付押金人民币 "+deposit_underline+" 元，(含违章押金人民贰千元)于还车之日结清。租赁期满无其它意外情况，由甲方不计息退还乙方。违章押金在还车两个月后，查询用车期间无违章时退还。" , normal_fontChinese);
+            Paragraph paragraph12 = new Paragraph("4、租金于本合同生效之日先预付人民币____"+pre_payment_underline+"____元，于还车之日结清。租赁期在一个月以上的，于每月____"+monthly_day_underline+"____日（节假日顺延）结算支付一次。" , normal_fontChinese);
+            Paragraph paragraph13 = new Paragraph("5、乙方租赁甲方的汽车，须付押金人民币____"+deposit_underline+"____元，(含违章押金人民贰千元)于还车之日结清。租赁期满无其它意外情况，由甲方不计息退还乙方。违章押金在还车两个月后，查询用车期间无违章时退还。" , normal_fontChinese);
             Paragraph paragraph14 = new Paragraph("6、对租金、修理及其他费用，乙方逾期支付，逾期款除按1%每日计算滞纳金外，乙方于逾期支付日起，无条件地将租赁汽车立即送还甲方。否则由此造成的一起后果由乙方全部承担。" , normal_fontChinese);
             Image image = Image.getInstance("/Users/JIANGYIN/Documents/my_project/chekuang.png");
 
@@ -592,7 +592,7 @@ public class DocumentDownloadController {
             Paragraph paragraph6 = new Paragraph("服务时间、目的地：______年_____月_____日______时______分。行驶路线：_____________________________________" , normal_fontChinese);
             Paragraph paragraph7 = new Paragraph("按乙方指定到达目的地：______市_______区_________路（街）______号______。" , normal_fontChinese);
             Paragraph paragraph8 = new Paragraph("三、定金及服务费支付方式" , normal_fontChinese);
-            Paragraph paragraph9 = new Paragraph("协议签署时，乙方向甲方支付定金        元，余款              元，婚庆当天车到现场结清。婚庆用车服务费总额为人民币（大写）                元。" , normal_fontChinese);
+            Paragraph paragraph9 = new Paragraph("协议签署时，乙方向甲方支付定金____________元，余款____________元，婚庆当天车到现场结清。婚庆用车服务费总额为人民币（大写）________________________元。" , normal_fontChinese);
             Paragraph paragraph10 = new Paragraph("四、甲方责任" , normal_fontChinese);
             Paragraph paragraph11 = new Paragraph("双方认可合同确定的车型，婚庆当天若有特殊原因无法到场，甲方在与乙方处分沟通后，可用同等级的或者的更高级别的车型代替，费用不变。若甲方单方面终止协议，则应退还已收的所有款项，其中定金应双倍返还。" , normal_fontChinese);
             Paragraph paragraph12 = new Paragraph("五、乙方责任" , normal_fontChinese);
