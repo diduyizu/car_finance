@@ -268,7 +268,7 @@ public class DocumentDownloadController {
             Font normal_desc_fontChinese = new Font(bfChinese, 6, Font.NORMAL, BaseColor.BLACK);
 
 
-            FileOutputStream pdfFile = new FileOutputStream(new File("/Users/JIANGYIN/Documents/my_project/"+contrace_no+"_"+vehicle_id+".pdf"));
+            FileOutputStream pdfFile = new FileOutputStream(new File(appProps.get("normal.contrace.download.path")+contrace_no+"_"+vehicle_id+".pdf"));
             // pdf 文件中的一个文字段落
             Paragraph paragraph1 = new Paragraph("汽车租赁合同" , bold_fontChinese);
             paragraph1.setAlignment(Element.ALIGN_CENTER);
@@ -471,7 +471,7 @@ public class DocumentDownloadController {
 
             ServletOutputStream out;
             //通过文件路径获得File对象(假如此路径中有一个download.pdf文件)
-            File file = new File("/Users/JIANGYIN/Documents/my_project/"+contrace_no+"_"+vehicle_id+".pdf");
+            File file = new File(appProps.get("normal.contrace.download.path")+contrace_no+"_"+vehicle_id+".pdf");
 
             try {
                 FileInputStream inputStream = new FileInputStream(file);
@@ -548,7 +548,7 @@ public class DocumentDownloadController {
             Font normal_desc_fontChinese = new Font(bfChinese, 6, Font.NORMAL, BaseColor.BLACK);
 
 
-            FileOutputStream pdfFile = new FileOutputStream(new File("/Users/JIANGYIN/Documents/my_project/"+contrace_no+".pdf"));
+            FileOutputStream pdfFile = new FileOutputStream(new File(appProps.get("hunche.contrace.download.path")+contrace_no+".pdf"));
             // pdf 文件中的一个文字段落
             Paragraph paragraph1 = new Paragraph("婚庆用车租赁合同" , bold_fontChinese);
             paragraph1.setAlignment(Element.ALIGN_CENTER);
@@ -636,7 +636,7 @@ public class DocumentDownloadController {
 
             ServletOutputStream out;
             //通过文件路径获得File对象(假如此路径中有一个download.pdf文件)
-            File file = new File("/Users/JIANGYIN/Documents/my_project/"+contrace_no+".pdf");
+            File file = new File(appProps.get("hunche.contrace.download.path")+contrace_no+".pdf");
 
             try {
                 FileInputStream inputStream = new FileInputStream(file);
