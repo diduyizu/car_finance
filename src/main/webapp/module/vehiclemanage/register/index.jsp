@@ -112,6 +112,7 @@
                     <option value="零租" <c:if test="${lease_status == '零租'}">selected="selected"</c:if>>零租</option>
                     <option value="产权租" <c:if test="${lease_status == '产权租'}">selected="selected"</c:if>>产权租</option>
                     <option value="售出" <c:if test="${lease_status == '售出'}">selected="selected"</c:if>>售出</option>
+                    <option value="出库中" <c:if test="${vehicle_info.lease_status == '出库中'}">selected="selected"</c:if>>出库中</option>
                 </select>&nbsp;&nbsp;
             </td>
             <td>
