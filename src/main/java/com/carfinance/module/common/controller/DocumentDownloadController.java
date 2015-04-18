@@ -348,7 +348,7 @@ public class DocumentDownloadController {
             Paragraph paragraph12 = new Paragraph("4、租金于本合同生效之日先预付人民币____"+pre_payment_underline+"____元，于还车之日结清。租赁期在一个月以上的，于每月____"+monthly_day_underline+"____日（节假日顺延）结算支付一次。" , normal_fontChinese);
             Paragraph paragraph13 = new Paragraph("5、乙方租赁甲方的汽车，须付押金人民币____"+deposit_underline+"____元，(含违章押金人民贰千元)于还车之日结清。租赁期满无其它意外情况，由甲方不计息退还乙方。违章押金在还车两个月后，查询用车期间无违章时退还。" , normal_fontChinese);
             Paragraph paragraph14 = new Paragraph("6、对租金、修理及其他费用，乙方逾期支付，逾期款除按1%每日计算滞纳金外，乙方于逾期支付日起，无条件地将租赁汽车立即送还甲方。否则由此造成的一起后果由乙方全部承担。" , normal_fontChinese);
-            Image image = Image.getInstance("/Users/JIANGYIN/Documents/my_project/chekuang.png");
+            Image image = Image.getInstance(appProps.get("normal.contrace.download.path")+"chekuang.png");
 
             Paragraph paragraph15 = new Paragraph("五、甲方责任和义务" , normal_desc_fontChinese);
             Paragraph paragraph16 = new Paragraph("1、保证租赁车辆出租时性能良好、备胎、随车工具等附件齐全有效，并与乙方书面交接清楚。" , normal_desc_fontChinese);
