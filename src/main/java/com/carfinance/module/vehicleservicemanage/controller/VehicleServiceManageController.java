@@ -2324,25 +2324,5 @@ public class VehicleServiceManageController {
 
         return this.vehicleServiceManageService.contraceDoDispatch(contrace_id , vehicle_contrace_id , km , oil_percent , user.getUser_id());
     }
-//
-//    /**
-//     * 收银员结单
-//     * @param model
-//     * @param request
-//     * @param response
-//     * @return
-//     */
-//    @RequestMapping(value = "/contrace/cashierstatement" , method = RequestMethod.POST)
-//    @ResponseBody
-//    public int contraceCashierstatement(Model model , HttpServletRequest request , HttpServletResponse response) {
-//        User user = (User)request.getSession().getAttribute("user");
-//
-//        long contrace_id = Long.valueOf(request.getParameter("contrace_id"));
-//        long vehicle_contrace_id = Long.valueOf(request.getParameter("vehicle_contrace_id"));
-//        long km = Long.valueOf(request.getParameter("km"));
-//        double oil_percent = Double.valueOf(request.getParameter("oil_percent"));
-//
-//        return this.vehicleServiceManageService.contraceDoDispatch(contrace_id , vehicle_contrace_id , km , oil_percent , user.getUser_id());
-//    }
 
 }

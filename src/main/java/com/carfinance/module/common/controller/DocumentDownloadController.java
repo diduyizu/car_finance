@@ -14,8 +14,7 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.usermodel.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -679,6 +678,7 @@ public class DocumentDownloadController {
         String customer_name = "";
         String customer_no = "";
         String daily_available_km = "";
+        String contrace_type = "零租";
 
 
         VehicleContraceInfo vehicleContraceInfo = this.vehicleServiceManageService.getVehicleContraceInfoById(Long.valueOf(contrace_id_str));
@@ -691,6 +691,7 @@ public class DocumentDownloadController {
             if(propertyContraceInfo != null) {
                 contrace_no = propertyContraceInfo.getContrace_no();
                 customer_name = propertyContraceInfo.getCustomer_name();
+                contrace_type = "产权组";
             }
         }
 
@@ -698,8 +699,102 @@ public class DocumentDownloadController {
 
         // 第一步，创建一个webbook，对应一个Excel文件
         HSSFWorkbook wb = new HSSFWorkbook();
-        // 第二步，在webbook中添加一个sheet,对应Excel文件中的sheet
-        HSSFSheet sheet = wb.createSheet("学生表一");
+
+        for(VehicleContraceVehsInfo v : vehicleContraceVehsInfoList) {
+            // 第二步，在webbook中添加一个sheet,对应Excel文件中的sheet
+            HSSFSheet sheet = wb.createSheet(v.getLicense_plate());
+            // 第三步，在sheet中添加表头第0行,注意老版本poi对Excel的行数列数有限制short
+            HSSFRow row = sheet.createRow((int) 0);
+            // 第四步，创建单元格，并设置值表头 设置表头居中
+            HSSFCellStyle style = wb.createCellStyle();
+            style.setAlignment(HSSFCellStyle.ALIGN_CENTER); // 创建一个居中格式
+
+            HSSFCell cell = row.createCell((short) 0);
+            cell.setCellValue("客户姓名");
+            cell.setCellStyle(style);
+            cell = row.createCell((short) 1);
+            cell.setCellValue("会员编号");
+            cell.setCellStyle(style);
+            cell = row.createCell((short) 2);
+            cell.setCellValue("租车类型");
+            cell.setCellStyle(style);
+            cell = row.createCell((short) 3);
+            cell.setCellValue("租车号");
+            cell.setCellStyle(style);
+            cell = row.createCell((short) 4);
+            cell.setCellValue("租用天数");
+            cell.setCellStyle(style);
+
+            row = sheet.createRow(1);
+            row.createCell((short) 0).setCellValue(customer_name);
+            row.createCell((short) 1).setCellValue(customer_no);
+            row.createCell((short) 2).setCellValue(contrace_type);
+            row.createCell((short) 3).setCellValue("");
+            row.createCell((short) 4).setCellValue("");
+
+            row = sheet.createRow(2);
+            HSSFCell cell2 = row.createCell((short) 0);
+            cell2.setCellValue("发车公里数");
+            cell2.setCellStyle(style);
+            cell2 = row.createCell((short) 1);
+            cell2.setCellValue("发车油量");
+            cell2.setCellStyle(style);
+            cell2 = row.createCell((short) 2);
+            cell2.setCellValue("超公里数");
+            cell2.setCellStyle(style);
+            cell2 = row.createCell((short) 3);
+            cell2.setCellValue("超天数");
+            cell2.setCellStyle(style);
+            cell2 = row.createCell((short) 4);
+            cell2.setCellValue("车损补偿");
+            cell2.setCellStyle(style);
+
+            row = sheet.createRow(3);
+            row.createCell((short) 0).setCellValue(v.getKm());
+            row.createCell((short) 1).setCellValue(v.getOil_percent());
+            long over_km = (v.getReturn_km() - v.getKm()) > 0 ? (v.getReturn_km() - v.getKm()) : 0;
+            row.createCell((short) 2).setCellValue(over_km);
+            row.createCell((short) 3).setCellValue("");
+            row.createCell((short) 4).setCellValue("");
+
+
+            row = sheet.createRow(4);
+            HSSFCell cell4 = row.createCell((short) 0);
+            cell4.setCellValue("收车公里数");
+            cell4.setCellStyle(style);
+            cell4 = row.createCell((short) 1);
+            cell4.setCellValue("收车油量");
+            cell4.setCellStyle(style);
+            cell4 = row.createCell((short) 2);
+            cell4.setCellValue("超油表数");
+            cell4.setCellStyle(style);
+            cell4 = row.createCell((short) 3);
+            cell4.setCellValue("超时数");
+            cell4.setCellStyle(style);
+            cell4 = row.createCell((short) 4);
+            cell4.setCellValue("实收租金");
+            cell4.setCellStyle(style);
+
+            row = sheet.createRow(5);
+            row.createCell((short) 0).setCellValue(v.getReturn_km());
+            row.createCell((short) 1).setCellValue(v.getRevert_oil_percent());
+            long over_oil = (v.getOil_percent() - v.getRevert_oil_percent()) > 0 ? (v.getOil_percent() - v.getRevert_oil_percent()) : 0;
+            row.createCell((short) 2).setCellValue(over_oil);
+            row.createCell((short) 3).setCellValue("");
+            row.createCell((short) 4).setCellValue(v.getActually_price());
+        }
+
+        // 第六步，将文件存到指定位置
+        try {
+
+            String path = appProps.get("contrace.over.download.path")+contrace_no+".xls";
+            FileOutputStream fout = new FileOutputStream(path);
+            wb.write(fout);
+            fout.close();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
