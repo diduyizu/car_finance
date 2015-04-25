@@ -377,7 +377,7 @@ public class VehicleServiceManageDao extends BaseJdbcDaoImpl {
 //            sql = "update vehicle_contrace set status = 1 where id = ? and status in (0,-1) ";
 //            o = new Object[] { contrace_id };
 //        } else {
-            sql = "update vehicle_contrace set status = 1 where id = ? and create_by = ? and status in (0,-1) ";
+            sql = "update vehicle_contrace set status = 1 where id = ? and create_by = ? and status in (0,-1,-31,-41,-71) ";
             o = new Object[] { contrace_id , user_id };
 //        }
 

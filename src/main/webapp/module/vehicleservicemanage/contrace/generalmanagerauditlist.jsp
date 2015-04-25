@@ -125,9 +125,13 @@
                 <c:if test="${contrace.status == -3}">市公司店长审核不通过</c:if>
                 <c:if test="${contrace.status == -4}">区域经理审核不通过</c:if>
                 <c:if test="${contrace.status == -5}">财务不通过</c:if>
+                <c:if test="${contrace.status == -31}">市店长驳回</c:if>
+                <c:if test="${contrace.status == -41}">区域经理驳回</c:if>
+                <c:if test="${contrace.status == -71}">总经理驳回</c:if>
             </td>
             <td>
                 <c:if test="${contrace.status == 4}">
+                    <button type="button" class="btn btn-danger rewrite" value="${contrace.id}">驳回</button>
                     <button type="button" class="btn btn-success pass" value="${contrace.id}">通过</button>
                     <button type="button" class="btn btn-danger nopass" value="${contrace.id}">不通过</button>
                 </c:if>
@@ -165,6 +169,26 @@
                     url:"${ctx}/vehicleservice/contrace/generalmanager/doaudit",
                     type: "post",
                     data:{id:id,status:-7},
+                    success:function(data){
+                        if(data > 0){
+                            alert("成功");
+                            location.reload();
+                        } else {
+                            alert("失败");
+                            return false;
+                        }
+                    }
+                })
+            }
+        })
+
+        $('.rewrite').click(function(){
+            if(confirm("确定驳回吗？")) {
+                var id = $(this).val();
+                $.ajax({
+                    url:"${ctx}/vehicleservice/contrace/cityshopowner/doaudit",
+                    type: "post",
+                    data:{id:id,status:-71},
                     success:function(data){
                         if(data > 0){
                             alert("成功");

@@ -116,9 +116,12 @@
                 <c:if test="${contrace.status == -4}">区域经理审核不通过</c:if>
                 <c:if test="${contrace.status == -5}">财务不通过</c:if>
                 <c:if test="${contrace.status == -7}">总经理不通过</c:if>
+                <c:if test="${contrace.status == -31}">市店长驳回</c:if>
+                <c:if test="${contrace.status == -41}">区域经理驳回</c:if>
+                <c:if test="${contrace.status == -71}">总经理驳回</c:if>
             </td>
             <td>
-                <c:if test="${(contrace.status == 0 || contrace.status == -1) && contrace.create_by == user.user_id}">
+                <c:if test="${(contrace.status == 0 || contrace.status == -1 || contrace.status == -31 || contrace.status == -41 || contrace.status == -71) && contrace.create_by == user.user_id}">
                     <button type="button" class="btn btn-success modify" value="${contrace.id}">编辑</button>
                     <button type="button" class="btn btn-success addvehicle" value="${contrace.id}">增加车辆</button>
                     <button type="button" class="btn btn-success adddriver" value="${contrace.id}">增加配驾</button>
