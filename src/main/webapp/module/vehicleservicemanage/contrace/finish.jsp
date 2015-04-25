@@ -349,7 +349,8 @@
                 success:function(data){
                     if(data > 0) {
                         alert("成功");
-                        window.location.href="${ctx}/vehicleservice/contrace/index";
+                        <%--window.location.href="${ctx}/vehicleservice/contrace/index";--%>
+                        window.open("${ctx}/downloaddocument/cashierstatement?contrace_id="+contrace_id);
                     } else {
                         alert("失败");
                         return false;

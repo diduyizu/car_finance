@@ -14,6 +14,8 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -661,6 +663,46 @@ public class DocumentDownloadController {
             e.printStackTrace();
         }
     }
+
+
+    /**
+     * 收银员结单，生成合同Excel
+     * @param model
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/cashierstatement" , method = RequestMethod.GET)
+    public void cashierStatement(Model model , HttpServletRequest request , HttpServletResponse response) {
+        String contrace_id_str = request.getParameter("contrace_id");
+
+        String contrace_no = "";
+        String customer_name = "";
+        String customer_no = "";
+        String daily_available_km = "";
+
+
+        VehicleContraceInfo vehicleContraceInfo = this.vehicleServiceManageService.getVehicleContraceInfoById(Long.valueOf(contrace_id_str));
+        if(vehicleContraceInfo != null) {
+            contrace_no = vehicleContraceInfo.getContrace_no();
+            customer_name = vehicleContraceInfo.getCustomer_name();
+            daily_available_km = vehicleContraceInfo.getDaily_available_km()+"";
+        } else {
+            PropertyContraceInfo propertyContraceInfo = this.vehicleServiceManageService.getPropertyContraceInfoById(Long.valueOf(contrace_id_str));
+            if(propertyContraceInfo != null) {
+                contrace_no = propertyContraceInfo.getContrace_no();
+                customer_name = propertyContraceInfo.getCustomer_name();
+            }
+        }
+
+        List<VehicleContraceVehsInfo> vehicleContraceVehsInfoList = this.vehicleServiceManageService.getVehicleContraceVehsListByContraceId(Long.valueOf(contrace_id_str));
+
+        // 第一步，创建一个webbook，对应一个Excel文件
+        HSSFWorkbook wb = new HSSFWorkbook();
+        // 第二步，在webbook中添加一个sheet,对应Excel文件中的sheet
+        HSSFSheet sheet = wb.createSheet("学生表一");
+
+    }
+
 
 
 }
