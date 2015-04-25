@@ -697,6 +697,12 @@ public class DocumentDownloadController {
 
         List<VehicleContraceVehsInfo> vehicleContraceVehsInfoList = this.vehicleServiceManageService.getVehicleContraceVehsListByContraceId(Long.valueOf(contrace_id_str));
 
+        //1.设置文件ContentType类型，这样设置，会自动判断下载文件类型
+        response.setContentType("multipart/form-data");
+        //2.设置文件头：最后一个参数是设置下载文件名(假如我们叫a.pdf)
+        response.setHeader("Content-Disposition", "attachment;fileName="+contrace_no+".xls");
+
+
         // 第一步，创建一个webbook，对应一个Excel文件
         HSSFWorkbook wb = new HSSFWorkbook();
 
@@ -791,6 +797,30 @@ public class DocumentDownloadController {
             FileOutputStream fout = new FileOutputStream(path);
             wb.write(fout);
             fout.close();
+
+
+
+            ServletOutputStream out;
+            //通过文件路径获得File对象(假如此路径中有一个download.pdf文件)
+            File file = new File(path);
+
+            try {
+                FileInputStream inputStream = new FileInputStream(file);
+                //3.通过response获取ServletOutputStream对象(out)
+                out = response.getOutputStream();
+                int b = 0;
+                byte[] buffer = new byte[512];
+                while (b != -1){
+                    b = inputStream.read(buffer);
+                    //4.写到输出流(out)中
+                    out.write(buffer,0,b);
+                }
+                inputStream.close();
+                out.close();
+                out.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         catch (Exception e) {
             e.printStackTrace();
