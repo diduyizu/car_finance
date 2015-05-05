@@ -36,7 +36,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/downloaddocument")
 public class DocumentDownloadController {
-	final Logger logger = LoggerFactory.getLogger(DocumentDownloadController.class);
+    final Logger logger = LoggerFactory.getLogger(DocumentDownloadController.class);
 
     @Autowired
     private Properties appProps;
@@ -216,21 +216,21 @@ public class DocumentDownloadController {
 //                List<VehicleContraceVehsInfo> vehsList = this.vehicleServiceManageService.getVehicleContraceVehsListByContraceId(vehicleContraceInfo.getId());
 //                if(vehsList != null) {
 //                    VehicleContraceVehsInfo vehsInfo = vehsList.get(0);
-                    VehicleContraceVehsInfo vehsInfo = this.vehicleServiceManageService.getContraceVehicleByid(vehicle_contrace_id);
-                    VehicleInfo vehicleInfo = this.vehicleManageService.getVehicleInfoByid(vehsInfo.getVehicle_id());
+                VehicleContraceVehsInfo vehsInfo = this.vehicleServiceManageService.getContraceVehicleByid(vehicle_contrace_id);
+                VehicleInfo vehicleInfo = this.vehicleManageService.getVehicleInfoByid(vehsInfo.getVehicle_id());
 
-                    license_plate = vehicleInfo.getLicense_plate();
-                    vehicle_model = vehicleInfo.getModel();
-                    engine_no = vehicleInfo.getEngine_no();
-                    carframe_no = vehicleInfo.getCarframe_no();
-                    guide_price = vehicleInfo.getGuide_price();
-                    color = vehicleInfo.getColor();
+                license_plate = vehicleInfo.getLicense_plate();
+                vehicle_model = vehicleInfo.getModel();
+                engine_no = vehicleInfo.getEngine_no();
+                carframe_no = vehicleInfo.getCarframe_no();
+                guide_price = vehicleInfo.getGuide_price();
+                color = vehicleInfo.getColor();
 
-                    driving_user_name = vehsInfo.getDriving_user_name();
-                    driving_user_license_no = vehsInfo.getDriving_user_license_no();
+                driving_user_name = vehsInfo.getDriving_user_name();
+                driving_user_license_no = vehsInfo.getDriving_user_license_no();
 
-                    daily_price = vehicleInfo.getDaily_price()+"";
-                    vehicle_id = vehicleInfo.getId()+"";
+                daily_price = vehicleInfo.getDaily_price()+"";
+                vehicle_id = vehicleInfo.getId()+"";
 //                }
 
 
